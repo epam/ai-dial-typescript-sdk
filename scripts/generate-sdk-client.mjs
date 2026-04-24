@@ -107,7 +107,7 @@ for (const id of sortedIds) {
   const names = getPathParamNames(p);
 
   if (names.length === 0) {
-    apiPathLines.push(`export const ${id} = '${esc}';`);
+    apiPathLines.push(`export const ${id}Url = '${esc}';`);
     continue;
   }
 
@@ -116,7 +116,7 @@ for (const id of sortedIds) {
     if (/^[$_a-zA-Z][\w$]*$/.test(n0)) {
       // Example: (toolset_name: string) => { void toolset_name; return '...' as const; }
       apiPathLines.push(
-        `export const ${id} = (${n0}: string) => { return \`${esc.replace(`{${n0}}`, `\${${n0.toLowerCase()}}`)}\` };`,
+        `export const ${id}Url = (${n0}: string) => { return \`${esc.replace(`{${n0}}`, `\${${n0.toLowerCase()}}`)}\` };`,
       );
     }
   } else {
@@ -125,7 +125,7 @@ for (const id of sortedIds) {
     names.forEach((n) => {
       url = url.replace(`{${n}}`, `\${${n.toLowerCase()}}`);
     });
-    apiPathLines.push(`export const ${id} = (${t}) => { return \`${url}\` };`);
+    apiPathLines.push(`export const ${id}Url = (${t}) => { return \`${url}\` };`);
   }
   apiPathLines.push('');
 }
@@ -134,15 +134,15 @@ const methodLines = sortedIds.map((id) => {
   const { method, pathParamNames } = opMap.get(id);
 
   if (pathParamNames.length === 0) {
-    return `    ${id}: (init?: any) => client.${method}(apiPaths.${id}, init),`;
+    return `    ${id}: (init?: any) => client.${method}(apiPaths.${id}Url, init),`;
   }
 
   const t = pathParamsTypeString(pathParamNames);
   if (!t) {
-    return `    ${id}: (init?: any) => client.${method}(apiPaths.${id}, init),`;
+    return `    ${id}: (init?: any) => client.${method}(apiPaths.${id}Url, init),`;
   }
 
-  return `    ${id}: (${t}, init?: any) =>\n      client.${method}(apiPaths.${id}(${pathParamNames.map((p) => p.toLowerCase()).join(', ')}) as any, init),`;
+  return `    ${id}: (${t}, init?: any) =>\n      client.${method}(apiPaths.${id}Url(${pathParamNames.map((p) => p.toLowerCase()).join(', ')}) as any, init),`;
 });
 
 const interfaceLines = sortedIds.map((id) => {
@@ -157,9 +157,11 @@ const interfaceLines = sortedIds.map((id) => {
   return `  ${id}: (${t}, init?: any) => Promise<unknown>;`;
 });
 
-const client = `import createClient from 'openapi-fetch';
-import type { paths } from './schema';
+const client = `/* eslint-disable no-unused-vars */
+import createClient from 'openapi-fetch';
+
 import * as apiPaths from './api-paths';
+import type { paths } from './schema';
 
 export interface SDKOptions {
   baseUrl: string;
