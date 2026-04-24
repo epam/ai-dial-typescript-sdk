@@ -1,9 +1,6 @@
-# Add files here to ignore them from prettier formatting
-/dist
-.github
-.claude
-.cursor
-openspec
-/coverage
-/.nx/cache
-/.nx/workspace-data
+dist
+node_modules
+coverage
+openapi.bundle.yaml
+openapi.clean.yaml
+src/generated

@@ -1,3 +1,4 @@
+export * from './api-paths';
+export type { DIAL_SDK, SDKOptions } from './client';
 export { createSDK } from './client';
-export type { SDKOptions } from './client';
-export type { paths, components, operations } from './schema';
+export type { components, operations,paths } from './schema';
