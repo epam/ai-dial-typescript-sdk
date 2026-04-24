@@ -1,0 +1,39 @@
+{
+  "name": "@your-scope/my-sdk",
+  "version": "0.1.0",
+  "description": "Type-safe SDK (openapi-typescript + openapi-fetch)",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "bundle": "redocly bundle ./openapi.yaml -o ./openapi.bundle.yaml",
+    "gen": "npm run bundle && openapi-typescript ./openapi.bundle.yaml -o ./src/schema.ts",
+    "build": "npm run gen && tsup src/index.ts --dts --format esm,cjs --target es2020 --sourcemap --clean",
+    "dev": "tsup src/index.ts --watch --dts --format esm,cjs"
+  },
+  "devDependencies": {
+    "@redocly/cli": "2.29.2",
+    "@types/node": "^20.11.0",
+    "openapi-typescript": "7.13.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "yaml": "^2.8.3"
+  },
+  "dependencies": {
+    "openapi-fetch": "^0.17.0"
+  }
+}
