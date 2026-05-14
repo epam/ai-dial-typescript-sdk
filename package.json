@@ -1,0 +1,47 @@
+{
+  "name": "@epam/ai-dial-typescript-sdk",
+  "version": "0.1.0",
+  "description": "Type-safe SDK (openapi-typescript + openapi-fetch)",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "bundle": "redocly bundle ./openapi.yaml -o ./openapi.bundle.yaml",
+    "gen": "npm run bundle && openapi-typescript ./openapi.bundle.yaml -o ./src/schema.ts && node ./scripts/generate-sdk-client.mjs",
+    "build": "npm run gen && tsup src/index.ts --dts --format esm,cjs --target es2020 --sourcemap --clean",
+    "dev": "tsup src/index.ts --watch --dts --format esm,cjs",
+    "lint": "eslint .",
+    "test": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "publish": "node tools/publish-lib.mjs",
+    "publish:dry": "node tools/publish-lib.mjs --output-style=static --dry"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@redocly/cli": "^2.30.4",
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^8.59.0",
+    "@typescript-eslint/parser": "^8.59.0",
+    "eslint": "^10.2.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-simple-import-sort": "^13.0.0",
+    "eslint-plugin-unused-imports": "^4.4.1",
+    "globals": "^17.5.0",
+    "openapi-typescript": "7.13.0",
+    "prettier": "^3.8.3",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "yaml": "^2.8.3"
+  },
+  "dependencies": {
+    "openapi-fetch": "^0.17.0"
+  }
+}

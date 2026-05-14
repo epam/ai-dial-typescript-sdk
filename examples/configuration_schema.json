@@ -1,0 +1,45 @@
+{
+    "type": "object",
+    "properties": {
+        "model_to_use": {
+            "type": "string",
+            "title": "Model to use",
+            "enum": [
+                "gpt-4",
+                "gpt-4o"
+            ],
+            "default": "gpt-4"
+        },
+        "web_search": {
+            "type": "boolean",
+            "title": "Enable Web search",
+            "default": false
+        },
+        "task": {
+            "title": "Action",
+            "type": "number",
+            "dial:widget": "buttons",
+            "oneOf": [
+                {
+                    "const": 1,
+                    "title": "Coding",
+                    "dial:widgetOptions": {
+                        "confirmationMessage": null,
+                        "populateText": "I want to learn how to code",
+                        "submit": true
+                    }
+                },
+                {
+                    "const": 2,
+                    "title": "Writing",
+                    "dial:widgetOptions": {
+                        "confirmationMessage": null,
+                        "populateText": "I want to write an essay",
+                        "submit": true
+                    }
+                }
+            ]
+        }
+    },
+    "additionalProperties": false
+}
