@@ -21,7 +21,9 @@
     "test": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "publish": "node tools/publish-lib.mjs",
+    "publish:dry": "node tools/publish-lib.mjs --output-style=static --dry"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
