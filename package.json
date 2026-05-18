@@ -14,7 +14,7 @@
   "scripts": {
     "bundle": "redocly bundle ./openapi.yaml -o ./openapi.bundle.yaml",
     "gen": "npm run bundle && openapi-typescript ./openapi.bundle.yaml -o ./src/schema.ts && node ./scripts/generate-sdk-client.mjs",
-    "build": "npm run gen && tsup src/index.ts --dts --format esm,cjs --target es2020 --sourcemap --clean",
+    "build": "tsup src/index.ts --dts --format esm,cjs --target es2020 --sourcemap --clean",
     "dev": "tsup src/index.ts --watch --dts --format esm,cjs",
     "lint": "eslint .",
     "test": "eslint .",
