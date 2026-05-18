@@ -21,8 +21,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "publish": "node tools/publish-lib.mjs",
-    "publish:dry": "node tools/publish-lib.mjs --output-style=static --dry"
+    "publish": "npm publish --access public",
+    "publish:dry": "npm publish --access public --dry-run"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
