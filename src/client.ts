@@ -2,7 +2,15 @@
 import createClient from 'openapi-fetch';
 
 import * as apiPaths from './api-paths';
-import type { paths } from './schema';
+import type { operations, paths } from './schema';
+import type {
+  Conversation,
+  ConversationResource,
+  SDKOperationInit,
+  SDKOperationResponse,
+  SDKRequestInit,
+  SDKResponse,
+} from './types';
 
 export interface SDKOptions {
   baseUrl: string;
@@ -12,186 +20,315 @@ export interface SDKOptions {
   fetch?: typeof fetch;
 }
 
-// TODO: add type for error?: unknown
-
 /** Methods exposed by `createSDK` (explicit shape avoids TS emit limits on the inferred return type). */
 export interface DIAL_SDK {
-  acceptUserConsent: (deployment_id: string, init?: any) => Promise<unknown>;
-  approvePublication: (init?: any) => Promise<unknown>;
-  callToolSet: (toolset_name: string, init?: any) => Promise<unknown>;
-  closeSession: (init?: any) => Promise<unknown>;
+  acceptUserConsent: (
+    deployment_id: string,
+    init: SDKOperationInit<operations['acceptUserConsent']>,
+  ) => Promise<SDKOperationResponse<operations['acceptUserConsent']>>;
+  approvePublication: (
+    init: SDKOperationInit<operations['approvePublication']>,
+  ) => Promise<SDKOperationResponse<operations['approvePublication']>>;
+  callToolSet: (
+    toolset_name: string,
+    init: SDKOperationInit<operations['callToolSet']>,
+  ) => Promise<SDKOperationResponse<operations['callToolSet']>>;
+  closeSession: (
+    init: SDKOperationInit<operations['closeSession']>,
+  ) => Promise<SDKOperationResponse<operations['closeSession']>>;
   configurationDeployment: (
     deployment_name: string,
-    init?: any,
-  ) => Promise<unknown>;
-  copyResource: (init?: any) => Promise<unknown>;
-  copySharedResources: (init?: any) => Promise<unknown>;
-  createPublication: (init?: any) => Promise<unknown>;
+    init?: SDKOperationInit<operations['configurationDeployment']>,
+  ) => Promise<SDKOperationResponse<operations['configurationDeployment']>>;
+  copyResource: (
+    init: SDKOperationInit<operations['copyResource']>,
+  ) => Promise<SDKOperationResponse<operations['copyResource']>>;
+  copySharedResources: (
+    init: SDKOperationInit<operations['copySharedResources']>,
+  ) => Promise<SDKOperationResponse<operations['copySharedResources']>>;
+  createPublication: (
+    init?: SDKOperationInit<operations['createPublication']>,
+  ) => Promise<SDKOperationResponse<operations['createPublication']>>;
   deleteConversation: (
     bucket: string,
     conversation_path: string,
-    init?: any,
-  ) => Promise<unknown>;
+    init?: SDKOperationInit<operations['deleteConversation']>,
+  ) => Promise<SDKOperationResponse<operations['deleteConversation']>>;
   deleteCustomApplication: (
     bucket: string,
     application_path: string,
-    init?: any,
-  ) => Promise<unknown>;
+    init?: SDKOperationInit<operations['deleteCustomApplication']>,
+  ) => Promise<SDKOperationResponse<operations['deleteCustomApplication']>>;
   deleteFile: (
     bucket: string,
     file_path: string,
-    init?: any,
-  ) => Promise<unknown>;
-  deleteInvitation: (invitation_id: string, init?: any) => Promise<unknown>;
-  deleteNotifications: (init?: any) => Promise<unknown>;
+    init?: SDKOperationInit<operations['deleteFile']>,
+  ) => Promise<SDKOperationResponse<operations['deleteFile']>>;
+  deleteInvitation: (
+    invitation_id: string,
+    init?: SDKOperationInit<operations['deleteInvitation']>,
+  ) => Promise<SDKOperationResponse<operations['deleteInvitation']>>;
+  deleteNotifications: (
+    init: SDKOperationInit<operations['deleteNotifications']>,
+  ) => Promise<SDKOperationResponse<operations['deleteNotifications']>>;
   deletePrompt: (
     bucket: string,
     prompt_path: string,
-    init?: any,
-  ) => Promise<unknown>;
-  deletePublication: (init?: any) => Promise<unknown>;
+    init?: SDKOperationInit<operations['deletePrompt']>,
+  ) => Promise<SDKOperationResponse<operations['deletePrompt']>>;
+  deletePublication: (
+    init: SDKOperationInit<operations['deletePublication']>,
+  ) => Promise<SDKOperationResponse<operations['deletePublication']>>;
   deleteToolSet: (
     bucket: string,
     toolset_path: string,
-    init?: any,
-  ) => Promise<unknown>;
-  deployApplication: (init?: any) => Promise<unknown>;
-  discardSharedResources: (init?: any) => Promise<unknown>;
+    init?: SDKOperationInit<operations['deleteToolSet']>,
+  ) => Promise<SDKOperationResponse<operations['deleteToolSet']>>;
+  deployApplication: (
+    init: SDKOperationInit<operations['deployApplication']>,
+  ) => Promise<SDKOperationResponse<operations['deployApplication']>>;
+  discardSharedResources: (
+    init: SDKOperationInit<operations['discardSharedResources']>,
+  ) => Promise<SDKOperationResponse<operations['discardSharedResources']>>;
   downloadFile: (
     bucket: string,
     file_path: string,
-    init?: any,
-  ) => Promise<unknown>;
-  downloadFileFromCodeInterpreter: (init?: any) => Promise<unknown>;
-  executeCode: (init?: any) => Promise<unknown>;
-  getApplication: (application_name: string, init?: any) => Promise<unknown>;
-  getApplicationLogs: (init?: any) => Promise<unknown>;
+    init?: SDKOperationInit<operations['downloadFile']>,
+  ) => Promise<SDKOperationResponse<operations['downloadFile']>>;
+  downloadFileFromCodeInterpreter: (
+    init: SDKOperationInit<operations['downloadFileFromCodeInterpreter']>,
+  ) => Promise<
+    SDKOperationResponse<operations['downloadFileFromCodeInterpreter']>
+  >;
+  executeCode: (
+    init: SDKOperationInit<operations['executeCode']>,
+  ) => Promise<SDKOperationResponse<operations['executeCode']>>;
+  getApplication: (
+    application_name: string,
+    init?: SDKOperationInit<operations['getApplication']>,
+  ) => Promise<SDKOperationResponse<operations['getApplication']>>;
+  getApplicationLogs: (
+    init: SDKOperationInit<operations['getApplicationLogs']>,
+  ) => Promise<SDKOperationResponse<operations['getApplicationLogs']>>;
   getApplicationMetadata: (
     bucket: string,
     path: string,
-    init?: any,
-  ) => Promise<unknown>;
-  getApplications: (init?: any) => Promise<unknown>;
+    init?: SDKOperationInit<operations['getApplicationMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getApplicationMetadata']>>;
+  getApplications: (
+    init?: SDKOperationInit<operations['getApplications']>,
+  ) => Promise<SDKOperationResponse<operations['getApplications']>>;
   getConversation: (
     bucket: string,
     conversation_path: string,
-    init?: any,
-  ) => Promise<unknown>;
+    init?: SDKRequestInit,
+  ) => Promise<SDKResponse<Conversation>>;
   getConversationMetadata: (
     bucket: string,
     path: string,
-    init?: any,
-  ) => Promise<unknown>;
+    init?: SDKOperationInit<operations['getConversationMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getConversationMetadata']>>;
   getCustomApplication: (
     bucket: string,
     application_path: string,
-    init?: any,
-  ) => Promise<unknown>;
-  getCustomApplicationSchema: (init?: any) => Promise<unknown>;
+    init?: SDKOperationInit<operations['getCustomApplication']>,
+  ) => Promise<SDKOperationResponse<operations['getCustomApplication']>>;
+  getCustomApplicationSchema: (
+    init: SDKOperationInit<operations['getCustomApplicationSchema']>,
+  ) => Promise<SDKOperationResponse<operations['getCustomApplicationSchema']>>;
   getCustomToolSet: (
     bucket: string,
     toolset_path: string,
-    init?: any,
-  ) => Promise<unknown>;
-  getDeployment: (deployment_name: string, init?: any) => Promise<unknown>;
+    init?: SDKOperationInit<operations['getCustomToolSet']>,
+  ) => Promise<SDKOperationResponse<operations['getCustomToolSet']>>;
+  getDeployment: (
+    deployment_name: string,
+    init?: SDKOperationInit<operations['getDeployment']>,
+  ) => Promise<SDKOperationResponse<operations['getDeployment']>>;
   getDeploymentLimits: (
     deployment_name: string,
-    init?: any,
-  ) => Promise<unknown>;
-  getDeployments: (init?: any) => Promise<unknown>;
+    init?: SDKOperationInit<operations['getDeploymentLimits']>,
+  ) => Promise<SDKOperationResponse<operations['getDeploymentLimits']>>;
+  getDeployments: (
+    init?: SDKOperationInit<operations['getDeployments']>,
+  ) => Promise<SDKOperationResponse<operations['getDeployments']>>;
   getFileMetadata: (
     bucket: string,
     path: string,
-    init?: any,
-  ) => Promise<unknown>;
-  getInvitation: (invitation_id: string, init?: any) => Promise<unknown>;
-  getInvitations: (init?: any) => Promise<unknown>;
-  getMetaSchemaOfCustomApplicationSchema: (init?: any) => Promise<unknown>;
-  getModel: (model_name: string, init?: any) => Promise<unknown>;
-  getModels: (init?: any) => Promise<unknown>;
-  getNotifications: (init?: any) => Promise<unknown>;
-  getPerRequestPermissions: (init?: any) => Promise<unknown>;
+    init?: SDKOperationInit<operations['getFileMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getFileMetadata']>>;
+  getInvitation: (
+    invitation_id: string,
+    init?: SDKOperationInit<operations['getInvitation']>,
+  ) => Promise<SDKOperationResponse<operations['getInvitation']>>;
+  getInvitations: (
+    init?: SDKOperationInit<operations['getInvitations']>,
+  ) => Promise<SDKOperationResponse<operations['getInvitations']>>;
+  getMetaSchemaOfCustomApplicationSchema: (
+    init?: SDKOperationInit<
+      operations['getMetaSchemaOfCustomApplicationSchema']
+    >,
+  ) => Promise<
+    SDKOperationResponse<operations['getMetaSchemaOfCustomApplicationSchema']>
+  >;
+  getModel: (
+    model_name: string,
+    init?: SDKOperationInit<operations['getModel']>,
+  ) => Promise<SDKOperationResponse<operations['getModel']>>;
+  getModels: (
+    init?: SDKOperationInit<operations['getModels']>,
+  ) => Promise<SDKOperationResponse<operations['getModels']>>;
+  getNotifications: (
+    init?: SDKOperationInit<operations['getNotifications']>,
+  ) => Promise<SDKOperationResponse<operations['getNotifications']>>;
+  getPerRequestPermissions: (
+    init: SDKOperationInit<operations['getPerRequestPermissions']>,
+  ) => Promise<SDKOperationResponse<operations['getPerRequestPermissions']>>;
   getPrompt: (
     bucket: string,
     prompt_path: string,
-    init?: any,
-  ) => Promise<unknown>;
+    init?: SDKOperationInit<operations['getPrompt']>,
+  ) => Promise<SDKOperationResponse<operations['getPrompt']>>;
   getPromptMetadata: (
     bucket: string,
     path: string,
-    init?: any,
-  ) => Promise<unknown>;
-  getPublication: (init?: any) => Promise<unknown>;
-  getPublicationRules: (init?: any) => Promise<unknown>;
-  getPublications: (init?: any) => Promise<unknown>;
-  getSession: (init?: any) => Promise<unknown>;
-  getSharedResources: (init?: any) => Promise<unknown>;
+    init?: SDKOperationInit<operations['getPromptMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getPromptMetadata']>>;
+  getPublication: (
+    init: SDKOperationInit<operations['getPublication']>,
+  ) => Promise<SDKOperationResponse<operations['getPublication']>>;
+  getPublicationRules: (
+    init: SDKOperationInit<operations['getPublicationRules']>,
+  ) => Promise<SDKOperationResponse<operations['getPublicationRules']>>;
+  getPublications: (
+    init: SDKOperationInit<operations['getPublications']>,
+  ) => Promise<SDKOperationResponse<operations['getPublications']>>;
+  getSession: (
+    init: SDKOperationInit<operations['getSession']>,
+  ) => Promise<SDKOperationResponse<operations['getSession']>>;
+  getSharedResources: (
+    init: SDKOperationInit<operations['getSharedResources']>,
+  ) => Promise<SDKOperationResponse<operations['getSharedResources']>>;
   getToolSetMetadata: (
     bucket: string,
     path: string,
-    init?: any,
-  ) => Promise<unknown>;
-  getToolSets: (init?: any) => Promise<unknown>;
-  getToolset: (toolset_name: string, init?: any) => Promise<unknown>;
-  getUserBucket: (init?: any) => Promise<{
-    data?: { bucket: string; appdata?: string };
-    error?: unknown;
-  }>;
-  getUserInfo: (init?: any) => Promise<unknown>;
-  grantPerRequestPermissions: (init?: any) => Promise<unknown>;
-  listCustomApplicationSchemas: (init?: any) => Promise<unknown>;
-  listFilesFromCodeInterpreter: (init?: any) => Promise<unknown>;
-  moveResource: (init?: any) => Promise<unknown>;
-  openSession: (init?: any) => Promise<unknown>;
-  rateDeployment: (deployment_name: string, init?: any) => Promise<unknown>;
-  redeployApplication: (init?: any) => Promise<unknown>;
-  rejectPublication: (init?: any) => Promise<unknown>;
-  reloadConfig: (init?: any) => Promise<unknown>;
-  requestUserConsent: (deployment_id: string, init?: any) => Promise<unknown>;
-  revokePerRequestPermissions: (init?: any) => Promise<unknown>;
-  revokeSharedResources: (init?: any) => Promise<unknown>;
+    init?: SDKOperationInit<operations['getToolSetMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getToolSetMetadata']>>;
+  getToolSets: (
+    init?: SDKOperationInit<operations['getToolSets']>,
+  ) => Promise<SDKOperationResponse<operations['getToolSets']>>;
+  getToolset: (
+    toolset_name: string,
+    init?: SDKOperationInit<operations['getToolset']>,
+  ) => Promise<SDKOperationResponse<operations['getToolset']>>;
+  getUserBucket: (
+    init?: SDKOperationInit<operations['getUserBucket']>,
+  ) => Promise<SDKOperationResponse<operations['getUserBucket']>>;
+  getUserInfo: (
+    init?: SDKOperationInit<operations['getUserInfo']>,
+  ) => Promise<SDKOperationResponse<operations['getUserInfo']>>;
+  grantPerRequestPermissions: (
+    init: SDKOperationInit<operations['grantPerRequestPermissions']>,
+  ) => Promise<SDKOperationResponse<operations['grantPerRequestPermissions']>>;
+  listCustomApplicationSchemas: (
+    init?: SDKOperationInit<operations['listCustomApplicationSchemas']>,
+  ) => Promise<
+    SDKOperationResponse<operations['listCustomApplicationSchemas']>
+  >;
+  listFilesFromCodeInterpreter: (
+    init: SDKOperationInit<operations['listFilesFromCodeInterpreter']>,
+  ) => Promise<
+    SDKOperationResponse<operations['listFilesFromCodeInterpreter']>
+  >;
+  moveResource: (
+    init: SDKOperationInit<operations['moveResource']>,
+  ) => Promise<SDKOperationResponse<operations['moveResource']>>;
+  openSession: (
+    init: SDKOperationInit<operations['openSession']>,
+  ) => Promise<SDKOperationResponse<operations['openSession']>>;
+  rateDeployment: (
+    deployment_name: string,
+    init: SDKOperationInit<operations['rateDeployment']>,
+  ) => Promise<SDKOperationResponse<operations['rateDeployment']>>;
+  redeployApplication: (
+    init: SDKOperationInit<operations['redeployApplication']>,
+  ) => Promise<SDKOperationResponse<operations['redeployApplication']>>;
+  rejectPublication: (
+    init: SDKOperationInit<operations['rejectPublication']>,
+  ) => Promise<SDKOperationResponse<operations['rejectPublication']>>;
+  reloadConfig: (
+    init?: SDKOperationInit<operations['reloadConfig']>,
+  ) => Promise<SDKOperationResponse<operations['reloadConfig']>>;
+  requestUserConsent: (
+    deployment_id: string,
+    init?: SDKOperationInit<operations['requestUserConsent']>,
+  ) => Promise<SDKOperationResponse<operations['requestUserConsent']>>;
+  revokePerRequestPermissions: (
+    init: SDKOperationInit<operations['revokePerRequestPermissions']>,
+  ) => Promise<SDKOperationResponse<operations['revokePerRequestPermissions']>>;
+  revokeSharedResources: (
+    init: SDKOperationInit<operations['revokeSharedResources']>,
+  ) => Promise<SDKOperationResponse<operations['revokeSharedResources']>>;
   saveConversation: (
     bucket: string,
     conversation_path: string,
-    init?: any,
-  ) => Promise<{ data?: unknown; error?: unknown }>;
+    init: SDKRequestInit<Conversation> & { body: Conversation },
+  ) => Promise<SDKResponse<ConversationResource>>;
   saveCustomApplication: (
     bucket: string,
     application_path: string,
-    init?: any,
-  ) => Promise<{ data?: unknown; error?: unknown }>;
+    init: SDKOperationInit<operations['saveCustomApplication']>,
+  ) => Promise<SDKOperationResponse<operations['saveCustomApplication']>>;
   savePrompt: (
     bucket: string,
     prompt_path: string,
-    init?: any,
-  ) => Promise<unknown>;
+    init: SDKOperationInit<operations['savePrompt']>,
+  ) => Promise<SDKOperationResponse<operations['savePrompt']>>;
   saveToolSet: (
     bucket: string,
     toolset_path: string,
-    init?: any,
-  ) => Promise<unknown>;
+    init: SDKOperationInit<operations['saveToolSet']>,
+  ) => Promise<SDKOperationResponse<operations['saveToolSet']>>;
   sendChatCompletionRequest: (
     deployment_name: string,
-    init?: any,
-  ) => Promise<unknown>;
+    init: SDKOperationInit<operations['sendChatCompletionRequest']>,
+  ) => Promise<SDKOperationResponse<operations['sendChatCompletionRequest']>>;
   sendEmbeddingsRequest: (
     deployment_name: string,
-    init?: any,
-  ) => Promise<unknown>;
-  shareResource: (init?: any) => Promise<unknown>;
-  subscribeToResources: (init?: any) => Promise<unknown>;
-  toolSetSignout: (init?: any) => Promise<unknown>;
-  toolsetSignin: (init?: any) => Promise<unknown>;
-  transferInputFile: (init?: any) => Promise<unknown>;
-  transferOutputFile: (init?: any) => Promise<unknown>;
-  undeployApplication: (init?: any) => Promise<unknown>;
-  updatePublication: (init?: any) => Promise<unknown>;
+    init: SDKOperationInit<operations['sendEmbeddingsRequest']>,
+  ) => Promise<SDKOperationResponse<operations['sendEmbeddingsRequest']>>;
+  shareResource: (
+    init: SDKOperationInit<operations['shareResource']>,
+  ) => Promise<SDKOperationResponse<operations['shareResource']>>;
+  subscribeToResources: (
+    init: SDKOperationInit<operations['subscribeToResources']>,
+  ) => Promise<SDKOperationResponse<operations['subscribeToResources']>>;
+  toolSetSignout: (
+    init: SDKOperationInit<operations['toolSetSignout']>,
+  ) => Promise<SDKOperationResponse<operations['toolSetSignout']>>;
+  toolsetSignin: (
+    init: SDKOperationInit<operations['toolsetSignin']>,
+  ) => Promise<SDKOperationResponse<operations['toolsetSignin']>>;
+  transferInputFile: (
+    init: SDKOperationInit<operations['transferInputFile']>,
+  ) => Promise<SDKOperationResponse<operations['transferInputFile']>>;
+  transferOutputFile: (
+    init: SDKOperationInit<operations['transferOutputFile']>,
+  ) => Promise<SDKOperationResponse<operations['transferOutputFile']>>;
+  undeployApplication: (
+    init: SDKOperationInit<operations['undeployApplication']>,
+  ) => Promise<SDKOperationResponse<operations['undeployApplication']>>;
+  updatePublication: (
+    init?: SDKOperationInit<operations['updatePublication']>,
+  ) => Promise<SDKOperationResponse<operations['updatePublication']>>;
   uploadFile: (
     bucket: string,
     file_path: string,
-    init?: any,
-  ) => Promise<unknown>;
-  uploadFileToCodeInterpreter: (init?: any) => Promise<unknown>;
+    init: SDKOperationInit<operations['uploadFile']>,
+  ) => Promise<SDKOperationResponse<operations['uploadFile']>>;
+  uploadFileToCodeInterpreter: (
+    init: SDKOperationInit<operations['uploadFileToCodeInterpreter']>,
+  ) => Promise<SDKOperationResponse<operations['uploadFileToCodeInterpreter']>>;
 }
 
 export function createSDK(opts: SDKOptions): DIAL_SDK {
@@ -207,22 +344,40 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
 
   return {
     acceptUserConsent: (deployment_id: string, init?: any) =>
-      client.POST(apiPaths.acceptUserConsentUrl(deployment_id) as any, init),
+      client.POST(
+        apiPaths.acceptUserConsentUrl(deployment_id) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['acceptUserConsent']>>,
     approvePublication: (init?: any) =>
-      client.POST(apiPaths.approvePublicationUrl, init),
+      client.POST(apiPaths.approvePublicationUrl, init) as Promise<
+        SDKOperationResponse<operations['approvePublication']>
+      >,
     callToolSet: (toolset_name: string, init?: any) =>
-      client.POST(apiPaths.callToolSetUrl(toolset_name) as any, init),
-    closeSession: (init?: any) => client.POST(apiPaths.closeSessionUrl, init),
+      client.POST(
+        apiPaths.callToolSetUrl(toolset_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['callToolSet']>>,
+    closeSession: (init?: any) =>
+      client.POST(apiPaths.closeSessionUrl, init) as Promise<
+        SDKOperationResponse<operations['closeSession']>
+      >,
     configurationDeployment: (deployment_name: string, init?: any) =>
       client.GET(
         apiPaths.configurationDeploymentUrl(deployment_name) as any,
         init,
-      ),
-    copyResource: (init?: any) => client.POST(apiPaths.copyResourceUrl, init),
+      ) as Promise<SDKOperationResponse<operations['configurationDeployment']>>,
+    copyResource: (init?: any) =>
+      client.POST(apiPaths.copyResourceUrl, init) as Promise<
+        SDKOperationResponse<operations['copyResource']>
+      >,
     copySharedResources: (init?: any) =>
-      client.POST(apiPaths.copySharedResourcesUrl, init),
+      client.POST(apiPaths.copySharedResourcesUrl, init) as Promise<
+        SDKOperationResponse<operations['copySharedResources']>
+      >,
     createPublication: (init?: any) =>
-      client.POST(apiPaths.createPublicationUrl, init),
+      client.POST(apiPaths.createPublicationUrl, init) as Promise<
+        SDKOperationResponse<operations['createPublication']>
+      >,
     deleteConversation: (
       bucket: string,
       conversation_path: string,
@@ -231,7 +386,7 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.DELETE(
         apiPaths.deleteConversationUrl(bucket, conversation_path) as any,
         init,
-      ),
+      ) as Promise<SDKOperationResponse<operations['deleteConversation']>>,
     deleteCustomApplication: (
       bucket: string,
       application_path: string,
@@ -240,49 +395,84 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.DELETE(
         apiPaths.deleteCustomApplicationUrl(bucket, application_path) as any,
         init,
-      ),
+      ) as Promise<SDKOperationResponse<operations['deleteCustomApplication']>>,
     deleteFile: (bucket: string, file_path: string, init?: any) =>
-      client.DELETE(apiPaths.deleteFileUrl(bucket, file_path) as any, init),
+      client.DELETE(
+        apiPaths.deleteFileUrl(bucket, file_path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deleteFile']>>,
     deleteInvitation: (invitation_id: string, init?: any) =>
-      client.DELETE(apiPaths.deleteInvitationUrl(invitation_id) as any, init),
+      client.DELETE(
+        apiPaths.deleteInvitationUrl(invitation_id) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deleteInvitation']>>,
     deleteNotifications: (init?: any) =>
-      client.POST(apiPaths.deleteNotificationsUrl, init),
+      client.POST(apiPaths.deleteNotificationsUrl, init) as Promise<
+        SDKOperationResponse<operations['deleteNotifications']>
+      >,
     deletePrompt: (bucket: string, prompt_path: string, init?: any) =>
-      client.DELETE(apiPaths.deletePromptUrl(bucket, prompt_path) as any, init),
+      client.DELETE(
+        apiPaths.deletePromptUrl(bucket, prompt_path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deletePrompt']>>,
     deletePublication: (init?: any) =>
-      client.POST(apiPaths.deletePublicationUrl, init),
+      client.POST(apiPaths.deletePublicationUrl, init) as Promise<
+        SDKOperationResponse<operations['deletePublication']>
+      >,
     deleteToolSet: (bucket: string, toolset_path: string, init?: any) =>
       client.DELETE(
         apiPaths.deleteToolSetUrl(bucket, toolset_path) as any,
         init,
-      ),
+      ) as Promise<SDKOperationResponse<operations['deleteToolSet']>>,
     deployApplication: (init?: any) =>
-      client.POST(apiPaths.deployApplicationUrl, init),
+      client.POST(apiPaths.deployApplicationUrl, init) as Promise<
+        SDKOperationResponse<operations['deployApplication']>
+      >,
     discardSharedResources: (init?: any) =>
-      client.POST(apiPaths.discardSharedResourcesUrl, init),
+      client.POST(apiPaths.discardSharedResourcesUrl, init) as Promise<
+        SDKOperationResponse<operations['discardSharedResources']>
+      >,
     downloadFile: (bucket: string, file_path: string, init?: any) =>
-      client.GET(apiPaths.downloadFileUrl(bucket, file_path) as any, init),
+      client.GET(
+        apiPaths.downloadFileUrl(bucket, file_path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['downloadFile']>>,
     downloadFileFromCodeInterpreter: (init?: any) =>
-      client.POST(apiPaths.downloadFileFromCodeInterpreterUrl, init),
-    executeCode: (init?: any) => client.POST(apiPaths.executeCodeUrl, init),
+      client.POST(apiPaths.downloadFileFromCodeInterpreterUrl, init) as Promise<
+        SDKOperationResponse<operations['downloadFileFromCodeInterpreter']>
+      >,
+    executeCode: (init?: any) =>
+      client.POST(apiPaths.executeCodeUrl, init) as Promise<
+        SDKOperationResponse<operations['executeCode']>
+      >,
     getApplication: (application_name: string, init?: any) =>
-      client.GET(apiPaths.getApplicationUrl(application_name) as any, init),
+      client.GET(
+        apiPaths.getApplicationUrl(application_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getApplication']>>,
     getApplicationLogs: (init?: any) =>
-      client.POST(apiPaths.getApplicationLogsUrl, init),
+      client.POST(apiPaths.getApplicationLogsUrl, init) as Promise<
+        SDKOperationResponse<operations['getApplicationLogs']>
+      >,
     getApplicationMetadata: (bucket: string, path: string, init?: any) =>
-      client.GET(apiPaths.getApplicationMetadataUrl(bucket, path) as any, init),
+      client.GET(
+        apiPaths.getApplicationMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getApplicationMetadata']>>,
     getApplications: (init?: any) =>
-      client.GET(apiPaths.getApplicationsUrl, init),
+      client.GET(apiPaths.getApplicationsUrl, init) as Promise<
+        SDKOperationResponse<operations['getApplications']>
+      >,
     getConversation: (bucket: string, conversation_path: string, init?: any) =>
       client.GET(
         apiPaths.getConversationUrl(bucket, conversation_path) as any,
         init,
-      ),
+      ) as Promise<SDKResponse<Conversation>>,
     getConversationMetadata: (bucket: string, path: string, init?: any) =>
       client.GET(
         apiPaths.getConversationMetadataUrl(bucket, path) as any,
         init,
-      ),
+      ) as Promise<SDKOperationResponse<operations['getConversationMetadata']>>,
     getCustomApplication: (
       bucket: string,
       application_path: string,
@@ -291,81 +481,175 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.GET(
         apiPaths.getCustomApplicationUrl(bucket, application_path) as any,
         init,
-      ),
+      ) as Promise<SDKOperationResponse<operations['getCustomApplication']>>,
     getCustomApplicationSchema: (init?: any) =>
-      client.GET(apiPaths.getCustomApplicationSchemaUrl, init),
+      client.GET(apiPaths.getCustomApplicationSchemaUrl, init) as Promise<
+        SDKOperationResponse<operations['getCustomApplicationSchema']>
+      >,
     getCustomToolSet: (bucket: string, toolset_path: string, init?: any) =>
       client.GET(
         apiPaths.getCustomToolSetUrl(bucket, toolset_path) as any,
         init,
-      ),
+      ) as Promise<SDKOperationResponse<operations['getCustomToolSet']>>,
     getDeployment: (deployment_name: string, init?: any) =>
-      client.GET(apiPaths.getDeploymentUrl(deployment_name) as any, init),
+      client.GET(
+        apiPaths.getDeploymentUrl(deployment_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getDeployment']>>,
     getDeploymentLimits: (deployment_name: string, init?: any) =>
-      client.GET(apiPaths.getDeploymentLimitsUrl(deployment_name) as any, init),
+      client.GET(
+        apiPaths.getDeploymentLimitsUrl(deployment_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getDeploymentLimits']>>,
     getDeployments: (init?: any) =>
-      client.GET(apiPaths.getDeploymentsUrl, init),
+      client.GET(apiPaths.getDeploymentsUrl, init) as Promise<
+        SDKOperationResponse<operations['getDeployments']>
+      >,
     getFileMetadata: (bucket: string, path: string, init?: any) =>
-      client.GET(apiPaths.getFileMetadataUrl(bucket, path) as any, init),
+      client.GET(
+        apiPaths.getFileMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getFileMetadata']>>,
     getInvitation: (invitation_id: string, init?: any) =>
-      client.GET(apiPaths.getInvitationUrl(invitation_id) as any, init),
+      client.GET(
+        apiPaths.getInvitationUrl(invitation_id) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getInvitation']>>,
     getInvitations: (init?: any) =>
-      client.GET(apiPaths.getInvitationsUrl, init),
+      client.GET(apiPaths.getInvitationsUrl, init) as Promise<
+        SDKOperationResponse<operations['getInvitations']>
+      >,
     getMetaSchemaOfCustomApplicationSchema: (init?: any) =>
-      client.GET(apiPaths.getMetaSchemaOfCustomApplicationSchemaUrl, init),
+      client.GET(
+        apiPaths.getMetaSchemaOfCustomApplicationSchemaUrl,
+        init,
+      ) as Promise<
+        SDKOperationResponse<
+          operations['getMetaSchemaOfCustomApplicationSchema']
+        >
+      >,
     getModel: (model_name: string, init?: any) =>
-      client.GET(apiPaths.getModelUrl(model_name) as any, init),
-    getModels: (init?: any) => client.GET(apiPaths.getModelsUrl, init),
+      client.GET(apiPaths.getModelUrl(model_name) as any, init) as Promise<
+        SDKOperationResponse<operations['getModel']>
+      >,
+    getModels: (init?: any) =>
+      client.GET(apiPaths.getModelsUrl, init) as Promise<
+        SDKOperationResponse<operations['getModels']>
+      >,
     getNotifications: (init?: any) =>
-      client.POST(apiPaths.getNotificationsUrl, init),
+      client.POST(apiPaths.getNotificationsUrl, init) as Promise<
+        SDKOperationResponse<operations['getNotifications']>
+      >,
     getPerRequestPermissions: (init?: any) =>
-      client.POST(apiPaths.getPerRequestPermissionsUrl, init),
+      client.POST(apiPaths.getPerRequestPermissionsUrl, init) as Promise<
+        SDKOperationResponse<operations['getPerRequestPermissions']>
+      >,
     getPrompt: (bucket: string, prompt_path: string, init?: any) =>
-      client.GET(apiPaths.getPromptUrl(bucket, prompt_path) as any, init),
+      client.GET(
+        apiPaths.getPromptUrl(bucket, prompt_path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getPrompt']>>,
     getPromptMetadata: (bucket: string, path: string, init?: any) =>
-      client.GET(apiPaths.getPromptMetadataUrl(bucket, path) as any, init),
+      client.GET(
+        apiPaths.getPromptMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getPromptMetadata']>>,
     getPublication: (init?: any) =>
-      client.POST(apiPaths.getPublicationUrl, init),
+      client.POST(apiPaths.getPublicationUrl, init) as Promise<
+        SDKOperationResponse<operations['getPublication']>
+      >,
     getPublicationRules: (init?: any) =>
-      client.POST(apiPaths.getPublicationRulesUrl, init),
+      client.POST(apiPaths.getPublicationRulesUrl, init) as Promise<
+        SDKOperationResponse<operations['getPublicationRules']>
+      >,
     getPublications: (init?: any) =>
-      client.POST(apiPaths.getPublicationsUrl, init),
-    getSession: (init?: any) => client.POST(apiPaths.getSessionUrl, init),
+      client.POST(apiPaths.getPublicationsUrl, init) as Promise<
+        SDKOperationResponse<operations['getPublications']>
+      >,
+    getSession: (init?: any) =>
+      client.POST(apiPaths.getSessionUrl, init) as Promise<
+        SDKOperationResponse<operations['getSession']>
+      >,
     getSharedResources: (init?: any) =>
-      client.POST(apiPaths.getSharedResourcesUrl, init),
+      client.POST(apiPaths.getSharedResourcesUrl, init) as Promise<
+        SDKOperationResponse<operations['getSharedResources']>
+      >,
     getToolSetMetadata: (bucket: string, path: string, init?: any) =>
-      client.GET(apiPaths.getToolSetMetadataUrl(bucket, path) as any, init),
-    getToolSets: (init?: any) => client.GET(apiPaths.getToolSetsUrl, init),
+      client.GET(
+        apiPaths.getToolSetMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getToolSetMetadata']>>,
+    getToolSets: (init?: any) =>
+      client.GET(apiPaths.getToolSetsUrl, init) as Promise<
+        SDKOperationResponse<operations['getToolSets']>
+      >,
     getToolset: (toolset_name: string, init?: any) =>
-      client.GET(apiPaths.getToolsetUrl(toolset_name) as any, init),
-    getUserBucket: (init?: any) => client.GET(apiPaths.getUserBucketUrl, init),
-    getUserInfo: (init?: any) => client.GET(apiPaths.getUserInfoUrl, init),
+      client.GET(apiPaths.getToolsetUrl(toolset_name) as any, init) as Promise<
+        SDKOperationResponse<operations['getToolset']>
+      >,
+    getUserBucket: (init?: any) =>
+      client.GET(apiPaths.getUserBucketUrl, init) as Promise<
+        SDKOperationResponse<operations['getUserBucket']>
+      >,
+    getUserInfo: (init?: any) =>
+      client.GET(apiPaths.getUserInfoUrl, init) as Promise<
+        SDKOperationResponse<operations['getUserInfo']>
+      >,
     grantPerRequestPermissions: (init?: any) =>
-      client.POST(apiPaths.grantPerRequestPermissionsUrl, init),
+      client.POST(apiPaths.grantPerRequestPermissionsUrl, init) as Promise<
+        SDKOperationResponse<operations['grantPerRequestPermissions']>
+      >,
     listCustomApplicationSchemas: (init?: any) =>
-      client.GET(apiPaths.listCustomApplicationSchemasUrl, init),
+      client.GET(apiPaths.listCustomApplicationSchemasUrl, init) as Promise<
+        SDKOperationResponse<operations['listCustomApplicationSchemas']>
+      >,
     listFilesFromCodeInterpreter: (init?: any) =>
-      client.POST(apiPaths.listFilesFromCodeInterpreterUrl, init),
-    moveResource: (init?: any) => client.POST(apiPaths.moveResourceUrl, init),
-    openSession: (init?: any) => client.POST(apiPaths.openSessionUrl, init),
+      client.POST(apiPaths.listFilesFromCodeInterpreterUrl, init) as Promise<
+        SDKOperationResponse<operations['listFilesFromCodeInterpreter']>
+      >,
+    moveResource: (init?: any) =>
+      client.POST(apiPaths.moveResourceUrl, init) as Promise<
+        SDKOperationResponse<operations['moveResource']>
+      >,
+    openSession: (init?: any) =>
+      client.POST(apiPaths.openSessionUrl, init) as Promise<
+        SDKOperationResponse<operations['openSession']>
+      >,
     rateDeployment: (deployment_name: string, init?: any) =>
-      client.POST(apiPaths.rateDeploymentUrl(deployment_name) as any, init),
+      client.POST(
+        apiPaths.rateDeploymentUrl(deployment_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['rateDeployment']>>,
     redeployApplication: (init?: any) =>
-      client.POST(apiPaths.redeployApplicationUrl, init),
+      client.POST(apiPaths.redeployApplicationUrl, init) as Promise<
+        SDKOperationResponse<operations['redeployApplication']>
+      >,
     rejectPublication: (init?: any) =>
-      client.POST(apiPaths.rejectPublicationUrl, init),
-    reloadConfig: (init?: any) => client.POST(apiPaths.reloadConfigUrl, init),
+      client.POST(apiPaths.rejectPublicationUrl, init) as Promise<
+        SDKOperationResponse<operations['rejectPublication']>
+      >,
+    reloadConfig: (init?: any) =>
+      client.POST(apiPaths.reloadConfigUrl, init) as Promise<
+        SDKOperationResponse<operations['reloadConfig']>
+      >,
     requestUserConsent: (deployment_id: string, init?: any) =>
-      client.GET(apiPaths.requestUserConsentUrl(deployment_id) as any, init),
+      client.GET(
+        apiPaths.requestUserConsentUrl(deployment_id) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['requestUserConsent']>>,
     revokePerRequestPermissions: (init?: any) =>
-      client.POST(apiPaths.revokePerRequestPermissionsUrl, init),
+      client.POST(apiPaths.revokePerRequestPermissionsUrl, init) as Promise<
+        SDKOperationResponse<operations['revokePerRequestPermissions']>
+      >,
     revokeSharedResources: (init?: any) =>
-      client.POST(apiPaths.revokeSharedResourcesUrl, init),
+      client.POST(apiPaths.revokeSharedResourcesUrl, init) as Promise<
+        SDKOperationResponse<operations['revokeSharedResources']>
+      >,
     saveConversation: (bucket: string, conversation_path: string, init?: any) =>
       client.PUT(
         apiPaths.saveConversationUrl(bucket, conversation_path) as any,
         init,
-      ),
+      ) as Promise<SDKResponse<ConversationResource>>,
     saveCustomApplication: (
       bucket: string,
       application_path: string,
@@ -374,38 +658,69 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.PUT(
         apiPaths.saveCustomApplicationUrl(bucket, application_path) as any,
         init,
-      ),
+      ) as Promise<SDKOperationResponse<operations['saveCustomApplication']>>,
     savePrompt: (bucket: string, prompt_path: string, init?: any) =>
-      client.PUT(apiPaths.savePromptUrl(bucket, prompt_path) as any, init),
+      client.PUT(
+        apiPaths.savePromptUrl(bucket, prompt_path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['savePrompt']>>,
     saveToolSet: (bucket: string, toolset_path: string, init?: any) =>
-      client.PUT(apiPaths.saveToolSetUrl(bucket, toolset_path) as any, init),
+      client.PUT(
+        apiPaths.saveToolSetUrl(bucket, toolset_path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['saveToolSet']>>,
     sendChatCompletionRequest: (deployment_name: string, init?: any) =>
       client.POST(
         apiPaths.sendChatCompletionRequestUrl(deployment_name) as any,
         init,
-      ),
+      ) as Promise<
+        SDKOperationResponse<operations['sendChatCompletionRequest']>
+      >,
     sendEmbeddingsRequest: (deployment_name: string, init?: any) =>
       client.POST(
         apiPaths.sendEmbeddingsRequestUrl(deployment_name) as any,
         init,
-      ),
-    shareResource: (init?: any) => client.POST(apiPaths.shareResourceUrl, init),
+      ) as Promise<SDKOperationResponse<operations['sendEmbeddingsRequest']>>,
+    shareResource: (init?: any) =>
+      client.POST(apiPaths.shareResourceUrl, init) as Promise<
+        SDKOperationResponse<operations['shareResource']>
+      >,
     subscribeToResources: (init?: any) =>
-      client.POST(apiPaths.subscribeToResourcesUrl, init),
+      client.POST(apiPaths.subscribeToResourcesUrl, init) as Promise<
+        SDKOperationResponse<operations['subscribeToResources']>
+      >,
     toolSetSignout: (init?: any) =>
-      client.POST(apiPaths.toolSetSignoutUrl, init),
-    toolsetSignin: (init?: any) => client.POST(apiPaths.toolsetSigninUrl, init),
+      client.POST(apiPaths.toolSetSignoutUrl, init) as Promise<
+        SDKOperationResponse<operations['toolSetSignout']>
+      >,
+    toolsetSignin: (init?: any) =>
+      client.POST(apiPaths.toolsetSigninUrl, init) as Promise<
+        SDKOperationResponse<operations['toolsetSignin']>
+      >,
     transferInputFile: (init?: any) =>
-      client.POST(apiPaths.transferInputFileUrl, init),
+      client.POST(apiPaths.transferInputFileUrl, init) as Promise<
+        SDKOperationResponse<operations['transferInputFile']>
+      >,
     transferOutputFile: (init?: any) =>
-      client.POST(apiPaths.transferOutputFileUrl, init),
+      client.POST(apiPaths.transferOutputFileUrl, init) as Promise<
+        SDKOperationResponse<operations['transferOutputFile']>
+      >,
     undeployApplication: (init?: any) =>
-      client.POST(apiPaths.undeployApplicationUrl, init),
+      client.POST(apiPaths.undeployApplicationUrl, init) as Promise<
+        SDKOperationResponse<operations['undeployApplication']>
+      >,
     updatePublication: (init?: any) =>
-      client.POST(apiPaths.updatePublicationUrl, init),
+      client.POST(apiPaths.updatePublicationUrl, init) as Promise<
+        SDKOperationResponse<operations['updatePublication']>
+      >,
     uploadFile: (bucket: string, file_path: string, init?: any) =>
-      client.PUT(apiPaths.uploadFileUrl(bucket, file_path) as any, init),
+      client.PUT(
+        apiPaths.uploadFileUrl(bucket, file_path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['uploadFile']>>,
     uploadFileToCodeInterpreter: (init?: any) =>
-      client.POST(apiPaths.uploadFileToCodeInterpreterUrl, init),
+      client.POST(apiPaths.uploadFileToCodeInterpreterUrl, init) as Promise<
+        SDKOperationResponse<operations['uploadFileToCodeInterpreter']>
+      >,
   };
 }

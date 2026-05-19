@@ -53,6 +53,19 @@ function pathParamsTypeString(paramNames) {
   return body;
 }
 
+function operationRequiresInit(op) {
+  const hasRequiredRequestBody = op.requestBody?.required === true;
+  const hasRequiredInitParam = (op.parameters ?? []).some(
+    (param) =>
+      param?.required === true &&
+      param?.in &&
+      param.in !== 'path' &&
+      ['query', 'header', 'cookie'].includes(param.in),
+  );
+
+  return hasRequiredRequestBody || hasRequiredInitParam;
+}
+
 const doc = YAML.parse(fs.readFileSync(OPENAPI, 'utf8'));
 const docPaths = doc.paths;
 if (!docPaths) throw new Error('No paths in OpenAPI document');
@@ -79,6 +92,7 @@ for (const [p, item] of Object.entries(docPaths)) {
       method: toClientMethod(verb),
       httpVerb: verb,
       pathParamNames,
+      requiresInit: operationRequiresInit(op),
     });
   }
 }
@@ -125,7 +139,9 @@ for (const id of sortedIds) {
     names.forEach((n) => {
       url = url.replace(`{${n}}`, `\${${n.toLowerCase()}}`);
     });
-    apiPathLines.push(`export const ${id}Url = (${t}) => { return \`${url}\` };`);
+    apiPathLines.push(
+      `export const ${id}Url = (${t}) => { return \`${url}\` };`,
+    );
   }
   apiPathLines.push('');
 }
@@ -133,35 +149,63 @@ for (const id of sortedIds) {
 const methodLines = sortedIds.map((id) => {
   const { method, pathParamNames } = opMap.get(id);
 
+  if (id === 'getConversation') {
+    return `    getConversation: (bucket: string, conversation_path: string, init?: any) =>\n      client.GET(\n        apiPaths.getConversationUrl(bucket, conversation_path) as any,\n        init,\n      ) as Promise<SDKResponse<Conversation>>,`;
+  }
+
+  if (id === 'saveConversation') {
+    return `    saveConversation: (bucket: string, conversation_path: string, init?: any) =>\n      client.PUT(\n        apiPaths.saveConversationUrl(bucket, conversation_path) as any,\n        init,\n      ) as Promise<SDKResponse<ConversationResource>>,`;
+  }
+
   if (pathParamNames.length === 0) {
-    return `    ${id}: (init?: any) => client.${method}(apiPaths.${id}Url, init),`;
+    return `    ${id}: (init?: any) =>\n      client.${method}(apiPaths.${id}Url, init) as Promise<\n        SDKOperationResponse<operations[${JSON.stringify(id)}]>\n      >,`;
   }
 
   const t = pathParamsTypeString(pathParamNames);
   if (!t) {
-    return `    ${id}: (init?: any) => client.${method}(apiPaths.${id}Url, init),`;
+    return `    ${id}: (init?: any) =>\n      client.${method}(apiPaths.${id}Url, init) as Promise<\n        SDKOperationResponse<operations[${JSON.stringify(id)}]>\n      >,`;
   }
 
-  return `    ${id}: (${t}, init?: any) =>\n      client.${method}(apiPaths.${id}Url(${pathParamNames.map((p) => p.toLowerCase()).join(', ')}) as any, init),`;
+  return `    ${id}: (${t}, init?: any) =>\n      client.${method}(apiPaths.${id}Url(${pathParamNames.map((p) => p.toLowerCase()).join(', ')}) as any, init) as Promise<\n        SDKOperationResponse<operations[${JSON.stringify(id)}]>\n      >,`;
 });
 
 const interfaceLines = sortedIds.map((id) => {
-  const { pathParamNames } = opMap.get(id);
+  const { pathParamNames, requiresInit } = opMap.get(id);
+  const initParam = requiresInit
+    ? `init: SDKOperationInit<operations[${JSON.stringify(id)}]>`
+    : `init?: SDKOperationInit<operations[${JSON.stringify(id)}]>`;
+
+  if (id === 'getConversation') {
+    return `  getConversation: (\n    bucket: string,\n    conversation_path: string,\n    init?: SDKRequestInit,\n  ) => Promise<SDKResponse<Conversation>>;`;
+  }
+
+  if (id === 'saveConversation') {
+    return `  saveConversation: (\n    bucket: string,\n    conversation_path: string,\n    init: SDKRequestInit<Conversation> & { body: Conversation },\n  ) => Promise<SDKResponse<ConversationResource>>;`;
+  }
+
   if (pathParamNames.length === 0) {
-    return `  ${id}: (init?: any) => Promise<unknown>;`;
+    return `  ${id}: (${initParam}) => Promise<SDKOperationResponse<operations[${JSON.stringify(id)}]>>;`;
   }
   const t = pathParamsTypeString(pathParamNames);
   if (!t) {
-    return `  ${id}: (init?: any) => Promise<unknown>;`;
+    return `  ${id}: (${initParam}) => Promise<SDKOperationResponse<operations[${JSON.stringify(id)}]>>;`;
   }
-  return `  ${id}: (${t}, init?: any) => Promise<unknown>;`;
+  return `  ${id}: (${t}, ${initParam}) => Promise<SDKOperationResponse<operations[${JSON.stringify(id)}]>>;`;
 });
 
 const client = `/* eslint-disable no-unused-vars */
 import createClient from 'openapi-fetch';
 
 import * as apiPaths from './api-paths';
-import type { paths } from './schema';
+import type { operations, paths } from './schema';
+import type {
+  Conversation,
+  ConversationResource,
+  SDKOperationInit,
+  SDKOperationResponse,
+  SDKRequestInit,
+  SDKResponse,
+} from './types';
 
 export interface SDKOptions {
   baseUrl: string;
