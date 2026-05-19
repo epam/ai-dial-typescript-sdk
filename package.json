@@ -43,8 +43,5 @@
   },
   "dependencies": {
     "openapi-fetch": "^0.17.0"
-  },
-  "overrides": {
-    "picomatch": "4.0.4"
   }
 }
