@@ -1,0 +1,9 @@
+vulnerabilities:
+  - id: GHSA-c2c7-rcm5-vvqj
+    purls:
+      - "pkg:npm/picomatch"
+    statement: picomatch is a development-only transitive dependency in this SDK.
+  - id: GHSA-3v7f-55p6-f55p
+    purls:
+      - "pkg:npm/picomatch"
+    statement: picomatch is a development-only transitive dependency in this SDK.
