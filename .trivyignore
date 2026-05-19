@@ -1,5 +1,2 @@
-# CVE-2026-33671 is reported for picomatch@4.0.3 bundled with npm in the
-# node:24-alpine base image used by the CI Docker scan. Project dependencies
-# resolve picomatch to 4.0.4 in package-lock.json.
-# Remove this once the base image bundles npm with picomatch >= 4.0.4.
-CVE-2026-33671 exp:2026-08-31
+# picomatch
+CVE-2026-33671 exp:2026-05-20
