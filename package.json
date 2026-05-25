@@ -25,7 +25,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "publish": "npm publish --access public",
+    "publish:npm": "npm publish --access public",
     "publish:dry": "npm publish --access public --dry-run"
   },
   "devDependencies": {
