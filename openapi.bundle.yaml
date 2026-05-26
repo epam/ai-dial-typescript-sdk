@@ -210,7 +210,6 @@ paths:
                   default: 0
                 logit_bias:
                   type: object
-                  additionalProperties: true
                   description: |-
                     Modifies the likelihood of specified tokens appearing in the completion.
 
@@ -438,6 +437,15 @@ paths:
                 properties:
                   error:
                     $ref: '#/components/schemas/Error'
+        '502':
+          description: Failed to connect to upstream server.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
         '503':
           description: The engine is currently overloaded, please try again later.
           content:
@@ -522,7 +530,6 @@ paths:
               schema:
                 description: JSON schema of the configuration parameters the given deployment.
                 type: object
-                additionalProperties: true
               examples:
                 Example:
                   value:
@@ -816,6 +823,41 @@ paths:
           description: Invalid Authentication
         '401':
           description: Unauthorized
+  /v1/deployments/{deployment_id}/mcp:
+    post:
+      operationId: callMcp
+      tags:
+        - Applications
+      summary: /v1/deployments/{deployment_id}/mcp
+      description: |
+        This endpoint implements MCP-based communication with application deployment using [HTTP transport](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#streamable-http).
+      parameters:
+        - name: deployment_id
+          in: path
+          schema:
+            type: string
+          description: The ID of the deployment.
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              description: |
+                A JSON object satisfying [mcp specification](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/schema/2025-06-18/schema.json).
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                description: A JSON object satisfying [mcp specification](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/schema/2025-06-18/schema.json).
+        '400':
+          description: Invalid Authentication
+        '401':
+          description: Unauthorized
   /v1/ops/application/deploy:
     post:
       operationId: deployApplication
@@ -843,7 +885,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Application'
+                $ref: '#/components/schemas/ApplicationOpenAi'
               examples:
                 Application:
                   value:
@@ -894,7 +936,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Application'
+                $ref: '#/components/schemas/ApplicationOpenAi'
               examples:
                 Application:
                   value:
@@ -945,7 +987,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Application'
+                $ref: '#/components/schemas/ApplicationOpenAi'
               examples:
                 Application:
                   value:
@@ -1844,6 +1886,13 @@ paths:
                     "rateEndpoint": "http://host/rate",
                     "configurationEndpoint": "http://host/configure"
                   },
+                  "mcp": {
+                    "endpoint": "http://host/mcp",
+                    "transport": "http",
+                    "allowedTools": ["tool1", "tolol2"],
+                    "configDelivery": "meta",
+                    "forwardPerRequestKey": true
+                  },
                   "maxInputAttachments": 10,
                   "inputAttachmentTypes": ["type1", "type2"],
                   "defaults": {
@@ -1904,7 +1953,7 @@ paths:
                 Example:
                   value: |
                     {
-                      "application": {  "endpoint": "http://localhost:7001/openai/deployments/10k/chat/completions",  "displayName": "MyApp",  "iconUrl": "https://host/app.svg",  "description": "My application description",  "userRoles": ["AdminRole"],  "forwardAuthToken": true,  "features": { "rateEndpoint": "http://host/rate", "configurationEndpoint": "http://host/configure"},  "maxInputAttachments": 10,  "inputAttachmentTypes": ["type1", "type2"],  "defaults": { "paramStr": "value", "paramBool": true, "paramInt": 123, "paramFloat": 0.25  },  "interceptors": ["interceptor1", "interceptor2", "interceptor3"]}
+                      "application": {  "endpoint": "http://localhost:7001/openai/deployments/10k/chat/completions",  "displayName": "MyApp",  "iconUrl": "https://host/app.svg",  "description": "My application description",  "userRoles": ["AdminRole"],  "forwardAuthToken": true,  "features": { "rateEndpoint": "http://host/rate", "configurationEndpoint": "http://host/configure"}, "mcp": { "endpoint": "http://host/mcp", "transport": "http", "allowedTools": ["tool1", "tool2"], "configDelivery": "meta", "forwardPerRequestKey": true }, "maxInputAttachments": 10,  "inputAttachmentTypes": ["type1", "type2"],  "defaults": { "paramStr": "value", "paramBool": true, "paramInt": 123, "paramFloat": 0.25  },  "interceptors": ["interceptor1", "interceptor2", "interceptor3"]}
                     }
         '401':
           description: Invalid Authentication
@@ -2190,7 +2239,7 @@ paths:
             type: string
           description: |
             The entity tag (ETag) of the file. This is used for conditional requests to ensure that the file is only uploaded if it matches the specified ETag.
-            If the file does not exist, this header is ignored.
+            If the file does not exist, and this header is provided, the request returns 412 Precondition Failed response.
             If this header is not provided or the value is "*", any existing file at the specified path will be overwritten.
         - name: If-None-Match
           in: header
@@ -3667,6 +3716,139 @@ paths:
           label: CURL
           source: |
             curl -X DELETE https://chat.<company>.com/v1/toolsets/ENCRYPTED_BUCKET/my-toolset \
+              -H "Api-Key: DIAL_API_KEY"
+  /v1/toolset/{toolset_id}/tools:
+    get:
+      operationId: getAllToolSetTools
+      tags:
+        - Toolsets
+      summary: /v1/toolset/{toolset_id}/tools
+      description: Call this endpoint to retrieve all tools supported by a specific MCP server. Available to admins and toolset owners. Used during toolset configuration to select allowed tools.
+      parameters:
+        - name: toolset_id
+          in: path
+          schema:
+            type: string
+          description: |
+            The target toolset ID. The parameter specifies the unique identifier of the toolset.
+          required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  result:
+                    type: object
+                    properties:
+                      tools:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            title:
+                              type: string
+              examples:
+                Example:
+                  value:
+                    id: '1'
+                    result:
+                      tools:
+                        - name: tool_name
+                          title: tool_title
+                        - name: tool_name
+                          title: tool_title
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+      x-codeSamples:
+        - lang: cURL
+          label: CURL
+          source: |
+            curl -X GET https://chat.<company>.com/v1/toolset/{toolset_id}/tools
+              -H "Api-Key: DIAL_API_KEY"
+  /v1/toolset/{toolset_id}/allowed-tools:
+    get:
+      operationId: getAllToolSetAllowedTools
+      tags:
+        - Toolsets
+      summary: /v1/toolset/{toolset_id}/allowed-tools
+      description: Call this endpoint to retrieve a filtered list of all allowed tools for a specific MCP server.
+      parameters:
+        - name: toolset_id
+          in: path
+          schema:
+            type: string
+          description: |
+            The target toolset ID. The parameter specifies the unique identifier of the toolset.
+          required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  result:
+                    type: object
+                    properties:
+                      tools:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            title:
+                              type: string
+              examples:
+                Example:
+                  value:
+                    id: '1'
+                    result:
+                      tools:
+                        - name: tool_name
+                          title: tool_title
+                        - name: tool_name
+                          title: tool_title
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+        '401':
+          description: Invalid Authentication
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+      x-codeSamples:
+        - lang: cURL
+          label: CURL
+          source: |
+            curl -X GET https://chat.<company>.com/v1/toolset/{toolset_id}/allowed-tools
               -H "Api-Key: DIAL_API_KEY"
   /v1/ops/toolset/signin:
     post:
@@ -5845,6 +6027,123 @@ paths:
           description: Session is not found
         '500':
           description: The server had an error while processing your request
+  /v1/deployments:
+    get:
+      operationId: getDeploymentsByInterfaceType
+      tags:
+        - Deployment listing
+      summary: /v1/deployments
+      description: |
+        Call this endpoint to get basic details about the available deployments of all types (AI models, applications, toolsets) filtered by the interface type.
+      parameters:
+        - name: interface_type
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - chat
+                - embeddings
+                - mcp
+                - custom_ui
+                - all
+          description: Filter deployments by the interface types they support. Can accept multiple values as comma-separated list or array. <br> `chat` - Deployments that expose chat-based interfaces. This includes the OpenAI-compatible chat completion interface and Responses API. Matches models with `chat` type and applications with `dial:applicationTypeCompletionEndpoint`. Never includes toolsets. <br> `embedding` - Deployments that expose embedding endpoints. Matches only models with `embedding` type. Never includes applications and toolsets. <br> `mcp` - Deployments that expose MCP (Model Context Protocol) interface (toolsets and applications with `dial:applicationTypeMcp`). Never includes models. <br> `custom_ui` - Deployments that expose custom UI interfaces (applications with `dial:applicationTypeViewerUrl`). Never includes models and toolsets. <br> `all` - Include all deployments regardless of interface type (default behavior if parameter is omitted).
+          required: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployments'
+              examples:
+                DeploymentsSample:
+                  value:
+                    deployments:
+                      - id: text-embedding-ada-002
+                        model: text-embedding-ada-002
+                        interfaces:
+                          - embedding
+                        display_name: Embedding Ada
+                        icon_url: https://chat.<company>.com/ada.svg
+                        description: Symmetrical embedding model.
+                        owner: organization-owner
+                        object: model
+                        status: succeeded
+                        created_at: 1672534800
+                        updated_at: 1672534800
+                        lifecycle_status: generally-available
+                        capabilities:
+                          scale_types:
+                            - standard
+                          completion: false
+                          chat_completion: false
+                          embeddings: true
+                          fine_tune: false
+                          inference: false
+                      - id: gpt-world
+                        application: gpt-world
+                        interfaces:
+                          - chat
+                          - custom_ui
+                        display_name: GPT World
+                        icon_url: https://chat.<company>.com/gpt_world.svg
+                        description: This application producing answer based on the curated set of LLM related publications.\n\nThe source of publications is [arxiv.org](https://arxiv.org/). GPT World is classic example of conversational semantic search application.\nOn every new user question, it performs summarization using GPT-4, calculates embedding using text-embedding-ada-002 model and then it uses chunks of text from curated set.\n\nThis is DIAL version of the [original demo](https://deltix.io/interactive-gpt-world-map.html) with [TSNE map](https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding).
+                        owner: organization-owner
+                        object: application
+                        status: succeeded
+                        created_at: 1672534800
+                        updated_at: 1672534800
+                      - id: toolsets/encrypted-bucket/folder/toolset-name
+                        toolset: toolsets/encrypted-bucket/folder/toolset-name
+                        interfaces:
+                          - mcp
+                        display_name: Toolset display name
+                        display_version: 0.0.1
+                        description: My toolset description
+                        icon_url: http://toolset/icon.svg
+                        owner: Owner's name
+                        object: toolset
+                        status: succeeded
+                        description_keywords:
+                          - keyword1
+                          - keyword2
+                        reference: ff5584b7-a82b-4f4f-bf42-5bf74a3893d6
+                        max_retry_attempts: 2
+                        created_at: 1672534800
+                        updated_at: 1672534900
+                        transport: HTTP
+                        allowed_tools:
+                          - tool1
+                          - tool2
+                        auth_settings:
+                          authentication_type: OAUTH
+                          client_id: my-client-id
+                          redirect_uri: https://myapp.com/toolset/sign-in
+                          authorization_endpoint: https://authserver.com/authorize
+                          token_endpoint: https://authserver.com/token
+                          code_challenge_method: S256
+                          scopes_supported:
+                            - scope1
+                            - scope2
+                          global_auth_status: SIGNED_OUT
+                          user_level_auth_status: SIGNED_OUT
+        '401':
+          description: Invalid Authentication
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+      x-codeSamples:
+        - lang: cURL
+          label: CURL
+          source: |
+            curl https://chat.<company>.com/deployments?interface_type={interface_type} \
+              -H "Api-Key: DIAL_API_KEY"
   /openai/deployments:
     get:
       operationId: getDeployments
@@ -5866,7 +6165,7 @@ paths:
                     type: array
                     description: An array of models.
                     items:
-                      $ref: '#/components/schemas/Model'
+                      $ref: '#/components/schemas/ModelOpenAi'
               examples:
                 DeploymentsSample:
                   value:
@@ -5892,6 +6191,7 @@ paths:
                           inference: false
                         features:
                           rate: false
+                          mcp: true
                           tokenize: false
                           truncate_prompt: false
                           configuration: false
@@ -5921,6 +6221,7 @@ paths:
                           inference: false
                         features:
                           rate: true
+                          mcp: true
                           tokenize: true
                           truncate_prompt: true
                           configuration: false
@@ -5967,7 +6268,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Model'
+                $ref: '#/components/schemas/ModelOpenAi'
               examples:
                 DeploymentsSample:
                   value:
@@ -5992,6 +6293,7 @@ paths:
                       inference: false
                     features:
                       rate: true
+                      mcp: true
                       tokenize: true
                       truncate_prompt: true
                       configuration: false
@@ -6037,7 +6339,7 @@ paths:
                     type: array
                     description: An array of models.
                     items:
-                      $ref: '#/components/schemas/Model'
+                      $ref: '#/components/schemas/ModelOpenAi'
               examples:
                 ModelsSample:
                   value:
@@ -6117,7 +6419,7 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/Model'
+                $ref: '#/components/schemas/ModelOpenAi'
               examples:
                 ModelsSample:
                   value:
@@ -6174,7 +6476,7 @@ paths:
                     type: array
                     description: An array of Applications.
                     items:
-                      $ref: '#/components/schemas/Application'
+                      $ref: '#/components/schemas/ApplicationOpenAi'
               examples:
                 ApplicationsSample:
                   value:
@@ -6226,7 +6528,7 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/Application'
+                $ref: '#/components/schemas/ApplicationOpenAi'
               examples:
                 ApplicationsSample:
                   value:
@@ -6656,6 +6958,178 @@ paths:
           source: |
             curl -X POST https://chat.<company>.com/v1/consent/{deployment_id} \
               -H "Api-Key: DIAL_API_KEY"
+  /v1/ops/client-channel/subscribe:
+    post:
+      operationId: subscribeOnClientChannel
+      tags:
+        - Client channel
+      summary: /v1/ops/client-channel/subscribe
+      description: |
+        **Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to get subscription on events from client channel. 
+      parameters:
+        - name: X-DIAL-CLIENT-CHANNEL-ID
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Client channel ID. The client should provide the header in case of reconnect.
+      responses:
+        '200':
+          description: Success
+          headers:
+            X-DIAL-CLIENT-CHANNEL-ID:
+              description: |
+                Client channel ID. **Note**: The header is optional and is passed in the response only if provided in the request.
+              schema:
+                type: string
+          content:
+            text/event-stream:
+              schema:
+                type: string
+                description: |
+                  Server-Sent Events stream. Data is sent as a sequence of
+                  heartbeat comments / "data:" lines separated by blank lines.
+              examples:
+                rpcRequestStream:
+                  summary: Example of SSE stream
+                  value: |
+                    : heartbeat
+                    : heartbeat
+                    : heartbeat
+                    data: {"jsonrpc": "2.0", "method": "toolset/signin", "params": {"toolsetId": "toolsets/public/toolset2"}, "id": "1"}
+                    : heartbeat
+                    : heartbeat
+                    data: {"jsonrpc": "2.0", "method": "toolset/signin", "params": {"toolsetId": "toolsets/public/my-toolset"}, "id": "2"}
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+      x-codeSamples:
+        - lang: cURL
+          label: CURL
+          source: |
+            curl -X POST https://chat.<company>.com/v1/ops/client-channel/subscribe \
+              -H "Api-Key: DIAL_API_KEY"
+  /v1/ops/client-channel/unsubscribe:
+    post:
+      operationId: unsubscribeOnClientChannel
+      tags:
+        - Client channel
+      summary: /v1/ops/client-channel/unsubscribe
+      description: |
+        **Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to remove subscription on events from client channel.
+      parameters:
+        - name: X-DIAL-CLIENT-CHANNEL-ID
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Client channel ID
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+        '404':
+          description: Client channel is not found
+      x-codeSamples:
+        - lang: cURL
+          label: CURL
+          source: |
+            curl -X POST https://chat.<company>.com/v1/ops/client-channel/unsubscribe \
+              -H "Api-Key: DIAL_API_KEY" \
+              -H "X-DIAL-CLIENT-CHANNEL-ID: 12345"
+  /v1/ops/client-channel/report:
+    post:
+      operationId: reportResponseToClientChannel
+      tags:
+        - Client channel
+      summary: /v1/ops/client-channel/report
+      description: |
+        **Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to report RPC response to client channel.
+      parameters:
+        - name: X-DIAL-CLIENT-CHANNEL-ID
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Client channel ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcResponse'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+      x-codeSamples:
+        - lang: cURL
+          label: CURL
+          source: |
+            curl -X POST https://chat.<company>.com/v1/ops/client-channel/report \
+              -H "Api-Key: DIAL_API_KEY" \
+              -H "X-DIAL-CLIENT-CHANNEL-ID: 12345"
+              -d '{"jsonrpc":"2.0","result":"success","id":"1"}'
+  /v1/ops/client-channel/interact:
+    post:
+      operationId: interactWithClientChannel
+      tags:
+        - Client channel
+      summary: /v1/ops/client-channel/interact
+      description: |
+        **Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to send RPC request to client channel and wait for RPC response.
+      parameters:
+        - name: X-DIAL-CLIENT-CHANNEL-ID
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Client channel ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/JsonRpcRequest'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/JsonRpcRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/event-stream:
+              schema:
+                type: string
+                description: |
+                  Server-Sent Events stream. Data is sent as a sequence of
+                  heartbeat comments / "data:" lines separated by blank lines.
+              examples:
+                rpcResponseStream:
+                  summary: Example of SSE stream
+                  value: |
+                    : heartbeat
+                    : heartbeat
+                    : heartbeat
+                    data: [{"jsonrpc":"2.0","result":"success","id":"1"},{"jsonrpc":"2.0","result":"denied","id":"2"}]
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+      x-codeSamples:
+        - lang: cURL
+          label: CURL
+          source: |
+            curl -X POST https://chat.<company>.com/v1/ops/client-channel/interact \
+              -H "Api-Key: DIAL_API_KEY" \
+              -H "X-DIAL-CLIENT-CHANNEL-ID: 12345"
+              -d '[{"jsonrpc": "2.0", "method": "toolset/signin", "params": {"toolsetId": "toolsets/public/toolset2"}, "id": "1"},{"jsonrpc": "2.0", "method": "toolset/signin", "params": {"toolsetId": "toolsets/public/my-toolset"}, "id": "2"}]'          
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -6759,7 +7233,6 @@ components:
         The parameters the `function` accepts, described as a JSON Schema object. See the [guide](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format. 
 
         Omitting `parameters` defines a `function` with an empty parameter list.
-      additionalProperties: true
     ChatCompletionToolChoiceOption:
       description: |
         Controls which (if any) tool is called by the model.
@@ -6862,6 +7335,10 @@ components:
           type: boolean
           description: |
             Does the deployment support endpoint for rating a request: `POST /v1/{deployment_name}/rate`?
+        mcp:
+          type: boolean
+          description: |
+            Does the deployment support endpoint for MCP (Multi-Channel Processing) requests: `GET /v1/deployments/{deployment_name}/mcp`?
         tokenize:
           type: boolean
           description: |
@@ -6964,6 +7441,7 @@ components:
           default: false
       required:
         - rate
+        - mcp
         - tokenize
         - truncate_prompt
         - configuration
@@ -7011,7 +7489,7 @@ components:
           description: The unique identifier of the deployment.
         display_name:
           type: string
-          description: The display name of the deployment.
+          description: The display name of the deployment. Returned only with the response from `/v1/deployments` endpoint.
         display_version:
           type: string
           description: The display version of the deployment.
@@ -7048,7 +7526,7 @@ components:
           type: array
           items:
             type: string
-          description: A list of interface types supported by the deployment.
+          description: Interface types supported by the deployment. Returned only with the response from `/v1/deployments` endpoint.
     DeploymentWithFeatures:
       type: object
       properties:
@@ -7079,7 +7557,7 @@ components:
                   type: string
                   description: The scale type. Only the `standard` type is currently supported.
         - $ref: '#/components/schemas/DeploymentWithFeatures'
-    Model:
+    ModelOpenAi:
       allOf:
         - $ref: '#/components/schemas/DeploymentBase'
         - type: object
@@ -7106,7 +7584,7 @@ components:
             pricing:
               $ref: '#/components/schemas/ModelPricing'
         - $ref: '#/components/schemas/DeploymentWithFeatures'
-    Application:
+    ApplicationOpenAi:
       allOf:
         - $ref: '#/components/schemas/DeploymentBase'
         - type: object
@@ -7126,7 +7604,6 @@ components:
             application_properties:
               type: object
               description: Custom application properties.
-              additionalProperties: true
             application_type_schema_id:
               type: string
               format: uri
@@ -7289,6 +7766,9 @@ components:
             toolset:
               type: string
               description: DIAL toolset name.
+            interfaces:
+              type: string
+              description: Interfaces supported by the toolset. Default value `mcp`. Returned only with the response from `/v1/deployments` endpoint.
             icon_url:
               type: string
               description: The path for the location of the icon applied to the toolset on UI.
@@ -8005,7 +8485,6 @@ components:
       properties:
         state:
           type: object
-          additionalProperties: true
           description: The internal state of the Assistant. This field can have an arbitrary set of fields with an arbitrary structure.
         attachments:
           type: array
@@ -8017,7 +8496,6 @@ components:
           description: |-
             The JSON schema describing a form that the assistant prompts the user to fill in.
             Given this schema, the user is expected to provide a JSON value in the next message in the `custom_content.form_value` field.
-          additionalProperties: true
     ChatCompletionRequestUserMessageCustomContent:
       type: object
       description: The custom content of the user message.
@@ -8030,7 +8508,6 @@ components:
         form_value:
           type: object
           description: The JSON value corresponding to the JSON schema sent by the assistant in the previous message in the `custom_content.form_schema` field.
-          additionalProperties: true
     ChatCompletionRequestCustomFields:
       type: object
       description: DIAL-specific extensions of the Chat Completions message.
@@ -8097,7 +8574,6 @@ components:
     ResponseFormatJsonSchemaSchema:
       type: object
       description: The schema for the response format, described as a JSON Schema object.
-      additionalProperties: true
     ResponseFormatJsonSchema:
       type: object
       properties:
@@ -8134,7 +8610,6 @@ components:
       properties:
         configuration:
           type: object
-          additionalProperties: true
           description: |-
             The object that represents configuration of the deployment.
             The schema of the object is specific for each deployment and provided by the endpoint
@@ -8167,7 +8642,6 @@ components:
           description: The intermediate stages that the Assistant went through to generate the response.
         state:
           type: object
-          additionalProperties: true
           description: The internal state of the Assistant. This field can have an arbitrary set of fields with an arbitrary structure. In case of a streaming, the state is published fully in one chunk.
     RequestAttachment:
       type: object
@@ -8696,6 +9170,7 @@ components:
         rules:
           type: object
           description: Map of rules to restrict access to the published resource, where a key is a path to target folder and a value is a list of rules
+          additionalProperties: true
           properties:
             key:
               type: string
@@ -8721,7 +9196,6 @@ components:
                       - EQUAL
                       - CONTAIN
                       - REGEX
-          additionalProperties: true
     ChatCompletionResponseStatistics:
       type: object
       description: The Assistant work statistics.
@@ -8951,6 +9425,82 @@ components:
         - name
         - folderId
         - content
+    JsonRpcRequest:
+      type: object
+      required:
+        - jsonrpc
+        - method
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+            - '2.0'
+          description: JSON-RPC protocol version
+        method:
+          type: string
+          description: Name of the method to be invoked.
+        params:
+          description: |
+            Parameter values for the RPC call. Can be: `array` (by-position parameters) OR `object` (by-name parameters).
+          oneOf:
+            - type: array
+              items: {}
+            - type: object
+        id:
+          description: |
+            Identifier established by the client. Must be included in the
+            response if present. If omitted, it's a notification.
+          oneOf:
+            - type: string
+            - type: integer
+    JsonRpcResponse:
+      type: object
+      required:
+        - jsonrpc
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+            - '2.0'
+          description: JSON-RPC protocol version
+        result:
+          description: |
+            The successful result of the RPC call. Must not be included
+            if `error` is present.
+        error:
+          description: |
+            Error object in case of failure. Must not be included
+            if `result` is present.
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: integer
+              description: Error code.
+            message:
+              type: string
+              description: Error message.
+            data:
+              description: Additional error information
+        id:
+          description: |
+            Same `id` as in the request. `Null` for certain errors where the
+            request `id` cannot be determined.
+          oneOf:
+            - type: string
+            - type: integer
+    Deployments:
+      type: object
+      properties:
+        deployments:
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/ModelOpenAi'
+              - $ref: '#/components/schemas/ApplicationOpenAi'
+              - $ref: '#/components/schemas/ToolsetOpenAi'
   examples:
     embeddings_single_text:
       value:

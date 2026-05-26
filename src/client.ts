@@ -29,6 +29,10 @@ export interface DIAL_SDK {
   approvePublication: (
     init: SDKOperationInit<operations['approvePublication']>,
   ) => Promise<SDKOperationResponse<operations['approvePublication']>>;
+  callMcp: (
+    deployment_id: string,
+    init: SDKOperationInit<operations['callMcp']>,
+  ) => Promise<SDKOperationResponse<operations['callMcp']>>;
   callToolSet: (
     toolset_name: string,
     init: SDKOperationInit<operations['callToolSet']>,
@@ -103,6 +107,14 @@ export interface DIAL_SDK {
   executeCode: (
     init: SDKOperationInit<operations['executeCode']>,
   ) => Promise<SDKOperationResponse<operations['executeCode']>>;
+  getAllToolSetAllowedTools: (
+    toolset_id: string,
+    init?: SDKOperationInit<operations['getAllToolSetAllowedTools']>,
+  ) => Promise<SDKOperationResponse<operations['getAllToolSetAllowedTools']>>;
+  getAllToolSetTools: (
+    toolset_id: string,
+    init?: SDKOperationInit<operations['getAllToolSetTools']>,
+  ) => Promise<SDKOperationResponse<operations['getAllToolSetTools']>>;
   getApplication: (
     application_name: string,
     init?: SDKOperationInit<operations['getApplication']>,
@@ -152,6 +164,11 @@ export interface DIAL_SDK {
   getDeployments: (
     init?: SDKOperationInit<operations['getDeployments']>,
   ) => Promise<SDKOperationResponse<operations['getDeployments']>>;
+  getDeploymentsByInterfaceType: (
+    init?: SDKOperationInit<operations['getDeploymentsByInterfaceType']>,
+  ) => Promise<
+    SDKOperationResponse<operations['getDeploymentsByInterfaceType']>
+  >;
   getFileMetadata: (
     bucket: string,
     path: string,
@@ -230,6 +247,9 @@ export interface DIAL_SDK {
   grantPerRequestPermissions: (
     init: SDKOperationInit<operations['grantPerRequestPermissions']>,
   ) => Promise<SDKOperationResponse<operations['grantPerRequestPermissions']>>;
+  interactWithClientChannel: (
+    init: SDKOperationInit<operations['interactWithClientChannel']>,
+  ) => Promise<SDKOperationResponse<operations['interactWithClientChannel']>>;
   listCustomApplicationSchemas: (
     init?: SDKOperationInit<operations['listCustomApplicationSchemas']>,
   ) => Promise<
@@ -259,6 +279,11 @@ export interface DIAL_SDK {
   reloadConfig: (
     init?: SDKOperationInit<operations['reloadConfig']>,
   ) => Promise<SDKOperationResponse<operations['reloadConfig']>>;
+  reportResponseToClientChannel: (
+    init: SDKOperationInit<operations['reportResponseToClientChannel']>,
+  ) => Promise<
+    SDKOperationResponse<operations['reportResponseToClientChannel']>
+  >;
   requestUserConsent: (
     deployment_id: string,
     init?: SDKOperationInit<operations['requestUserConsent']>,
@@ -300,6 +325,9 @@ export interface DIAL_SDK {
   shareResource: (
     init: SDKOperationInit<operations['shareResource']>,
   ) => Promise<SDKOperationResponse<operations['shareResource']>>;
+  subscribeOnClientChannel: (
+    init?: SDKOperationInit<operations['subscribeOnClientChannel']>,
+  ) => Promise<SDKOperationResponse<operations['subscribeOnClientChannel']>>;
   subscribeToResources: (
     init: SDKOperationInit<operations['subscribeToResources']>,
   ) => Promise<SDKOperationResponse<operations['subscribeToResources']>>;
@@ -318,6 +346,9 @@ export interface DIAL_SDK {
   undeployApplication: (
     init: SDKOperationInit<operations['undeployApplication']>,
   ) => Promise<SDKOperationResponse<operations['undeployApplication']>>;
+  unsubscribeOnClientChannel: (
+    init: SDKOperationInit<operations['unsubscribeOnClientChannel']>,
+  ) => Promise<SDKOperationResponse<operations['unsubscribeOnClientChannel']>>;
   updatePublication: (
     init?: SDKOperationInit<operations['updatePublication']>,
   ) => Promise<SDKOperationResponse<operations['updatePublication']>>;
@@ -351,6 +382,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     approvePublication: (init?: any) =>
       client.POST(apiPaths.approvePublicationUrl, init) as Promise<
         SDKOperationResponse<operations['approvePublication']>
+      >,
+    callMcp: (deployment_id: string, init?: any) =>
+      client.POST(apiPaths.callMcpUrl(deployment_id) as any, init) as Promise<
+        SDKOperationResponse<operations['callMcp']>
       >,
     callToolSet: (toolset_name: string, init?: any) =>
       client.POST(
@@ -445,6 +480,18 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.executeCodeUrl, init) as Promise<
         SDKOperationResponse<operations['executeCode']>
       >,
+    getAllToolSetAllowedTools: (toolset_id: string, init?: any) =>
+      client.GET(
+        apiPaths.getAllToolSetAllowedToolsUrl(toolset_id) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['getAllToolSetAllowedTools']>
+      >,
+    getAllToolSetTools: (toolset_id: string, init?: any) =>
+      client.GET(
+        apiPaths.getAllToolSetToolsUrl(toolset_id) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getAllToolSetTools']>>,
     getApplication: (application_name: string, init?: any) =>
       client.GET(
         apiPaths.getApplicationUrl(application_name) as any,
@@ -504,6 +551,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     getDeployments: (init?: any) =>
       client.GET(apiPaths.getDeploymentsUrl, init) as Promise<
         SDKOperationResponse<operations['getDeployments']>
+      >,
+    getDeploymentsByInterfaceType: (init?: any) =>
+      client.GET(apiPaths.getDeploymentsByInterfaceTypeUrl, init) as Promise<
+        SDKOperationResponse<operations['getDeploymentsByInterfaceType']>
       >,
     getFileMetadata: (bucket: string, path: string, init?: any) =>
       client.GET(
@@ -599,6 +650,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.grantPerRequestPermissionsUrl, init) as Promise<
         SDKOperationResponse<operations['grantPerRequestPermissions']>
       >,
+    interactWithClientChannel: (init?: any) =>
+      client.POST(apiPaths.interactWithClientChannelUrl, init) as Promise<
+        SDKOperationResponse<operations['interactWithClientChannel']>
+      >,
     listCustomApplicationSchemas: (init?: any) =>
       client.GET(apiPaths.listCustomApplicationSchemasUrl, init) as Promise<
         SDKOperationResponse<operations['listCustomApplicationSchemas']>
@@ -631,6 +686,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     reloadConfig: (init?: any) =>
       client.POST(apiPaths.reloadConfigUrl, init) as Promise<
         SDKOperationResponse<operations['reloadConfig']>
+      >,
+    reportResponseToClientChannel: (init?: any) =>
+      client.POST(apiPaths.reportResponseToClientChannelUrl, init) as Promise<
+        SDKOperationResponse<operations['reportResponseToClientChannel']>
       >,
     requestUserConsent: (deployment_id: string, init?: any) =>
       client.GET(
@@ -685,6 +744,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.shareResourceUrl, init) as Promise<
         SDKOperationResponse<operations['shareResource']>
       >,
+    subscribeOnClientChannel: (init?: any) =>
+      client.POST(apiPaths.subscribeOnClientChannelUrl, init) as Promise<
+        SDKOperationResponse<operations['subscribeOnClientChannel']>
+      >,
     subscribeToResources: (init?: any) =>
       client.POST(apiPaths.subscribeToResourcesUrl, init) as Promise<
         SDKOperationResponse<operations['subscribeToResources']>
@@ -708,6 +771,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     undeployApplication: (init?: any) =>
       client.POST(apiPaths.undeployApplicationUrl, init) as Promise<
         SDKOperationResponse<operations['undeployApplication']>
+      >,
+    unsubscribeOnClientChannel: (init?: any) =>
+      client.POST(apiPaths.unsubscribeOnClientChannelUrl, init) as Promise<
+        SDKOperationResponse<operations['unsubscribeOnClientChannel']>
       >,
     updatePublication: (init?: any) =>
       client.POST(apiPaths.updatePublicationUrl, init) as Promise<
