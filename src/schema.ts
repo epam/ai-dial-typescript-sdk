@@ -4,7122 +4,7713 @@
  */
 
 export interface paths {
-    "/openai/deployments/{deployment_name}/chat/completions": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /openai/deployments/{deployment_name}/chat/completions
-         * @description This API is based on the OpenAI Azure API and extended to support working with advanced DIAL agents and applications.
-         */
-        post: operations["sendChatCompletionRequest"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/deployments/{deployment_name}/configuration": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/deployments/{deployment_name}/configuration
-         * @description The endpoint provides JSON schema of the configuration supported by the chat completion deployment.
-         *
-         *     If the deployment supports configuration, it's expected to be passed via `custom_fields.configuration` field in the chat completion request.
-         *     <br><br>
-         *     A deployment supports configuration if its listing, retrieved by `GET /openai/deployments/{deployment_name}`, has a field `features.configuration` set to `true`.
-         */
-        get: operations["configurationDeployment"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/openai/deployments/{deployment_name}/embeddings": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /openai/deployments/{deployment_name}/embeddings
-         * @description Call this endpoint to get a vector representation of a given input.
-         */
-        post: operations["sendEmbeddingsRequest"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/{deployment_name}/rate": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/{deployment_name}/rate
-         * @description Call this endpoint to rate the response received from the chat completions endpoint.
-         */
-        post: operations["rateDeployment"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/user/info": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/user/info
-         * @description Call this endpoint to retrieve information about a user. To access the endpoint, a user must be authenticated with API key or access token.
-         */
-        get: operations["getUserInfo"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/toolset/{toolset_name}/mcp": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/toolset/{toolset_name}/mcp
-         * @description This endpoint implements MCP-based communication using [HTTP transport](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#streamable-http).
-         */
-        post: operations["callToolSet"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/application/deploy": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/application/deploy
-         * @description Call this endpoint to deploy an application.
-         */
-        post: operations["deployApplication"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/application/undeploy": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/application/undeploy
-         * @description Call this endpoint to undeploy an application. After undeploying, the application will no longer be accessible until it is [deployed](#tag/Applications/operation/deployApplication) again. Use [redeploy](#tag/Applications/operation/redeployApplication) to apply changes without downtime.
-         */
-        post: operations["undeployApplication"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/application/redeploy": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/application/redeploy
-         * @description Call this endpoint to redeploy an application. This is useful when you want to apply changes made to the application without downtime, contrary to the [undeploy](#tag/Applications/operation/undeployApplication) and deploy process.
-         */
-        post: operations["redeployApplication"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/application/logs": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/application/logs
-         * @description Call this endpoint to get application logs
-         */
-        post: operations["getApplicationLogs"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/application_type_schemas/schemas": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/application_type_schemas/schemas
-         * @description Call this endpoint to get a list of available application types schemas. Refer to [/v1/application_type_schemas/schema](/dial_api#tag/Applications/operation/getCustomApplicationSchema) to see a real example of Quick app schema.
-         */
-        get: operations["listCustomApplicationSchemas"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/application_type_schemas/meta_schema": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/application_type_schemas/meta_schema
-         * @description Call this endpoint to get metaschema of custom application schema.
-         */
-        get: operations["getMetaSchemaOfCustomApplicationSchema"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/application_type_schemas/schema": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/application_type_schemas/schema
-         * @description Call this endpoint to get the application type schema by its id
-         */
-        get: operations["getCustomApplicationSchema"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/applications/{Bucket}/{application_path}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/applications/{Bucket}/{application_path}
-         * @description Call this endpoint to get the application structure described in JSON format.
-         */
-        get: operations["getCustomApplication"];
-        /**
-         * /v1/applications/{Bucket}/{application_path}
-         * @description Call this endpoint to add an application to the specified bucket and path. **Note**, that requests differ for apps with and without schemas. See the details in the REQUEST BODY SCHEMA section. Refer to [Documentation](https://docs.dialx.ai/platform/core/apps) to learn more about applications in DIAL.
-         */
-        put: operations["saveCustomApplication"];
-        post?: never;
-        /**
-         * /v1/applications/{Bucket}/{application_path}
-         * @description Call this endpoint to delete the application.
-         */
-        delete: operations["deleteCustomApplication"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/metadata/applications/{Bucket}/{Path}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/metadata/applications/{Bucket}/{Path}
-         * @description Call this endpoint to get metadata for a folder or an item.
-         *     If the path is a folder, it must end with a "/".
-         *     If it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.
-         */
-        get: operations["getApplicationMetadata"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/bucket": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/bucket
-         * @description Call this endpoint to get a bucket.
-         */
-        get: operations["getUserBucket"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/files/{Bucket}/{file_path}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/files/{Bucket}/{file_path}
-         * @description Call this endpoint to get a file content.
-         */
-        get: operations["downloadFile"];
-        /**
-         * /v1/files/{Bucket}/{file_path}
-         * @description Call this endpoint to upload a file to the specified bucket and path.
-         */
-        put: operations["uploadFile"];
-        post?: never;
-        /**
-         * /v1/files/{Bucket}/{file_path}
-         * @description Call this endpoint to delete the file.
-         */
-        delete: operations["deleteFile"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/metadata/files/{Bucket}/{Path}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/metadata/files/{Bucket}/{Path}
-         * @description Call this endpoint to retrieve metadata for a file or folder at the specified path.
-         *     If the path is a folder, it must end with a "/".
-         *     If it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.
-         */
-        get: operations["getFileMetadata"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/resource/move": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/resource/move
-         * @description Moves the source resource to the destination.
-         */
-        post: operations["moveResource"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/resource/copy": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/resource/copy
-         * @description Copies the source resource to the destination.
-         */
-        post: operations["copyResource"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/conversations/{Bucket}/{conversation_path}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/conversations/{Bucket}/{conversation_path}
-         * @description Call this endpoint to get the conversation.
-         */
-        get: operations["getConversation"];
-        /**
-         * /v1/conversations/{Bucket}/{conversation_path}
-         * @description Call this endpoint to add a conversation to the specified bucket and path.
-         */
-        put: operations["saveConversation"];
-        post?: never;
-        /**
-         * /v1/conversations/{Bucket}/{conversation_path}
-         * @description Call this endpoint to delete the conversation.
-         */
-        delete: operations["deleteConversation"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/metadata/conversations/{Bucket}/{Path}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/metadata/conversations/{Bucket}/{Path}
-         * @description Call this endpoint to get metadata for a folder or an item.
-         *     If the path is a folder, it must end with a "/".
-         *     If it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.
-         */
-        get: operations["getConversationMetadata"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/prompts/{Bucket}/{prompt_path}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/prompts/{Bucket}/{prompt_path}
-         * @description Call this endpoint to get the prompt.
-         */
-        get: operations["getPrompt"];
-        /**
-         * /v1/prompts/{Bucket}/{prompt_path}
-         * @description Call this endpoint to add a prompt to the specified bucket and path.
-         */
-        put: operations["savePrompt"];
-        post?: never;
-        /**
-         * /v1/prompts/{Bucket}/{prompt_path}
-         * @description Call this endpoint to delete the prompt.
-         */
-        delete: operations["deletePrompt"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/metadata/prompts/{Bucket}/{Path}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/metadata/prompts/{Bucket}/{Path}
-         * @description Call this endpoint to get metadata for a folder or an item.
-         *     If the path is a folder, it must end with a "/".
-         *     If it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.
-         */
-        get: operations["getPromptMetadata"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/toolsets/{Bucket}/{toolset_path}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/toolsets/{Bucket}/{toolset_path}
-         * @description Call this endpoint to retrieve a specific toolset.
-         */
-        get: operations["getCustomToolSet"];
-        /**
-         * /v1/toolsets/{Bucket}/{toolset_path}
-         * @description Call this endpoint to add a toolset to the specified bucket and path or update the existing toolset.
-         */
-        put: operations["saveToolSet"];
-        post?: never;
-        /**
-         * /v1/toolsets/{Bucket}/{toolset_path}
-         * @description Call this endpoint to delete a toolset from the specified path.
-         */
-        delete: operations["deleteToolSet"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/toolset/signin": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/toolset/signin
-         * @description Authenticates a user with a specified Toolset using OAUTH or API_KEY.
-         */
-        post: operations["toolsetSignin"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/toolset/signout": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/toolset/signout
-         * @description Logs the user out from the Toolset by removing the associated credentials.
-         */
-        post: operations["toolSetSignout"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/metadata/toolsets/{Bucket}/{Path}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/metadata/toolsets/{Bucket}/{Path}
-         * @description Call this endpoint to get metadata for a toolset folder or item.<br />
-         *     If the path is a folder, it must end with a "/".
-         *     If it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.
-         */
-        get: operations["getToolSetMetadata"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/publication/list": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/publication/list
-         * @description Call this endpoint to get a list of publication requests. For admins, it is a list of all publication requests that are `PENDING` for review (approve or reject). For users, it is a list of all publication requests created by a particular user. Refer to documentation to learn more about working with publications for [users](https://docs.dialx.ai/platform/collaboration-intro#publication) and [admins](https://docs.dialx.ai/platform/admin-panel/approvals-prompt-publications).
-         */
-        post: operations["getPublications"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/publication/get": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/publication/get
-         * @description Call this endpoint to get a specific publication request.
-         */
-        post: operations["getPublication"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/publication/create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/publication/create
-         * @description Call this endpoint to create a publish or unpublish request.
-         */
-        post: operations["createPublication"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/publication/update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/publication/update
-         * @description Call this endpoint to update a publish request. Available for admins.
-         */
-        post: operations["updatePublication"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/publication/delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/publication/delete
-         * @description Call this endpoint to delete the publication request. Only requests that are in the `PENDING` status can be deleted.
-         */
-        post: operations["deletePublication"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/publication/reject": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/publication/reject
-         * @description Admins only! <br> Call this endpoint to reject the publication request.
-         */
-        post: operations["rejectPublication"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/publication/approve": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/publication/approve
-         * @description Admins only! <br> Call this endpoint to approve the publication request.
-         */
-        post: operations["approvePublication"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/publication/rule/list": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/publication/rule/list
-         * @description Call this endpoint to get a list of rules for publications.
-         */
-        post: operations["getPublicationRules"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/resource/per-request-permissions/grant": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/resource/per-request-permissions/grant
-         * @description Call this endpoint to share resources between deployments (toolsets and applications).
-         *
-         *     **Important**: This request can be authorized only with a [per-request API](https://docs.dialx.ai/platform/core/per-request-keys) key issued by DIAL Core for the deployment sending the request.
-         *
-         *     Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/sharing) for more details on how to share resources between deployments.
-         */
-        post: operations["grantPerRequestPermissions"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/resource/per-request-permissions/revoke": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/resource/per-request-permissions/revoke
-         * @description Call this endpoint to revoke access to a shared resources between deployments (toolsets and applications).
-         *
-         *     **Important**: This request can be authorized only with a [per-request API](https://docs.dialx.ai/platform/core/per-request-keys) key issued by DIAL Core for the deployment sending the request.
-         *
-         *     Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/sharing) for more details on how to share resources between deployments.
-         */
-        post: operations["revokePerRequestPermissions"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/resource/per-request-permissions/list": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/resource/per-request-permissions/list
-         * @description Call this endpoint to get a list of shared resources by or with a specific deployment (toolset and application).
-         *
-         *     **Important**: This request can be authorized only with a [per-request API](https://docs.dialx.ai/platform/core/per-request-keys) key issued by DIAL Core for the deployment sending the request.
-         *
-         *     Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/sharing) for more details on how to share resources between deployments.
-         */
-        post: operations["getPerRequestPermissions"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/resource/share/create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/resource/share/create
-         * @description Call this endpoint to share and re-share resources. Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/sharing) for more details on how to share resources.
-         */
-        post: operations["shareResource"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/resource/share/list": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/resource/share/list
-         * @description Call this endpoint to get the list of shared resources. Returns only resources that were accepted.
-         */
-        post: operations["getSharedResources"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/resource/share/revoke": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/resource/share/revoke
-         * @description Call this endpoint to revoke shared access from all users.
-         */
-        post: operations["revokeSharedResources"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/resource/share/discard": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/resource/share/discard
-         * @description Call this endpoint to discard the resource shared with you.
-         */
-        post: operations["discardSharedResources"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/resource/share/copy": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/resource/share/copy
-         * @description Call this endpoint to share the *destination* resource with users who have access to the *source* resource. Note, user's permissions will be copied from a source to a destination.
-         */
-        post: operations["copySharedResources"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/invitations": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/invitations
-         * @description Call this endpoint to get the list of your active invitations.
-         */
-        get: operations["getInvitations"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/invitations/{invitation_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/invitations/{invitation_id}
-         * @description Call this endpoint to get the invitation details or accept the invitation.
-         */
-        get: operations["getInvitation"];
-        put?: never;
-        post?: never;
-        /**
-         * /v1/invitations/{invitation_id}
-         * @description Call this endpoint to revoke the invitation.
-         */
-        delete: operations["deleteInvitation"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/notification/list": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/notification/list
-         * @description Call this endpoint to get a list of notifications. Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/notifications#notification-api) for more details on how to work with notifications.
-         */
-        post: operations["getNotifications"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/notification/delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/notification/delete
-         * @description Call this endpoint to delete one or more than one notification.
-         */
-        post: operations["deleteNotifications"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/resource/subscribe": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/resource/subscribe
-         * @description Use this endpoint to subscribe to resource updates. Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/notifications#subscribe-api) for more details on how to work with subscriptions.
-         */
-        post: operations["subscribeToResources"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/code_interpreter/open_session": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/code_interpreter/open_session
-         * @description Call this endpoint to open session for code interpreter application
-         */
-        post: operations["openSession"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/code_interpreter/close_session": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/code_interpreter/close_session
-         * @description Call this endpoint to close session for code interpreter application
-         */
-        post: operations["closeSession"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/code_interpreter/execute_code": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/code_interpreter/execute_code
-         * @description Call this endpoint to execute code by code interpreter application
-         */
-        post: operations["executeCode"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/code_interpreter/upload_file": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/code_interpreter/upload_file
-         * @description Call this endpoint to upload file to code interpreter container
-         */
-        post: operations["uploadFileToCodeInterpreter"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/code_interpreter/download_file": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/code_interpreter/download_file
-         * @description Call this endpoint to download file from code interpreter container
-         */
-        post: operations["downloadFileFromCodeInterpreter"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/code_interpreter/list_files": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/code_interpreter/list_files
-         * @description Call this endpoint to list files from code interpreter container
-         */
-        post: operations["listFilesFromCodeInterpreter"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/code_interpreter/transfer_input_file": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/code_interpreter/transfer_input_file
-         * @description Call this endpoint to transfer file from Core storage to code interpreter container
-         */
-        post: operations["transferInputFile"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/code_interpreter/transfer_output_file": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/code_interpreter/transfer_output_file
-         * @description Call this endpoint to transfer file from code interpreter container to Core storage
-         */
-        post: operations["transferOutputFile"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/code_interpreter/get_session": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/code_interpreter/get_session
-         * @description Call this endpoint to get a session description. Note, this API does not reset TTL for a session.
-         */
-        post: operations["getSession"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/openai/deployments": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /openai/deployments
-         * @description Call this endpoint to get basic details about the available deployments.
-         *     The response contains model objects (same as `/openai/models`).
-         */
-        get: operations["getDeployments"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/openai/deployments/{deployment_name}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /openai/deployments/{deployment_name}
-         * @description Call this endpoint to get information about a model by its deployment name.
-         */
-        get: operations["getDeployment"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/openai/models": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /openai/models
-         * @description Call this endpoint to get extended details about the available models.
-         */
-        get: operations["getModels"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/openai/models/{model_name}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /openai/models/{model_name}
-         * @description Call this endpoint to get an extended information about a model by its name.
-         */
-        get: operations["getModel"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/openai/applications": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /openai/applications
-         * @description Call this endpoint to get extended details about the available Applications.
-         */
-        get: operations["getApplications"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/openai/applications/{application_name}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /openai/applications/{application_name}
-         * @description Call this endpoint to get extended information about an Application by its name.
-         */
-        get: operations["getApplication"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/openai/toolsets": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /openai/toolsets
-         * @description Call this endpoint to get extended details about the available toolsets.
-         */
-        get: operations["getToolSets"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/openai/toolsets/{toolset_name}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /openai/toolsets/{toolset_name}
-         * @description Call this endpoint to get an extended information about a specific toolset by name
-         */
-        get: operations["getToolset"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/deployments/{deployment_name}/limits": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/deployments/{deployment_name}/limits
-         * @description Call this endpoint to get information about spent limits for a given deployment.
-         */
-        get: operations["getDeploymentLimits"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ops/config/reload": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * /v1/ops/config/reload
-         * @description Call this endpoint to reload [DIAL Core configuration](https://github.com/epam/ai-dial-core).
-         *
-         *     <b>Allowed for admin users only</b>!
-         */
-        post: operations["reloadConfig"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/consent/{deployment_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * /v1/consent/{deployment_id}
-         * @description Call this endpoint to get a user's consent for the deployment id. Refer to [DIAL documentation](https://docs.dialx.ai/tutorials/developers/apps-development/auth-matrix#dial-api) to learn more about consent forms and Auth Matrix.
-         */
-        get: operations["requestUserConsent"];
-        put?: never;
-        /**
-         * /v1/consent/{deployment_id}
-         * @description Call this endpoint to accept user's consent for the deployment id.
-         */
-        post: operations["acceptUserConsent"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
+  '/openai/deployments/{deployment_name}/chat/completions': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /openai/deployments/{deployment_name}/chat/completions
+     * @description This API is based on the OpenAI Azure API and extended to support working with advanced DIAL agents and applications.
+     */
+    post: operations['sendChatCompletionRequest'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/deployments/{deployment_name}/configuration': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/deployments/{deployment_name}/configuration
+     * @description The endpoint provides JSON schema of the configuration supported by the chat completion deployment.
+     *
+     *     If the deployment supports configuration, it's expected to be passed via `custom_fields.configuration` field in the chat completion request.
+     *     <br><br>
+     *     A deployment supports configuration if its listing, retrieved by `GET /openai/deployments/{deployment_name}`, has a field `features.configuration` set to `true`.
+     */
+    get: operations['configurationDeployment'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/openai/deployments/{deployment_name}/embeddings': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /openai/deployments/{deployment_name}/embeddings
+     * @description Call this endpoint to get a vector representation of a given input.
+     */
+    post: operations['sendEmbeddingsRequest'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/{deployment_name}/rate': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/{deployment_name}/rate
+     * @description Call this endpoint to rate the response received from the chat completions endpoint.
+     */
+    post: operations['rateDeployment'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/user/info': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/user/info
+     * @description Call this endpoint to retrieve information about a user. To access the endpoint, a user must be authenticated with API key or access token.
+     */
+    get: operations['getUserInfo'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/toolset/{toolset_name}/mcp': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/toolset/{toolset_name}/mcp
+     * @description This endpoint implements MCP-based communication using [HTTP transport](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#streamable-http).
+     */
+    post: operations['callToolSet'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/deployments/{deployment_id}/mcp': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/deployments/{deployment_id}/mcp
+     * @description This endpoint implements MCP-based communication with application deployment using [HTTP transport](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#streamable-http).
+     */
+    post: operations['callMcp'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/application/deploy': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/application/deploy
+     * @description Call this endpoint to deploy an application.
+     */
+    post: operations['deployApplication'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/application/undeploy': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/application/undeploy
+     * @description Call this endpoint to undeploy an application. After undeploying, the application will no longer be accessible until it is [deployed](#tag/Applications/operation/deployApplication) again. Use [redeploy](#tag/Applications/operation/redeployApplication) to apply changes without downtime.
+     */
+    post: operations['undeployApplication'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/application/redeploy': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/application/redeploy
+     * @description Call this endpoint to redeploy an application. This is useful when you want to apply changes made to the application without downtime, contrary to the [undeploy](#tag/Applications/operation/undeployApplication) and deploy process.
+     */
+    post: operations['redeployApplication'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/application/logs': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/application/logs
+     * @description Call this endpoint to get application logs
+     */
+    post: operations['getApplicationLogs'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/application_type_schemas/schemas': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/application_type_schemas/schemas
+     * @description Call this endpoint to get a list of available application types schemas. Refer to [/v1/application_type_schemas/schema](/dial_api#tag/Applications/operation/getCustomApplicationSchema) to see a real example of Quick app schema.
+     */
+    get: operations['listCustomApplicationSchemas'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/application_type_schemas/meta_schema': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/application_type_schemas/meta_schema
+     * @description Call this endpoint to get metaschema of custom application schema.
+     */
+    get: operations['getMetaSchemaOfCustomApplicationSchema'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/application_type_schemas/schema': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/application_type_schemas/schema
+     * @description Call this endpoint to get the application type schema by its id
+     */
+    get: operations['getCustomApplicationSchema'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/applications/{Bucket}/{application_path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/applications/{Bucket}/{application_path}
+     * @description Call this endpoint to get the application structure described in JSON format.
+     */
+    get: operations['getCustomApplication'];
+    /**
+     * /v1/applications/{Bucket}/{application_path}
+     * @description Call this endpoint to add an application to the specified bucket and path. **Note**, that requests differ for apps with and without schemas. See the details in the REQUEST BODY SCHEMA section. Refer to [Documentation](https://docs.dialx.ai/platform/core/apps) to learn more about applications in DIAL.
+     */
+    put: operations['saveCustomApplication'];
+    post?: never;
+    /**
+     * /v1/applications/{Bucket}/{application_path}
+     * @description Call this endpoint to delete the application.
+     */
+    delete: operations['deleteCustomApplication'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/metadata/applications/{Bucket}/{Path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/metadata/applications/{Bucket}/{Path}
+     * @description Call this endpoint to get metadata for a folder or an item.
+     *     If the path is a folder, it must end with a "/".
+     *     If it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.
+     */
+    get: operations['getApplicationMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/bucket': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/bucket
+     * @description Call this endpoint to get a bucket.
+     */
+    get: operations['getUserBucket'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/files/{Bucket}/{file_path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/files/{Bucket}/{file_path}
+     * @description Call this endpoint to get a file content.
+     */
+    get: operations['downloadFile'];
+    /**
+     * /v1/files/{Bucket}/{file_path}
+     * @description Call this endpoint to upload a file to the specified bucket and path.
+     */
+    put: operations['uploadFile'];
+    post?: never;
+    /**
+     * /v1/files/{Bucket}/{file_path}
+     * @description Call this endpoint to delete the file.
+     */
+    delete: operations['deleteFile'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/metadata/files/{Bucket}/{Path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/metadata/files/{Bucket}/{Path}
+     * @description Call this endpoint to retrieve metadata for a file or folder at the specified path.
+     *     If the path is a folder, it must end with a "/".
+     *     If it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.
+     */
+    get: operations['getFileMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/resource/move': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/resource/move
+     * @description Moves the source resource to the destination.
+     */
+    post: operations['moveResource'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/resource/copy': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/resource/copy
+     * @description Copies the source resource to the destination.
+     */
+    post: operations['copyResource'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/conversations/{Bucket}/{conversation_path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/conversations/{Bucket}/{conversation_path}
+     * @description Call this endpoint to get the conversation.
+     */
+    get: operations['getConversation'];
+    /**
+     * /v1/conversations/{Bucket}/{conversation_path}
+     * @description Call this endpoint to add a conversation to the specified bucket and path.
+     */
+    put: operations['saveConversation'];
+    post?: never;
+    /**
+     * /v1/conversations/{Bucket}/{conversation_path}
+     * @description Call this endpoint to delete the conversation.
+     */
+    delete: operations['deleteConversation'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/metadata/conversations/{Bucket}/{Path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/metadata/conversations/{Bucket}/{Path}
+     * @description Call this endpoint to get metadata for a folder or an item.
+     *     If the path is a folder, it must end with a "/".
+     *     If it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.
+     */
+    get: operations['getConversationMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/prompts/{Bucket}/{prompt_path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/prompts/{Bucket}/{prompt_path}
+     * @description Call this endpoint to get the prompt.
+     */
+    get: operations['getPrompt'];
+    /**
+     * /v1/prompts/{Bucket}/{prompt_path}
+     * @description Call this endpoint to add a prompt to the specified bucket and path.
+     */
+    put: operations['savePrompt'];
+    post?: never;
+    /**
+     * /v1/prompts/{Bucket}/{prompt_path}
+     * @description Call this endpoint to delete the prompt.
+     */
+    delete: operations['deletePrompt'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/metadata/prompts/{Bucket}/{Path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/metadata/prompts/{Bucket}/{Path}
+     * @description Call this endpoint to get metadata for a folder or an item.
+     *     If the path is a folder, it must end with a "/".
+     *     If it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.
+     */
+    get: operations['getPromptMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/toolsets/{Bucket}/{toolset_path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/toolsets/{Bucket}/{toolset_path}
+     * @description Call this endpoint to retrieve a specific toolset.
+     */
+    get: operations['getCustomToolSet'];
+    /**
+     * /v1/toolsets/{Bucket}/{toolset_path}
+     * @description Call this endpoint to add a toolset to the specified bucket and path or update the existing toolset.
+     */
+    put: operations['saveToolSet'];
+    post?: never;
+    /**
+     * /v1/toolsets/{Bucket}/{toolset_path}
+     * @description Call this endpoint to delete a toolset from the specified path.
+     */
+    delete: operations['deleteToolSet'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/toolset/{toolset_id}/tools': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/toolset/{toolset_id}/tools
+     * @description Call this endpoint to retrieve all tools supported by a specific MCP server. Available to admins and toolset owners. Used during toolset configuration to select allowed tools.
+     */
+    get: operations['getAllToolSetTools'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/toolset/{toolset_id}/allowed-tools': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/toolset/{toolset_id}/allowed-tools
+     * @description Call this endpoint to retrieve a filtered list of all allowed tools for a specific MCP server.
+     */
+    get: operations['getAllToolSetAllowedTools'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/toolset/signin': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/toolset/signin
+     * @description Authenticates a user with a specified Toolset using OAUTH or API_KEY.
+     */
+    post: operations['toolsetSignin'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/toolset/signout': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/toolset/signout
+     * @description Logs the user out from the Toolset by removing the associated credentials.
+     */
+    post: operations['toolSetSignout'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/metadata/toolsets/{Bucket}/{Path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/metadata/toolsets/{Bucket}/{Path}
+     * @description Call this endpoint to get metadata for a toolset folder or item.<br />
+     *     If the path is a folder, it must end with a "/".
+     *     If it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.
+     */
+    get: operations['getToolSetMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/publication/list': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/publication/list
+     * @description Call this endpoint to get a list of publication requests. For admins, it is a list of all publication requests that are `PENDING` for review (approve or reject). For users, it is a list of all publication requests created by a particular user. Refer to documentation to learn more about working with publications for [users](https://docs.dialx.ai/platform/collaboration-intro#publication) and [admins](https://docs.dialx.ai/platform/admin-panel/approvals-prompt-publications).
+     */
+    post: operations['getPublications'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/publication/get': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/publication/get
+     * @description Call this endpoint to get a specific publication request.
+     */
+    post: operations['getPublication'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/publication/create': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/publication/create
+     * @description Call this endpoint to create a publish or unpublish request.
+     */
+    post: operations['createPublication'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/publication/update': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/publication/update
+     * @description Call this endpoint to update a publish request. Available for admins.
+     */
+    post: operations['updatePublication'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/publication/delete': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/publication/delete
+     * @description Call this endpoint to delete the publication request. Only requests that are in the `PENDING` status can be deleted.
+     */
+    post: operations['deletePublication'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/publication/reject': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/publication/reject
+     * @description Admins only! <br> Call this endpoint to reject the publication request.
+     */
+    post: operations['rejectPublication'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/publication/approve': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/publication/approve
+     * @description Admins only! <br> Call this endpoint to approve the publication request.
+     */
+    post: operations['approvePublication'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/publication/rule/list': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/publication/rule/list
+     * @description Call this endpoint to get a list of rules for publications.
+     */
+    post: operations['getPublicationRules'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/resource/per-request-permissions/grant': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/resource/per-request-permissions/grant
+     * @description Call this endpoint to share resources between deployments (toolsets and applications).
+     *
+     *     **Important**: This request can be authorized only with a [per-request API](https://docs.dialx.ai/platform/core/per-request-keys) key issued by DIAL Core for the deployment sending the request.
+     *
+     *     Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/sharing) for more details on how to share resources between deployments.
+     */
+    post: operations['grantPerRequestPermissions'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/resource/per-request-permissions/revoke': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/resource/per-request-permissions/revoke
+     * @description Call this endpoint to revoke access to a shared resources between deployments (toolsets and applications).
+     *
+     *     **Important**: This request can be authorized only with a [per-request API](https://docs.dialx.ai/platform/core/per-request-keys) key issued by DIAL Core for the deployment sending the request.
+     *
+     *     Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/sharing) for more details on how to share resources between deployments.
+     */
+    post: operations['revokePerRequestPermissions'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/resource/per-request-permissions/list': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/resource/per-request-permissions/list
+     * @description Call this endpoint to get a list of shared resources by or with a specific deployment (toolset and application).
+     *
+     *     **Important**: This request can be authorized only with a [per-request API](https://docs.dialx.ai/platform/core/per-request-keys) key issued by DIAL Core for the deployment sending the request.
+     *
+     *     Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/sharing) for more details on how to share resources between deployments.
+     */
+    post: operations['getPerRequestPermissions'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/resource/share/create': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/resource/share/create
+     * @description Call this endpoint to share and re-share resources. Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/sharing) for more details on how to share resources.
+     */
+    post: operations['shareResource'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/resource/share/list': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/resource/share/list
+     * @description Call this endpoint to get the list of shared resources. Returns only resources that were accepted.
+     */
+    post: operations['getSharedResources'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/resource/share/revoke': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/resource/share/revoke
+     * @description Call this endpoint to revoke shared access from all users.
+     */
+    post: operations['revokeSharedResources'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/resource/share/discard': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/resource/share/discard
+     * @description Call this endpoint to discard the resource shared with you.
+     */
+    post: operations['discardSharedResources'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/resource/share/copy': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/resource/share/copy
+     * @description Call this endpoint to share the *destination* resource with users who have access to the *source* resource. Note, user's permissions will be copied from a source to a destination.
+     */
+    post: operations['copySharedResources'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/invitations': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/invitations
+     * @description Call this endpoint to get the list of your active invitations.
+     */
+    get: operations['getInvitations'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/invitations/{invitation_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/invitations/{invitation_id}
+     * @description Call this endpoint to get the invitation details or accept the invitation.
+     */
+    get: operations['getInvitation'];
+    put?: never;
+    post?: never;
+    /**
+     * /v1/invitations/{invitation_id}
+     * @description Call this endpoint to revoke the invitation.
+     */
+    delete: operations['deleteInvitation'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/notification/list': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/notification/list
+     * @description Call this endpoint to get a list of notifications. Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/notifications#notification-api) for more details on how to work with notifications.
+     */
+    post: operations['getNotifications'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/notification/delete': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/notification/delete
+     * @description Call this endpoint to delete one or more than one notification.
+     */
+    post: operations['deleteNotifications'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/resource/subscribe': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/resource/subscribe
+     * @description Use this endpoint to subscribe to resource updates. Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/notifications#subscribe-api) for more details on how to work with subscriptions.
+     */
+    post: operations['subscribeToResources'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/code_interpreter/open_session': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/code_interpreter/open_session
+     * @description Call this endpoint to open session for code interpreter application
+     */
+    post: operations['openSession'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/code_interpreter/close_session': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/code_interpreter/close_session
+     * @description Call this endpoint to close session for code interpreter application
+     */
+    post: operations['closeSession'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/code_interpreter/execute_code': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/code_interpreter/execute_code
+     * @description Call this endpoint to execute code by code interpreter application
+     */
+    post: operations['executeCode'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/code_interpreter/upload_file': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/code_interpreter/upload_file
+     * @description Call this endpoint to upload file to code interpreter container
+     */
+    post: operations['uploadFileToCodeInterpreter'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/code_interpreter/download_file': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/code_interpreter/download_file
+     * @description Call this endpoint to download file from code interpreter container
+     */
+    post: operations['downloadFileFromCodeInterpreter'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/code_interpreter/list_files': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/code_interpreter/list_files
+     * @description Call this endpoint to list files from code interpreter container
+     */
+    post: operations['listFilesFromCodeInterpreter'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/code_interpreter/transfer_input_file': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/code_interpreter/transfer_input_file
+     * @description Call this endpoint to transfer file from Core storage to code interpreter container
+     */
+    post: operations['transferInputFile'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/code_interpreter/transfer_output_file': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/code_interpreter/transfer_output_file
+     * @description Call this endpoint to transfer file from code interpreter container to Core storage
+     */
+    post: operations['transferOutputFile'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/code_interpreter/get_session': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/code_interpreter/get_session
+     * @description Call this endpoint to get a session description. Note, this API does not reset TTL for a session.
+     */
+    post: operations['getSession'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/deployments': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/deployments
+     * @description Call this endpoint to get basic details about the available deployments of all types (AI models, applications, toolsets) filtered by the interface type.
+     */
+    get: operations['getDeploymentsByInterfaceType'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/openai/deployments': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /openai/deployments
+     * @description Call this endpoint to get basic details about the available deployments.
+     *     The response contains model objects (same as `/openai/models`).
+     */
+    get: operations['getDeployments'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/openai/deployments/{deployment_name}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /openai/deployments/{deployment_name}
+     * @description Call this endpoint to get information about a model by its deployment name.
+     */
+    get: operations['getDeployment'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/openai/models': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /openai/models
+     * @description Call this endpoint to get extended details about the available models.
+     */
+    get: operations['getModels'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/openai/models/{model_name}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /openai/models/{model_name}
+     * @description Call this endpoint to get an extended information about a model by its name.
+     */
+    get: operations['getModel'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/openai/applications': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /openai/applications
+     * @description Call this endpoint to get extended details about the available Applications.
+     */
+    get: operations['getApplications'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/openai/applications/{application_name}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /openai/applications/{application_name}
+     * @description Call this endpoint to get extended information about an Application by its name.
+     */
+    get: operations['getApplication'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/openai/toolsets': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /openai/toolsets
+     * @description Call this endpoint to get extended details about the available toolsets.
+     */
+    get: operations['getToolSets'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/openai/toolsets/{toolset_name}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /openai/toolsets/{toolset_name}
+     * @description Call this endpoint to get an extended information about a specific toolset by name
+     */
+    get: operations['getToolset'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/deployments/{deployment_name}/limits': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/deployments/{deployment_name}/limits
+     * @description Call this endpoint to get information about spent limits for a given deployment.
+     */
+    get: operations['getDeploymentLimits'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/config/reload': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/config/reload
+     * @description Call this endpoint to reload [DIAL Core configuration](https://github.com/epam/ai-dial-core).
+     *
+     *     <b>Allowed for admin users only</b>!
+     */
+    post: operations['reloadConfig'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/consent/{deployment_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/consent/{deployment_id}
+     * @description Call this endpoint to get a user's consent for the deployment id. Refer to [DIAL documentation](https://docs.dialx.ai/tutorials/developers/apps-development/auth-matrix#dial-api) to learn more about consent forms and Auth Matrix.
+     */
+    get: operations['requestUserConsent'];
+    put?: never;
+    /**
+     * /v1/consent/{deployment_id}
+     * @description Call this endpoint to accept user's consent for the deployment id.
+     */
+    post: operations['acceptUserConsent'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/client-channel/subscribe': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/client-channel/subscribe
+     * @description **Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to get subscription on events from client channel.
+     */
+    post: operations['subscribeOnClientChannel'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/client-channel/unsubscribe': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/client-channel/unsubscribe
+     * @description **Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to remove subscription on events from client channel.
+     */
+    post: operations['unsubscribeOnClientChannel'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/client-channel/report': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/client-channel/report
+     * @description **Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to report RPC response to client channel.
+     */
+    post: operations['reportResponseToClientChannel'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/client-channel/interact': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * /v1/ops/client-channel/interact
+     * @description **Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to send RPC request to client channel and wait for RPC response.
+     */
+    post: operations['interactWithClientChannel'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: {
-        /** @description Response for reviewing user consent status. */
-        ReviewConsentResponse: {
-            consent?: components["schemas"]["Consent"];
-            /** @description Whether the user has already accepted the consent. */
-            accepted?: boolean;
+  schemas: {
+    /** @description Response for reviewing user consent status. */
+    ReviewConsentResponse: {
+      consent?: components['schemas']['Consent'];
+      /** @description Whether the user has already accepted the consent. */
+      accepted?: boolean;
+    };
+    /** @description Request body for accepting user consent. */
+    AcceptConsentRequest: {
+      consent?: components['schemas']['Consent'];
+    };
+    /** @description User consent for deployments. Keys are deployment IDs. */
+    Consent: {
+      deployments?: {
+        [key: string]: {
+          /** @description Whether the consent is required for the deployment. */
+          consentRequired?: boolean;
         };
-        /** @description Request body for accepting user consent. */
-        AcceptConsentRequest: {
-            consent?: components["schemas"]["Consent"];
+      };
+    };
+    ChatCompletionTool: {
+      /**
+       * @description The type of the tool. Currently, only `function` is supported.
+       * @enum {string}
+       */
+      type: 'function';
+      function: components['schemas']['FunctionObject'];
+      custom_fields?: components['schemas']['ToolCustomFields'];
+    };
+    ToolCustomFields: {
+      cache_breakpoint?: components['schemas']['CacheBreakpoint'];
+    };
+    /** @description A manual cache breakpoint. The part of the chat completion request up to this breakpoint will be cached by the deployment. Follow-up requests sharing the same prefix have a chance of hitting the cache and reusing the input tokens associated with this prefix. The field only makes sense for the deployments that support [prompt caching](https://docs.dialx.ai/tutorials/developers/prompt-caching). */
+    CacheBreakpoint: {
+      /**
+       * @description An optional expiration time for the given cache breakpoint, e.g. '2025-10-02T15:01:23Z'
+       * @example 2025-10-02T15:01:23Z
+       */
+      expire_at?: string;
+    };
+    FunctionObject: {
+      /** @description A description of what the `function` does, used by the model to choose when and how to call the `function`. */
+      description?: string;
+      /** @description The name of the `function` to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64. */
+      name: string;
+      parameters?: components['schemas']['FunctionParameters'];
+      /**
+       * @description Whether to enable strict schema adherence when generating the `function` call. If set to `true`, the model will follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when `strict` is `true`. Learn more about Structured Outputs in the [function calling guide](docs/guides/function-calling).
+       * @default false
+       */
+      strict: boolean | null;
+    };
+    /**
+     * @description The parameters the `function` accepts, described as a JSON Schema object. See the [guide](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+     *
+     *     Omitting `parameters` defines a `function` with an empty parameter list.
+     */
+    FunctionParameters: Record<string, never>;
+    /**
+     * @description Controls which (if any) tool is called by the model.
+     *
+     *     `none` means the model will not call any `tool` and instead generates a `message`.
+     *
+     *     `auto` means the model can pick between generating a `message` or calling one or more `tools`.
+     *     `required` means the model must call one or more `tools`.
+     *
+     *     Specifying a particular `tool` via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that `tool`.
+     *
+     *     `none` is the default when no `tools` are present.
+     *     `auto` is the default if `tools` are present.
+     */
+    ChatCompletionToolChoiceOption:
+      | ('none' | 'auto' | 'required')
+      | components['schemas']['ChatCompletionNamedToolChoice'];
+    /** @description Specifies a `tool` the model should use. Use to force the model to call a specific `function`. */
+    ChatCompletionNamedToolChoice: {
+      /**
+       * @description The type of the `tool`. Currently, only `function` is supported.
+       * @enum {string}
+       */
+      type: 'function';
+      function: {
+        /** @description The name of the `function` to call. */
+        name: string;
+      };
+    };
+    /**
+     * @description Whether to enable parallel `function` calling during the `tool` use.
+     * @default true
+     */
+    ParallelToolCalls: boolean;
+    /** @description The `tool` calls generated by the model, such as `function` calls. */
+    ChatCompletionMessageToolCalls: components['schemas']['ChatCompletionMessageToolCall'][];
+    /** @description Deprecated and replaced by `tool_calls`. The name and arguments of a `function` that should be called, as generated by the model. */
+    ChatCompletionFunctionCall: {
+      /** @description The name of the `function` to call. */
+      name: string;
+      /** @description The arguments to call the `function` with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your `function` schema. Validate the arguments in your code before calling your `function`. */
+      arguments: string;
+    };
+    ChatCompletionMessageToolCall: {
+      /** @description The ID of the `tool` call. */
+      id: string;
+      type: components['schemas']['ToolCallType'];
+      /** @description The `function` that the model called. */
+      function: {
+        /** @description The name of the `function` to call. */
+        name: string;
+        /** @description The arguments to call the `function` with, as generated by the model in JSON format. Note that the model does not always generate a valid JSON, and may hallucinate parameters not defined by your `function` schema. Validate the arguments in your code before calling your `function`. */
+        arguments: string;
+      };
+    };
+    /**
+     * @description The type of the `tool` call, in this case `function`.
+     * @enum {string}
+     */
+    ToolCallType: 'function';
+    /** @description The features supported by a deployment. */
+    DeploymentFeatures: {
+      /** @description Does the deployment support endpoint for rating a request: `POST /v1/{deployment_name}/rate`? */
+      rate: boolean;
+      /** @description Does the deployment support endpoint for MCP (Multi-Channel Processing) requests: `GET /v1/deployments/{deployment_name}/mcp`? */
+      mcp: boolean;
+      /** @description Does the deployment support endpoint for tokenization: `POST /v1/{deployment_name}/tokenize`? */
+      tokenize: boolean;
+      /** @description Does the deployment support endpoint for prompt truncation: `POST /v1/{deployment_name}/truncate_prompt`? */
+      truncate_prompt: boolean;
+      /** @description Does the deployment support endpoint that provides JSON schema for deployment configuration: `GET /v1/deployments/{deployment_name}/configuration`? */
+      configuration: boolean;
+      /** @description Does the deployment support system prompt in a chat completion request? */
+      system_prompt: boolean;
+      /** @description Does the deployment support `tools` and `functions` in chat completion request? */
+      tools: boolean;
+      /** @description Does the deployment support seed parameter in chat completion request? */
+      seed: boolean;
+      /**
+       * @description Does the deployment support URL attachments in messages of a chat completion request?
+       *     <br><br>
+       *     An example of message with URL attachment:
+       *     ```json
+       *     {
+       *       "messages": [
+       *         {
+       *           "content": "Message content",
+       *           "attachments": [
+       *             {
+       *               "title": "Title of the URL attachment",
+       *               "url": "https://en.wikipedia.org/wiki/URL"
+       *             }
+       *           ]
+       *         }
+       *       ]
+       *     }
+       *     ```
+       */
+      url_attachments: boolean;
+      /**
+       * @description Does the deployment support folder attachments in messages of a chat completion request?
+       *     A folder attachment must point to a metadata of a directory in DIAL file storage.
+       *     <br><br>
+       *     An example of a message with folder attachment:
+       *     ```json
+       *     {
+       *       "messages": [
+       *         {
+       *           "content": "Message content",
+       *           "attachments": [
+       *             {
+       *               "title": "Title of the folder attachment",
+       *               "type": "application/vnd.dial.metadata+json",
+       *               "url": "metadata/BUCKET/PATH/TO/FOLDER/"
+       *             }
+       *           ]
+       *         }
+       *       ]
+       *     }
+       *     ```
+       */
+      folder_attachments: boolean;
+      /**
+       * @description Whether the deployment supports resuming conversations. Defaults to `true`.
+       * @default true
+       */
+      allow_resume: boolean;
+      /**
+       * @description Whether the deployment is accessible by per-request API key. Defaults to `true`.
+       * @default true
+       */
+      accessible_by_per_request_key: boolean;
+      /**
+       * @description Whether the deployment supports content parts in messages. Defaults to `false`.
+       * @default false
+       */
+      content_parts: boolean;
+      /**
+       * @description Whether the deployment supports the temperature parameter. Defaults to `true`.
+       * @default true
+       */
+      temperature: boolean;
+      /**
+       * @description Whether the deployment supports LLM prompt caching (manual or automatic). Defaults to `false`.
+       * @default false
+       */
+      cache: boolean;
+      /**
+       * @description Whether the deployment supports automatic prompt caching. Defaults to `false`.
+       * @default false
+       */
+      auto_caching: boolean;
+      /**
+       * @description Whether the deployment supports parallel tool calls. Defaults to `true`.
+       * @default true
+       */
+      parallel_tool_calls: boolean;
+      /**
+       * @description Whether the deployment supports assistant attachments in the request. Defaults to `false`.
+       * @default false
+       */
+      assistant_attachments_in_request: boolean;
+    };
+    /**
+     * @description A list of [content types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types) that the deployment supports for input attachments.
+     *     <br><br>
+     *     The deployment does not support input attachments if the list is empty or the listing parameter is missing.
+     */
+    DeploymentInputAttachmentTypes: string[];
+    /**
+     * @description The maximum number of input attachments that the deployment supports.
+     *     <br><br>
+     *     When the listing parameter is missing and application does not support input attachments, the value is defaulted to `0`.
+     *     <br><br>
+     *     When the listing parameter is missing and application supports input attachments, there is no restriction on the number of attachments.
+     */
+    DeploymentMaxInputAttachments: number;
+    /**
+     * @description A dictionary providing default values for chat completion request parameters in case the parameters are missing in the request.
+     *     <br><br>
+     *     This is useful when a deployment requires specific parameters to be set, when those parameters are optional in the request schema.
+     *     <br><br>
+     *     For example the following default parameter sets the `max_tokens` parameter to `1024` when it's missing in the chat completion request:
+     *     ```json
+     *     {
+     *       "max_tokens": 1024
+     *     }
+     *     ```
+     * @example {
+     *       "max_tokens": 1024
+     *     }
+     */
+    DeploymentDefaultParameters: Record<string, never>;
+    DeploymentBase: {
+      /** @description The unique identifier of the deployment. */
+      id?: string;
+      /** @description The display name of the deployment. Returned only with the response from `/v1/deployments` endpoint. */
+      display_name?: string;
+      /** @description The display version of the deployment. */
+      display_version?: string;
+      /** @description The icon of the deployment. */
+      icon_url?: string;
+      /** @description The description of the deployment in the Markdown format. */
+      description?: string;
+      /** @description The reference identifier of the deployment. */
+      reference?: string;
+      /** @description The name of the owner for the deployment. */
+      owner?: string;
+      /** @description The status of the deployment. Always is `succeeded`. */
+      status?: string;
+      /** @description The value, in seconds since the epoch, that represents the time at which the object was created. */
+      created_at?: number;
+      /** @description The value, in seconds since the epoch, that represents the time at which the object was modified. */
+      updated_at?: number;
+      /** @description A list of keywords describing the deployment. */
+      description_keywords?: string[];
+      /** @description The maximum number of retry attempts to route a single user's request to the deployment's endpoint. */
+      max_retry_attempts?: number;
+      /** @description Interface types supported by the deployment. Returned only with the response from `/v1/deployments` endpoint. */
+      interfaces?: string[];
+    };
+    DeploymentWithFeatures: {
+      features?: components['schemas']['DeploymentFeatures'];
+      input_attachment_types?: components['schemas']['DeploymentInputAttachmentTypes'];
+      max_input_attachments?: components['schemas']['DeploymentMaxInputAttachments'];
+      defaults?: components['schemas']['DeploymentDefaultParameters'];
+    };
+    Deployment: components['schemas']['DeploymentBase'] & {
+      /** @description The deployment name. */
+      model?: string;
+      /** @description The object type. Always is `deployment`. */
+      object?: string;
+      /** @description The scale settings of the deployment. */
+      scale_settings?: {
+        /** @description The scale type. Only the `standard` type is currently supported. */
+        scale_type?: string;
+      };
+    } & components['schemas']['DeploymentWithFeatures'];
+    ModelOpenAi: components['schemas']['DeploymentBase'] & {
+      /** @description The model name. Same as the `id` field. */
+      model?: string;
+      /** @description The object type. Always is `model`. */
+      object?: string;
+      /** @description Lifecycle status. Always is `generally-available`. */
+      lifecycle_status?: string;
+      capabilities?: components['schemas']['ModelCapabilities'];
+      /**
+       * @description This parameter specifies the exact model whose tokenization algorithm matches the one used by the given model. Typically, this is the name of the first model released in a series that shares the same tokenization algorithm _(e.g., `gpt-3.5-turbo-0301`, `gpt-4-0314`, `gpt-4-1106-vision-preview`)_.
+       *     <br><br>
+       *     This parameter is useful for DIAL clients that implement tokenization algorithms on their side, rather than using the `/tokenize` endpoint provided by the model.
+       */
+      tokenizer_model?: string;
+      limits?: components['schemas']['ModelLimits'];
+      pricing?: components['schemas']['ModelPricing'];
+    } & components['schemas']['DeploymentWithFeatures'];
+    ApplicationOpenAi: components['schemas']['DeploymentBase'] & {
+      /** @description The application name. */
+      application?: string;
+      /** @description The URL of the custom app UI. */
+      viewer_url?: string;
+      /** @description The URL of the custom app builder UI. */
+      editor_url?: string;
+      /** @description The object type. Always is `application`. */
+      object?: string;
+      /** @description Custom application properties. */
+      application_properties?: Record<string, never>;
+      /**
+       * Format: uri
+       * @description The URI of the application type schema.
+       */
+      application_type_schema_id?: string;
+      function?: components['schemas']['ApplicationFunction'];
+      /** @description Custom routes for the application. */
+      routes?: {
+        [key: string]: Record<string, never>;
+      };
+      /** @description Indicates whether the application is invalid (e.g., missing required properties or schema violations). Only applicable for schema-rich applications. Null when the application is valid. */
+      readonly invalid?: boolean;
+    } & components['schemas']['DeploymentWithFeatures'];
+    /**
+     * @deprecated
+     * @description Deprecated: Assistant type has been removed from the codebase.
+     */
+    Assistant: components['schemas']['DeploymentBase'] & {
+      /** @description The assistant name. */
+      assistant?: string;
+      /** @description The object type. Always is `assistant`. */
+      object?: string;
+      /** @description The array of addons enabled by default in the assistant. */
+      addons?: string[];
+    } & components['schemas']['DeploymentWithFeatures'];
+    /**
+     * @deprecated
+     * @description Deprecated: Addon type has been removed from the codebase.
+     */
+    Addon: components['schemas']['DeploymentBase'] & {
+      /** @description The addon name. */
+      addon?: string;
+      /** @description The object type. Always is `addon`. */
+      object?: string;
+    };
+    /** @description Function deployment configuration for the application. */
+    ApplicationFunction: {
+      /** @description The function identifier. */
+      id?: string;
+      /** @description The runtime environment for the function. */
+      runtime?: string;
+      /** @description The author's bucket. */
+      author_bucket?: string;
+      /** @description The source folder for the function code. */
+      source_folder?: string;
+      /** @description The target folder for the deployed function. */
+      target_folder?: string;
+      /**
+       * @description The current deployment status of the function.
+       * @enum {string}
+       */
+      status?:
+        | 'DEPLOYING'
+        | 'UNDEPLOYING'
+        | 'DEPLOYED'
+        | 'UNDEPLOYED'
+        | 'FAILED';
+      /** @description Error message if the function deployment failed. */
+      error?: string;
+      /** @description The mapping configuration for the function. */
+      mapping?: Record<string, never>;
+      /** @description Environment variables for the function. */
+      env?: {
+        [key: string]: string;
+      };
+    };
+    /** @description Authentication settings for a resource. */
+    ResourceAuthSettings: {
+      /**
+       * @description Type of authentication.
+       * @enum {string}
+       */
+      authentication_type: 'OAUTH' | 'API_KEY' | 'NONE';
+      /** @description (OAUTH only) Client ID for OAuth flows. */
+      client_id?: string;
+      /** @description (OAUTH only) Client secret for OAuth flows. */
+      client_secret?: string;
+      /** @description (OAUTH only) Redirect URI for OAuth flows. */
+      redirect_uri?: string;
+      /** @description (OAUTH only) Authorization endpoint for OAuth. */
+      authorization_endpoint?: string;
+      /** @description (OAUTH only) Token endpoint for OAuth. */
+      token_endpoint?: string;
+      /** @description (OAUTH only) Code challenge for PKCE. */
+      readonly code_challenge?: string;
+      /** @description (OAUTH only) Code challenge method for PKCE. */
+      code_challenge_method?: string;
+      /** @description (OAUTH only) Supported OAuth scopes. */
+      scopes_supported?: string[];
+      /**
+       * @description Global credentials status.
+       * @enum {string}
+       */
+      readonly global_auth_status?: 'SIGNED_IN' | 'SIGNED_OUT';
+      /**
+       * @description Application-level credentials status.
+       * @enum {string}
+       */
+      readonly app_level_auth_status?: 'SIGNED_IN' | 'SIGNED_OUT';
+      /**
+       * @description User-level credentials status.
+       * @enum {string}
+       */
+      readonly user_level_auth_status?: 'SIGNED_IN' | 'SIGNED_OUT';
+      /** @description (API_KEY only) Header name for API key. */
+      api_key_header?: string;
+    };
+    ToolsetOpenAi: {
+      /** @description DIAL toolset id ('name' by default). */
+      id?: string;
+      /** @description DIAL toolset name. */
+      toolset?: string;
+      /** @description Interfaces supported by the toolset. Default value `mcp`. Returned only with the response from `/v1/deployments` endpoint. */
+      interfaces?: string;
+      /** @description The path for the location of the icon applied to the toolset on UI. */
+      icon_url?: string;
+      /** @description A brief description of the toolset. */
+      description?: string;
+      /** @description A display name of the toolset on the UI. */
+      display_name?: string;
+      /** @description A display version of the toolset on the UI. */
+      display_version?: string;
+      /** @description A reference id of the toolset ('name' or server-generated identifier). */
+      reference?: string;
+      /** @description A list of keywords describing the toolset, e.g. code-gen, text2image. */
+      description_keywords?: unknown[];
+      /** @description The maximum number of retry attempts to route a single user's request to the toolset's endpoint. */
+      max_retry_attempts?: number;
+      /** @description The object type. Always is `toolset`. */
+      object?: string;
+      /** @description The status of the toolset. Always is `succeeded`. */
+      status?: string;
+      /** @description A toolset's owner. */
+      owner?: string;
+      /** @description The date of the toolset creation. */
+      created_at?: number;
+      /** @description The date of the toolset last update. */
+      updated_at?: number;
+      /** @description The transport supported by a specific MCP server. Available options are `HTTP` or `SSE`. */
+      transport?: string;
+      /** @description A list of available tools in the MCP server. */
+      allowed_tools?: unknown[];
+      auth_settings?: components['schemas']['ResourceAuthSettings'];
+    } & components['schemas']['DeploymentWithFeatures'];
+    ToolSet: components['schemas']['DeploymentBase'] & {
+      /** @description The toolset name. */
+      toolset?: string;
+      /** @description The transport supported by the MCP server. Available options are `HTTP` or `SSE`. */
+      transport?: string;
+      /** @description A list of available tools in the MCP server. */
+      allowed_tools?: string[];
+      /** @description The object type. Always is `toolset`. */
+      object?: string;
+    } & components['schemas']['DeploymentWithFeatures'];
+    Toolset: {
+      /** @description DIAL Toolset's name. */
+      name?: string;
+      /** @description DIAL Toolset API for MCP calls. */
+      endpoint?: string;
+      /** @description The path for the location of the icon that applies for the DIAL toolset on UI. */
+      icon_url?: string;
+      /** @description A brief description of the toolset. */
+      description?: string;
+      /** @description A display name of the toolset on the UI. */
+      display_name?: string;
+      /** @description A display version of the toolset on the UI. */
+      display_version?: string;
+      /** @description A list of keywords describing the toolset, e.g. code-gen, text2image. */
+      description_keywords?: unknown[];
+      /** @description A reference id of the toolset ('name' or server-generated identifier). */
+      reference?: string;
+      /** @description Indicates if a per-request API key should be forwarded to an upstream call. */
+      forward_per_request_key?: boolean;
+      /** @description The maximum number of retry attempts to route a single user's request to the toolset's endpoint. */
+      max_retry_attempts?: number;
+      /** @description The toolset's developer. */
+      author?: string;
+      /** @description The date of the toolset creation. */
+      readonly created_at?: number;
+      /** @description The date of the toolset last update. */
+      readonly updated_at?: number;
+      /** @description Indicates if the authorization token should be forwarded to an upstream request. */
+      readonly forward_auth_token?: boolean;
+      /** @description The transport supported by a specific MCP server. The available options are `HTTP` or `SSE`. */
+      transport?: string;
+      /** @description A list of allowed tools supported by the MCP server. */
+      allowed_tools?: unknown[];
+      auth_settings?: components['schemas']['ResourceAuthSettings'];
+    } & components['schemas']['DeploymentWithFeatures'];
+    /** @description The capabilities of the model. */
+    ModelCapabilities: {
+      /** @description The scale types of the model. Defaults to `["standard"]`. */
+      scale_types?: string[];
+      /** @description True if the model is a completion. */
+      completion?: boolean;
+      /** @description True if the model is a chat completion. */
+      chat_completion?: boolean;
+      /** @description True if the model is an embedding. */
+      embeddings?: boolean;
+      /** @description True if it is a fine-tuned model. */
+      fine_tune?: boolean;
+      /** @description True if the model can be deployed. */
+      inference?: boolean;
+    };
+    /**
+     * @description Defines the token limits for the model.
+     *     <br><br>
+     *     Either `max_total_tokens` is specified by itself, or `max_prompt_tokens` and `max_completion_tokens` are specified together.
+     */
+    ModelLimits:
+      | {
+          /** @description The maximum number of tokens allowed in a completion request and response combined. */
+          max_total_tokens: number;
+        }
+      | {
+          /** @description The maximum number of tokens allowed in a completion request. */
+          max_prompt_tokens: number;
+          /** @description The maximum number of tokens allowed in a completion response. */
+          max_completion_tokens: number;
         };
-        /** @description User consent for deployments. Keys are deployment IDs. */
-        Consent: {
-            deployments?: {
-                [key: string]: {
-                    /** @description Whether the consent is required for the deployment. */
-                    consentRequired?: boolean;
-                };
-            };
+    /** @description Defines the pricing for the model in an unspecified currency. */
+    ModelPricing: {
+      /**
+       * @description The pricing units.
+       * @enum {string}
+       */
+      unit: 'token' | 'char_without_whitespace';
+      /** @description The per-unit price for the completion request. */
+      prompt: string;
+      /**
+       * @description The per-unit price for the completion response.
+       *     <br><br>
+       *     This field is typically missing for embedding models.
+       */
+      completion?: string;
+    };
+    EmbeddingRequest: {
+      /**
+       * @description The input text to generate embeddings for. It can be either:
+       *     - a string,
+       *     - an array of strings,
+       *     - an array of token ids <i>(representing a single tokenized string)</i> and
+       *     - an array of arrays of token ids <i>(representing an array of tokenized strings)</i>.
+       *
+       *     **Note:** representation of strings as an array of token ids may not be supported by certain models.
+       */
+      input: string | string[] | number[] | number[][];
+      custom_input?: components['schemas']['EmbeddingsCustomInput'];
+      /** @description A unique identifier representing the end-user. */
+      user?: string;
+      /**
+       * @description The format in which the embeddings are returned.
+       * @default float
+       * @example base64
+       * @enum {string}
+       */
+      encoding_format: 'float' | 'base64';
+      /**
+       * @description The number of dimensions the resulting output embeddings should have.
+       *
+       *     **Note:** instruction may not be supported by some models.
+       * @example 512
+       */
+      dimensions?: number;
+      custom_fields?: components['schemas']['EmbeddingsCustomFields'];
+    };
+    EmbeddingResponse: {
+      /** @description Object type. Always is `list`. */
+      object: string;
+      /** @description The name of the model that generated the response. */
+      model: string;
+      /** @description A list of generated vectors. */
+      data: {
+        /** @description The index of the embedding from `0` to `number of regular and custom inputs in the request - 1`. */
+        index: number;
+        /** @description Object type. Always is `embedding`. */
+        object: string;
+        /** @description Embedding output corresponding to the `index`-th embedding input. It's either an array of floats or base64-encoded vector depending on the value of `encoding_format` request parameter. */
+        embedding: number[] | string;
+      }[];
+      /** @description This field contains information about the tokens from the model that were used to generate the response. */
+      usage: {
+        /** @description The number of tokens in the request to the model. */
+        prompt_tokens: number;
+        /** @description The number of tokens in the request to the model. */
+        total_tokens: number;
+      };
+    };
+    /** @deprecated */
+    ChatCompletionFunction: {
+      /** @description A description of what the function does, used by the model to choose when and how to call the function. */
+      description?: string;
+      /** @description The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64. */
+      name: string;
+      parameters?: components['schemas']['FunctionParameters'];
+    };
+    /** @description Specifying a particular function via `{"name": "my_function"}` forces the model to call that function. */
+    ChatCompletionFunctionCallOption: {
+      /** @description The name of the function to call. */
+      name: string;
+    };
+    ChatCompletionAddon:
+      | {
+          /** @description The name of an addon defined in the DIAL Core config. */
+          name?: string;
+        }
+      | {
+          /**
+           * @description The URL pointing to an OpenAI Plugin Schema.
+           *     <br><br>
+           *     See for example the [to-do plugin](https://github.com/openai/plugins-quickstart/blob/main/.well-known/ai-plugin.json).
+           */
+          url?: string;
         };
-        ChatCompletionTool: {
-            /**
-             * @description The type of the tool. Currently, only `function` is supported.
-             * @enum {string}
-             */
-            type: "function";
-            function: components["schemas"]["FunctionObject"];
-            custom_fields?: components["schemas"]["ToolCustomFields"];
-        };
-        ToolCustomFields: {
-            cache_breakpoint?: components["schemas"]["CacheBreakpoint"];
-        };
-        /** @description A manual cache breakpoint. The part of the chat completion request up to this breakpoint will be cached by the deployment. Follow-up requests sharing the same prefix have a chance of hitting the cache and reusing the input tokens associated with this prefix. The field only makes sense for the deployments that support [prompt caching](https://docs.dialx.ai/tutorials/developers/prompt-caching). */
-        CacheBreakpoint: {
-            /**
-             * @description An optional expiration time for the given cache breakpoint, e.g. '2025-10-02T15:01:23Z'
-             * @example 2025-10-02T15:01:23Z
-             */
-            expire_at?: string;
-        };
-        FunctionObject: {
-            /** @description A description of what the `function` does, used by the model to choose when and how to call the `function`. */
-            description?: string;
-            /** @description The name of the `function` to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64. */
-            name: string;
-            parameters?: components["schemas"]["FunctionParameters"];
-            /**
-             * @description Whether to enable strict schema adherence when generating the `function` call. If set to `true`, the model will follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when `strict` is `true`. Learn more about Structured Outputs in the [function calling guide](docs/guides/function-calling).
-             * @default false
-             */
-            strict: boolean | null;
-        };
+    ChatCompletionRequestMessage:
+      | components['schemas']['ChatCompletionRequestDeveloperMessage']
+      | components['schemas']['ChatCompletionRequestSystemMessage']
+      | components['schemas']['ChatCompletionRequestUserMessage']
+      | components['schemas']['ChatCompletionRequestAssistantMessage']
+      | components['schemas']['ChatCompletionRequestToolMessage']
+      | components['schemas']['ChatCompletionRequestFunctionMessage'];
+    /**
+     * Developer message
+     * @description Developer-provided instructions that the model should follow, regardless of
+     *     messages sent by the user. With o1 models and newer, `developer` messages
+     *     replace the previous `system` messages.
+     */
+    ChatCompletionRequestDeveloperMessage: {
+      /** @description The contents of the developer message. */
+      content:
+        | string
+        | components['schemas']['ChatCompletionRequestDeveloperMessageContentPart'][];
+      custom_fields?: components['schemas']['ChatCompletionRequestCustomFields'];
+      /**
+       * @description The role of the messages author, in this case `developer`.
+       * @enum {string}
+       */
+      role: 'developer';
+      /** @description An optional name for the participant. Provides the model information to differentiate between participants of the same role. */
+      name?: string;
+    };
+    /** System message */
+    ChatCompletionRequestSystemMessage: {
+      /** @description The contents of the system message. */
+      content:
+        | string
+        | components['schemas']['ChatCompletionRequestSystemMessageContentPart'][];
+      custom_fields?: components['schemas']['ChatCompletionRequestCustomFields'];
+      /**
+       * @description The role of the messages author, in this case `system`.
+       * @enum {string}
+       */
+      role: 'system';
+      /** @description An optional name for the participant. Provides the model information to differentiate between participants of the same role. */
+      name?: string;
+    };
+    /** User message */
+    ChatCompletionRequestUserMessage: {
+      /** @description The contents of the user message. */
+      content:
+        | string
+        | components['schemas']['ChatCompletionRequestUserMessageContentPart'][];
+      custom_content?: components['schemas']['ChatCompletionRequestUserMessageCustomContent'];
+      custom_fields?: components['schemas']['ChatCompletionRequestCustomFields'];
+      /**
+       * @description The role of the messages author, in this case `user`.
+       * @enum {string}
+       */
+      role: 'user';
+      /** @description An optional name for the participant. Provides the model information to differentiate between participants of the same role. */
+      name?: string;
+    };
+    /** Assistant message */
+    ChatCompletionRequestAssistantMessage: {
+      /** @description The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified. */
+      content?:
+        | (string &
+            (
+              | string
+              | components['schemas']['ChatCompletionRequestAssistantMessageContentPart'][]
+            ))
+        | null;
+      custom_content?: components['schemas']['ChatCompletionRequestAssistantMessageCustomContent'];
+      custom_fields?: components['schemas']['ChatCompletionRequestCustomFields'];
+      /** @description The refusal message by the assistant. */
+      refusal?: string | null;
+      /**
+       * @description The role of the messages author, in this case `assistant`.
+       * @enum {string}
+       */
+      role: 'assistant';
+      /** @description An optional name for the participant. Provides the model information to differentiate between participants of the same role. */
+      name?: string;
+      tool_calls?: components['schemas']['ChatCompletionMessageToolCalls'];
+      /**
+       * @deprecated
+       * @description Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model.
+       */
+      function_call?: {
+        /** @description The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function. */
+        arguments: string;
+        /** @description The name of the function to call. */
+        name: string;
+      } | null;
+    };
+    /** Tool message */
+    ChatCompletionRequestToolMessage: {
+      /**
+       * @description The role of the messages author, in this case `tool`.
+       * @enum {string}
+       */
+      role: 'tool';
+      /** @description The contents of the tool message. */
+      content:
+        | string
+        | components['schemas']['ChatCompletionRequestToolMessageContentPart'][];
+      custom_fields?: components['schemas']['ChatCompletionRequestCustomFields'];
+      /** @description Tool call that this message is responding to. */
+      tool_call_id: string;
+    };
+    /**
+     * Function message
+     * @deprecated
+     */
+    ChatCompletionRequestFunctionMessage: {
+      /**
+       * @description The role of the messages author, in this case `function`.
+       * @enum {string}
+       */
+      role: 'function';
+      /** @description The contents of the function message. */
+      content: string | null;
+      custom_fields?: components['schemas']['ChatCompletionRequestCustomFields'];
+      /** @description The name of the function to call. */
+      name: string;
+    };
+    ChatCompletionRequestDeveloperMessageContentPart: components['schemas']['ChatCompletionRequestMessageContentPartText'];
+    ChatCompletionRequestSystemMessageContentPart: components['schemas']['ChatCompletionRequestMessageContentPartText'];
+    ChatCompletionRequestUserMessageContentPart:
+      | components['schemas']['ChatCompletionRequestMessageContentPartText']
+      | components['schemas']['ChatCompletionRequestMessageContentPartImage'];
+    ChatCompletionRequestAssistantMessageContentPart:
+      | components['schemas']['ChatCompletionRequestMessageContentPartText']
+      | components['schemas']['ChatCompletionRequestMessageContentPartRefusal'];
+    ChatCompletionRequestToolMessageContentPart: components['schemas']['ChatCompletionRequestMessageContentPartText'];
+    /** Text content part */
+    ChatCompletionRequestMessageContentPartText: {
+      /**
+       * @description The type of the content part.
+       * @enum {string}
+       */
+      type: 'text';
+      /** @description The text content. */
+      text: string;
+    };
+    /** Image content part */
+    ChatCompletionRequestMessageContentPartImage: {
+      /**
+       * @description The type of the content part.
+       * @enum {string}
+       */
+      type: 'image_url';
+      image_url: {
         /**
-         * @description The parameters the `function` accepts, described as a JSON Schema object. See the [guide](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
-         *
-         *     Omitting `parameters` defines a `function` with an empty parameter list.
+         * Format: uri
+         * @description Either a URL of the image or the base64 encoded image data.
          */
-        FunctionParameters: {
-            [key: string]: unknown;
-        };
+        url: string;
         /**
-         * @description Controls which (if any) tool is called by the model.
-         *
-         *     `none` means the model will not call any `tool` and instead generates a `message`.
-         *
-         *     `auto` means the model can pick between generating a `message` or calling one or more `tools`.
-         *     `required` means the model must call one or more `tools`.
-         *
-         *     Specifying a particular `tool` via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that `tool`.
-         *
-         *     `none` is the default when no `tools` are present.
-         *     `auto` is the default if `tools` are present.
-         */
-        ChatCompletionToolChoiceOption: ("none" | "auto" | "required") | components["schemas"]["ChatCompletionNamedToolChoice"];
-        /** @description Specifies a `tool` the model should use. Use to force the model to call a specific `function`. */
-        ChatCompletionNamedToolChoice: {
-            /**
-             * @description The type of the `tool`. Currently, only `function` is supported.
-             * @enum {string}
-             */
-            type: "function";
-            function: {
-                /** @description The name of the `function` to call. */
-                name: string;
-            };
-        };
-        /**
-         * @description Whether to enable parallel `function` calling during the `tool` use.
-         * @default true
-         */
-        ParallelToolCalls: boolean;
-        /** @description The `tool` calls generated by the model, such as `function` calls. */
-        ChatCompletionMessageToolCalls: components["schemas"]["ChatCompletionMessageToolCall"][];
-        /** @description Deprecated and replaced by `tool_calls`. The name and arguments of a `function` that should be called, as generated by the model. */
-        ChatCompletionFunctionCall: {
-            /** @description The name of the `function` to call. */
-            name: string;
-            /** @description The arguments to call the `function` with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your `function` schema. Validate the arguments in your code before calling your `function`. */
-            arguments: string;
-        };
-        ChatCompletionMessageToolCall: {
-            /** @description The ID of the `tool` call. */
-            id: string;
-            type: components["schemas"]["ToolCallType"];
-            /** @description The `function` that the model called. */
-            function: {
-                /** @description The name of the `function` to call. */
-                name: string;
-                /** @description The arguments to call the `function` with, as generated by the model in JSON format. Note that the model does not always generate a valid JSON, and may hallucinate parameters not defined by your `function` schema. Validate the arguments in your code before calling your `function`. */
-                arguments: string;
-            };
-        };
-        /**
-         * @description The type of the `tool` call, in this case `function`.
+         * @description Specifies the detail level of the image. Learn more in the [Vision guide](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/gpt-with-vision?tabs=rest%2Csystem-assigned%2Cresource#detail-parameter-settings-in-image-processing-low-high-auto).
+         * @default auto
          * @enum {string}
          */
-        ToolCallType: "function";
-        /** @description The features supported by a deployment. */
-        DeploymentFeatures: {
-            /** @description Does the deployment support endpoint for rating a request: `POST /v1/{deployment_name}/rate`? */
-            rate: boolean;
-            /** @description Does the deployment support endpoint for tokenization: `POST /v1/{deployment_name}/tokenize`? */
-            tokenize: boolean;
-            /** @description Does the deployment support endpoint for prompt truncation: `POST /v1/{deployment_name}/truncate_prompt`? */
-            truncate_prompt: boolean;
-            /** @description Does the deployment support endpoint that provides JSON schema for deployment configuration: `GET /v1/deployments/{deployment_name}/configuration`? */
-            configuration: boolean;
-            /** @description Does the deployment support system prompt in a chat completion request? */
-            system_prompt: boolean;
-            /** @description Does the deployment support `tools` and `functions` in chat completion request? */
-            tools: boolean;
-            /** @description Does the deployment support seed parameter in chat completion request? */
-            seed: boolean;
-            /**
-             * @description Does the deployment support URL attachments in messages of a chat completion request?
-             *     <br><br>
-             *     An example of message with URL attachment:
-             *     ```json
-             *     {
-             *       "messages": [
-             *         {
-             *           "content": "Message content",
-             *           "attachments": [
-             *             {
-             *               "title": "Title of the URL attachment",
-             *               "url": "https://en.wikipedia.org/wiki/URL"
-             *             }
-             *           ]
-             *         }
-             *       ]
-             *     }
-             *     ```
-             */
-            url_attachments: boolean;
-            /**
-             * @description Does the deployment support folder attachments in messages of a chat completion request?
-             *     A folder attachment must point to a metadata of a directory in DIAL file storage.
-             *     <br><br>
-             *     An example of a message with folder attachment:
-             *     ```json
-             *     {
-             *       "messages": [
-             *         {
-             *           "content": "Message content",
-             *           "attachments": [
-             *             {
-             *               "title": "Title of the folder attachment",
-             *               "type": "application/vnd.dial.metadata+json",
-             *               "url": "metadata/BUCKET/PATH/TO/FOLDER/"
-             *             }
-             *           ]
-             *         }
-             *       ]
-             *     }
-             *     ```
-             */
-            folder_attachments: boolean;
-            /**
-             * @description Whether the deployment supports resuming conversations. Defaults to `true`.
-             * @default true
-             */
-            allow_resume: boolean;
-            /**
-             * @description Whether the deployment is accessible by per-request API key. Defaults to `true`.
-             * @default true
-             */
-            accessible_by_per_request_key: boolean;
-            /**
-             * @description Whether the deployment supports content parts in messages. Defaults to `false`.
-             * @default false
-             */
-            content_parts: boolean;
-            /**
-             * @description Whether the deployment supports the temperature parameter. Defaults to `true`.
-             * @default true
-             */
-            temperature: boolean;
-            /**
-             * @description Whether the deployment supports LLM prompt caching (manual or automatic). Defaults to `false`.
-             * @default false
-             */
-            cache: boolean;
-            /**
-             * @description Whether the deployment supports automatic prompt caching. Defaults to `false`.
-             * @default false
-             */
-            auto_caching: boolean;
-            /**
-             * @description Whether the deployment supports parallel tool calls. Defaults to `true`.
-             * @default true
-             */
-            parallel_tool_calls: boolean;
-            /**
-             * @description Whether the deployment supports assistant attachments in the request. Defaults to `false`.
-             * @default false
-             */
-            assistant_attachments_in_request: boolean;
-        };
-        /**
-         * @description A list of [content types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types) that the deployment supports for input attachments.
-         *     <br><br>
-         *     The deployment does not support input attachments if the list is empty or the listing parameter is missing.
-         */
-        DeploymentInputAttachmentTypes: string[];
-        /**
-         * @description The maximum number of input attachments that the deployment supports.
-         *     <br><br>
-         *     When the listing parameter is missing and application does not support input attachments, the value is defaulted to `0`.
-         *     <br><br>
-         *     When the listing parameter is missing and application supports input attachments, there is no restriction on the number of attachments.
-         */
-        DeploymentMaxInputAttachments: number;
-        /**
-         * @description A dictionary providing default values for chat completion request parameters in case the parameters are missing in the request.
-         *     <br><br>
-         *     This is useful when a deployment requires specific parameters to be set, when those parameters are optional in the request schema.
-         *     <br><br>
-         *     For example the following default parameter sets the `max_tokens` parameter to `1024` when it's missing in the chat completion request:
-         *     ```json
-         *     {
-         *       "max_tokens": 1024
-         *     }
-         *     ```
-         * @example {
-         *       "max_tokens": 1024
-         *     }
-         */
-        DeploymentDefaultParameters: Record<string, never>;
-        DeploymentBase: {
-            /** @description The unique identifier of the deployment. */
-            id?: string;
-            /** @description The display name of the deployment. */
-            display_name?: string;
-            /** @description The display version of the deployment. */
-            display_version?: string;
-            /** @description The icon of the deployment. */
-            icon_url?: string;
-            /** @description The description of the deployment in the Markdown format. */
-            description?: string;
-            /** @description The reference identifier of the deployment. */
-            reference?: string;
-            /** @description The name of the owner for the deployment. */
-            owner?: string;
-            /** @description The status of the deployment. Always is `succeeded`. */
-            status?: string;
-            /** @description The value, in seconds since the epoch, that represents the time at which the object was created. */
-            created_at?: number;
-            /** @description The value, in seconds since the epoch, that represents the time at which the object was modified. */
-            updated_at?: number;
-            /** @description A list of keywords describing the deployment. */
-            description_keywords?: string[];
-            /** @description The maximum number of retry attempts to route a single user's request to the deployment's endpoint. */
-            max_retry_attempts?: number;
-            /** @description A list of interface types supported by the deployment. */
-            interfaces?: string[];
-        };
-        DeploymentWithFeatures: {
-            features?: components["schemas"]["DeploymentFeatures"];
-            input_attachment_types?: components["schemas"]["DeploymentInputAttachmentTypes"];
-            max_input_attachments?: components["schemas"]["DeploymentMaxInputAttachments"];
-            defaults?: components["schemas"]["DeploymentDefaultParameters"];
-        };
-        Deployment: components["schemas"]["DeploymentBase"] & {
-            /** @description The deployment name. */
-            model?: string;
-            /** @description The object type. Always is `deployment`. */
-            object?: string;
-            /** @description The scale settings of the deployment. */
-            scale_settings?: {
-                /** @description The scale type. Only the `standard` type is currently supported. */
-                scale_type?: string;
-            };
-        } & components["schemas"]["DeploymentWithFeatures"];
-        Model: components["schemas"]["DeploymentBase"] & {
-            /** @description The model name. Same as the `id` field. */
-            model?: string;
-            /** @description The object type. Always is `model`. */
-            object?: string;
-            /** @description Lifecycle status. Always is `generally-available`. */
-            lifecycle_status?: string;
-            capabilities?: components["schemas"]["ModelCapabilities"];
-            /**
-             * @description This parameter specifies the exact model whose tokenization algorithm matches the one used by the given model. Typically, this is the name of the first model released in a series that shares the same tokenization algorithm _(e.g., `gpt-3.5-turbo-0301`, `gpt-4-0314`, `gpt-4-1106-vision-preview`)_.
-             *     <br><br>
-             *     This parameter is useful for DIAL clients that implement tokenization algorithms on their side, rather than using the `/tokenize` endpoint provided by the model.
-             */
-            tokenizer_model?: string;
-            limits?: components["schemas"]["ModelLimits"];
-            pricing?: components["schemas"]["ModelPricing"];
-        } & components["schemas"]["DeploymentWithFeatures"];
-        Application: components["schemas"]["DeploymentBase"] & {
-            /** @description The application name. */
-            application?: string;
-            /** @description The URL of the custom app UI. */
-            viewer_url?: string;
-            /** @description The URL of the custom app builder UI. */
-            editor_url?: string;
-            /** @description The object type. Always is `application`. */
-            object?: string;
-            /** @description Custom application properties. */
-            application_properties?: {
-                [key: string]: unknown;
-            };
-            /**
-             * Format: uri
-             * @description The URI of the application type schema.
-             */
-            application_type_schema_id?: string;
-            function?: components["schemas"]["ApplicationFunction"];
-            /** @description Custom routes for the application. */
-            routes?: {
-                [key: string]: Record<string, never>;
-            };
-            /** @description Indicates whether the application is invalid (e.g., missing required properties or schema violations). Only applicable for schema-rich applications. Null when the application is valid. */
-            readonly invalid?: boolean;
-        } & components["schemas"]["DeploymentWithFeatures"];
-        /**
-         * @deprecated
-         * @description Deprecated: Assistant type has been removed from the codebase.
-         */
-        Assistant: components["schemas"]["DeploymentBase"] & {
-            /** @description The assistant name. */
-            assistant?: string;
-            /** @description The object type. Always is `assistant`. */
-            object?: string;
-            /** @description The array of addons enabled by default in the assistant. */
-            addons?: string[];
-        } & components["schemas"]["DeploymentWithFeatures"];
-        /**
-         * @deprecated
-         * @description Deprecated: Addon type has been removed from the codebase.
-         */
-        Addon: components["schemas"]["DeploymentBase"] & {
-            /** @description The addon name. */
-            addon?: string;
-            /** @description The object type. Always is `addon`. */
-            object?: string;
-        };
-        /** @description Function deployment configuration for the application. */
-        ApplicationFunction: {
-            /** @description The function identifier. */
-            id?: string;
-            /** @description The runtime environment for the function. */
-            runtime?: string;
-            /** @description The author's bucket. */
-            author_bucket?: string;
-            /** @description The source folder for the function code. */
-            source_folder?: string;
-            /** @description The target folder for the deployed function. */
-            target_folder?: string;
-            /**
-             * @description The current deployment status of the function.
-             * @enum {string}
-             */
-            status?: "DEPLOYING" | "UNDEPLOYING" | "DEPLOYED" | "UNDEPLOYED" | "FAILED";
-            /** @description Error message if the function deployment failed. */
-            error?: string;
-            /** @description The mapping configuration for the function. */
-            mapping?: Record<string, never>;
-            /** @description Environment variables for the function. */
-            env?: {
-                [key: string]: string;
-            };
-        };
-        /** @description Authentication settings for a resource. */
-        ResourceAuthSettings: {
-            /**
-             * @description Type of authentication.
-             * @enum {string}
-             */
-            authentication_type: "OAUTH" | "API_KEY" | "NONE";
-            /** @description (OAUTH only) Client ID for OAuth flows. */
-            client_id?: string;
-            /** @description (OAUTH only) Client secret for OAuth flows. */
-            client_secret?: string;
-            /** @description (OAUTH only) Redirect URI for OAuth flows. */
-            redirect_uri?: string;
-            /** @description (OAUTH only) Authorization endpoint for OAuth. */
-            authorization_endpoint?: string;
-            /** @description (OAUTH only) Token endpoint for OAuth. */
-            token_endpoint?: string;
-            /** @description (OAUTH only) Code challenge for PKCE. */
-            readonly code_challenge?: string;
-            /** @description (OAUTH only) Code challenge method for PKCE. */
-            code_challenge_method?: string;
-            /** @description (OAUTH only) Supported OAuth scopes. */
-            scopes_supported?: string[];
-            /**
-             * @description Global credentials status.
-             * @enum {string}
-             */
-            readonly global_auth_status?: "SIGNED_IN" | "SIGNED_OUT";
-            /**
-             * @description Application-level credentials status.
-             * @enum {string}
-             */
-            readonly app_level_auth_status?: "SIGNED_IN" | "SIGNED_OUT";
-            /**
-             * @description User-level credentials status.
-             * @enum {string}
-             */
-            readonly user_level_auth_status?: "SIGNED_IN" | "SIGNED_OUT";
-            /** @description (API_KEY only) Header name for API key. */
-            api_key_header?: string;
-        };
-        ToolsetOpenAi: {
-            /** @description DIAL toolset id ('name' by default). */
-            id?: string;
-            /** @description DIAL toolset name. */
-            toolset?: string;
-            /** @description The path for the location of the icon applied to the toolset on UI. */
-            icon_url?: string;
-            /** @description A brief description of the toolset. */
-            description?: string;
-            /** @description A display name of the toolset on the UI. */
-            display_name?: string;
-            /** @description A display version of the toolset on the UI. */
-            display_version?: string;
-            /** @description A reference id of the toolset ('name' or server-generated identifier). */
-            reference?: string;
-            /** @description A list of keywords describing the toolset, e.g. code-gen, text2image. */
-            description_keywords?: unknown[];
-            /** @description The maximum number of retry attempts to route a single user's request to the toolset's endpoint. */
-            max_retry_attempts?: number;
-            /** @description The object type. Always is `toolset`. */
-            object?: string;
-            /** @description The status of the toolset. Always is `succeeded`. */
-            status?: string;
-            /** @description A toolset's owner. */
-            owner?: string;
-            /** @description The date of the toolset creation. */
-            created_at?: number;
-            /** @description The date of the toolset last update. */
-            updated_at?: number;
-            /** @description The transport supported by a specific MCP server. Available options are `HTTP` or `SSE`. */
-            transport?: string;
-            /** @description A list of available tools in the MCP server. */
-            allowed_tools?: unknown[];
-            auth_settings?: components["schemas"]["ResourceAuthSettings"];
-        } & components["schemas"]["DeploymentWithFeatures"];
-        ToolSet: components["schemas"]["DeploymentBase"] & {
-            /** @description The toolset name. */
-            toolset?: string;
-            /** @description The transport supported by the MCP server. Available options are `HTTP` or `SSE`. */
-            transport?: string;
-            /** @description A list of available tools in the MCP server. */
-            allowed_tools?: string[];
-            /** @description The object type. Always is `toolset`. */
-            object?: string;
-        } & components["schemas"]["DeploymentWithFeatures"];
-        Toolset: {
-            /** @description DIAL Toolset's name. */
-            name?: string;
-            /** @description DIAL Toolset API for MCP calls. */
-            endpoint?: string;
-            /** @description The path for the location of the icon that applies for the DIAL toolset on UI. */
-            icon_url?: string;
-            /** @description A brief description of the toolset. */
-            description?: string;
-            /** @description A display name of the toolset on the UI. */
-            display_name?: string;
-            /** @description A display version of the toolset on the UI. */
-            display_version?: string;
-            /** @description A list of keywords describing the toolset, e.g. code-gen, text2image. */
-            description_keywords?: unknown[];
-            /** @description A reference id of the toolset ('name' or server-generated identifier). */
-            reference?: string;
-            /** @description Indicates if a per-request API key should be forwarded to an upstream call. */
-            forward_per_request_key?: boolean;
-            /** @description The maximum number of retry attempts to route a single user's request to the toolset's endpoint. */
-            max_retry_attempts?: number;
-            /** @description The toolset's developer. */
-            author?: string;
-            /** @description The date of the toolset creation. */
-            readonly created_at?: number;
-            /** @description The date of the toolset last update. */
-            readonly updated_at?: number;
-            /** @description Indicates if the authorization token should be forwarded to an upstream request. */
-            readonly forward_auth_token?: boolean;
-            /** @description The transport supported by a specific MCP server. The available options are `HTTP` or `SSE`. */
-            transport?: string;
-            /** @description A list of allowed tools supported by the MCP server. */
-            allowed_tools?: unknown[];
-            auth_settings?: components["schemas"]["ResourceAuthSettings"];
-        } & components["schemas"]["DeploymentWithFeatures"];
-        /** @description The capabilities of the model. */
-        ModelCapabilities: {
-            /** @description The scale types of the model. Defaults to `["standard"]`. */
-            scale_types?: string[];
-            /** @description True if the model is a completion. */
-            completion?: boolean;
-            /** @description True if the model is a chat completion. */
-            chat_completion?: boolean;
-            /** @description True if the model is an embedding. */
-            embeddings?: boolean;
-            /** @description True if it is a fine-tuned model. */
-            fine_tune?: boolean;
-            /** @description True if the model can be deployed. */
-            inference?: boolean;
-        };
-        /**
-         * @description Defines the token limits for the model.
-         *     <br><br>
-         *     Either `max_total_tokens` is specified by itself, or `max_prompt_tokens` and `max_completion_tokens` are specified together.
-         */
-        ModelLimits: {
-            /** @description The maximum number of tokens allowed in a completion request and response combined. */
-            max_total_tokens: number;
-        } | {
-            /** @description The maximum number of tokens allowed in a completion request. */
-            max_prompt_tokens: number;
-            /** @description The maximum number of tokens allowed in a completion response. */
-            max_completion_tokens: number;
-        };
-        /** @description Defines the pricing for the model in an unspecified currency. */
-        ModelPricing: {
-            /**
-             * @description The pricing units.
-             * @enum {string}
-             */
-            unit: "token" | "char_without_whitespace";
-            /** @description The per-unit price for the completion request. */
-            prompt: string;
-            /**
-             * @description The per-unit price for the completion response.
-             *     <br><br>
-             *     This field is typically missing for embedding models.
-             */
-            completion?: string;
-        };
-        EmbeddingRequest: {
-            /**
-             * @description The input text to generate embeddings for. It can be either:
-             *     - a string,
-             *     - an array of strings,
-             *     - an array of token ids <i>(representing a single tokenized string)</i> and
-             *     - an array of arrays of token ids <i>(representing an array of tokenized strings)</i>.
-             *
-             *     **Note:** representation of strings as an array of token ids may not be supported by certain models.
-             */
-            input: string | string[] | number[] | number[][];
-            custom_input?: components["schemas"]["EmbeddingsCustomInput"];
-            /** @description A unique identifier representing the end-user. */
-            user?: string;
-            /**
-             * @description The format in which the embeddings are returned.
-             * @default float
-             * @example base64
-             * @enum {string}
-             */
-            encoding_format: "float" | "base64";
-            /**
-             * @description The number of dimensions the resulting output embeddings should have.
-             *
-             *     **Note:** instruction may not be supported by some models.
-             * @example 512
-             */
-            dimensions?: number;
-            custom_fields?: components["schemas"]["EmbeddingsCustomFields"];
-        };
-        EmbeddingResponse: {
-            /** @description Object type. Always is `list`. */
-            object: string;
-            /** @description The name of the model that generated the response. */
-            model: string;
-            /** @description A list of generated vectors. */
-            data: {
-                /** @description The index of the embedding from `0` to `number of regular and custom inputs in the request - 1`. */
-                index: number;
-                /** @description Object type. Always is `embedding`. */
-                object: string;
-                /** @description Embedding output corresponding to the `index`-th embedding input. It's either an array of floats or base64-encoded vector depending on the value of `encoding_format` request parameter. */
-                embedding: number[] | string;
-            }[];
-            /** @description This field contains information about the tokens from the model that were used to generate the response. */
-            usage: {
-                /** @description The number of tokens in the request to the model. */
-                prompt_tokens: number;
-                /** @description The number of tokens in the request to the model. */
-                total_tokens: number;
-            };
-        };
-        /** @deprecated */
-        ChatCompletionFunction: {
-            /** @description A description of what the function does, used by the model to choose when and how to call the function. */
-            description?: string;
-            /** @description The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64. */
-            name: string;
-            parameters?: components["schemas"]["FunctionParameters"];
-        };
-        /** @description Specifying a particular function via `{"name": "my_function"}` forces the model to call that function. */
-        ChatCompletionFunctionCallOption: {
-            /** @description The name of the function to call. */
-            name: string;
-        };
-        ChatCompletionAddon: {
-            /** @description The name of an addon defined in the DIAL Core config. */
-            name?: string;
-        } | {
-            /**
-             * @description The URL pointing to an OpenAI Plugin Schema.
-             *     <br><br>
-             *     See for example the [to-do plugin](https://github.com/openai/plugins-quickstart/blob/main/.well-known/ai-plugin.json).
-             */
-            url?: string;
-        };
-        ChatCompletionRequestMessage: components["schemas"]["ChatCompletionRequestDeveloperMessage"] | components["schemas"]["ChatCompletionRequestSystemMessage"] | components["schemas"]["ChatCompletionRequestUserMessage"] | components["schemas"]["ChatCompletionRequestAssistantMessage"] | components["schemas"]["ChatCompletionRequestToolMessage"] | components["schemas"]["ChatCompletionRequestFunctionMessage"];
-        /**
-         * Developer message
-         * @description Developer-provided instructions that the model should follow, regardless of
-         *     messages sent by the user. With o1 models and newer, `developer` messages
-         *     replace the previous `system` messages.
-         */
-        ChatCompletionRequestDeveloperMessage: {
-            /** @description The contents of the developer message. */
-            content: string | components["schemas"]["ChatCompletionRequestDeveloperMessageContentPart"][];
-            custom_fields?: components["schemas"]["ChatCompletionRequestCustomFields"];
-            /**
-             * @description The role of the messages author, in this case `developer`.
-             * @enum {string}
-             */
-            role: "developer";
-            /** @description An optional name for the participant. Provides the model information to differentiate between participants of the same role. */
-            name?: string;
-        };
-        /** System message */
-        ChatCompletionRequestSystemMessage: {
-            /** @description The contents of the system message. */
-            content: string | components["schemas"]["ChatCompletionRequestSystemMessageContentPart"][];
-            custom_fields?: components["schemas"]["ChatCompletionRequestCustomFields"];
-            /**
-             * @description The role of the messages author, in this case `system`.
-             * @enum {string}
-             */
-            role: "system";
-            /** @description An optional name for the participant. Provides the model information to differentiate between participants of the same role. */
-            name?: string;
-        };
-        /** User message */
-        ChatCompletionRequestUserMessage: {
-            /** @description The contents of the user message. */
-            content: string | components["schemas"]["ChatCompletionRequestUserMessageContentPart"][];
-            custom_content?: components["schemas"]["ChatCompletionRequestUserMessageCustomContent"];
-            custom_fields?: components["schemas"]["ChatCompletionRequestCustomFields"];
-            /**
-             * @description The role of the messages author, in this case `user`.
-             * @enum {string}
-             */
-            role: "user";
-            /** @description An optional name for the participant. Provides the model information to differentiate between participants of the same role. */
-            name?: string;
-        };
-        /** Assistant message */
-        ChatCompletionRequestAssistantMessage: {
-            /** @description The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified. */
-            content?: (string & (string | components["schemas"]["ChatCompletionRequestAssistantMessageContentPart"][])) | null;
-            custom_content?: components["schemas"]["ChatCompletionRequestAssistantMessageCustomContent"];
-            custom_fields?: components["schemas"]["ChatCompletionRequestCustomFields"];
-            /** @description The refusal message by the assistant. */
-            refusal?: string | null;
-            /**
-             * @description The role of the messages author, in this case `assistant`.
-             * @enum {string}
-             */
-            role: "assistant";
-            /** @description An optional name for the participant. Provides the model information to differentiate between participants of the same role. */
-            name?: string;
-            tool_calls?: components["schemas"]["ChatCompletionMessageToolCalls"];
-            /**
-             * @deprecated
-             * @description Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model.
-             */
-            function_call?: {
-                /** @description The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function. */
-                arguments: string;
-                /** @description The name of the function to call. */
-                name: string;
-            } | null;
-        };
-        /** Tool message */
-        ChatCompletionRequestToolMessage: {
-            /**
-             * @description The role of the messages author, in this case `tool`.
-             * @enum {string}
-             */
-            role: "tool";
-            /** @description The contents of the tool message. */
-            content: string | components["schemas"]["ChatCompletionRequestToolMessageContentPart"][];
-            custom_fields?: components["schemas"]["ChatCompletionRequestCustomFields"];
-            /** @description Tool call that this message is responding to. */
-            tool_call_id: string;
-        };
-        /**
-         * Function message
-         * @deprecated
-         */
-        ChatCompletionRequestFunctionMessage: {
-            /**
-             * @description The role of the messages author, in this case `function`.
-             * @enum {string}
-             */
-            role: "function";
-            /** @description The contents of the function message. */
-            content: string | null;
-            custom_fields?: components["schemas"]["ChatCompletionRequestCustomFields"];
-            /** @description The name of the function to call. */
-            name: string;
-        };
-        ChatCompletionRequestDeveloperMessageContentPart: components["schemas"]["ChatCompletionRequestMessageContentPartText"];
-        ChatCompletionRequestSystemMessageContentPart: components["schemas"]["ChatCompletionRequestMessageContentPartText"];
-        ChatCompletionRequestUserMessageContentPart: components["schemas"]["ChatCompletionRequestMessageContentPartText"] | components["schemas"]["ChatCompletionRequestMessageContentPartImage"];
-        ChatCompletionRequestAssistantMessageContentPart: components["schemas"]["ChatCompletionRequestMessageContentPartText"] | components["schemas"]["ChatCompletionRequestMessageContentPartRefusal"];
-        ChatCompletionRequestToolMessageContentPart: components["schemas"]["ChatCompletionRequestMessageContentPartText"];
-        /** Text content part */
-        ChatCompletionRequestMessageContentPartText: {
-            /**
-             * @description The type of the content part.
-             * @enum {string}
-             */
-            type: "text";
-            /** @description The text content. */
-            text: string;
-        };
-        /** Image content part */
-        ChatCompletionRequestMessageContentPartImage: {
-            /**
-             * @description The type of the content part.
-             * @enum {string}
-             */
-            type: "image_url";
-            image_url: {
-                /**
-                 * Format: uri
-                 * @description Either a URL of the image or the base64 encoded image data.
-                 */
-                url: string;
-                /**
-                 * @description Specifies the detail level of the image. Learn more in the [Vision guide](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/gpt-with-vision?tabs=rest%2Csystem-assigned%2Cresource#detail-parameter-settings-in-image-processing-low-high-auto).
-                 * @default auto
-                 * @enum {string}
-                 */
-                detail: "auto" | "low" | "high";
-            };
-        };
-        /** Refusal content part */
-        ChatCompletionRequestMessageContentPartRefusal: {
-            /**
-             * @description The type of the content part.
-             * @enum {string}
-             */
-            type: "refusal";
-            /** @description The refusal message generated by the model. */
-            refusal: string;
-        };
-        /** @description The Assistant message. */
-        ChatCompletionResponseMessage: {
-            /**
-             * @description The role of the author of the response message.
-             * @enum {string}
-             */
-            role: "assistant";
-            /** @description The refusal message generated by the model. */
-            refusal: string | null;
-            /** @description The contents of the message. `content` is set for all messages except messages with tool calls, function calls and refusals. */
-            content: string | null;
-            custom_content?: components["schemas"]["ChatCompletionResponseCustomContent"];
-            /** @description The tool calls generated by the model, such as function calls. */
-            tool_calls?: components["schemas"]["ChatCompletionMessageToolCall"][];
-            function_call?: components["schemas"]["ChatCompletionFunctionCall"];
-        };
-        /** @description A chat completion delta generated by streamed model responses. */
-        ChatCompletionStreamResponseDelta: {
-            /**
-             * @description The role of the author of this message.
-             * @enum {string}
-             */
-            role?: "assistant";
-            /** @description The refusal message generated by the model. */
-            refusal?: string | null;
-            /** @description The contents of the chunk message. */
-            content?: string | null;
-            custom_content?: components["schemas"]["ChatCompletionResponseCustomContent"];
-            /**
-             * @deprecated
-             * @description Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model.
-             */
-            function_call?: {
-                /** @description The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function. */
-                arguments?: string;
-                /** @description The name of the function to call. */
-                name?: string;
-            };
-            tool_calls?: components["schemas"]["ChatCompletionMessageToolCallChunk"][];
-        };
-        ChatCompletionMessageToolCallChunk: {
-            index: number;
-            /** @description The ID of the tool call. */
-            id?: string;
-            /**
-             * @description The type of the tool. Currently, only `function` is supported.
-             * @enum {string}
-             */
-            type?: "function";
-            function?: {
-                /** @description The name of the function to call. */
-                name?: string;
-                /** @description The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function. */
-                arguments?: string;
-            };
-        };
-        /** @description The custom content of the assistant message. */
-        ChatCompletionRequestAssistantMessageCustomContent: {
-            /** @description The internal state of the Assistant. This field can have an arbitrary set of fields with an arbitrary structure. */
-            state?: {
-                [key: string]: unknown;
-            };
-            /** @description List of attachments used to supply an additional output from the model. */
-            attachments?: components["schemas"]["RequestAttachment"][];
-            /**
-             * @description The JSON schema describing a form that the assistant prompts the user to fill in.
-             *     Given this schema, the user is expected to provide a JSON value in the next message in the `custom_content.form_value` field.
-             */
-            form_schema?: {
-                [key: string]: unknown;
-            };
-        };
-        /** @description The custom content of the user message. */
-        ChatCompletionRequestUserMessageCustomContent: {
-            /** @description List of attachments used to supply an additional input for the model. */
-            attachments?: components["schemas"]["RequestAttachment"][];
-            /** @description The JSON value corresponding to the JSON schema sent by the assistant in the previous message in the `custom_content.form_schema` field. */
-            form_value?: {
-                [key: string]: unknown;
-            };
-        };
-        /** @description DIAL-specific extensions of the Chat Completions message. */
-        ChatCompletionRequestCustomFields: {
-            cache_breakpoint?: components["schemas"]["CacheBreakpoint"];
-        };
-        /** @description The custom embedding inputs that represent multi-modal inputs (e.g. images and video) along with compound inputs (e.g. a title for an image and the image itself). */
-        EmbeddingsCustomInput: components["schemas"]["EmbeddingsCustomInputElement"][];
-        /** @description A particular embedding input which embeddings model translates to an embedding vector. */
-        EmbeddingsCustomInputElement: string | components["schemas"]["RequestAttachment"] | components["schemas"]["EmbeddingsCustomInputCompoundElement"];
-        /** @description An embedding input composed of multiple strings and attachments. */
-        EmbeddingsCustomInputCompoundElement: (string | components["schemas"]["RequestAttachment"])[];
-        /** @description Additional parameters for an embedding model. */
-        EmbeddingsCustomFields: {
-            /**
-             * @description Type of embedding to embed an input with.
-             *
-             *     The particular values of this parameter are specific for particular models.
-             *
-             *     **Note:** embedding types may not be supported by some models.
-             */
-            type?: string;
-            /**
-             * @description Allows to specify an instruction prompt for an instructor-like embedding model.
-             *
-             *     **Note:** instruction may not be supported by some models.
-             */
-            instruction?: string;
-        };
-        ResponseFormatText: {
-            /**
-             * @description The type of response format being defined: `text`
-             * @enum {string}
-             */
-            type: "text";
-        };
-        ResponseFormatJsonObject: {
-            /**
-             * @description The type of response format being defined: `json_object`
-             * @enum {string}
-             */
-            type: "json_object";
-        };
-        /** @description The schema for the response format, described as a JSON Schema object. */
-        ResponseFormatJsonSchemaSchema: {
-            [key: string]: unknown;
-        };
-        ResponseFormatJsonSchema: {
-            /**
-             * @description The type of response format being defined: `json_schema`
-             * @enum {string}
-             */
-            type: "json_schema";
-            json_schema: {
-                /** @description A description of what the response format is for, used by the model to determine how to respond in the format. */
-                description?: string;
-                /** @description The name of the response format. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64. */
-                name: string;
-                schema: components["schemas"]["ResponseFormatJsonSchemaSchema"];
-                /**
-                 * @description Whether to enable strict schema adherence when generating the output. If set to `true`, the model will always follow the exact schema defined in the `schema` field. Only a subset of JSON Schema is supported when `strict` is `true`.
-                 * @default false
-                 */
-                strict: boolean | null;
-            };
-        };
-        /** @description Additional DIAL-specific parameters for a chat completion request. */
-        ChatCompletionsCustomFields: {
-            /**
-             * @description The object that represents configuration of the deployment.
-             *     The schema of the object is specific for each deployment and provided by the endpoint
-             *     `GET /v1/deployments/{deployment_name}/configuration`.
-             *     <br><br>
-             *     A deployment supports configuration if its listing, retrieved by `GET /openai/deployments/{deployment_name}`, has a field `features.configuration` set to **true**.
-             *     <br><br>
-             *     Certain models connected via DIAL adapters are configurable. For detailed configuration information, refer to the documentation of each adapter:
-             *       - [OpenAI Adapter](https://github.com/epam/ai-dial-adapter-openai/?tab=readme-ov-file#configurable-models)
-             *       - [Google VertexAI Adapter](https://github.com/epam/ai-dial-adapter-vertexai/?tab=readme-ov-file#configurable-models)
-             *       - [AWS Bedrock Adapter](https://github.com/epam/ai-dial-adapter-bedrock/?tab=readme-ov-file#configurable-models)
-             * @example {
-             *       "model_to_use": "gpt-4",
-             *       "web_search": true,
-             *       "task": 1
-             *     }
-             */
-            configuration?: {
-                [key: string]: unknown;
-            };
-        };
-        /** @description The custom content of a message. */
-        ChatCompletionResponseCustomContent: {
-            /** @description List of attachments. */
-            attachments?: components["schemas"]["ChatCompletionResponseAttachment"][];
-            /** @description The intermediate stages that the Assistant went through to generate the response. */
-            readonly stages?: components["schemas"]["ChatCompletionResponseStage"][];
-            /** @description The internal state of the Assistant. This field can have an arbitrary set of fields with an arbitrary structure. In case of a streaming, the state is published fully in one chunk. */
-            state?: {
-                [key: string]: unknown;
-            };
-        };
-        RequestAttachment: {
-            /**
-             * @description The content type of the attachment. Should be one of the MIME types.
-             * @default text/markdown
-             */
-            type: string;
-            /** @description The title of the attachment. */
-            title?: string;
-            /**
-             * @description Should follow the format described in the MIME standard for `type`.
-             *
-             *     It is <span style="color: #f604fe;">mandatory</span> for the attachment to have exactly one of the following fields (never both): `data` or `url`.
-             */
-            data?: string;
-            /**
-             * @description The content of `url` should follow the format described in the MIME standard for `type`.
-             *
-             *     It is <span style="color: #f604fe;">mandatory</span> for the attachment to have exactly one of the following fields (never both): `data` or `url`.
-             */
-            url?: string;
-            /** @description The content type of `reference_url`. Should be one of the MIME types. */
-            reference_type?: string;
-            /** @description If `reference_type` is specified, the content of `reference_url` should follow the format described in the MIME standard for `reference_type`. */
-            reference_url?: string;
-        };
-        ChatCompletionResponseAttachment: {
-            /**
-             * @description In *streaming* chat completion responses, each attachment includes an `index` field
-             *     indicating its position in the final ordered list. This field is required because
-             *     attachments may arrive out of order, and the client must reconstruct the correct
-             *     sequence using `index`.
-             *     <br><br>
-             *     In *non-streaming* responses, the `index` field is omitted because an attachment's
-             *     position is already determined by its place in the returned list.
-             */
-            index: number;
-            /**
-             * @description The content type of the attachment. Should be one of the MIME types.
-             * @default text/markdown
-             */
-            type: string;
-            /** @description The title of the attachment. */
-            title?: string;
-            /**
-             * @description Should follow the format described in the MIME standard for `type`.
-             *
-             *     It is <span style="color: #f604fe;">mandatory</span> for the attachment to have one of the following fields (never both): `data` or `url`.
-             */
-            data?: string;
-            /**
-             * @description The content of `url` should follow the format described in the MIME standard for `type`.
-             *
-             *     It is <span style="color: #f604fe;">mandatory</span> for the attachment to have one of the following fields (never both): `data` or `url`.
-             */
-            url?: string;
-            /** @description The content type of `reference_url`. Should be one of the MIME types. */
-            reference_type?: string;
-            /** @description If `reference_type` is specified, the content of `reference_url` should follow the format described in the MIME standard for `reference_type`. */
-            reference_url?: string;
-        };
-        ChatCompletionResponseStage: {
-            /**
-             * @description In *streaming* chat completion responses, each stage includes an `index` field
-             *     indicating its position in the final ordered list. This field is required because
-             *     stages may arrive out of order, and the client must reconstruct the correct
-             *     sequence using `index`.
-             *     <br><br>
-             *     In *non-streaming* responses, the `index` field is omitted because a stage's
-             *     position is already determined by its place in the returned list.
-             */
-            index: number;
-            /** @description The name of the stage. */
-            name: string;
-            /** @description The contents of the stage. */
-            content?: string;
-            /** @description List of attachments to the stage. */
-            attachments?: components["schemas"]["ChatCompletionResponseAttachment"][];
-            /**
-             * @description The execution status of the stage. Available status values:
-             *
-             *     * `null`: The stage is in progress.
-             *     * `completed`: The stage is completed.
-             *     * `failed`: The stage is failed.
-             */
-            status: string | null;
-        };
-        CreateChatCompletionResponse: {
-            /** @description The ID of the response. */
-            id?: string;
-            /** @description Object type. Always is `chat.completion` for non-streaming. */
-            object?: string;
-            /** @description The response timestamp. The time in seconds since the epoch. */
-            created?: number;
-            /** @description The name of the model that generated the response. May not be the same as the deployment name. */
-            model?: string;
-            /** @description List of generated messages. Contains _n_ items. */
-            choices?: {
-                /** @description The index of the choice from `0` to `n - 1`. */
-                index: number;
-                message: components["schemas"]["ChatCompletionResponseMessage"];
-                /**
-                 * @description The reason indicating the completion of the choice generation process. The possible reasons:
-                 *
-                 *     * `stop`: Successful generation.
-                 *     * `length`: The generation was stopped because it surpassed the available number of tokens.
-                 *     * `function_call`: The Assistant decided to call a function.
-                 *     * `tool_calls`: The Assistant decided to call a tool.
-                 *     * `content_filter`: Omitted content due to a flag from content filters.
-                 */
-                finish_reason: string | null;
-            }[];
-            /** @description This field contains information about the tokens from the model that were used to generate the response. */
-            usage?: {
-                /** @description The number of tokens in the request to the model. */
-                prompt_tokens?: number;
-                /** @description The number of tokens in the response from the model. */
-                completion_tokens?: number;
-                /** @description The sum of prompt and completion tokens. */
-                total_tokens?: number;
-            };
-            statistics?: components["schemas"]["ChatCompletionResponseStatistics"];
-            /** @description Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism. */
-            system_fingerprint?: string;
-        };
-        PublicationRequest: {
-            /** @description A publication request name. */
-            name: string;
-            /** @description The name that will be displayed on UI instead of the name of the author of the publication request. */
-            displayAuthor?: string;
-            /** @description The name of the target folder for the publication. */
-            targetFolder: string;
-            /** @description List of resources to be published. **Required** either `rules` or `resources` or both. */
-            resources?: {
-                /**
-                 * @description The type of action to performed. Use `ADD` to create a publish request. Use `DELETE` to create an unpublish request.
-                 * @enum {string}
-                 */
-                action?: "ADD" | "DELETE" | "ADD_IF_ABSENT";
-                /** @description The path to the source of the publication. */
-                sourceUrl?: string;
-                /** @description The path to the destination of the publication. */
-                targetUrl?: string;
-                /** @description A flag enabling resource publication with credentials. Set `true` for publishing with credentials. */
-                publishCredentials?: boolean;
-            }[];
-            /** @description List of rules to restrict access to the published resource. Applies to `targetFolder`. The request is invalid if `rules` is specified together with `public` as value for `targetFolder`.  **Required** either `rules` or `resources` or both. Skip `resources` and include `rules` to update only rules. You can pass an empty `rules` object to delete all rules. */
-            rules?: {
-                /** @description Claim for authorization using JWT. For authorization with API keys the source is `roles`. */
-                source?: string;
-                /**
-                 * @description The function.
-                 * @enum {string}
-                 */
-                function?: "EQUAL" | "CONTAIN" | "REGEX";
-                /** @description Claim value(s) for authorization using JWT. For authorization with API keys - the roles assigned to API key. */
-                targets?: string[];
-            }[];
-        };
-        UpdatePublicationRequest: {
-            /** @description A publication request name. */
-            name: string;
-            /** @description The name that will be displayed on UI instead of the name of the author of the publication request. */
-            displayAuthor?: string;
-            /** @description The publication request URL. */
-            url: string;
-            /** @description The name of the target folder for the publication. */
-            targetFolder: string;
-            /** @description A list of resources to be published. **Required** either `rules` or `resources` or both. */
-            resources?: {
-                /**
-                 * @description A type of action to performed. Use `ADD` to create a publish request. Use `DELETE` to create an unpublish request.
-                 * @enum {string}
-                 */
-                action?: "ADD" | "DELETE" | "ADD_IF_ABSENT";
-                /** @description The path to the source of the publication. */
-                sourceUrl?: string;
-                /** @description The path to the destination of the publication. */
-                targetUrl?: string;
-                /** @description A flag enabling resource publication with credentials. Set `true` for publishing with credentials. */
-                publishCredentials?: boolean;
-            }[];
-            /** @description A list of rules to restrict access to the published resource. **Required** either `rules` or `resources` or both. Skip `resources` and include `rules` to update only rules. You can pass an empty `rules` object to delete all rules. */
-            rules?: {
-                /** @description Claim for authorization using JWT. For authorization with API keys the source is `roles`. */
-                source?: string;
-                /**
-                 * @description The function.
-                 * @enum {string}
-                 */
-                function?: "EQUAL" | "CONTAIN" | "REGEX";
-                /** @description Claim value(s) for authorization using JWT. For authorization with API keys - the roles assigned to API key. */
-                targets?: string[];
-            }[];
-        };
-        /** @description Publications */
-        PublicationResponse: {
-            /** @description List of publications. */
-            publications?: {
-                /** @description The URL that represents the publication request. */
-                url?: string;
-                /** @description The publication name. */
-                name?: string;
-                /** @description The author of the publication request. */
-                author?: string;
-                /** @description The name displayed on UI instead of the author of the publication request. */
-                displayAuthor?: string;
-                /** @description The creation time of the publication request in milliseconds. */
-                createdAt?: number;
-                /** @description The name of the target folder for the publication. */
-                targetFolder?: string;
-                /**
-                 * @description Publication status.
-                 * @enum {string}
-                 */
-                status?: "PENDING" | "APPROVED" | "REJECTED";
-                /** @description The type of resource. */
-                resourceTypes?: ("FILE" | "PROMPT" | "CONVERSATION" | "APPLICATION")[];
-            }[];
-        };
-        /** @description Notifications */
-        NotificationsResponse: {
-            /** @description List of notifications. */
-            notifications?: {
-                /** @description The identifier of the notification. */
-                id?: string;
-                /** @description The URL of the resource the notification applies to. For example, a publication request URL if the notification is created for publication requests. */
-                url?: string;
-                /** @description The notification type. */
-                type?: string;
-                /** @description The notification text. */
-                message?: string;
-                /** @description The notification timestamp. */
-                timestamp?: number;
-            }[];
-        };
-        /** @description Publications */
-        GetPublicationResponseObject: {
-            /** @description The URL with the publication bucket id, and the publication request id. */
-            url?: string;
-            /** @description The creation time of the publication request in milliseconds. */
-            createdAt?: number;
-            /** @description The publication name. */
-            name?: string;
-            /** @description The author of the publication request. */
-            author?: string;
-            /** @description The name displayed on UI instead of the author of the publication request. */
-            displayAuthor?: string;
-            /** @description The name of the target folder for the publication. */
-            targetFolder?: string;
-            /**
-             * @description Publication status.
-             * @enum {string}
-             */
-            status?: "PENDING" | "APPROVED" | "REJECTED";
-            /** @description List of resources to be published. */
-            resources?: {
-                /**
-                 * @description The type of action to be performed.
-                 * @enum {string}
-                 */
-                action?: "ADD" | "DELETE" | "ADD_IF_ABSENT";
-                /** @description The location of the source for the publication resource. */
-                sourceUrl?: string;
-                /** @description The path to the destination for the publication. */
-                targetUrl?: string;
-                /** @description The URL of the source. */
-                reviewUrl?: string;
-            }[];
-            /** @description The type of resource. */
-            resourceTypes?: ("FILE" | "PROMPT" | "CONVERSATION" | "APPLICATION")[];
-            /** @description List of rules to restrict access to the published resource. */
-            rules?: {
-                /** @description Claim for authorization using JWT. For authorization with API keys the source is `roles`. */
-                source?: string;
-                /** @description Claim value(s) for authorization using JWT. For authorization with API keys - the roles assigned to API key. */
-                targets?: string[];
-                /**
-                 * @description The function for the rule.
-                 * @enum {string}
-                 */
-                function?: "EQUAL" | "CONTAIN" | "REGEX";
-            }[];
-        };
-        /** @description Publications */
-        PublicationResponseObject: {
-            /** @description The URL with the publication bucket id, and the publication request id. */
-            url?: string;
-            /** @description The creation time of the publication request in milliseconds. */
-            createdAt?: number;
-            /** @description The publication name. */
-            name?: string;
-            /** @description The author of the publication request. */
-            author?: string;
-            /** @description The name displayed on UI instead of the author of the publication request. */
-            displayAuthor?: string;
-            /** @description The name of the target folder for the publication. */
-            targetFolder?: string;
-            /**
-             * @description Publication status.
-             * @enum {string}
-             */
-            status?: "PENDING" | "APPROVED" | "REJECTED";
-            /** @description List of resources to be published. */
-            resources?: {
-                /**
-                 * @description The type of action to be performed.
-                 * @enum {string}
-                 */
-                action?: "ADD" | "DELETE" | "ADD_IF_ABSENT";
-                /** @description The location of the source for the publication resource. */
-                sourceUrl?: string;
-                /** @description The path to the destination for the publication. */
-                targetUrl?: string;
-                /** @description The URL of the source. */
-                reviewUrl?: string;
-            }[];
-            /** @description The type of resource. */
-            resourceTypes?: ("FILE" | "PROMPT" | "CONVERSATION" | "APPLICATION")[];
-            /** @description List of rules to restrict access to the published resource. */
-            rules?: {
-                /** @description Claim for authorization using JWT. For authorization with API keys the source is `roles`. */
-                source?: string;
-                /** @description Claim value(s) for authorization using JWT. For authorization with API keys - the roles assigned to API key. */
-                targets?: string[];
-                /**
-                 * @description The function for the rule.
-                 * @enum {string}
-                 */
-                function?: "EQUAL" | "CONTAIN" | "REGEX";
-            }[];
-        };
-        /** @description Publication rules */
-        PublicationRules: {
-            /** @description Map of rules to restrict access to the published resource, where a key is a path to target folder and a value is a list of rules */
-            rules?: {
-                /** @description target folder */
-                key?: string;
-                /** @description rules' list */
-                value?: {
-                    /** @description Claim for authorization using JWT. For authorization with API keys the source is `roles`. */
-                    source?: string;
-                    /** @description Claim value(s) for authorization using JWT. For authorization with API keys - the roles assigned to API key. */
-                    targets?: string[];
-                    /**
-                     * @description The function.
-                     * @enum {string}
-                     */
-                    function?: "EQUAL" | "CONTAIN" | "REGEX";
-                }[];
-            } & {
-                [key: string]: unknown;
-            };
-        };
-        /** @description The Assistant work statistics. */
-        ChatCompletionResponseStatistics: {
-            /** @description Statistics of tokens used in models by the Assistant. In case of streaming, the statistics is published fully in one chunk. */
-            usage_per_model?: {
-                /**
-                 * @description In *streaming* chat completion responses, each model usage includes an `index` field
-                 *     indicating its position in the final ordered list. This field is required because
-                 *     model usages may arrive out of order, and the client must reconstruct the correct
-                 *     sequence using `index`.
-                 *     <br><br>
-                 *     In *non-streaming* responses, the `index` field is omitted because the position of a model usage is already determined by its place in the returned list.
-                 */
-                index?: number;
-                /** @description The model name. */
-                model?: string;
-                /** @description The number of tokens in the request to the model. */
-                prompt_tokens?: number;
-                /** @description The number of tokens in the response from the model. */
-                completion_tokens?: number;
-                /** @description The sum of prompt and completion tokens. */
-                total_tokens?: number;
-            }[];
-            /**
-             * @description The list of indices of messages that were discarded by the Assistant.
-             *
-             *     Returned only when `max_prompt_tokens` was set in the request.
-             */
-            discarded_messages?: number[];
-        };
-        /** @description Represents a streamed chunk of a chat completion response returned by model, based on the provided input. */
-        CreateChatCompletionStreamResponse: {
-            /** @description A unique identifier for the chat completion. Each chunk has the same ID. */
-            id: string;
-            /**
-             * @description The object type, which is always `chat.completion.chunk`.
-             * @enum {string}
-             */
-            object: "chat.completion.chunk";
-            /** @description The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp. */
-            created: number;
-            /** @description The model name that generated the response. May not be the same as the deployment name. */
-            model: string;
-            /**
-             * @description This fingerprint represents the backend configuration that the model runs with.
-             *     Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
-             */
-            system_fingerprint?: string;
-            /** @description A list of generated chunks. */
-            choices: {
-                /** @description The index of the choice from 0 to _n - 1_ */
-                index: number;
-                delta: components["schemas"]["ChatCompletionStreamResponseDelta"];
-                /**
-                 * @description The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
-                 *
-                 *     `length` if the maximum number of tokens specified in the request was reached,
-                 *
-                 *     `content_filter` if content was omitted due to a flag from our content filters,
-                 *
-                 *     `tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.
-                 */
-                finish_reason: string | null;
-            }[];
-            /** @description This field contains information about used models tokens for generation of the response. In case of streaming, the usage is published fully in one chunk. */
-            usage?: {
-                /** @description The number of tokens in the request to the model. */
-                prompt_tokens: number;
-                /** @description The number of tokens in the response from the model. */
-                completion_tokens: number;
-                /** @description The sum of prompt and completion tokens. */
-                total_tokens: number;
-            };
-            statistics?: components["schemas"]["ChatCompletionResponseStatistics"];
-        };
-        Error: {
-            type?: string | null;
-            message?: string | null;
-            param?: string | null;
-            code?: string | null;
-            /** @description The user-friendly error message for non-technical users. */
-            display_message?: string | null;
-        };
-        /** @description User info */
-        userinfo: {
-            /** @description The project name. */
-            project?: string;
-            /** @description List of user or API key roles. */
-            roles?: string[];
-            /** @description Claims extracted from the access token. */
-            userClaims?: {
-                /** @description The email of the user. */
-                email?: string[];
-                /** @description Identifies the principal or subject of the token. */
-                sub?: string[];
-            };
-        };
-        /** @description Application logs */
-        ApplicationLogs: {
-            /** @description log records */
-            logs?: components["schemas"]["ApplicationLog"][];
-        };
-        ApplicationLog: {
-            /** @description machine instance ID */
-            instance?: string;
-            /** @description log content */
-            content?: string;
-        };
-        CodeInterpreterRequestFile: {
-            /** @description session ID */
-            sessionId?: string;
-            /** @description URL to source file */
-            sourceUrl?: string;
-            /** @description Path to target file */
-            targetPath?: string;
-        };
-        CodeInterpreterFile: {
-            /** @description session ID */
-            sessionId?: string;
-            /** @description path to file */
-            path?: string;
-            /** @description file size */
-            size?: number;
-        };
-        GetSession: {
-            /** @description Session ID */
-            sessionId?: string;
-        };
-        PromptRequest: {
-            /** @description Prompt unique identifier */
-            id: string;
-            /** @description Display name */
-            name: string;
-            /** @description Path to the folder where prompt located according to the user's root */
-            folderId: string;
-            /** @description Prompt body */
-            content: string;
-        };
+        detail: 'auto' | 'low' | 'high';
+      };
     };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+    /** Refusal content part */
+    ChatCompletionRequestMessageContentPartRefusal: {
+      /**
+       * @description The type of the content part.
+       * @enum {string}
+       */
+      type: 'refusal';
+      /** @description The refusal message generated by the model. */
+      refusal: string;
+    };
+    /** @description The Assistant message. */
+    ChatCompletionResponseMessage: {
+      /**
+       * @description The role of the author of the response message.
+       * @enum {string}
+       */
+      role: 'assistant';
+      /** @description The refusal message generated by the model. */
+      refusal: string | null;
+      /** @description The contents of the message. `content` is set for all messages except messages with tool calls, function calls and refusals. */
+      content: string | null;
+      custom_content?: components['schemas']['ChatCompletionResponseCustomContent'];
+      /** @description The tool calls generated by the model, such as function calls. */
+      tool_calls?: components['schemas']['ChatCompletionMessageToolCall'][];
+      function_call?: components['schemas']['ChatCompletionFunctionCall'];
+    };
+    /** @description A chat completion delta generated by streamed model responses. */
+    ChatCompletionStreamResponseDelta: {
+      /**
+       * @description The role of the author of this message.
+       * @enum {string}
+       */
+      role?: 'assistant';
+      /** @description The refusal message generated by the model. */
+      refusal?: string | null;
+      /** @description The contents of the chunk message. */
+      content?: string | null;
+      custom_content?: components['schemas']['ChatCompletionResponseCustomContent'];
+      /**
+       * @deprecated
+       * @description Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model.
+       */
+      function_call?: {
+        /** @description The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function. */
+        arguments?: string;
+        /** @description The name of the function to call. */
+        name?: string;
+      };
+      tool_calls?: components['schemas']['ChatCompletionMessageToolCallChunk'][];
+    };
+    ChatCompletionMessageToolCallChunk: {
+      index: number;
+      /** @description The ID of the tool call. */
+      id?: string;
+      /**
+       * @description The type of the tool. Currently, only `function` is supported.
+       * @enum {string}
+       */
+      type?: 'function';
+      function?: {
+        /** @description The name of the function to call. */
+        name?: string;
+        /** @description The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function. */
+        arguments?: string;
+      };
+    };
+    /** @description The custom content of the assistant message. */
+    ChatCompletionRequestAssistantMessageCustomContent: {
+      /** @description The internal state of the Assistant. This field can have an arbitrary set of fields with an arbitrary structure. */
+      state?: Record<string, never>;
+      /** @description List of attachments used to supply an additional output from the model. */
+      attachments?: components['schemas']['RequestAttachment'][];
+      /**
+       * @description The JSON schema describing a form that the assistant prompts the user to fill in.
+       *     Given this schema, the user is expected to provide a JSON value in the next message in the `custom_content.form_value` field.
+       */
+      form_schema?: Record<string, never>;
+    };
+    /** @description The custom content of the user message. */
+    ChatCompletionRequestUserMessageCustomContent: {
+      /** @description List of attachments used to supply an additional input for the model. */
+      attachments?: components['schemas']['RequestAttachment'][];
+      /** @description The JSON value corresponding to the JSON schema sent by the assistant in the previous message in the `custom_content.form_schema` field. */
+      form_value?: Record<string, never>;
+    };
+    /** @description DIAL-specific extensions of the Chat Completions message. */
+    ChatCompletionRequestCustomFields: {
+      cache_breakpoint?: components['schemas']['CacheBreakpoint'];
+    };
+    /** @description The custom embedding inputs that represent multi-modal inputs (e.g. images and video) along with compound inputs (e.g. a title for an image and the image itself). */
+    EmbeddingsCustomInput: components['schemas']['EmbeddingsCustomInputElement'][];
+    /** @description A particular embedding input which embeddings model translates to an embedding vector. */
+    EmbeddingsCustomInputElement:
+      | string
+      | components['schemas']['RequestAttachment']
+      | components['schemas']['EmbeddingsCustomInputCompoundElement'];
+    /** @description An embedding input composed of multiple strings and attachments. */
+    EmbeddingsCustomInputCompoundElement: (
+      | string
+      | components['schemas']['RequestAttachment']
+    )[];
+    /** @description Additional parameters for an embedding model. */
+    EmbeddingsCustomFields: {
+      /**
+       * @description Type of embedding to embed an input with.
+       *
+       *     The particular values of this parameter are specific for particular models.
+       *
+       *     **Note:** embedding types may not be supported by some models.
+       */
+      type?: string;
+      /**
+       * @description Allows to specify an instruction prompt for an instructor-like embedding model.
+       *
+       *     **Note:** instruction may not be supported by some models.
+       */
+      instruction?: string;
+    };
+    ResponseFormatText: {
+      /**
+       * @description The type of response format being defined: `text`
+       * @enum {string}
+       */
+      type: 'text';
+    };
+    ResponseFormatJsonObject: {
+      /**
+       * @description The type of response format being defined: `json_object`
+       * @enum {string}
+       */
+      type: 'json_object';
+    };
+    /** @description The schema for the response format, described as a JSON Schema object. */
+    ResponseFormatJsonSchemaSchema: Record<string, never>;
+    ResponseFormatJsonSchema: {
+      /**
+       * @description The type of response format being defined: `json_schema`
+       * @enum {string}
+       */
+      type: 'json_schema';
+      json_schema: {
+        /** @description A description of what the response format is for, used by the model to determine how to respond in the format. */
+        description?: string;
+        /** @description The name of the response format. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64. */
+        name: string;
+        schema: components['schemas']['ResponseFormatJsonSchemaSchema'];
+        /**
+         * @description Whether to enable strict schema adherence when generating the output. If set to `true`, the model will always follow the exact schema defined in the `schema` field. Only a subset of JSON Schema is supported when `strict` is `true`.
+         * @default false
+         */
+        strict: boolean | null;
+      };
+    };
+    /** @description Additional DIAL-specific parameters for a chat completion request. */
+    ChatCompletionsCustomFields: {
+      /**
+       * @description The object that represents configuration of the deployment.
+       *     The schema of the object is specific for each deployment and provided by the endpoint
+       *     `GET /v1/deployments/{deployment_name}/configuration`.
+       *     <br><br>
+       *     A deployment supports configuration if its listing, retrieved by `GET /openai/deployments/{deployment_name}`, has a field `features.configuration` set to **true**.
+       *     <br><br>
+       *     Certain models connected via DIAL adapters are configurable. For detailed configuration information, refer to the documentation of each adapter:
+       *       - [OpenAI Adapter](https://github.com/epam/ai-dial-adapter-openai/?tab=readme-ov-file#configurable-models)
+       *       - [Google VertexAI Adapter](https://github.com/epam/ai-dial-adapter-vertexai/?tab=readme-ov-file#configurable-models)
+       *       - [AWS Bedrock Adapter](https://github.com/epam/ai-dial-adapter-bedrock/?tab=readme-ov-file#configurable-models)
+       * @example {
+       *       "model_to_use": "gpt-4",
+       *       "web_search": true,
+       *       "task": 1
+       *     }
+       */
+      configuration?: Record<string, never>;
+    };
+    /** @description The custom content of a message. */
+    ChatCompletionResponseCustomContent: {
+      /** @description List of attachments. */
+      attachments?: components['schemas']['ChatCompletionResponseAttachment'][];
+      /** @description The intermediate stages that the Assistant went through to generate the response. */
+      readonly stages?: components['schemas']['ChatCompletionResponseStage'][];
+      /** @description The internal state of the Assistant. This field can have an arbitrary set of fields with an arbitrary structure. In case of a streaming, the state is published fully in one chunk. */
+      state?: Record<string, never>;
+    };
+    RequestAttachment: {
+      /**
+       * @description The content type of the attachment. Should be one of the MIME types.
+       * @default text/markdown
+       */
+      type: string;
+      /** @description The title of the attachment. */
+      title?: string;
+      /**
+       * @description Should follow the format described in the MIME standard for `type`.
+       *
+       *     It is <span style="color: #f604fe;">mandatory</span> for the attachment to have exactly one of the following fields (never both): `data` or `url`.
+       */
+      data?: string;
+      /**
+       * @description The content of `url` should follow the format described in the MIME standard for `type`.
+       *
+       *     It is <span style="color: #f604fe;">mandatory</span> for the attachment to have exactly one of the following fields (never both): `data` or `url`.
+       */
+      url?: string;
+      /** @description The content type of `reference_url`. Should be one of the MIME types. */
+      reference_type?: string;
+      /** @description If `reference_type` is specified, the content of `reference_url` should follow the format described in the MIME standard for `reference_type`. */
+      reference_url?: string;
+    };
+    ChatCompletionResponseAttachment: {
+      /**
+       * @description In *streaming* chat completion responses, each attachment includes an `index` field
+       *     indicating its position in the final ordered list. This field is required because
+       *     attachments may arrive out of order, and the client must reconstruct the correct
+       *     sequence using `index`.
+       *     <br><br>
+       *     In *non-streaming* responses, the `index` field is omitted because an attachment's
+       *     position is already determined by its place in the returned list.
+       */
+      index: number;
+      /**
+       * @description The content type of the attachment. Should be one of the MIME types.
+       * @default text/markdown
+       */
+      type: string;
+      /** @description The title of the attachment. */
+      title?: string;
+      /**
+       * @description Should follow the format described in the MIME standard for `type`.
+       *
+       *     It is <span style="color: #f604fe;">mandatory</span> for the attachment to have one of the following fields (never both): `data` or `url`.
+       */
+      data?: string;
+      /**
+       * @description The content of `url` should follow the format described in the MIME standard for `type`.
+       *
+       *     It is <span style="color: #f604fe;">mandatory</span> for the attachment to have one of the following fields (never both): `data` or `url`.
+       */
+      url?: string;
+      /** @description The content type of `reference_url`. Should be one of the MIME types. */
+      reference_type?: string;
+      /** @description If `reference_type` is specified, the content of `reference_url` should follow the format described in the MIME standard for `reference_type`. */
+      reference_url?: string;
+    };
+    ChatCompletionResponseStage: {
+      /**
+       * @description In *streaming* chat completion responses, each stage includes an `index` field
+       *     indicating its position in the final ordered list. This field is required because
+       *     stages may arrive out of order, and the client must reconstruct the correct
+       *     sequence using `index`.
+       *     <br><br>
+       *     In *non-streaming* responses, the `index` field is omitted because a stage's
+       *     position is already determined by its place in the returned list.
+       */
+      index: number;
+      /** @description The name of the stage. */
+      name: string;
+      /** @description The contents of the stage. */
+      content?: string;
+      /** @description List of attachments to the stage. */
+      attachments?: components['schemas']['ChatCompletionResponseAttachment'][];
+      /**
+       * @description The execution status of the stage. Available status values:
+       *
+       *     * `null`: The stage is in progress.
+       *     * `completed`: The stage is completed.
+       *     * `failed`: The stage is failed.
+       */
+      status: string | null;
+    };
+    CreateChatCompletionResponse: {
+      /** @description The ID of the response. */
+      id?: string;
+      /** @description Object type. Always is `chat.completion` for non-streaming. */
+      object?: string;
+      /** @description The response timestamp. The time in seconds since the epoch. */
+      created?: number;
+      /** @description The name of the model that generated the response. May not be the same as the deployment name. */
+      model?: string;
+      /** @description List of generated messages. Contains _n_ items. */
+      choices?: {
+        /** @description The index of the choice from `0` to `n - 1`. */
+        index: number;
+        message: components['schemas']['ChatCompletionResponseMessage'];
+        /**
+         * @description The reason indicating the completion of the choice generation process. The possible reasons:
+         *
+         *     * `stop`: Successful generation.
+         *     * `length`: The generation was stopped because it surpassed the available number of tokens.
+         *     * `function_call`: The Assistant decided to call a function.
+         *     * `tool_calls`: The Assistant decided to call a tool.
+         *     * `content_filter`: Omitted content due to a flag from content filters.
+         */
+        finish_reason: string | null;
+      }[];
+      /** @description This field contains information about the tokens from the model that were used to generate the response. */
+      usage?: {
+        /** @description The number of tokens in the request to the model. */
+        prompt_tokens?: number;
+        /** @description The number of tokens in the response from the model. */
+        completion_tokens?: number;
+        /** @description The sum of prompt and completion tokens. */
+        total_tokens?: number;
+      };
+      statistics?: components['schemas']['ChatCompletionResponseStatistics'];
+      /** @description Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism. */
+      system_fingerprint?: string;
+    };
+    PublicationRequest: {
+      /** @description A publication request name. */
+      name: string;
+      /** @description The name that will be displayed on UI instead of the name of the author of the publication request. */
+      displayAuthor?: string;
+      /** @description The name of the target folder for the publication. */
+      targetFolder: string;
+      /** @description List of resources to be published. **Required** either `rules` or `resources` or both. */
+      resources?: {
+        /**
+         * @description The type of action to performed. Use `ADD` to create a publish request. Use `DELETE` to create an unpublish request.
+         * @enum {string}
+         */
+        action?: 'ADD' | 'DELETE' | 'ADD_IF_ABSENT';
+        /** @description The path to the source of the publication. */
+        sourceUrl?: string;
+        /** @description The path to the destination of the publication. */
+        targetUrl?: string;
+        /** @description A flag enabling resource publication with credentials. Set `true` for publishing with credentials. */
+        publishCredentials?: boolean;
+      }[];
+      /** @description List of rules to restrict access to the published resource. Applies to `targetFolder`. The request is invalid if `rules` is specified together with `public` as value for `targetFolder`.  **Required** either `rules` or `resources` or both. Skip `resources` and include `rules` to update only rules. You can pass an empty `rules` object to delete all rules. */
+      rules?: {
+        /** @description Claim for authorization using JWT. For authorization with API keys the source is `roles`. */
+        source?: string;
+        /**
+         * @description The function.
+         * @enum {string}
+         */
+        function?: 'EQUAL' | 'CONTAIN' | 'REGEX';
+        /** @description Claim value(s) for authorization using JWT. For authorization with API keys - the roles assigned to API key. */
+        targets?: string[];
+      }[];
+    };
+    UpdatePublicationRequest: {
+      /** @description A publication request name. */
+      name: string;
+      /** @description The name that will be displayed on UI instead of the name of the author of the publication request. */
+      displayAuthor?: string;
+      /** @description The publication request URL. */
+      url: string;
+      /** @description The name of the target folder for the publication. */
+      targetFolder: string;
+      /** @description A list of resources to be published. **Required** either `rules` or `resources` or both. */
+      resources?: {
+        /**
+         * @description A type of action to performed. Use `ADD` to create a publish request. Use `DELETE` to create an unpublish request.
+         * @enum {string}
+         */
+        action?: 'ADD' | 'DELETE' | 'ADD_IF_ABSENT';
+        /** @description The path to the source of the publication. */
+        sourceUrl?: string;
+        /** @description The path to the destination of the publication. */
+        targetUrl?: string;
+        /** @description A flag enabling resource publication with credentials. Set `true` for publishing with credentials. */
+        publishCredentials?: boolean;
+      }[];
+      /** @description A list of rules to restrict access to the published resource. **Required** either `rules` or `resources` or both. Skip `resources` and include `rules` to update only rules. You can pass an empty `rules` object to delete all rules. */
+      rules?: {
+        /** @description Claim for authorization using JWT. For authorization with API keys the source is `roles`. */
+        source?: string;
+        /**
+         * @description The function.
+         * @enum {string}
+         */
+        function?: 'EQUAL' | 'CONTAIN' | 'REGEX';
+        /** @description Claim value(s) for authorization using JWT. For authorization with API keys - the roles assigned to API key. */
+        targets?: string[];
+      }[];
+    };
+    /** @description Publications */
+    PublicationResponse: {
+      /** @description List of publications. */
+      publications?: {
+        /** @description The URL that represents the publication request. */
+        url?: string;
+        /** @description The publication name. */
+        name?: string;
+        /** @description The author of the publication request. */
+        author?: string;
+        /** @description The name displayed on UI instead of the author of the publication request. */
+        displayAuthor?: string;
+        /** @description The creation time of the publication request in milliseconds. */
+        createdAt?: number;
+        /** @description The name of the target folder for the publication. */
+        targetFolder?: string;
+        /**
+         * @description Publication status.
+         * @enum {string}
+         */
+        status?: 'PENDING' | 'APPROVED' | 'REJECTED';
+        /** @description The type of resource. */
+        resourceTypes?: ('FILE' | 'PROMPT' | 'CONVERSATION' | 'APPLICATION')[];
+      }[];
+    };
+    /** @description Notifications */
+    NotificationsResponse: {
+      /** @description List of notifications. */
+      notifications?: {
+        /** @description The identifier of the notification. */
+        id?: string;
+        /** @description The URL of the resource the notification applies to. For example, a publication request URL if the notification is created for publication requests. */
+        url?: string;
+        /** @description The notification type. */
+        type?: string;
+        /** @description The notification text. */
+        message?: string;
+        /** @description The notification timestamp. */
+        timestamp?: number;
+      }[];
+    };
+    /** @description Publications */
+    GetPublicationResponseObject: {
+      /** @description The URL with the publication bucket id, and the publication request id. */
+      url?: string;
+      /** @description The creation time of the publication request in milliseconds. */
+      createdAt?: number;
+      /** @description The publication name. */
+      name?: string;
+      /** @description The author of the publication request. */
+      author?: string;
+      /** @description The name displayed on UI instead of the author of the publication request. */
+      displayAuthor?: string;
+      /** @description The name of the target folder for the publication. */
+      targetFolder?: string;
+      /**
+       * @description Publication status.
+       * @enum {string}
+       */
+      status?: 'PENDING' | 'APPROVED' | 'REJECTED';
+      /** @description List of resources to be published. */
+      resources?: {
+        /**
+         * @description The type of action to be performed.
+         * @enum {string}
+         */
+        action?: 'ADD' | 'DELETE' | 'ADD_IF_ABSENT';
+        /** @description The location of the source for the publication resource. */
+        sourceUrl?: string;
+        /** @description The path to the destination for the publication. */
+        targetUrl?: string;
+        /** @description The URL of the source. */
+        reviewUrl?: string;
+      }[];
+      /** @description The type of resource. */
+      resourceTypes?: ('FILE' | 'PROMPT' | 'CONVERSATION' | 'APPLICATION')[];
+      /** @description List of rules to restrict access to the published resource. */
+      rules?: {
+        /** @description Claim for authorization using JWT. For authorization with API keys the source is `roles`. */
+        source?: string;
+        /** @description Claim value(s) for authorization using JWT. For authorization with API keys - the roles assigned to API key. */
+        targets?: string[];
+        /**
+         * @description The function for the rule.
+         * @enum {string}
+         */
+        function?: 'EQUAL' | 'CONTAIN' | 'REGEX';
+      }[];
+    };
+    /** @description Publications */
+    PublicationResponseObject: {
+      /** @description The URL with the publication bucket id, and the publication request id. */
+      url?: string;
+      /** @description The creation time of the publication request in milliseconds. */
+      createdAt?: number;
+      /** @description The publication name. */
+      name?: string;
+      /** @description The author of the publication request. */
+      author?: string;
+      /** @description The name displayed on UI instead of the author of the publication request. */
+      displayAuthor?: string;
+      /** @description The name of the target folder for the publication. */
+      targetFolder?: string;
+      /**
+       * @description Publication status.
+       * @enum {string}
+       */
+      status?: 'PENDING' | 'APPROVED' | 'REJECTED';
+      /** @description List of resources to be published. */
+      resources?: {
+        /**
+         * @description The type of action to be performed.
+         * @enum {string}
+         */
+        action?: 'ADD' | 'DELETE' | 'ADD_IF_ABSENT';
+        /** @description The location of the source for the publication resource. */
+        sourceUrl?: string;
+        /** @description The path to the destination for the publication. */
+        targetUrl?: string;
+        /** @description The URL of the source. */
+        reviewUrl?: string;
+      }[];
+      /** @description The type of resource. */
+      resourceTypes?: ('FILE' | 'PROMPT' | 'CONVERSATION' | 'APPLICATION')[];
+      /** @description List of rules to restrict access to the published resource. */
+      rules?: {
+        /** @description Claim for authorization using JWT. For authorization with API keys the source is `roles`. */
+        source?: string;
+        /** @description Claim value(s) for authorization using JWT. For authorization with API keys - the roles assigned to API key. */
+        targets?: string[];
+        /**
+         * @description The function for the rule.
+         * @enum {string}
+         */
+        function?: 'EQUAL' | 'CONTAIN' | 'REGEX';
+      }[];
+    };
+    /** @description Publication rules */
+    PublicationRules: {
+      /** @description Map of rules to restrict access to the published resource, where a key is a path to target folder and a value is a list of rules */
+      rules?: {
+        /** @description target folder */
+        key?: string;
+        /** @description rules' list */
+        value?: {
+          /** @description Claim for authorization using JWT. For authorization with API keys the source is `roles`. */
+          source?: string;
+          /** @description Claim value(s) for authorization using JWT. For authorization with API keys - the roles assigned to API key. */
+          targets?: string[];
+          /**
+           * @description The function.
+           * @enum {string}
+           */
+          function?: 'EQUAL' | 'CONTAIN' | 'REGEX';
+        }[];
+      } & {
+        [key: string]: unknown;
+      };
+    };
+    /** @description The Assistant work statistics. */
+    ChatCompletionResponseStatistics: {
+      /** @description Statistics of tokens used in models by the Assistant. In case of streaming, the statistics is published fully in one chunk. */
+      usage_per_model?: {
+        /**
+         * @description In *streaming* chat completion responses, each model usage includes an `index` field
+         *     indicating its position in the final ordered list. This field is required because
+         *     model usages may arrive out of order, and the client must reconstruct the correct
+         *     sequence using `index`.
+         *     <br><br>
+         *     In *non-streaming* responses, the `index` field is omitted because the position of a model usage is already determined by its place in the returned list.
+         */
+        index?: number;
+        /** @description The model name. */
+        model?: string;
+        /** @description The number of tokens in the request to the model. */
+        prompt_tokens?: number;
+        /** @description The number of tokens in the response from the model. */
+        completion_tokens?: number;
+        /** @description The sum of prompt and completion tokens. */
+        total_tokens?: number;
+      }[];
+      /**
+       * @description The list of indices of messages that were discarded by the Assistant.
+       *
+       *     Returned only when `max_prompt_tokens` was set in the request.
+       */
+      discarded_messages?: number[];
+    };
+    /** @description Represents a streamed chunk of a chat completion response returned by model, based on the provided input. */
+    CreateChatCompletionStreamResponse: {
+      /** @description A unique identifier for the chat completion. Each chunk has the same ID. */
+      id: string;
+      /**
+       * @description The object type, which is always `chat.completion.chunk`.
+       * @enum {string}
+       */
+      object: 'chat.completion.chunk';
+      /** @description The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp. */
+      created: number;
+      /** @description The model name that generated the response. May not be the same as the deployment name. */
+      model: string;
+      /**
+       * @description This fingerprint represents the backend configuration that the model runs with.
+       *     Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
+       */
+      system_fingerprint?: string;
+      /** @description A list of generated chunks. */
+      choices: {
+        /** @description The index of the choice from 0 to _n - 1_ */
+        index: number;
+        delta: components['schemas']['ChatCompletionStreamResponseDelta'];
+        /**
+         * @description The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
+         *
+         *     `length` if the maximum number of tokens specified in the request was reached,
+         *
+         *     `content_filter` if content was omitted due to a flag from our content filters,
+         *
+         *     `tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.
+         */
+        finish_reason: string | null;
+      }[];
+      /** @description This field contains information about used models tokens for generation of the response. In case of streaming, the usage is published fully in one chunk. */
+      usage?: {
+        /** @description The number of tokens in the request to the model. */
+        prompt_tokens: number;
+        /** @description The number of tokens in the response from the model. */
+        completion_tokens: number;
+        /** @description The sum of prompt and completion tokens. */
+        total_tokens: number;
+      };
+      statistics?: components['schemas']['ChatCompletionResponseStatistics'];
+    };
+    Error: {
+      type?: string | null;
+      message?: string | null;
+      param?: string | null;
+      code?: string | null;
+      /** @description The user-friendly error message for non-technical users. */
+      display_message?: string | null;
+    };
+    /** @description User info */
+    userinfo: {
+      /** @description The project name. */
+      project?: string;
+      /** @description List of user or API key roles. */
+      roles?: string[];
+      /** @description Claims extracted from the access token. */
+      userClaims?: {
+        /** @description The email of the user. */
+        email?: string[];
+        /** @description Identifies the principal or subject of the token. */
+        sub?: string[];
+      };
+    };
+    /** @description Application logs */
+    ApplicationLogs: {
+      /** @description log records */
+      logs?: components['schemas']['ApplicationLog'][];
+    };
+    ApplicationLog: {
+      /** @description machine instance ID */
+      instance?: string;
+      /** @description log content */
+      content?: string;
+    };
+    CodeInterpreterRequestFile: {
+      /** @description session ID */
+      sessionId?: string;
+      /** @description URL to source file */
+      sourceUrl?: string;
+      /** @description Path to target file */
+      targetPath?: string;
+    };
+    CodeInterpreterFile: {
+      /** @description session ID */
+      sessionId?: string;
+      /** @description path to file */
+      path?: string;
+      /** @description file size */
+      size?: number;
+    };
+    GetSession: {
+      /** @description Session ID */
+      sessionId?: string;
+    };
+    PromptRequest: {
+      /** @description Prompt unique identifier */
+      id: string;
+      /** @description Display name */
+      name: string;
+      /** @description Path to the folder where prompt located according to the user's root */
+      folderId: string;
+      /** @description Prompt body */
+      content: string;
+    };
+    JsonRpcRequest: {
+      /**
+       * @description JSON-RPC protocol version
+       * @enum {string}
+       */
+      jsonrpc: '2.0';
+      /** @description Name of the method to be invoked. */
+      method: string;
+      /** @description Parameter values for the RPC call. Can be: `array` (by-position parameters) OR `object` (by-name parameters). */
+      params?: unknown[] | Record<string, never>;
+      /**
+       * @description Identifier established by the client. Must be included in the
+       *     response if present. If omitted, it's a notification.
+       */
+      id?: string | number;
+    };
+    JsonRpcResponse: {
+      /**
+       * @description JSON-RPC protocol version
+       * @enum {string}
+       */
+      jsonrpc: '2.0';
+      /**
+       * @description The successful result of the RPC call. Must not be included
+       *     if `error` is present.
+       */
+      result?: unknown;
+      /**
+       * @description Error object in case of failure. Must not be included
+       *     if `result` is present.
+       */
+      error?: {
+        /** @description Error code. */
+        code: number;
+        /** @description Error message. */
+        message: string;
+        /** @description Additional error information */
+        data?: unknown;
+      };
+      /**
+       * @description Same `id` as in the request. `Null` for certain errors where the
+       *     request `id` cannot be determined.
+       */
+      id?: string | number;
+    };
+    Deployments: {
+      deployments?: (
+        | components['schemas']['ModelOpenAi']
+        | components['schemas']['ApplicationOpenAi']
+        | components['schemas']['ToolsetOpenAi']
+      )[];
+    };
+  };
+  responses: never;
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    sendChatCompletionRequest: {
-        parameters: {
-            query: {
-                /**
-                 * @description The API version to use for this request. Follows the `YYYY-MM-DD[-preview]` format.
-                 * @example 2024-10-21
-                 */
-                "api-version": string;
-            };
-            header?: {
-                "X-CACHE-POLICY"?: "availability-priority" | "cache-priority";
-            };
-            path: {
-                /** @description The name of the deployment. */
-                deployment_name: string;
-            };
-            cookie?: never;
+  sendChatCompletionRequest: {
+    parameters: {
+      query: {
+        /**
+         * @description The API version to use for this request. Follows the `YYYY-MM-DD[-preview]` format.
+         * @example 2024-10-21
+         */
+        'api-version': string;
+      };
+      header?: {
+        'X-CACHE-POLICY'?: 'availability-priority' | 'cache-priority';
+      };
+      path: {
+        /** @description The name of the deployment. */
+        deployment_name: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description The name of the model to use. */
+          model?: string;
+          /** @description A list of messages comprising the conversation so far. */
+          messages: components['schemas']['ChatCompletionRequestMessage'][];
+          /**
+           * @deprecated
+           * @description Deprecated in favor of `tools`.
+           *
+           *     A list of functions the model may generate JSON inputs for.
+           */
+          functions?: components['schemas']['ChatCompletionFunction'][];
+          /**
+           * @deprecated
+           * @description Deprecated in favor of `tool_choice`.
+           *
+           *     Controls which (if any) `function` is called by the model.
+           *
+           *     `none` means the model will not call a `function` and instead generates a `message`.
+           *
+           *     `auto` means the model can pick between generating a `message` or calling a `function`.
+           *
+           *     Specifying a particular function via `{"name": "my_function"}` forces the model to call that function.
+           *
+           *     `none` is the default when no functions are present. `auto` is the default if functions are present.
+           */
+          function_call?:
+            | ('none' | 'auto')
+            | components['schemas']['ChatCompletionFunctionCallOption'];
+          /** @description A list of tools the model may call. Currently, only `functions` are supported as a tool. Use this to provide a list of `functions` the model may generate JSON inputs for. A max of 128 functions are supported. */
+          tools?: components['schemas']['ChatCompletionTool'][];
+          tool_choice?: components['schemas']['ChatCompletionToolChoiceOption'];
+          /**
+           * @deprecated
+           * @description A list of Addons the Assistant can use.
+           */
+          addons?: components['schemas']['ChatCompletionAddon'][];
+          /**
+           * @description If set, partial message deltas will be sent. Tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://cookbook.openai.com/examples/how_to_stream_completions).
+           * @default false
+           */
+          stream?: boolean | null;
+          /**
+           * @description What sampling temperature to use, between 0 and 2. Higher values such as 0.8 make the output more random, while lower values like 0.2 make it more focused and deterministic.
+           * @default 1
+           */
+          temperature?: number;
+          /**
+           * @description An alternative to sampling with temperature, called nucleus sampling, where the Assistant considers the results of the tokens with `top_p` probability mass. A value of 0.1 implies that only the tokens representing the top 10% probability mass are taken into consideration.
+           * @default 1
+           */
+          top_p?: number;
+          /**
+           * @description How many chat completion choices to generate for each input message. Note that you will be charged based on the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs.
+           * @default 1
+           * @example 1
+           */
+          n?: number | null;
+          parallel_tool_calls?: components['schemas']['ParallelToolCalls'];
+          /** @description Up to 4 sequences where the Assistant will stop generating further tokens. */
+          stop?: (string | null) | string[];
+          /**
+           * @description The maximum number of tokens to generate by the Assistant.
+           * @default infinity
+           */
+          max_tokens?: number;
+          /**
+           * @description The maximum number of prompt tokens to handle in a request. The feature is supported only by the model adapters and the Assistant. Given this parameter an adapter truncates the list of the messages to fit into this limit and passes the truncated list to the actual model.
+           *
+           *     The default strategy for truncation is to preserve all system messages and the last message. Whatever else could fit within the limit is added to the final list of messages, prioritizing the most recent messages in the chat over the earlier ones.
+           *
+           *     The list of indices of the messages that were discarded is returned in the `statistics.discarded_messages` field of the response.
+           * @default infinity
+           */
+          max_prompt_tokens?: number;
+          /**
+           * @description **Note** the parameter is only supported in OpenAI models.
+           *
+           *     An upper bound for the number of tokens that can be generated for a completion, including visible output tokens and reasoning tokens.
+           */
+          max_completion_tokens?: number | null;
+          /**
+           * @description A number between `-2.0` and `2.0`. Positive values impose a penalty on new tokens based on their appearance in the current text, thereby increasing the model's tendency to introduce new topics in its responses.
+           * @default 0
+           */
+          presence_penalty?: number;
+          /**
+           * @description A number between `-2.0` and `2.0`. Positive values apply a penalty to new tokens according to their existing frequency in the preceding text, thereby reducing the model's propensity to repeat the exact same line.
+           * @default 0
+           */
+          frequency_penalty?: number;
+          /**
+           * @description Modifies the likelihood of specified tokens appearing in the completion.
+           *
+           *     Accepts a JSON object that maps tokens (specified by their token ID in the tokenizer) to an associated bias value from `-100` to `100`. Mathematically, the bias is added to the `logits` generated by the model prior to sampling. The exact effect will vary per model, but values between `-1` and `1` should decrease or increase the likelihood of a selection; values like `-100` or `100` should result in a ban or exclusive selection of the relevant token.
+           * @default null
+           */
+          logit_bias?: Record<string, never>;
+          /**
+           * @description This feature is in **Beta**.
+           *
+           *     If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.
+           *     Determinism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.
+           */
+          seed?: number | null;
+          /** @description A unique identifier representing the end-user. */
+          user?: string;
+          /**
+           * @description An object specifying the format that the model must output. Compatible with [GPT-4o](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models#gpt-4-and-gpt-4-turbo-models), [GPT-4o mini](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models#gpt-4-and-gpt-4-turbo-models), [GPT-4 Turbo](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models#gpt-4-and-gpt-4-turbo-models) and all [GPT-3.5](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models#gpt-35) Turbo models newer than `gpt-3.5-turbo-1106`.
+           *
+           *     Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees the model will match your supplied JSON schema.
+           *
+           *     Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+           *
+           *     **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
+           *
+           *     **Note:** JSON mode is not supported by all models.
+           */
+          response_format?:
+            | components['schemas']['ResponseFormatText']
+            | components['schemas']['ResponseFormatJsonObject']
+            | components['schemas']['ResponseFormatJsonSchema'];
+          custom_fields?: components['schemas']['ChatCompletionsCustomFields'];
         };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description The name of the model to use. */
-                    model?: string;
-                    /** @description A list of messages comprising the conversation so far. */
-                    messages: components["schemas"]["ChatCompletionRequestMessage"][];
-                    /**
-                     * @deprecated
-                     * @description Deprecated in favor of `tools`.
-                     *
-                     *     A list of functions the model may generate JSON inputs for.
-                     */
-                    functions?: components["schemas"]["ChatCompletionFunction"][];
-                    /**
-                     * @deprecated
-                     * @description Deprecated in favor of `tool_choice`.
-                     *
-                     *     Controls which (if any) `function` is called by the model.
-                     *
-                     *     `none` means the model will not call a `function` and instead generates a `message`.
-                     *
-                     *     `auto` means the model can pick between generating a `message` or calling a `function`.
-                     *
-                     *     Specifying a particular function via `{"name": "my_function"}` forces the model to call that function.
-                     *
-                     *     `none` is the default when no functions are present. `auto` is the default if functions are present.
-                     */
-                    function_call?: ("none" | "auto") | components["schemas"]["ChatCompletionFunctionCallOption"];
-                    /** @description A list of tools the model may call. Currently, only `functions` are supported as a tool. Use this to provide a list of `functions` the model may generate JSON inputs for. A max of 128 functions are supported. */
-                    tools?: components["schemas"]["ChatCompletionTool"][];
-                    tool_choice?: components["schemas"]["ChatCompletionToolChoiceOption"];
-                    /**
-                     * @deprecated
-                     * @description A list of Addons the Assistant can use.
-                     */
-                    addons?: components["schemas"]["ChatCompletionAddon"][];
-                    /**
-                     * @description If set, partial message deltas will be sent. Tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://cookbook.openai.com/examples/how_to_stream_completions).
-                     * @default false
-                     */
-                    stream?: boolean | null;
-                    /**
-                     * @description What sampling temperature to use, between 0 and 2. Higher values such as 0.8 make the output more random, while lower values like 0.2 make it more focused and deterministic.
-                     * @default 1
-                     */
-                    temperature?: number;
-                    /**
-                     * @description An alternative to sampling with temperature, called nucleus sampling, where the Assistant considers the results of the tokens with `top_p` probability mass. A value of 0.1 implies that only the tokens representing the top 10% probability mass are taken into consideration.
-                     * @default 1
-                     */
-                    top_p?: number;
-                    /**
-                     * @description How many chat completion choices to generate for each input message. Note that you will be charged based on the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs.
-                     * @default 1
-                     * @example 1
-                     */
-                    n?: number | null;
-                    parallel_tool_calls?: components["schemas"]["ParallelToolCalls"];
-                    /** @description Up to 4 sequences where the Assistant will stop generating further tokens. */
-                    stop?: (string | null) | string[];
-                    /**
-                     * @description The maximum number of tokens to generate by the Assistant.
-                     * @default infinity
-                     */
-                    max_tokens?: number;
-                    /**
-                     * @description The maximum number of prompt tokens to handle in a request. The feature is supported only by the model adapters and the Assistant. Given this parameter an adapter truncates the list of the messages to fit into this limit and passes the truncated list to the actual model.
-                     *
-                     *     The default strategy for truncation is to preserve all system messages and the last message. Whatever else could fit within the limit is added to the final list of messages, prioritizing the most recent messages in the chat over the earlier ones.
-                     *
-                     *     The list of indices of the messages that were discarded is returned in the `statistics.discarded_messages` field of the response.
-                     * @default infinity
-                     */
-                    max_prompt_tokens?: number;
-                    /**
-                     * @description **Note** the parameter is only supported in OpenAI models.
-                     *
-                     *     An upper bound for the number of tokens that can be generated for a completion, including visible output tokens and reasoning tokens.
-                     */
-                    max_completion_tokens?: number | null;
-                    /**
-                     * @description A number between `-2.0` and `2.0`. Positive values impose a penalty on new tokens based on their appearance in the current text, thereby increasing the model's tendency to introduce new topics in its responses.
-                     * @default 0
-                     */
-                    presence_penalty?: number;
-                    /**
-                     * @description A number between `-2.0` and `2.0`. Positive values apply a penalty to new tokens according to their existing frequency in the preceding text, thereby reducing the model's propensity to repeat the exact same line.
-                     * @default 0
-                     */
-                    frequency_penalty?: number;
-                    /**
-                     * @description Modifies the likelihood of specified tokens appearing in the completion.
-                     *
-                     *     Accepts a JSON object that maps tokens (specified by their token ID in the tokenizer) to an associated bias value from `-100` to `100`. Mathematically, the bias is added to the `logits` generated by the model prior to sampling. The exact effect will vary per model, but values between `-1` and `1` should decrease or increase the likelihood of a selection; values like `-100` or `100` should result in a ban or exclusive selection of the relevant token.
-                     * @default null
-                     */
-                    logit_bias?: {
-                        [key: string]: unknown;
-                    };
-                    /**
-                     * @description This feature is in **Beta**.
-                     *
-                     *     If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.
-                     *     Determinism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.
-                     */
-                    seed?: number | null;
-                    /** @description A unique identifier representing the end-user. */
-                    user?: string;
-                    /**
-                     * @description An object specifying the format that the model must output. Compatible with [GPT-4o](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models#gpt-4-and-gpt-4-turbo-models), [GPT-4o mini](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models#gpt-4-and-gpt-4-turbo-models), [GPT-4 Turbo](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models#gpt-4-and-gpt-4-turbo-models) and all [GPT-3.5](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models#gpt-35) Turbo models newer than `gpt-3.5-turbo-1106`.
-                     *
-                     *     Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which guarantees the model will match your supplied JSON schema.
-                     *
-                     *     Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
-                     *
-                     *     **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
-                     *
-                     *     **Note:** JSON mode is not supported by all models.
-                     */
-                    response_format?: components["schemas"]["ResponseFormatText"] | components["schemas"]["ResponseFormatJsonObject"] | components["schemas"]["ResponseFormatJsonSchema"];
-                    custom_fields?: components["schemas"]["ChatCompletionsCustomFields"];
-                };
-            };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CreateChatCompletionResponse"];
-                    "text/event-stream": components["schemas"]["CreateChatCompletionStreamResponse"][];
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
+        content: {
+          'application/json': components['schemas']['CreateChatCompletionResponse'];
+          'text/event-stream': components['schemas']['CreateChatCompletionStreamResponse'][];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+      /**
+       * @description Not found
+       *
+       *     Returned either when:
+       *     1. The deployment called `{deployment_name}` doesn't exist. Check the DIAL listing to verify that the deployment does actually exist.
+       *     2. The `api-version` query parameter points to an API version that doesn't exist. This is relevant only for deployments based on Azure OpenAI models.
+       */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+      /** @description Rate limit reached. */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+      /** @description Failed to connect to upstream server. */
+      502: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+      /** @description The engine is currently overloaded, please try again later. */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+    };
+  };
+  configurationDeployment: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The name of the deployment. */
+        deployment_name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': Record<string, never>;
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  sendEmbeddingsRequest: {
+    parameters: {
+      query: {
+        /**
+         * @description The API version to use for this request. Follows the `YYYY-MM-DD[-preview]` format.
+         * @example 2023-12-01-preview
+         */
+        'api-version': string;
+      };
+      header?: never;
+      path: {
+        /** @description The name of the deployment. */
+        deployment_name: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['EmbeddingRequest'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['EmbeddingResponse'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+      /**
+       * @description Not found
+       *
+       *     Returned either when:
+       *     1. The deployment called `{deployment_name}` doesn't exist. Check the DIAL listing to verify that the deployment does actually exist.
+       *     2. The `api-version` query parameter points to an API version that doesn't exist. This is relevant only for deployments based on Azure OpenAI models.
+       */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+      /** @description Rate limit reached */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+      /** @description The engine is currently overloaded, please try again later. */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+    };
+  };
+  rateDeployment: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The name of the deployment. */
+        deployment_name: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description True if you like the message and false otherwise */
+          rate?: boolean;
+          /** @description Id received in the target chat completion response */
+          responseId?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getUserInfo: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['userinfo'];
+        };
+      };
+      /** @description Invalid Authentication */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  callToolSet: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The name of the toolset. */
+        toolset_name: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': string;
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': Record<string, never>;
+        };
+      };
+      /** @description Invalid Authentication */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  callMcp: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The ID of the deployment. */
+        deployment_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': string;
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': Record<string, never>;
+        };
+      };
+      /** @description Invalid Authentication */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  deployApplication: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description The application URL. */
+          url?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApplicationOpenAi'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  undeployApplication: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description The application URL. */
+          url?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApplicationOpenAi'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  redeployApplication: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description The application URL. */
+          url?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApplicationOpenAi'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getApplicationLogs: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description The application URL. */
+          url?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApplicationLogs'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  listCustomApplicationSchemas: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** @description Unique identifier for the application schema. */
+            $id?: string;
+            /** @description Name of the application type displayed on the UI. */
+            'dial:applicationTypeDisplayName'?: string;
+            /** @description URL for the UI of the application type. */
+            'dial:applicationTypeViewerUrl'?: string;
+            /** @description URL for the application builder used by the app type. */
+            'dial:applicationTypeEditorUrl'?: string;
+            /** @description URL to retrieve JSON schema of the application. */
+            'dial:applicationTypeSchemaEndpoint'?: string;
+          }[];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getMetaSchemaOfCustomApplicationSchema: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': Record<string, never>;
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getCustomApplicationSchema: {
+    parameters: {
+      query: {
+        /** @description schema ID of custom application */
+        id: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': Record<string, never>;
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getCustomApplication: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The target application path. The parameter specifies full path to the application, for example: `folder1/folder2/application_name` */
+        application_path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': string;
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  saveCustomApplication: {
+    parameters: {
+      query?: never;
+      header?: {
+        /**
+         * @description The entity tag (ETag) of the application. This is used for conditional requests to ensure that the application is only uploaded if it matches the specified ETag.
+         *     If the application does not exist, this header is ignored.
+         *     If this header is not provided or the value is "*", any existing application at the specified path will be overwritten.
+         */
+        'If-Match'?: string;
+        /**
+         * @description The entity tag (ETag) used to ensure that the application is only uploaded if it does not already exist.
+         *     The only supported value is "*".
+         */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description Target application path. The parameter specifies a full path to the application, for example: `folder1/folder2/application_name` */
+        application_path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': string;
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            name?: string;
+            author?: string;
+            parentPath?: string;
+            bucket?: string;
+            url?: string;
+            nodeType?: string;
+            resourceType?: string;
+            createdAt?: number;
+            updatedAt?: number;
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  deleteCustomApplication: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description The entity tag (ETag) of the application. This is used for conditional requests to ensure that the application is only deleted if it matches the specified ETag. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The target application path. The parameter specifies full path to the application, for example: `folder1/folder2/application_name` */
+        application_path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getApplicationMetadata: {
+    parameters: {
+      query?: {
+        /** @description The token from the previous request to request next items. */
+        token?: string;
+        /** @description Limit on the number of items in the response. */
+        limit?: number;
+        /**
+         * @description If true, returns items recursively without nested folder metadata.
+         *
+         *     For example, request for `/a/` will contain only metadata for items `/a/b/c` and `/a/d/e/f`, but it won't contain metadata for folders: `/a/b/`, `/a/d/`, `/a/d/e`.
+         */
+        recursive?: boolean;
+        /** @description If true, returns the permissions applicable to the requestor, indicating what actions they can perform on applications. */
+        permissions?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The parameter specifies path to the requested directory or application, for example: `folder1/folder2/` or `folder1/application_name/`. Note, it could be empty if you want to list the root folder. */
+        Path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            name?: string;
+            /** @description This field is not available for folders. */
+            author?: string;
+            parentPath?: string;
+            bucket?: string;
+            url?: string;
+            /** @description ITEM if the pass is provided for an app and FOLDER in case for a folder. */
+            nodeType?: string;
+            resourceType?: string;
+            /** @description This field is not available for folders. */
+            etag?: string;
+            /** @description The creation time is not supported by all storage providers. */
+            createdAt?: number;
+            updatedAt?: number;
+            permissions?: ('READ' | 'WRITE' | 'SHARE')[];
+            items?: {
+              name?: string;
+              parentPath?: string;
+              bucket?: string;
+              url?: string;
+              nodeType?: string;
+              resourceType?: string;
+              createdAt?: number;
+              updatedAt?: number;
+              permissions?: ('READ' | 'WRITE')[];
+            }[];
+            /** @description An optional field that can be used to request next items if present. */
+            nextToken?: string;
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getUserBucket: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            bucket: string;
+            /** @description Bucket of the root user, allowing to manage user files in the assistant folder. Exists only for requests made using temporary api-key that were generated for the request to the dial assistants. */
+            appdata?: string;
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  downloadFile: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The target file path. The parameter specifies full path to the file, for example: `folder1/folder2/file.png` */
+        file_path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/octet-stream': string;
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  uploadFile: {
+    parameters: {
+      query?: never;
+      header?: {
+        /**
+         * @description The entity tag (ETag) of the file. This is used for conditional requests to ensure that the file is only uploaded if it matches the specified ETag.
+         *     If the file does not exist, and this header is provided, the request returns 412 Precondition Failed response.
+         *     If this header is not provided or the value is "*", any existing file at the specified path will be overwritten.
+         */
+        'If-Match'?: string;
+        /**
+         * @description The entity tag (ETag) used to ensure that the file is only uploaded if it does not already exist.
+         *     The only supported value is "*".
+         */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The target file path. The parameter specifies full path to the file, for example: `folder1/folder2/file.png` */
+        file_path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'multipart/form-data': {
+          /**
+           * Format: binary
+           * @description A part of multipart/form-data request
+           */
+          file?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            name?: string;
+            parentPath?: string;
+            bucket?: string;
+            url?: string;
+            nodeType?: string;
+            resourceType?: string;
+            contentLength?: number;
+            contentType?: string;
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  deleteFile: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description The entity tag (ETag) of the file. This is used for conditional requests to ensure that the file is only deleted if it matches the specified ETag. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The target file path. The parameter specifies full path to the file, for example: `folder1/folder2/file.png` */
+        file_path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getFileMetadata: {
+    parameters: {
+      query?: {
+        /** @description The token from the previous request to request next items. */
+        token?: string;
+        /** @description Limit on the number of items in the response. */
+        limit?: number;
+        /**
+         * @description If true, returns items recursively without nested folder metadata.
+         *
+         *     For example, request for `/a/` will contain only metadata for items `/a/b/c` and `/a/d/e/f`, but it won't contain metadata for folders: `/a/b/`, `/a/d/`, `/a/d/e`.
+         */
+        recursive?: boolean;
+        /** @description If true, returns the permissions applicable to the requestor, indicating what actions they can perform on the files. */
+        permissions?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The parameter specifies path to the requested directory or file, for example: `folder1/folder2/`.  Note, it could be empty if you want to list the root folder. */
+        Path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            name?: string;
+            /** @description This field is not available for folders. */
+            author?: string;
+            parentPath?: string;
+            bucket?: string;
+            url?: string;
+            nodeType?: string;
+            resourceType?: string;
+            /** @description This field is not available for folders. */
+            etag?: string;
+            /** @description The creation time is not supported by all storage providers. */
+            createdAt?: number;
+            updatedAt?: number;
+            contentLength?: number;
+            contentType?: string;
+            permissions?: ('READ' | 'WRITE' | 'SHARE')[];
+            /** @description This field is only available for folders. */
+            items?: {
+              name?: string;
+              parentPath?: string;
+              bucket?: string;
+              url?: string;
+              nodeType?: string;
+              resourceType?: string;
+              createdAt?: number;
+              updatedAt?: number;
+              contentLength?: number;
+              contentType?: string;
+              permissions?: ('READ' | 'WRITE' | 'SHARE')[];
+            }[];
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  moveResource: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description Source URL. Must belong to the user. */
+          sourceUrl?: string;
+          /** @description Destination URL. Must belong to the user and be of the same type as the source URL. */
+          destinationUrl?: string;
+          /** @description If true, the destination URL will be overwritten if it already exists. */
+          overwrite?: boolean;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  copyResource: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description Source URL. Must belong to the user. */
+          sourceUrl?: string;
+          /** @description Destination URL. Must belong to the user and be of the same type as the source URL. */
+          destinationUrl?: string;
+          /** @description If true, the destination URL will be overwritten if it already exists. */
+          overwrite?: boolean;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getConversation: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The target conversation path. The parameter specifies full path to the conversation, for example: `folder1/folder2/conversation_name` */
+        conversation_path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': string;
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  saveConversation: {
+    parameters: {
+      query?: never;
+      header?: {
+        /**
+         * @description The entity tag (ETag) of the conversation. This is used for conditional requests to ensure that the conversation is only uploaded if it matches the specified ETag.
+         *     If the conversation does not exist, this header is ignored.
+         *     If this header is not provided or the value is "*", any existing conversation at the specified path will be overwritten.
+         */
+        'If-Match'?: string;
+        /**
+         * @description The entity tag (ETag) used to ensure that the conversation is only uploaded if it does not already exist.
+         *     The only supported value is "*".
+         */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The target conversation path. The parameter specifies full path to the conversation, for example: `folder1/folder2/conversation_name` */
+        conversation_path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': string;
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            name?: string;
+            parentPath?: string;
+            bucket?: string;
+            url?: string;
+            nodeType?: string;
+            resourceType?: string;
+            createdAt?: number;
+            updatedAt?: number;
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  deleteConversation: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description The entity tag (ETag) of the conversation. This is used for conditional requests to ensure that the conversation is only deleted if it matches the specified ETag. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The target conversation path. The parameter specifies full path to the conversation, for example: `folder1/folder2/conversation_name` */
+        conversation_path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getConversationMetadata: {
+    parameters: {
+      query?: {
+        /** @description The token from the previous request to request next items. */
+        token?: string;
+        /** @description Limit on the number of items in the response. */
+        limit?: number;
+        /**
+         * @description If true, returns items recursively without nested folder metadata.
+         *
+         *     For example, request for `/a/` will contain only metadata for items `/a/b/c` and `/a/d/e/f`, but it won't contain metadata for folders: `/a/b/`, `/a/d/`, `/a/d/e`.
+         */
+        recursive?: boolean;
+        /** @description If true, returns the permissions applicable to the requestor, indicating what actions they can perform on the conversations. */
+        permissions?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The parameter specifies path to the requested directory or a conversation, for example: `folder1/folder2/`.  Note, it could be empty if you want to list the root folder. */
+        Path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            name?: string;
+            /** @description This field is not available for folders. */
+            author?: string;
+            parentPath?: string;
+            bucket?: string;
+            url?: string;
+            nodeType?: string;
+            resourceType?: string;
+            /** @description This field is not available for folders. */
+            etag?: string;
+            /** @description The creation time is not supported by all storage providers. */
+            createdAt?: number;
+            updatedAt?: number;
+            permissions?: ('READ' | 'WRITE' | 'SHARE')[];
+            items?: {
+              name?: string;
+              parentPath?: string;
+              bucket?: string;
+              url?: string;
+              nodeType?: string;
+              resourceType?: string;
+              createdAt?: number;
+              updatedAt?: number;
+              permissions?: ('READ' | 'WRITE' | 'SHARE')[];
+            }[];
+            /** @description An optional field that can be used to request next items if present. */
+            nextToken?: string;
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getPrompt: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The target prompt path. The parameter specifies full path to the prompt, for example: `folder1/folder2/prompt_name` */
+        prompt_path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** @description Prompt unique identifier */
+            id?: string;
+            /** @description Path to the folder where prompt located according to the user's root */
+            folderId?: string;
+            /** @description Prompt's display name */
+            name?: string;
+            /** @description Prompt content */
+            content?: string;
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  savePrompt: {
+    parameters: {
+      query?: never;
+      header?: {
+        /**
+         * @description The entity tag (ETag) of the prompt. This is used for conditional requests to ensure that the prompt is only uploaded if it matches the specified ETag.
+         *     If the prompt does not exist, this header is ignored.
+         *     If this header is not provided or the value is "*", any existing prompt at the specified path will be overwritten.
+         */
+        'If-Match'?: string;
+        /**
+         * @description The entity tag (ETag) used to ensure that the prompt is only uploaded if it does not already exist.
+         *     The only supported value is "*".
+         */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The target prompt path. The parameter specifies full path to the prompt, for example: `folder1/folder2/prompt_name` */
+        prompt_path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PromptRequest'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** @description Resource name provided in the prompt path */
+            name?: string;
+            /** @description Relative path to the resource starting with the bucket identifier */
+            parentPath?: string;
+            /** @description User's bucket name */
+            bucket?: string;
+            /** @description A full path to the prompt */
+            url?: string;
             /**
-             * @description Not found
-             *
-             *     Returned either when:
-             *     1. The deployment called `{deployment_name}` doesn't exist. Check the DIAL listing to verify that the deployment does actually exist.
-             *     2. The `api-version` query parameter points to an API version that doesn't exist. This is relevant only for deployments based on Azure OpenAI models.
+             * @description A node type
+             * @enum {string}
              */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
-            /** @description Rate limit reached. */
-            429: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
-            /** @description The server had an error while processing your request. */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
-            /** @description The engine is currently overloaded, please try again later. */
-            503: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
+            nodeType?: 'ITEM' | 'FOLDER';
+            /** @description A resource type */
+            resourceType?: string;
+            /** @description This field is not available for folders. */
+            etag?: string;
+            /** @description The creation time is not supported by all storage providers. */
+            createdAt?: number;
+            updatedAt?: number;
+            permissions?: ('READ' | 'WRITE' | 'SHARE')[];
+          };
         };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
     };
-    configurationDeployment: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The name of the deployment. */
-                deployment_name: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        [key: string]: unknown;
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+  };
+  deletePrompt: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description The entity tag (ETag) of the prompt. This is used for conditional requests to ensure that the prompt is only deleted if it matches the specified ETag. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The target prompt path. The parameter specifies full path to the prompt, for example: `folder1/folder2/prompt_name` */
+        prompt_path: string;
+      };
+      cookie?: never;
     };
-    sendEmbeddingsRequest: {
-        parameters: {
-            query: {
-                /**
-                 * @description The API version to use for this request. Follows the `YYYY-MM-DD[-preview]` format.
-                 * @example 2023-12-01-preview
-                 */
-                "api-version": string;
-            };
-            header?: never;
-            path: {
-                /** @description The name of the deployment. */
-                deployment_name: string;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["EmbeddingRequest"];
-            };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
         };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["EmbeddingResponse"];
-                };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getPromptMetadata: {
+    parameters: {
+      query?: {
+        /** @description The token from the previous request to request next items. */
+        token?: string;
+        /** @description Limit on the number of items in the response. */
+        limit?: number;
+        /**
+         * @description If true, returns items recursively without nested folder metadata.
+         *
+         *     For example, request for `/a/` will contain only metadata for items `/a/b/c` and `/a/d/e/f`, but it won't contain metadata for folders: `/a/b/`, `/a/d/`, `/a/d/e`.
+         */
+        recursive?: boolean;
+        /** @description If true, returns the permissions applicable to the requestor, indicating what actions they can perform on the prompts. */
+        permissions?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The parameter specifies path to a directory or a prompt, for example: `folder1/folder2/`. */
+        Path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            name?: string;
+            author?: string;
+            parentPath?: string;
+            bucket?: string;
+            url?: string;
+            nodeType?: string;
+            resourceType?: string;
+            contentLength?: number;
+            updatedAt?: number;
+            items?: {
+              name?: string;
+              author?: string;
+              etag?: string;
+              parentPath?: string;
+              bucket?: string;
+              url?: string;
+              nodeType?: string;
+              resourceType?: string;
+              updatedAt?: number;
+            }[];
+            /** @description An optional field that can be used to request next items if present. */
+            nextToken?: string;
+            /** @description This field is not available for folders. */
+            etag?: string;
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getCustomToolSet: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The target toolset path. The parameter specifies full path to the toolset, for example: `folder1/folder2/toolset_name` */
+        toolset_path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Toolset'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+    };
+  };
+  saveToolSet: {
+    parameters: {
+      query?: never;
+      header?: {
+        /**
+         * @description The entity tag (ETag) of the toolset. This is used for conditional requests to ensure that the toolset is only uploaded if it matches the specified ETag.
+         *     If the toolset does not exist, this header is ignored.
+         *     If this header is not provided or the value is "*", any existing toolset at the specified path will be overwritten.
+         */
+        'If-Match'?: string;
+        /**
+         * @description The entity tag (ETag) used to ensure that the toolset is only uploaded if it does not already exist.
+         *     The only supported value is "*".
+         */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The target toolset path. The parameter specifies full path to the toolset, for example: `folder1/folder2/toolset_name` */
+        toolset_path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['Toolset'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            name?: string;
+            author?: string;
+            parentPath?: string;
+            bucket?: string;
+            url?: string;
+            nodeType?: string;
+            resourceType?: string;
+            createdAt?: number;
+            updatedAt?: number;
+            etag?: string;
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+    };
+  };
+  deleteToolSet: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description The entity tag (ETag) of the toolset. This is used for conditional requests to ensure that the toolset is only deleted if it matches the specified ETag. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The target toolset path. The parameter specifies full path to the toolset, for example: `folder1/folder2/toolset_name` */
+        toolset_path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getAllToolSetTools: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The target toolset ID. The parameter specifies the unique identifier of the toolset. */
+        toolset_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id?: string;
+            result?: {
+              tools?: {
+                name?: string;
+                title?: string;
+              }[];
             };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
+          };
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+    };
+  };
+  getAllToolSetAllowedTools: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The target toolset ID. The parameter specifies the unique identifier of the toolset. */
+        toolset_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id?: string;
+            result?: {
+              tools?: {
+                name?: string;
+                title?: string;
+              }[];
             };
+          };
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+    };
+  };
+  toolsetSignin: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description The Toolset URL (e.g., toolsets/{bucket}/{path}). */
+          url: string;
+          /**
+           * @description The scope of credentials for the Toolset.
+           * @enum {string}
+           */
+          credentials_level: 'GLOBAL' | 'APP' | 'USER';
+          /**
+           * @description The authentication method.
+           * @enum {string}
+           */
+          authentication_type: 'OAUTH' | 'API_KEY';
+          /** @description The authorization code (OAUTH only). */
+          code?: string;
+          /** @description The API key value (API_KEY only). */
+          api_key?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** @description Signin status. */
+            status?: string;
+          };
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  toolSetSignout: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description The Toolset URL (e.g., toolsets/{bucket}/{path}). */
+          url: string;
+          /**
+           * @description The scope of credentials for the Toolset.
+           * @enum {string}
+           */
+          credentials_level: 'GLOBAL' | 'APP' | 'USER';
+          /**
+           * @description The authentication method.
+           * @enum {string}
+           */
+          authentication_type: 'OAUTH' | 'API_KEY';
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** @description Signout status. */
+            status?: string;
+          };
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getToolSetMetadata: {
+    parameters: {
+      query?: {
+        /** @description The token from the previous request to request next items. */
+        token?: string;
+        /** @description Limit on the number of items in the response. */
+        limit?: number;
+        /**
+         * @description If true, returns items recursively without nested folder metadata.
+         *
+         *     For example, request for `/a/` will contain only metadata for items `/a/b/c` and `/a/d/e/f`, but it won't contain metadata for folders: `/a/b/`, `/a/d/`, `/a/d/e`.
+         */
+        recursive?: boolean;
+        /** @description If true, returns the permissions applicable to the requestor, indicating what actions they can perform on the toolsets. */
+        permissions?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        Bucket: string;
+        /** @description The parameter specifies path to a directory or a toolset, for example: `folder1/folder2/`. */
+        Path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            name?: string;
+            author?: string;
+            parentPath?: string;
+            bucket?: string;
+            url?: string;
+            nodeType?: string;
+            resourceType?: string;
+            contentLength?: number;
+            updatedAt?: number;
+            items?: {
+              name?: string;
+              author?: string;
+              etag?: string;
+              parentPath?: string;
+              bucket?: string;
+              url?: string;
+              nodeType?: string;
+              resourceType?: string;
+              updatedAt?: number;
+            }[];
+            /** @description An optional field that can be used to request next items if present. */
+            nextToken?: string;
+            /** @description This field is not available for folders. */
+            etag?: string;
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getPublications: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description The publication URL. For admins it is  `publications/public/`. For users it is `publications/user_bucket/`. */
+          url?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PublicationResponse'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getPublication: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description The publication request. Template is `publications/bucketId/requestId`. */
+          url?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['GetPublicationResponseObject'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  createPublication: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        'application/json': components['schemas']['PublicationRequest'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PublicationResponseObject'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  updatePublication: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        'application/json': components['schemas']['UpdatePublicationRequest'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PublicationResponseObject'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  deletePublication: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description The publication URL. Template is `publications/bucketId/requestId`. */
+          url?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  rejectPublication: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description The publication URL. Template is `publications/bucketId/requestId`. */
+          url?: string;
+          /** @description Rejection comment. */
+          comment?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PublicationResponseObject'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  approvePublication: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description The publication URL. Template is `publications/bucketId/requestId`. */
+          url?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PublicationResponseObject'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getPublicationRules: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description Publication public folder URL. Template is `public/folderName` */
+          url?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PublicationRules'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  grantPerRequestPermissions: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description An array of resources to share. */
+          resources?: {
+            /** @description A relative url of the resource to share. */
+            url?: string;
+            /** @description Lists the permissions you grant for the resource. */
+            permissions?: ('READ' | 'WRITE')[];
+          }[];
+          /** @description The ID of the receiving DIAL deployment (application or toolset). */
+          receiver?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized - Operation is only permitted by per request API key */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  revokePerRequestPermissions: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description An array of resources to share. */
+          resources?: {
+            /** @description A relative url of the resource to share. */
+            url?: string;
+            /** @description Lists the permissions you grant for the resource. */
+            permissions?: ('READ' | 'WRITE')[];
+          }[];
+          /** @description The ID of the receiving DIAL deployment (application or toolset). */
+          receiver?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized - Operation is only permitted by per request API key */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getPerRequestPermissions: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description Currently, supported the next options:
+           *     - `me`: returns shared resources with you.
+           *     - `others`: returns resources that you have shared with others
+           * @enum {string}
+           */
+          with?: 'me' | 'others';
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            resources?: {
+              url?: string;
+              /**
+               * @description Lists the permissions you have on the resource if `with` is set to "me".
+               *     Lists the permissions you have granted to others if `with` is set to "others".
+               */
+              permissions?: ('READ' | 'WRITE')[];
+            }[];
+            receivers?: {
+              receiver?: string;
+              resources?: {
+                url?: string;
+                permissions?: ('READ' | 'WRITE')[];
+              }[];
+            }[];
+          };
+        };
+      };
+      /** @description Unauthorized - Operation is only permitted by per request API key */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  shareResource: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description An array of resources to share. */
+          resources?: {
+            /** @description A relative url of the resource to share. */
+            url?: string;
+            /** @description Lists the permissions you have on the resource. */
+            permissions?: ('READ' | 'WRITE' | 'SHARE')[];
             /**
-             * @description Not found
-             *
-             *     Returned either when:
-             *     1. The deployment called `{deployment_name}` doesn't exist. Check the DIAL listing to verify that the deployment does actually exist.
-             *     2. The `api-version` query parameter points to an API version that doesn't exist. This is relevant only for deployments based on Azure OpenAI models.
+             * @description Indicates whether global resource credentials should be shared with user.
+             * @default false
              */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
-            /** @description Rate limit reached */
-            429: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
-            /** @description The server had an error while processing your request. */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
-            /** @description The engine is currently overloaded, please try again later. */
-            503: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
+            shareCredentials?: boolean;
+          }[];
+          /** @description The invitation type. Only `link` is currently supported. */
+          invitationType?: string;
+          /** @description The number of users that can accept the invitation link. Defaults to unlimited. */
+          maxAcceptedUsers?: number;
         };
+      };
     };
-    rateDeployment: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The name of the deployment. */
-                deployment_name: string;
-            };
-            cookie?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description True if you like the message and false otherwise */
-                    rate?: boolean;
-                    /** @description Id received in the target chat completion response */
-                    responseId?: string;
-                };
-            };
+        content: {
+          'application/json': {
+            invitationLink?: string;
+          };
         };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
         };
+        content?: never;
+      };
     };
-    getUserInfo: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["userinfo"];
-                };
-            };
-            /** @description Invalid Authentication */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+  };
+  getSharedResources: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    callToolSet: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The name of the toolset. */
-                toolset_name: string;
-            };
-            cookie?: never;
+    requestBody: {
+      content: {
+        'application/json': {
+          resourceTypes?: (
+            | 'FILE'
+            | 'PROMPT'
+            | 'CONVERSATION'
+            | 'APPLICATION'
+            | 'TOOL_SET'
+          )[];
+          /**
+           * @description Currently, supported the next options:
+           *     - `me`: returns shared resources with you.
+           *     - `others`: returns resources that you have shared with others
+           * @enum {string}
+           */
+          with?: 'me' | 'others';
+          /**
+           * @description If true, includes additional user information such as resource owner display name, users who have shared the resource with you, and users with whom you have shared the resource.
+           * @default false
+           */
+          includeUserInfo?: boolean;
         };
-        requestBody: {
-            content: {
-                "application/json": string;
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": Record<string, never>;
-                };
-            };
-            /** @description Invalid Authentication */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+      };
     };
-    deployApplication: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description The application URL. */
-                    url?: string;
-                };
-            };
+        content: {
+          'application/json': {
+            resources?: {
+              nodeType?: string;
+              resourceType?: string;
+              bucket?: string;
+              parentPath?: string;
+              name?: string;
+              url?: string;
+              /**
+               * @description Lists the permissions you have on the resource if `with` is set to "me".
+               *     Lists the permissions you have granted to others if `with` is set to "others".
+               */
+              permissions?: ('READ' | 'WRITE' | 'SHARE')[];
+              /** @description Resource owner display name (a configurable claim from JWT or a project name for API keys). The field is populated if `with` is set to "me" and `includeUserInfo` is true. */
+              author?: string;
+              /** @description A list of users who have shared the resource with you. The field is populated if `with` is set to "me" and `includeUserInfo` is true. */
+              sharedBy?: {
+                /** @description User display name (a configurable claim from JWT or a project name for API keys). */
+                user?: string;
+                /** @description The timestamp when the shared resource has been accepted. */
+                acceptedAt?: number;
+                /** @description A list of permissions granted by the user. */
+                permissions?: ('READ' | 'WRITE' | 'SHARE')[];
+              }[];
+              /** @description A list of users with whom you have shared the resource. The field is populated if `with` is set to "others" and `includeUserInfo` is true. */
+              sharedWith?: {
+                /** @description User display name (a configurable claim from JWT or a project name for API keys). */
+                user?: string;
+                /** @description A list of permissions granted to the user. */
+                permissions?: ('READ' | 'WRITE' | 'SHARE')[];
+              }[];
+              /**
+               * @description Indicates whether global resource credentials were shared with user.
+               * @default false
+               */
+              shareCredentials: boolean;
+            }[];
+          };
         };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Application"];
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
         };
+        content?: never;
+      };
     };
-    undeployApplication: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description The application URL. */
-                    url?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Application"];
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+  };
+  revokeSharedResources: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    redeployApplication: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description An array of resources to revoke. */
+          resources?: {
+            /** @description A relative url of the resource to revoke. */
+            url?: string;
+          }[];
         };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description The application URL. */
-                    url?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Application"];
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+      };
     };
-    getApplicationLogs: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description The application URL. */
-                    url?: string;
-                };
-            };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
         };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApplicationLogs"];
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+        content?: never;
+      };
     };
-    listCustomApplicationSchemas: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @description Unique identifier for the application schema. */
-                        $id?: string;
-                        /** @description Name of the application type displayed on the UI. */
-                        "dial:applicationTypeDisplayName"?: string;
-                        /** @description URL for the UI of the application type. */
-                        "dial:applicationTypeViewerUrl"?: string;
-                        /** @description URL for the application builder used by the app type. */
-                        "dial:applicationTypeEditorUrl"?: string;
-                        /** @description URL to retrieve JSON schema of the application. */
-                        "dial:applicationTypeSchemaEndpoint"?: string;
-                    }[];
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+  };
+  discardSharedResources: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    getMetaSchemaOfCustomApplicationSchema: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description An array of resources to discard. */
+          resources?: {
+            /** @description A relative url of the resource to discard. */
+            url?: string;
+          }[];
         };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": Record<string, never>;
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+      };
     };
-    getCustomApplicationSchema: {
-        parameters: {
-            query: {
-                /** @description schema ID of custom application */
-                id: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": Record<string, never>;
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
         };
+        content?: never;
+      };
     };
-    getCustomApplication: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The target application path. The parameter specifies full path to the application, for example: `folder1/folder2/application_name` */
-                application_path: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+  };
+  copySharedResources: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    saveCustomApplication: {
-        parameters: {
-            query?: never;
-            header?: {
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description The relative URL of the original resource where user's permissions will be copied from. */
+          sourceUrl?: string;
+          /** @description The relative URL of the original resource where user's permissions will be copied to. */
+          destinationUrl?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getInvitations: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            invitations?: {
+              id?: string;
+              author?: string;
+              resources?: {
+                /** @description A relative url of the resource. */
+                url?: string;
+                /** @description Resource owner display name (a configurable claim from JWT or a project name for API keys). */
+                author?: string;
+                /** @description Lists of permissions to be granted. */
+                permissions?: ('READ' | 'WRITE' | 'SHARE')[];
                 /**
-                 * @description The entity tag (ETag) of the application. This is used for conditional requests to ensure that the application is only uploaded if it matches the specified ETag.
-                 *     If the application does not exist, this header is ignored.
-                 *     If this header is not provided or the value is "*", any existing application at the specified path will be overwritten.
+                 * @description Indicates whether global resource credentials was shared with user.
+                 * @default false
                  */
-                "If-Match"?: string;
-                /**
-                 * @description The entity tag (ETag) used to ensure that the application is only uploaded if it does not already exist.
-                 *     The only supported value is "*".
-                 */
-                "If-None-Match"?: string;
-            };
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description Target application path. The parameter specifies a full path to the application, for example: `folder1/folder2/application_name` */
-                application_path: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": string;
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        name?: string;
-                        author?: string;
-                        parentPath?: string;
-                        bucket?: string;
-                        url?: string;
-                        nodeType?: string;
-                        resourceType?: string;
-                        createdAt?: number;
-                        updatedAt?: number;
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Precondition Failed - ETag mismatch */
-            412: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    deleteCustomApplication: {
-        parameters: {
-            query?: never;
-            header?: {
-                /** @description The entity tag (ETag) of the application. This is used for conditional requests to ensure that the application is only deleted if it matches the specified ETag. */
-                "If-Match"?: string;
-            };
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The target application path. The parameter specifies full path to the application, for example: `folder1/folder2/application_name` */
-                application_path: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Precondition Failed - ETag mismatch */
-            412: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getApplicationMetadata: {
-        parameters: {
-            query?: {
-                /** @description The token from the previous request to request next items. */
-                token?: string;
-                /** @description Limit on the number of items in the response. */
-                limit?: number;
-                /**
-                 * @description If true, returns items recursively without nested folder metadata.
-                 *
-                 *     For example, request for `/a/` will contain only metadata for items `/a/b/c` and `/a/d/e/f`, but it won't contain metadata for folders: `/a/b/`, `/a/d/`, `/a/d/e`.
-                 */
-                recursive?: boolean;
-                /** @description If true, returns the permissions applicable to the requestor, indicating what actions they can perform on applications. */
-                permissions?: boolean;
-            };
-            header?: never;
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The parameter specifies path to the requested directory or application, for example: `folder1/folder2/` or `folder1/application_name/`. Note, it could be empty if you want to list the root folder. */
-                Path: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        name?: string;
-                        /** @description This field is not available for folders. */
-                        author?: string;
-                        parentPath?: string;
-                        bucket?: string;
-                        url?: string;
-                        /** @description ITEM if the pass is provided for an app and FOLDER in case for a folder. */
-                        nodeType?: string;
-                        resourceType?: string;
-                        /** @description This field is not available for folders. */
-                        etag?: string;
-                        /** @description The creation time is not supported by all storage providers. */
-                        createdAt?: number;
-                        updatedAt?: number;
-                        permissions?: ("READ" | "WRITE" | "SHARE")[];
-                        items?: {
-                            name?: string;
-                            parentPath?: string;
-                            bucket?: string;
-                            url?: string;
-                            nodeType?: string;
-                            resourceType?: string;
-                            createdAt?: number;
-                            updatedAt?: number;
-                            permissions?: ("READ" | "WRITE")[];
-                        }[];
-                        /** @description An optional field that can be used to request next items if present. */
-                        nextToken?: string;
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getUserBucket: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        bucket: string;
-                        /** @description Bucket of the root user, allowing to manage user files in the assistant folder. Exists only for requests made using temporary api-key that were generated for the request to the dial assistants. */
-                        appdata?: string;
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    downloadFile: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The target file path. The parameter specifies full path to the file, for example: `folder1/folder2/file.png` */
-                file_path: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/octet-stream": string;
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    uploadFile: {
-        parameters: {
-            query?: never;
-            header?: {
-                /**
-                 * @description The entity tag (ETag) of the file. This is used for conditional requests to ensure that the file is only uploaded if it matches the specified ETag.
-                 *     If the file does not exist, this header is ignored.
-                 *     If this header is not provided or the value is "*", any existing file at the specified path will be overwritten.
-                 */
-                "If-Match"?: string;
-                /**
-                 * @description The entity tag (ETag) used to ensure that the file is only uploaded if it does not already exist.
-                 *     The only supported value is "*".
-                 */
-                "If-None-Match"?: string;
-            };
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The target file path. The parameter specifies full path to the file, for example: `folder1/folder2/file.png` */
-                file_path: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "multipart/form-data": {
-                    /**
-                     * Format: binary
-                     * @description A part of multipart/form-data request
-                     */
-                    file?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        name?: string;
-                        parentPath?: string;
-                        bucket?: string;
-                        url?: string;
-                        nodeType?: string;
-                        resourceType?: string;
-                        contentLength?: number;
-                        contentType?: string;
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Precondition Failed - ETag mismatch */
-            412: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    deleteFile: {
-        parameters: {
-            query?: never;
-            header?: {
-                /** @description The entity tag (ETag) of the file. This is used for conditional requests to ensure that the file is only deleted if it matches the specified ETag. */
-                "If-Match"?: string;
-            };
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The target file path. The parameter specifies full path to the file, for example: `folder1/folder2/file.png` */
-                file_path: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Precondition Failed - ETag mismatch */
-            412: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getFileMetadata: {
-        parameters: {
-            query?: {
-                /** @description The token from the previous request to request next items. */
-                token?: string;
-                /** @description Limit on the number of items in the response. */
-                limit?: number;
-                /**
-                 * @description If true, returns items recursively without nested folder metadata.
-                 *
-                 *     For example, request for `/a/` will contain only metadata for items `/a/b/c` and `/a/d/e/f`, but it won't contain metadata for folders: `/a/b/`, `/a/d/`, `/a/d/e`.
-                 */
-                recursive?: boolean;
-                /** @description If true, returns the permissions applicable to the requestor, indicating what actions they can perform on the files. */
-                permissions?: boolean;
-            };
-            header?: never;
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The parameter specifies path to the requested directory or file, for example: `folder1/folder2/`.  Note, it could be empty if you want to list the root folder. */
-                Path: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        name?: string;
-                        /** @description This field is not available for folders. */
-                        author?: string;
-                        parentPath?: string;
-                        bucket?: string;
-                        url?: string;
-                        nodeType?: string;
-                        resourceType?: string;
-                        /** @description This field is not available for folders. */
-                        etag?: string;
-                        /** @description The creation time is not supported by all storage providers. */
-                        createdAt?: number;
-                        updatedAt?: number;
-                        contentLength?: number;
-                        contentType?: string;
-                        permissions?: ("READ" | "WRITE" | "SHARE")[];
-                        /** @description This field is only available for folders. */
-                        items?: {
-                            name?: string;
-                            parentPath?: string;
-                            bucket?: string;
-                            url?: string;
-                            nodeType?: string;
-                            resourceType?: string;
-                            createdAt?: number;
-                            updatedAt?: number;
-                            contentLength?: number;
-                            contentType?: string;
-                            permissions?: ("READ" | "WRITE" | "SHARE")[];
-                        }[];
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    moveResource: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description Source URL. Must belong to the user. */
-                    sourceUrl?: string;
-                    /** @description Destination URL. Must belong to the user and be of the same type as the source URL. */
-                    destinationUrl?: string;
-                    /** @description If true, the destination URL will be overwritten if it already exists. */
-                    overwrite?: boolean;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    copyResource: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description Source URL. Must belong to the user. */
-                    sourceUrl?: string;
-                    /** @description Destination URL. Must belong to the user and be of the same type as the source URL. */
-                    destinationUrl?: string;
-                    /** @description If true, the destination URL will be overwritten if it already exists. */
-                    overwrite?: boolean;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getConversation: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The target conversation path. The parameter specifies full path to the conversation, for example: `folder1/folder2/conversation_name` */
-                conversation_path: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    saveConversation: {
-        parameters: {
-            query?: never;
-            header?: {
-                /**
-                 * @description The entity tag (ETag) of the conversation. This is used for conditional requests to ensure that the conversation is only uploaded if it matches the specified ETag.
-                 *     If the conversation does not exist, this header is ignored.
-                 *     If this header is not provided or the value is "*", any existing conversation at the specified path will be overwritten.
-                 */
-                "If-Match"?: string;
-                /**
-                 * @description The entity tag (ETag) used to ensure that the conversation is only uploaded if it does not already exist.
-                 *     The only supported value is "*".
-                 */
-                "If-None-Match"?: string;
-            };
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The target conversation path. The parameter specifies full path to the conversation, for example: `folder1/folder2/conversation_name` */
-                conversation_path: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": string;
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        name?: string;
-                        parentPath?: string;
-                        bucket?: string;
-                        url?: string;
-                        nodeType?: string;
-                        resourceType?: string;
-                        createdAt?: number;
-                        updatedAt?: number;
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Precondition Failed - ETag mismatch */
-            412: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    deleteConversation: {
-        parameters: {
-            query?: never;
-            header?: {
-                /** @description The entity tag (ETag) of the conversation. This is used for conditional requests to ensure that the conversation is only deleted if it matches the specified ETag. */
-                "If-Match"?: string;
-            };
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The target conversation path. The parameter specifies full path to the conversation, for example: `folder1/folder2/conversation_name` */
-                conversation_path: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Precondition Failed - ETag mismatch */
-            412: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getConversationMetadata: {
-        parameters: {
-            query?: {
-                /** @description The token from the previous request to request next items. */
-                token?: string;
-                /** @description Limit on the number of items in the response. */
-                limit?: number;
-                /**
-                 * @description If true, returns items recursively without nested folder metadata.
-                 *
-                 *     For example, request for `/a/` will contain only metadata for items `/a/b/c` and `/a/d/e/f`, but it won't contain metadata for folders: `/a/b/`, `/a/d/`, `/a/d/e`.
-                 */
-                recursive?: boolean;
-                /** @description If true, returns the permissions applicable to the requestor, indicating what actions they can perform on the conversations. */
-                permissions?: boolean;
-            };
-            header?: never;
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The parameter specifies path to the requested directory or a conversation, for example: `folder1/folder2/`.  Note, it could be empty if you want to list the root folder. */
-                Path: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        name?: string;
-                        /** @description This field is not available for folders. */
-                        author?: string;
-                        parentPath?: string;
-                        bucket?: string;
-                        url?: string;
-                        nodeType?: string;
-                        resourceType?: string;
-                        /** @description This field is not available for folders. */
-                        etag?: string;
-                        /** @description The creation time is not supported by all storage providers. */
-                        createdAt?: number;
-                        updatedAt?: number;
-                        permissions?: ("READ" | "WRITE" | "SHARE")[];
-                        items?: {
-                            name?: string;
-                            parentPath?: string;
-                            bucket?: string;
-                            url?: string;
-                            nodeType?: string;
-                            resourceType?: string;
-                            createdAt?: number;
-                            updatedAt?: number;
-                            permissions?: ("READ" | "WRITE" | "SHARE")[];
-                        }[];
-                        /** @description An optional field that can be used to request next items if present. */
-                        nextToken?: string;
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getPrompt: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The target prompt path. The parameter specifies full path to the prompt, for example: `folder1/folder2/prompt_name` */
-                prompt_path: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @description Prompt unique identifier */
-                        id?: string;
-                        /** @description Path to the folder where prompt located according to the user's root */
-                        folderId?: string;
-                        /** @description Prompt's display name */
-                        name?: string;
-                        /** @description Prompt content */
-                        content?: string;
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    savePrompt: {
-        parameters: {
-            query?: never;
-            header?: {
-                /**
-                 * @description The entity tag (ETag) of the prompt. This is used for conditional requests to ensure that the prompt is only uploaded if it matches the specified ETag.
-                 *     If the prompt does not exist, this header is ignored.
-                 *     If this header is not provided or the value is "*", any existing prompt at the specified path will be overwritten.
-                 */
-                "If-Match"?: string;
-                /**
-                 * @description The entity tag (ETag) used to ensure that the prompt is only uploaded if it does not already exist.
-                 *     The only supported value is "*".
-                 */
-                "If-None-Match"?: string;
-            };
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The target prompt path. The parameter specifies full path to the prompt, for example: `folder1/folder2/prompt_name` */
-                prompt_path: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PromptRequest"];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @description Resource name provided in the prompt path */
-                        name?: string;
-                        /** @description Relative path to the resource starting with the bucket identifier */
-                        parentPath?: string;
-                        /** @description User's bucket name */
-                        bucket?: string;
-                        /** @description A full path to the prompt */
-                        url?: string;
-                        /**
-                         * @description A node type
-                         * @enum {string}
-                         */
-                        nodeType?: "ITEM" | "FOLDER";
-                        /** @description A resource type */
-                        resourceType?: string;
-                        /** @description This field is not available for folders. */
-                        etag?: string;
-                        /** @description The creation time is not supported by all storage providers. */
-                        createdAt?: number;
-                        updatedAt?: number;
-                        permissions?: ("READ" | "WRITE" | "SHARE")[];
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Precondition Failed - ETag mismatch */
-            412: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    deletePrompt: {
-        parameters: {
-            query?: never;
-            header?: {
-                /** @description The entity tag (ETag) of the prompt. This is used for conditional requests to ensure that the prompt is only deleted if it matches the specified ETag. */
-                "If-Match"?: string;
-            };
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The target prompt path. The parameter specifies full path to the prompt, for example: `folder1/folder2/prompt_name` */
-                prompt_path: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Precondition Failed - ETag mismatch */
-            412: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getPromptMetadata: {
-        parameters: {
-            query?: {
-                /** @description The token from the previous request to request next items. */
-                token?: string;
-                /** @description Limit on the number of items in the response. */
-                limit?: number;
-                /**
-                 * @description If true, returns items recursively without nested folder metadata.
-                 *
-                 *     For example, request for `/a/` will contain only metadata for items `/a/b/c` and `/a/d/e/f`, but it won't contain metadata for folders: `/a/b/`, `/a/d/`, `/a/d/e`.
-                 */
-                recursive?: boolean;
-                /** @description If true, returns the permissions applicable to the requestor, indicating what actions they can perform on the prompts. */
-                permissions?: boolean;
-            };
-            header?: never;
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The parameter specifies path to a directory or a prompt, for example: `folder1/folder2/`. */
-                Path: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        name?: string;
-                        author?: string;
-                        parentPath?: string;
-                        bucket?: string;
-                        url?: string;
-                        nodeType?: string;
-                        resourceType?: string;
-                        contentLength?: number;
-                        updatedAt?: number;
-                        items?: {
-                            name?: string;
-                            author?: string;
-                            etag?: string;
-                            parentPath?: string;
-                            bucket?: string;
-                            url?: string;
-                            nodeType?: string;
-                            resourceType?: string;
-                            updatedAt?: number;
-                        }[];
-                        /** @description An optional field that can be used to request next items if present. */
-                        nextToken?: string;
-                        /** @description This field is not available for folders. */
-                        etag?: string;
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getCustomToolSet: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The target toolset path. The parameter specifies full path to the toolset, for example: `folder1/folder2/toolset_name` */
-                toolset_path: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Toolset"];
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-    };
-    saveToolSet: {
-        parameters: {
-            query?: never;
-            header?: {
-                /**
-                 * @description The entity tag (ETag) of the toolset. This is used for conditional requests to ensure that the toolset is only uploaded if it matches the specified ETag.
-                 *     If the toolset does not exist, this header is ignored.
-                 *     If this header is not provided or the value is "*", any existing toolset at the specified path will be overwritten.
-                 */
-                "If-Match"?: string;
-                /**
-                 * @description The entity tag (ETag) used to ensure that the toolset is only uploaded if it does not already exist.
-                 *     The only supported value is "*".
-                 */
-                "If-None-Match"?: string;
-            };
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The target toolset path. The parameter specifies full path to the toolset, for example: `folder1/folder2/toolset_name` */
-                toolset_path: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["Toolset"];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        name?: string;
-                        author?: string;
-                        parentPath?: string;
-                        bucket?: string;
-                        url?: string;
-                        nodeType?: string;
-                        resourceType?: string;
-                        createdAt?: number;
-                        updatedAt?: number;
-                        etag?: string;
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-    };
-    deleteToolSet: {
-        parameters: {
-            query?: never;
-            header?: {
-                /** @description The entity tag (ETag) of the toolset. This is used for conditional requests to ensure that the toolset is only deleted if it matches the specified ETag. */
-                "If-Match"?: string;
-            };
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The target toolset path. The parameter specifies full path to the toolset, for example: `folder1/folder2/toolset_name` */
-                toolset_path: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Precondition Failed - ETag mismatch */
-            412: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    toolsetSignin: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description The Toolset URL (e.g., toolsets/{bucket}/{path}). */
-                    url: string;
-                    /**
-                     * @description The scope of credentials for the Toolset.
-                     * @enum {string}
-                     */
-                    credentials_level: "GLOBAL" | "APP" | "USER";
-                    /**
-                     * @description The authentication method.
-                     * @enum {string}
-                     */
-                    authentication_type: "OAUTH" | "API_KEY";
-                    /** @description The authorization code (OAUTH only). */
-                    code?: string;
-                    /** @description The API key value (API_KEY only). */
-                    api_key?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @description Signin status. */
-                        status?: string;
-                    };
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    toolSetSignout: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description The Toolset URL (e.g., toolsets/{bucket}/{path}). */
-                    url: string;
-                    /**
-                     * @description The scope of credentials for the Toolset.
-                     * @enum {string}
-                     */
-                    credentials_level: "GLOBAL" | "APP" | "USER";
-                    /**
-                     * @description The authentication method.
-                     * @enum {string}
-                     */
-                    authentication_type: "OAUTH" | "API_KEY";
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @description Signout status. */
-                        status?: string;
-                    };
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getToolSetMetadata: {
-        parameters: {
-            query?: {
-                /** @description The token from the previous request to request next items. */
-                token?: string;
-                /** @description Limit on the number of items in the response. */
-                limit?: number;
-                /**
-                 * @description If true, returns items recursively without nested folder metadata.
-                 *
-                 *     For example, request for `/a/` will contain only metadata for items `/a/b/c` and `/a/d/e/f`, but it won't contain metadata for folders: `/a/b/`, `/a/d/`, `/a/d/e`.
-                 */
-                recursive?: boolean;
-                /** @description If true, returns the permissions applicable to the requestor, indicating what actions they can perform on the toolsets. */
-                permissions?: boolean;
-            };
-            header?: never;
-            path: {
-                /** @description The target bucket. */
-                Bucket: string;
-                /** @description The parameter specifies path to a directory or a toolset, for example: `folder1/folder2/`. */
-                Path: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        name?: string;
-                        author?: string;
-                        parentPath?: string;
-                        bucket?: string;
-                        url?: string;
-                        nodeType?: string;
-                        resourceType?: string;
-                        contentLength?: number;
-                        updatedAt?: number;
-                        items?: {
-                            name?: string;
-                            author?: string;
-                            etag?: string;
-                            parentPath?: string;
-                            bucket?: string;
-                            url?: string;
-                            nodeType?: string;
-                            resourceType?: string;
-                            updatedAt?: number;
-                        }[];
-                        /** @description An optional field that can be used to request next items if present. */
-                        nextToken?: string;
-                        /** @description This field is not available for folders. */
-                        etag?: string;
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getPublications: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description The publication URL. For admins it is  `publications/public/`. For users it is `publications/user_bucket/`. */
-                    url?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PublicationResponse"];
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getPublication: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description The publication request. Template is `publications/bucketId/requestId`. */
-                    url?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["GetPublicationResponseObject"];
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    createPublication: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "application/json": components["schemas"]["PublicationRequest"];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PublicationResponseObject"];
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    updatePublication: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "application/json": components["schemas"]["UpdatePublicationRequest"];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PublicationResponseObject"];
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    deletePublication: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description The publication URL. Template is `publications/bucketId/requestId`. */
-                    url?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    rejectPublication: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description The publication URL. Template is `publications/bucketId/requestId`. */
-                    url?: string;
-                    /** @description Rejection comment. */
-                    comment?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PublicationResponseObject"];
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    approvePublication: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description The publication URL. Template is `publications/bucketId/requestId`. */
-                    url?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PublicationResponseObject"];
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getPublicationRules: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description Publication public folder URL. Template is `public/folderName` */
-                    url?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PublicationRules"];
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    grantPerRequestPermissions: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description An array of resources to share. */
-                    resources?: {
-                        /** @description A relative url of the resource to share. */
-                        url?: string;
-                        /** @description Lists the permissions you grant for the resource. */
-                        permissions?: ("READ" | "WRITE")[];
-                    }[];
-                    /** @description The ID of the receiving DIAL deployment (application or toolset). */
-                    receiver?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized - Operation is only permitted by per request API key */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    revokePerRequestPermissions: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description An array of resources to share. */
-                    resources?: {
-                        /** @description A relative url of the resource to share. */
-                        url?: string;
-                        /** @description Lists the permissions you grant for the resource. */
-                        permissions?: ("READ" | "WRITE")[];
-                    }[];
-                    /** @description The ID of the receiving DIAL deployment (application or toolset). */
-                    receiver?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized - Operation is only permitted by per request API key */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getPerRequestPermissions: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /**
-                     * @description Currently, supported the next options:
-                     *     - `me`: returns shared resources with you.
-                     *     - `others`: returns resources that you have shared with others
-                     * @enum {string}
-                     */
-                    with?: "me" | "others";
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        resources?: {
-                            url?: string;
-                            /**
-                             * @description Lists the permissions you have on the resource if `with` is set to "me".
-                             *     Lists the permissions you have granted to others if `with` is set to "others".
-                             */
-                            permissions?: ("READ" | "WRITE")[];
-                        }[];
-                        receivers?: {
-                            receiver?: string;
-                            resources?: {
-                                url?: string;
-                                permissions?: ("READ" | "WRITE")[];
-                            }[];
-                        }[];
-                    };
-                };
-            };
-            /** @description Unauthorized - Operation is only permitted by per request API key */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    shareResource: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description An array of resources to share. */
-                    resources?: {
-                        /** @description A relative url of the resource to share. */
-                        url?: string;
-                        /** @description Lists the permissions you have on the resource. */
-                        permissions?: ("READ" | "WRITE" | "SHARE")[];
-                        /**
-                         * @description Indicates whether global resource credentials should be shared with user.
-                         * @default false
-                         */
-                        shareCredentials?: boolean;
-                    }[];
-                    /** @description The invitation type. Only `link` is currently supported. */
-                    invitationType?: string;
-                    /** @description The number of users that can accept the invitation link. Defaults to unlimited. */
-                    maxAcceptedUsers?: number;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        invitationLink?: string;
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getSharedResources: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    resourceTypes?: ("FILE" | "PROMPT" | "CONVERSATION" | "APPLICATION" | "TOOL_SET")[];
-                    /**
-                     * @description Currently, supported the next options:
-                     *     - `me`: returns shared resources with you.
-                     *     - `others`: returns resources that you have shared with others
-                     * @enum {string}
-                     */
-                    with?: "me" | "others";
-                    /**
-                     * @description If true, includes additional user information such as resource owner display name, users who have shared the resource with you, and users with whom you have shared the resource.
-                     * @default false
-                     */
-                    includeUserInfo?: boolean;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        resources?: {
-                            nodeType?: string;
-                            resourceType?: string;
-                            bucket?: string;
-                            parentPath?: string;
-                            name?: string;
-                            url?: string;
-                            /**
-                             * @description Lists the permissions you have on the resource if `with` is set to "me".
-                             *     Lists the permissions you have granted to others if `with` is set to "others".
-                             */
-                            permissions?: ("READ" | "WRITE" | "SHARE")[];
-                            /** @description Resource owner display name (a configurable claim from JWT or a project name for API keys). The field is populated if `with` is set to "me" and `includeUserInfo` is true. */
-                            author?: string;
-                            /** @description A list of users who have shared the resource with you. The field is populated if `with` is set to "me" and `includeUserInfo` is true. */
-                            sharedBy?: {
-                                /** @description User display name (a configurable claim from JWT or a project name for API keys). */
-                                user?: string;
-                                /** @description The timestamp when the shared resource has been accepted. */
-                                acceptedAt?: number;
-                                /** @description A list of permissions granted by the user. */
-                                permissions?: ("READ" | "WRITE" | "SHARE")[];
-                            }[];
-                            /** @description A list of users with whom you have shared the resource. The field is populated if `with` is set to "others" and `includeUserInfo` is true. */
-                            sharedWith?: {
-                                /** @description User display name (a configurable claim from JWT or a project name for API keys). */
-                                user?: string;
-                                /** @description A list of permissions granted to the user. */
-                                permissions?: ("READ" | "WRITE" | "SHARE")[];
-                            }[];
-                            /**
-                             * @description Indicates whether global resource credentials were shared with user.
-                             * @default false
-                             */
-                            shareCredentials: boolean;
-                        }[];
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    revokeSharedResources: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description An array of resources to revoke. */
-                    resources?: {
-                        /** @description A relative url of the resource to revoke. */
-                        url?: string;
-                    }[];
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    discardSharedResources: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description An array of resources to discard. */
-                    resources?: {
-                        /** @description A relative url of the resource to discard. */
-                        url?: string;
-                    }[];
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    copySharedResources: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description The relative URL of the original resource where user's permissions will be copied from. */
-                    sourceUrl?: string;
-                    /** @description The relative URL of the original resource where user's permissions will be copied to. */
-                    destinationUrl?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getInvitations: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        invitations?: {
-                            id?: string;
-                            author?: string;
-                            resources?: {
-                                /** @description A relative url of the resource. */
-                                url?: string;
-                                /** @description Resource owner display name (a configurable claim from JWT or a project name for API keys). */
-                                author?: string;
-                                /** @description Lists of permissions to be granted. */
-                                permissions?: ("READ" | "WRITE" | "SHARE")[];
-                                /**
-                                 * @description Indicates whether global resource credentials was shared with user.
-                                 * @default false
-                                 */
-                                shareCredentials: boolean;
-                            }[];
-                            createdAt?: number;
-                            expireAt?: number;
-                        }[];
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getInvitation: {
-        parameters: {
-            query?: {
-                /** @description Requests with `accept=true` accept an invitation. */
-                accept?: boolean;
-            };
-            header?: never;
-            path: {
-                invitation_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        id?: string;
-                        author?: string;
-                        /** @description An array of shared resources. */
-                        resources?: {
-                            /** @description A relative url of the shared resource. */
-                            url?: string;
-                            /** @description Lists the permissions you have on the resource. */
-                            permissions?: ("READ" | "WRITE" | "SHARE")[];
-                            /**
-                             * @description Indicates whether global resource credentials was shared with user.
-                             * @default false
-                             */
-                            shareCredentials: boolean;
-                        }[];
-                        createdAt?: number;
-                        expireAt?: number;
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    deleteInvitation: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                invitation_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getNotifications: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["NotificationsResponse"];
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    deleteNotifications: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description Notification identifiers. */
-                    ids?: string[];
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    subscribeToResources: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description An array of resources to subscribe to. */
-                    resources?: {
-                        /** @description A relative url of the resource to subscribe to. */
-                        url?: string;
-                    }[];
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/event-stream": {
-                        url?: string;
-                        /** @enum {string} */
-                        action?: "CREATE" | "UPDATE" | "DELETE";
-                        timestamp?: number;
-                    }[];
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request. */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    openSession: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description session id. */
-                    sessionId?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        sessionId?: string;
-                    };
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    closeSession: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description session id. */
-                    sessionId?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        sessionId?: string;
-                    };
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    executeCode: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description session id. */
-                    sessionId?: string;
-                    /** @description code to be executed */
-                    code?: string;
-                    inputFiles?: components["schemas"]["CodeInterpreterRequestFile"];
-                    outputFiles?: components["schemas"]["CodeInterpreterRequestFile"];
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        status?: string;
-                        stdout?: string;
-                        stderr?: string;
-                        result?: Record<string, never>;
-                        display?: Record<string, never>;
-                    };
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    uploadFileToCodeInterpreter: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "multipart/form-data": {
-                    /**
-                     * Format: binary
-                     * @description A part of multipart/form-data request
-                     */
-                    file?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CodeInterpreterFile"];
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    downloadFileFromCodeInterpreter: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CodeInterpreterFile"];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/octet-stream": string;
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    listFilesFromCodeInterpreter: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    sessionId?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        files?: components["schemas"]["CodeInterpreterFile"][];
-                    };
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    transferInputFile: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CodeInterpreterRequestFile"];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CodeInterpreterFile"];
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    transferOutputFile: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CodeInterpreterRequestFile"];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        name?: string;
-                        parentPath?: string;
-                        bucket?: string;
-                        url?: string;
-                        etag?: string;
-                        nodeType?: string;
-                        resourceType?: string;
-                        createdAt?: number;
-                        updatedAt?: number;
-                        contentLength?: number;
-                        contentType?: string;
-                        permissions?: ("READ" | "WRITE")[];
-                    };
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getSession: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description session id. */
-                    sessionId?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Session is alive */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["GetSession"];
-                };
-            };
-            /** @description Bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Session is not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The server had an error while processing your request */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getDeployments: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @description An array of models. */
-                        data?: components["schemas"]["Model"][];
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-    };
-    getDeployment: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The name of the deployment. */
-                deployment_name: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Model"];
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-    };
-    getModels: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @description An array of models. */
-                        data?: components["schemas"]["Model"][];
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-    };
-    getModel: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The name of the model. */
-                model_name: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Model"];
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-    };
-    getApplications: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @description An array of Applications. */
-                        data?: components["schemas"]["Application"][];
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-    };
-    getApplication: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The name of the Application. */
-                application_name: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Application"];
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-    };
-    getToolSets: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @description An array of toolsets. */
-                        data?: components["schemas"]["ToolsetOpenAi"][];
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-    };
-    getToolset: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The name of the toolset. */
-                toolset_name: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ToolsetOpenAi"];
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        error?: components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-    };
-    getDeploymentLimits: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The name of the deployment. */
-                deployment_name: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @description Statistics for requests per hour. */
-                        hourRequestStats?: {
-                            /** @description Total number of requests allowed per hour. */
-                            total?: number;
-                            /** @description Number of requests used in the current hour. */
-                            used?: number;
-                        };
-                        /** @description Statistics for requests per day. */
-                        dayRequestStats?: {
-                            /** @description Total number of requests allowed per day. */
-                            total?: number;
-                            /** @description Number of requests used in the current day. */
-                            used?: number;
-                        };
-                        /** @description Statistics for tokens per minute. */
-                        minuteTokenStats?: {
-                            /** @description Total number of tokens allowed per minute. */
-                            total?: number;
-                            /** @description Number of tokens used in the current minute. */
-                            used?: number;
-                        };
-                        /** @description Statistics for tokens per day. */
-                        dayTokenStats?: {
-                            /** @description Total number of tokens allowed per day. */
-                            total?: number;
-                            /** @description Number of tokens used in the current day. */
-                            used?: number;
-                        };
-                        /** @description Statistics for tokens per week. */
-                        weekTokenStats?: {
-                            /** @description Total number of tokens allowed per week. */
-                            total?: number;
-                            /** @description Number of tokens used in the current week. */
-                            used?: number;
-                        };
-                        /** @description Statistics for tokens per month. */
-                        monthTokenStats?: {
-                            /** @description Total number of tokens allowed per month. */
-                            total?: number;
-                            /** @description Number of tokens used in the current month. */
-                            used?: number;
-                        };
-                        /** @description Statistics for cost per minute. */
-                        minuteCostStats?: {
-                            /** @description Total cost allowed per minute. */
-                            total?: number;
-                            /** @description Cost used in the current minute. */
-                            used?: number;
-                        };
-                        /** @description Statistics for cost per day. */
-                        dayCostStats?: {
-                            /** @description Total cost allowed per day. */
-                            total?: number;
-                            /** @description Cost used in the current day. */
-                            used?: number;
-                        };
-                        /** @description Statistics for cost per week. */
-                        weekCostStats?: {
-                            /** @description Total cost allowed per week. */
-                            total?: number;
-                            /** @description Cost used in the current week. */
-                            used?: number;
-                        };
-                        /** @description Statistics for cost per month. */
-                        monthCostStats?: {
-                            /** @description Total cost allowed per month. */
-                            total?: number;
-                            /** @description Cost used in the current month. */
-                            used?: number;
-                        };
-                    };
-                };
-            };
-            /** @description Invalid Authentication */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Limit not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    reloadConfig: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    requestUserConsent: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique identifier of the deployment. */
-                deployment_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ReviewConsentResponse"];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    acceptUserConsent: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique identifier of the deployment. */
-                deployment_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AcceptConsentRequest"];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
+                shareCredentials: boolean;
+              }[];
+              createdAt?: number;
+              expireAt?: number;
+            }[];
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getInvitation: {
+    parameters: {
+      query?: {
+        /** @description Requests with `accept=true` accept an invitation. */
+        accept?: boolean;
+      };
+      header?: never;
+      path: {
+        invitation_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            id?: string;
+            author?: string;
+            /** @description An array of shared resources. */
+            resources?: {
+              /** @description A relative url of the shared resource. */
+              url?: string;
+              /** @description Lists the permissions you have on the resource. */
+              permissions?: ('READ' | 'WRITE' | 'SHARE')[];
+              /**
+               * @description Indicates whether global resource credentials was shared with user.
+               * @default false
+               */
+              shareCredentials: boolean;
+            }[];
+            createdAt?: number;
+            expireAt?: number;
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  deleteInvitation: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        invitation_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getNotifications: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['NotificationsResponse'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  deleteNotifications: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description Notification identifiers. */
+          ids?: string[];
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  subscribeToResources: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description An array of resources to subscribe to. */
+          resources?: {
+            /** @description A relative url of the resource to subscribe to. */
+            url?: string;
+          }[];
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/event-stream': {
+            url?: string;
+            /** @enum {string} */
+            action?: 'CREATE' | 'UPDATE' | 'DELETE';
+            timestamp?: number;
+          }[];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  openSession: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description session id. */
+          sessionId?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            sessionId?: string;
+          };
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  closeSession: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description session id. */
+          sessionId?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            sessionId?: string;
+          };
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  executeCode: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description session id. */
+          sessionId?: string;
+          /** @description code to be executed */
+          code?: string;
+          inputFiles?: components['schemas']['CodeInterpreterRequestFile'];
+          outputFiles?: components['schemas']['CodeInterpreterRequestFile'];
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            status?: string;
+            stdout?: string;
+            stderr?: string;
+            result?: Record<string, never>;
+            display?: Record<string, never>;
+          };
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  uploadFileToCodeInterpreter: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'multipart/form-data': {
+          /**
+           * Format: binary
+           * @description A part of multipart/form-data request
+           */
+          file?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CodeInterpreterFile'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  downloadFileFromCodeInterpreter: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CodeInterpreterFile'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/octet-stream': string;
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  listFilesFromCodeInterpreter: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          sessionId?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            files?: components['schemas']['CodeInterpreterFile'][];
+          };
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  transferInputFile: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CodeInterpreterRequestFile'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CodeInterpreterFile'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  transferOutputFile: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CodeInterpreterRequestFile'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            name?: string;
+            parentPath?: string;
+            bucket?: string;
+            url?: string;
+            etag?: string;
+            nodeType?: string;
+            resourceType?: string;
+            createdAt?: number;
+            updatedAt?: number;
+            contentLength?: number;
+            contentType?: string;
+            permissions?: ('READ' | 'WRITE')[];
+          };
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getSession: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description session id. */
+          sessionId?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Session is alive */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['GetSession'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Session is not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getDeploymentsByInterfaceType: {
+    parameters: {
+      query?: {
+        /** @description Filter deployments by the interface types they support. Can accept multiple values as comma-separated list or array. <br> `chat` - Deployments that expose chat-based interfaces. This includes the OpenAI-compatible chat completion interface and Responses API. Matches models with `chat` type and applications with `dial:applicationTypeCompletionEndpoint`. Never includes toolsets. <br> `embedding` - Deployments that expose embedding endpoints. Matches only models with `embedding` type. Never includes applications and toolsets. <br> `mcp` - Deployments that expose MCP (Model Context Protocol) interface (toolsets and applications with `dial:applicationTypeMcp`). Never includes models. <br> `custom_ui` - Deployments that expose custom UI interfaces (applications with `dial:applicationTypeViewerUrl`). Never includes models and toolsets. <br> `all` - Include all deployments regardless of interface type (default behavior if parameter is omitted). */
+        interface_type?: (
+          | 'chat'
+          | 'embeddings'
+          | 'mcp'
+          | 'custom_ui'
+          | 'all'
+        )[];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Deployments'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+    };
+  };
+  getDeployments: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** @description An array of models. */
+            data?: components['schemas']['ModelOpenAi'][];
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+    };
+  };
+  getDeployment: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The name of the deployment. */
+        deployment_name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ModelOpenAi'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+    };
+  };
+  getModels: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** @description An array of models. */
+            data?: components['schemas']['ModelOpenAi'][];
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+    };
+  };
+  getModel: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The name of the model. */
+        model_name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ModelOpenAi'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+    };
+  };
+  getApplications: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** @description An array of Applications. */
+            data?: components['schemas']['ApplicationOpenAi'][];
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+    };
+  };
+  getApplication: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The name of the Application. */
+        application_name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApplicationOpenAi'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+    };
+  };
+  getToolSets: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** @description An array of toolsets. */
+            data?: components['schemas']['ToolsetOpenAi'][];
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+    };
+  };
+  getToolset: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The name of the toolset. */
+        toolset_name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ToolsetOpenAi'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            error?: components['schemas']['Error'];
+          };
+        };
+      };
+    };
+  };
+  getDeploymentLimits: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The name of the deployment. */
+        deployment_name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': {
+            /** @description Statistics for requests per hour. */
+            hourRequestStats?: {
+              /** @description Total number of requests allowed per hour. */
+              total?: number;
+              /** @description Number of requests used in the current hour. */
+              used?: number;
+            };
+            /** @description Statistics for requests per day. */
+            dayRequestStats?: {
+              /** @description Total number of requests allowed per day. */
+              total?: number;
+              /** @description Number of requests used in the current day. */
+              used?: number;
+            };
+            /** @description Statistics for tokens per minute. */
+            minuteTokenStats?: {
+              /** @description Total number of tokens allowed per minute. */
+              total?: number;
+              /** @description Number of tokens used in the current minute. */
+              used?: number;
+            };
+            /** @description Statistics for tokens per day. */
+            dayTokenStats?: {
+              /** @description Total number of tokens allowed per day. */
+              total?: number;
+              /** @description Number of tokens used in the current day. */
+              used?: number;
+            };
+            /** @description Statistics for tokens per week. */
+            weekTokenStats?: {
+              /** @description Total number of tokens allowed per week. */
+              total?: number;
+              /** @description Number of tokens used in the current week. */
+              used?: number;
+            };
+            /** @description Statistics for tokens per month. */
+            monthTokenStats?: {
+              /** @description Total number of tokens allowed per month. */
+              total?: number;
+              /** @description Number of tokens used in the current month. */
+              used?: number;
+            };
+            /** @description Statistics for cost per minute. */
+            minuteCostStats?: {
+              /** @description Total cost allowed per minute. */
+              total?: number;
+              /** @description Cost used in the current minute. */
+              used?: number;
+            };
+            /** @description Statistics for cost per day. */
+            dayCostStats?: {
+              /** @description Total cost allowed per day. */
+              total?: number;
+              /** @description Cost used in the current day. */
+              used?: number;
+            };
+            /** @description Statistics for cost per week. */
+            weekCostStats?: {
+              /** @description Total cost allowed per week. */
+              total?: number;
+              /** @description Cost used in the current week. */
+              used?: number;
+            };
+            /** @description Statistics for cost per month. */
+            monthCostStats?: {
+              /** @description Total cost allowed per month. */
+              total?: number;
+              /** @description Cost used in the current month. */
+              used?: number;
+            };
+          };
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Limit not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  reloadConfig: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': string;
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  requestUserConsent: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The unique identifier of the deployment. */
+        deployment_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ReviewConsentResponse'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  acceptUserConsent: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The unique identifier of the deployment. */
+        deployment_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['AcceptConsentRequest'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  subscribeOnClientChannel: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Client channel ID. The client should provide the header in case of reconnect. */
+        'X-DIAL-CLIENT-CHANNEL-ID'?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Client channel ID. **Note**: The header is optional and is passed in the response only if provided in the request. */
+          'X-DIAL-CLIENT-CHANNEL-ID'?: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'text/event-stream': string;
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  unsubscribeOnClientChannel: {
+    parameters: {
+      query?: never;
+      header: {
+        /** @description Client channel ID */
+        'X-DIAL-CLIENT-CHANNEL-ID': string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Client channel is not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  reportResponseToClientChannel: {
+    parameters: {
+      query?: never;
+      header: {
+        /** @description Client channel ID */
+        'X-DIAL-CLIENT-CHANNEL-ID': string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['JsonRpcResponse'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  interactWithClientChannel: {
+    parameters: {
+      query?: never;
+      header: {
+        /** @description Client channel ID */
+        'X-DIAL-CLIENT-CHANNEL-ID': string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json':
+          | components['schemas']['JsonRpcRequest']
+          | components['schemas']['JsonRpcRequest'][];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/event-stream': string;
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
 }

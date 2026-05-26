@@ -58,6 +58,7 @@ sdk.sendEmbeddingsRequest(deployment_name, init?)
 
 ```typescript
 sdk.getDeployments(init?)
+sdk.getDeploymentsByInterfaceType(init?)
 sdk.getDeployment(deployment_name, init?)
 sdk.getDeploymentLimits(deployment_name, init?)
 sdk.configurationDeployment(deployment_name, init?)

@@ -185,7 +185,7 @@ export type ModelLimits = components['schemas']['ModelLimits'];
 
 export type ModelPricing = components['schemas']['ModelPricing'];
 
-export type ModelData = components['schemas']['Model'];
+export type ModelData = components['schemas']['ModelOpenAi'];
 
 export interface ModelListData {
   /** An array of models. */
