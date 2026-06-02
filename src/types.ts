@@ -48,9 +48,11 @@ type OperationParameterLocation<
 > = TOperation extends {
   parameters: infer TParameters;
 }
-  ? TParameters extends Partial<Record<TLocation, infer TValue>>
+  ? TParameters extends { [__K in TLocation]?: infer TValue }
     ? TValue
-    : never
+    : TParameters extends { [__K in TLocation]: infer TValue }
+      ? TValue
+      : never
   : never;
 
 type OperationParams<TOperation> = {
