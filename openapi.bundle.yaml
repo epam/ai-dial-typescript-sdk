@@ -1085,6 +1085,9 @@ paths:
                     dial:applicationTypeSchemaEndpoint:
                       type: string
                       description: URL to retrieve JSON schema of the application.
+                    dial:applicationTypeIconUrl:
+                      type: string
+                      description: Default icon URL for applications of this type.
               examples:
                 Schema:
                   value:
@@ -1093,6 +1096,7 @@ paths:
                       dial:applicationTypeViewerUrl: https://mydial.com/mindmap
                       dial:applicationTypeEditorUrl: https://mydial.com/editor
                       dial:applicationTypeSchemaEndpoint: https://mydial.com/schema
+                      dial:applicationTypeIconUrl: icon.svg
                     - $id: https://mydial.com/custom_application_schemas/quickapps
                       dial:applicationTypeDisplayName: Quick app
                     - $id: https://mydial.com/custom_application_schemas/dial-rag-app-runner
@@ -1141,6 +1145,9 @@ paths:
                             type: string
                             format: uri
                             description: URL to retrieve JSON schema of the custom application of given type.
+                          dial:applicationTypeIconUrl:
+                            type: string
+                            description: Default icon URL for applications of the custom application type.
                           dial:applicationTypeCompletionEndpoint:
                             type: string
                             format: uri
@@ -1551,6 +1558,7 @@ paths:
                     $id: https://mydial.epam.com/custom_application_schemas/quickapps
                     dial:applicationTypeDisplayName: Quick app
                     dial:applicationTypeSchemaEndpoint: https://mydial.com/schema
+                    dial:applicationTypeIconUrl: Mind-Map.svg
                     $defs:
                       ToolEndpointInfo:
                         properties:
@@ -6965,7 +6973,7 @@ paths:
         - Client channel
       summary: /v1/ops/client-channel/subscribe
       description: |
-        **Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to get subscription on events from client channel. 
+        **Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to get subscription on events from client channel.
       parameters:
         - name: X-DIAL-CLIENT-CHANNEL-ID
           in: header
@@ -7129,7 +7137,7 @@ paths:
             curl -X POST https://chat.<company>.com/v1/ops/client-channel/interact \
               -H "Api-Key: DIAL_API_KEY" \
               -H "X-DIAL-CLIENT-CHANNEL-ID: 12345"
-              -d '[{"jsonrpc": "2.0", "method": "toolset/signin", "params": {"toolsetId": "toolsets/public/toolset2"}, "id": "1"},{"jsonrpc": "2.0", "method": "toolset/signin", "params": {"toolsetId": "toolsets/public/my-toolset"}, "id": "2"}]'          
+              -d '[{"jsonrpc": "2.0", "method": "toolset/signin", "params": {"toolsetId": "toolsets/public/toolset2"}, "id": "1"},{"jsonrpc": "2.0", "method": "toolset/signin", "params": {"toolsetId": "toolsets/public/my-toolset"}, "id": "2"}]'
 components:
   securitySchemes:
     ApiKeyAuth:
