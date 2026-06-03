@@ -35,13 +35,13 @@ const embeddings = await sdk.sendEmbeddingsRequest('text-embedding-ada-002', {
 
 `createSDK(options: SDKOptions)` accepts the following options:
 
-| Option | Type | Description |
-|---|---|---|
-| `baseUrl` | `string` | **Required.** Base URL of the DIAL Core API. |
-| `apiKey` | `string` | API key — sent as the `Api-Key` header. |
-| `token` | `string` | JWT bearer token — sent as `Authorization: Bearer <token>`. |
-| `headers` | `Record<string, string>` | Additional custom headers merged into every request. |
-| `fetch` | `typeof fetch` | Custom fetch implementation (e.g. for Node.js < 18 or testing). |
+| Option    | Type                     | Description                                                     |
+| --------- | ------------------------ | --------------------------------------------------------------- |
+| `baseUrl` | `string`                 | **Required.** Base URL of the DIAL Core API.                    |
+| `apiKey`  | `string`                 | API key — sent as the `Api-Key` header.                         |
+| `token`   | `string`                 | JWT bearer token — sent as `Authorization: Bearer <token>`.     |
+| `headers` | `Record<string, string>` | Additional custom headers merged into every request.            |
+| `fetch`   | `typeof fetch`           | Custom fetch implementation (e.g. for Node.js < 18 or testing). |
 
 Only one of `apiKey` or `token` is typically needed.
 
@@ -215,13 +215,13 @@ npm install
 
 ### Scripts
 
-| Command | Description |
-|---|---|
-| `npm run gen` | Bundle the OpenAPI spec and regenerate TypeScript types and SDK client |
-| `npm run build` | Generate types and compile to CJS + ESM with type definitions |
-| `npm run dev` | Watch mode build |
-| `npm run lint` | Run ESLint |
-| `npm run format` | Run Prettier |
+| Command          | Description                                                            |
+| ---------------- | ---------------------------------------------------------------------- |
+| `npm run gen`    | Bundle the OpenAPI spec and regenerate TypeScript types and SDK client |
+| `npm run build`  | Generate types and compile to CJS + ESM with type definitions          |
+| `npm run dev`    | Watch mode build                                                       |
+| `npm run lint`   | Run ESLint                                                             |
+| `npm run format` | Run Prettier                                                           |
 
 ### Code Generation
 
@@ -232,6 +232,7 @@ npm run gen
 ```
 
 This will:
+
 1. Bundle `openapi.yaml` into `openapi.bundle.yaml` via Redocly CLI
 2. Generate TypeScript types (`src/schema.ts`) via `openapi-typescript`
 3. Generate the SDK client (`src/client.ts`) and path helpers (`src/api-paths.ts`)

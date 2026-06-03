@@ -3911,6 +3911,8 @@ export interface operations {
             'dial:applicationTypeEditorUrl'?: string;
             /** @description URL to retrieve JSON schema of the application. */
             'dial:applicationTypeSchemaEndpoint'?: string;
+            /** @description Default icon URL for applications of this type. */
+            'dial:applicationTypeIconUrl'?: string;
           }[];
         };
       };

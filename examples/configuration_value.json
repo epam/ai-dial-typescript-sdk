@@ -1,5 +1,5 @@
 {
-    "model_to_use": "gpt-4",
-    "web_search": true,
-    "task": 1
+  "model_to_use": "gpt-4",
+  "web_search": true,
+  "task": 1
 }
