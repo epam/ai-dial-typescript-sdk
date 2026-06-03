@@ -45,14 +45,10 @@ type OperationBody<TOperation> = TOperation extends {
 type OperationParameterLocation<
   TOperation,
   TLocation extends 'query' | 'header' | 'cookie',
-> = TOperation extends {
-  parameters: infer TParameters;
-}
-  ? TParameters extends { [__K in TLocation]?: infer TValue }
-    ? TValue
-    : TParameters extends { [__K in TLocation]: infer TValue }
-      ? TValue
-      : never
+> = TOperation extends { parameters: infer TParameters }
+  ? TLocation extends keyof TParameters
+    ? NonNullable<TParameters[TLocation]>
+    : never
   : never;
 
 type OperationParams<TOperation> = {
@@ -61,12 +57,9 @@ type OperationParams<TOperation> = {
   cookie?: OperationParameterLocation<TOperation, 'cookie'>;
 };
 
-type EmptyObject = Record<string, never>;
-
-type SDKOperationParams<TOperation> =
-  OperationParams<TOperation> extends EmptyObject
-    ? { params?: never }
-    : { params?: OperationParams<TOperation> };
+type SDKOperationParams<TOperation> = {
+  params?: OperationParams<TOperation>;
+};
 
 type SDKOperationBody<TOperation> =
   OperationBody<TOperation> extends never
