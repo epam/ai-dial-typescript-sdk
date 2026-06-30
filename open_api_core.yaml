@@ -94,7 +94,7 @@ paths:
                         application: gpt-world
                         display_name: GPT World
                         icon_url: https://chat.<company>.com/gpt_world.svg
-                        description: This application producing answer based on the curated set of LLM related publications.\n\nThe source of publications is [arxiv.org](https://arxiv.org/). GPT World is classic example of conversational semantic search application.\nOn every new user question, it performs summarization using GPT-4, calculates embedding using text-embedding-ada-002 model and then it uses chunks of text from curated set.\n\nThis is DIAL version of the [original demo](https://deltix.io/interactive-gpt-world-map.html) with [TSNE map](https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding).
+                        description: "This application producing answer based on the curated set of LLM related publications.\\n\\nThe source of publications is [arxiv.org](https://arxiv.org/). GPT World is classic example of conversational semantic search application.\\nOn every new user question, it performs summarization using GPT-4, calculates embedding using text-embedding-ada-002 model and then it uses chunks of text from curated set.\\n\\nThis is DIAL version of the [original demo](https://deltix.io/interactive-gpt-world-map.html) with [TSNE map](https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding)."
                         owner: organization-owner
                         object: application
                         status: succeeded
@@ -127,14 +127,12 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl https://chat.<company>.com/openai/applications \
-              -H "Api-Key: DIAL_API_KEY"          
+          source: "curl https://chat.<company>.com/openai/applications \\\n  -H \"Api-Key: DIAL_API_KEY\"          \n"
   /openai/applications/{application_name}:
     get:
       tags:
         - Deployment listing
-      summary: /openai/applications/{application_name}
+      summary: '/openai/applications/{application_name}'
       description: |
         Call this endpoint to get extended information about an Application by its name.
       operationId: getApplication
@@ -159,7 +157,7 @@ paths:
                     application: gpt-world
                     display_name: GPT World
                     icon_url: https://chat.<company>.com/gpt_world.svg
-                    description: This application producing answer based on the curated set of LLM related publications.\n\nThe source of publications is [arxiv.org](https://arxiv.org/). GPT World is classic example of conversational semantic search application.\nOn every new user question, it performs summarization using GPT-4, calculates embedding using text-embedding-ada-002 model and then it uses chunks of text from curated set.\n\nThis is DIAL version of the [original demo](https://deltix.io/interactive-gpt-world-map.html) with [TSNE map](https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding).
+                    description: "This application producing answer based on the curated set of LLM related publications.\\n\\nThe source of publications is [arxiv.org](https://arxiv.org/). GPT World is classic example of conversational semantic search application.\\nOn every new user question, it performs summarization using GPT-4, calculates embedding using text-embedding-ada-002 model and then it uses chunks of text from curated set.\\n\\nThis is DIAL version of the [original demo](https://deltix.io/interactive-gpt-world-map.html) with [TSNE map](https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding)."
                     owner: organization-owner
                     object: application
                     status: succeeded
@@ -192,9 +190,7 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl https://chat.<company>.com/openai/applications/gpt-world \
-              -H "Api-Key: DIAL_API_KEY"        
+          source: "curl https://chat.<company>.com/openai/applications/gpt-world \\\n  -H \"Api-Key: DIAL_API_KEY\"        \n"
   /openai/deployments:
     get:
       tags:
@@ -286,14 +282,12 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl https://chat.<company>.com/openai/deployments \
-              -H "Api-Key: DIAL_API_KEY"          
+          source: "curl https://chat.<company>.com/openai/deployments \\\n  -H \"Api-Key: DIAL_API_KEY\"          \n"
   /openai/deployments/{deployment_name}:
     get:
       tags:
         - Deployment listing
-      summary: /openai/deployments/{deployment_name}
+      summary: '/openai/deployments/{deployment_name}'
       description: |
         Call this endpoint to get information about a model by its deployment name.
       operationId: getDeployment
@@ -364,14 +358,12 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl https://chat.<company>.com/openai/deployments/gpt-4 \
-              -H "Api-Key: DIAL_API_KEY"          
+          source: "curl https://chat.<company>.com/openai/deployments/gpt-4 \\\n  -H \"Api-Key: DIAL_API_KEY\"          \n"
   /openai/deployments/{deployment_name}/chat/completions:
     post:
       tags:
         - LLM
-      summary: /openai/deployments/{deployment_name}/chat/completions
+      summary: '/openai/deployments/{deployment_name}/chat/completions'
       operationId: sendChatCompletionRequest
       parameters:
         - name: deployment_name
@@ -382,11 +374,11 @@ paths:
             type: string
         - name: api-version
           in: query
-          description: The API version to use for this request. Follows the `YYYY-MM-DD[-preview]` format.
+          description: 'The API version to use for this request. Follows the `YYYY-MM-DD[-preview]` format.'
           required: true
           schema:
             type: string
-          example: '2024-10-21'
+          example: 2024-10-21
         - name: Content-Type
           in: header
           description: Must be application/json
@@ -410,7 +402,7 @@ paths:
               `cache-priority`: Policy prioritizes cache hits over availability. That is, if an upstream with a cache doesn't respond, then DIAL Core will persist with requests to this same upstream.
         - name: X-UPSTREAM-ID
           in: header
-          description: Pin the request to one configured upstream, matched by upstream id
+          description: 'Pin the request to one configured upstream, matched by upstream id'
           required: false
           schema:
             type: string
@@ -480,7 +472,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorData'
         '503':
-          description: The engine is currently overloaded, please try again later.
+          description: 'The engine is currently overloaded, please try again later.'
           content:
             application/json:
               schema:
@@ -495,7 +487,7 @@ paths:
     post:
       tags:
         - LLM
-      summary: /openai/deployments/{deployment_name}/completions
+      summary: '/openai/deployments/{deployment_name}/completions'
       operationId: createCompletion
       parameters:
         - name: deployment_name
@@ -506,11 +498,11 @@ paths:
           description: The name of the deployment.
         - name: api-version
           in: query
-          description: The API version to use for this request. Follows the `YYYY-MM-DD[-preview]` format.
+          description: 'The API version to use for this request. Follows the `YYYY-MM-DD[-preview]` format.'
           required: true
           schema:
             type: string
-          example: '2024-10-21'
+          example: 2024-10-21
         - name: Content-Type
           in: header
           description: Must be application/json
@@ -528,7 +520,7 @@ paths:
               - cache-priority
         - name: X-UPSTREAM-ID
           in: header
-          description: Pin the request to one configured upstream, matched by upstream id
+          description: 'Pin the request to one configured upstream, matched by upstream id'
           required: false
           schema:
             type: string
@@ -598,7 +590,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorData'
         '503':
-          description: The engine is currently overloaded, please try again later.
+          description: 'The engine is currently overloaded, please try again later.'
           content:
             application/json:
               schema:
@@ -607,7 +599,7 @@ paths:
     post:
       tags:
         - LLM
-      summary: /openai/deployments/{deployment_name}/embeddings
+      summary: '/openai/deployments/{deployment_name}/embeddings'
       operationId: createEmbedding
       parameters:
         - name: deployment_name
@@ -618,7 +610,7 @@ paths:
             type: string
         - name: api-version
           in: query
-          description: The API version to use for this request. Follows the `YYYY-MM-DD[-preview]` format.
+          description: 'The API version to use for this request. Follows the `YYYY-MM-DD[-preview]` format.'
           required: true
           schema:
             type: string
@@ -690,7 +682,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorData'
         '503':
-          description: The engine is currently overloaded, please try again later.
+          description: 'The engine is currently overloaded, please try again later.'
           content:
             application/json:
               schema:
@@ -785,14 +777,12 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl https://chat.<company>.com/openai/models \
-              -H "Api-Key: DIAL_API_KEY"          
+          source: "curl https://chat.<company>.com/openai/models \\\n  -H \"Api-Key: DIAL_API_KEY\"          \n"
   /openai/models/{model_name}:
     get:
       tags:
         - Deployment listing
-      summary: /openai/models/{model_name}
+      summary: '/openai/models/{model_name}'
       description: |
         Call this endpoint to get an extended information about a model by its name.
       operationId: getModel
@@ -859,9 +849,7 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl https://chat.<company>.com/openai/models/gpt-4 \
-              -H "Api-Key: DIAL_API_KEY"          
+          source: "curl https://chat.<company>.com/openai/models/gpt-4 \\\n  -H \"Api-Key: DIAL_API_KEY\"          \n"
   /openai/toolsets:
     get:
       tags:
@@ -938,14 +926,12 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl https://chat.<company>.com/openai/toolsets \
-              -H "Api-Key: DIAL_API_KEY"          
+          source: "curl https://chat.<company>.com/openai/toolsets \\\n  -H \"Api-Key: DIAL_API_KEY\"          \n"
   /openai/toolsets/{toolset_name}:
     get:
       tags:
         - Deployment listing
-      summary: /openai/toolsets/{toolset_name}
+      summary: '/openai/toolsets/{toolset_name}'
       description: Call this endpoint to get an extended information about a specific toolset by name
       operationId: getToolset
       parameters:
@@ -1023,9 +1009,7 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl https://chat.<company>.com/openai/toolsets/my-toolset \
-              -H "Api-Key: DIAL_API_KEY"          
+          source: "curl https://chat.<company>.com/openai/toolsets/my-toolset \\\n  -H \"Api-Key: DIAL_API_KEY\"          \n"
   /openai/v1/responses:
     post:
       tags:
@@ -1104,7 +1088,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorData'
         '503':
-          description: The engine is currently overloaded, please try again later.
+          description: 'The engine is currently overloaded, please try again later.'
           content:
             application/json:
               schema:
@@ -1120,7 +1104,7 @@ paths:
     get:
       tags:
         - Responses API
-      summary: /openai/v1/responses/{response_id}
+      summary: '/openai/v1/responses/{response_id}'
       operationId: getResponseItem
       parameters:
         - name: response_id
@@ -1160,7 +1144,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorData'
         '503':
-          description: The engine is currently overloaded, please try again later.
+          description: 'The engine is currently overloaded, please try again later.'
           content:
             application/json:
               schema:
@@ -1169,7 +1153,7 @@ paths:
     delete:
       tags:
         - Responses API
-      summary: /openai/v1/responses/{response_id}
+      summary: '/openai/v1/responses/{response_id}'
       operationId: deleteResponseItem
       parameters:
         - name: response_id
@@ -1204,7 +1188,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorData'
         '503':
-          description: The engine is currently overloaded, please try again later.
+          description: 'The engine is currently overloaded, please try again later.'
           content:
             application/json:
               schema:
@@ -1214,7 +1198,7 @@ paths:
     post:
       tags:
         - Responses API
-      summary: /openai/v1/responses/{response_id}/cancel
+      summary: '/openai/v1/responses/{response_id}/cancel'
       operationId: cancelResponseItem
       parameters:
         - name: response_id
@@ -1249,7 +1233,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorData'
         '503':
-          description: The engine is currently overloaded, please try again later.
+          description: 'The engine is currently overloaded, please try again later.'
           content:
             application/json:
               schema:
@@ -1343,7 +1327,7 @@ paths:
     get:
       tags:
         - Admin
-      summary: /v1/admin/config/file/interceptors/{name}
+      summary: '/v1/admin/config/file/interceptors/{name}'
       operationId: getFileConfigInterceptor
       parameters:
         - name: name
@@ -1420,7 +1404,7 @@ paths:
     get:
       tags:
         - Admin
-      summary: /v1/admin/config/file/models/{name}
+      summary: '/v1/admin/config/file/models/{name}'
       operationId: getFileConfigModel
       parameters:
         - name: name
@@ -1497,7 +1481,7 @@ paths:
     get:
       tags:
         - Admin
-      summary: /v1/admin/config/file/roles/{name}
+      summary: '/v1/admin/config/file/roles/{name}'
       operationId: getFileConfigRole
       parameters:
         - name: name
@@ -1574,7 +1558,7 @@ paths:
     get:
       tags:
         - Admin
-      summary: /v1/admin/config/file/routes/{name}
+      summary: '/v1/admin/config/file/routes/{name}'
       operationId: getFileConfigRoute
       parameters:
         - name: name
@@ -1651,7 +1635,7 @@ paths:
     get:
       tags:
         - Admin
-      summary: /v1/admin/config/file/schemas/{name}
+      summary: '/v1/admin/config/file/schemas/{name}'
       operationId: getFileConfigSchema
       parameters:
         - name: name
@@ -1728,7 +1712,7 @@ paths:
     get:
       tags:
         - Admin
-      summary: /v1/admin/config/file/settings/{name}
+      summary: '/v1/admin/config/file/settings/{name}'
       operationId: getFileConfigSettings
       parameters:
         - name: name
@@ -1915,7 +1899,7 @@ paths:
                             description: Display name of the custom application of given type
                           dial:appendApplicationPropertiesHeader:
                             type: boolean
-                            description: If this flag is set to true, the header with properties will augment the request while proxying
+                            description: 'If this flag is set to true, the header with properties will augment the request while proxying'
                         required:
                           - dial:applicationTypeCompletionEndpoint
                           - dial:applicationTypeDisplayName
@@ -2312,7 +2296,7 @@ paths:
             application/json:
               schema:
                 type: object
-                description: Json object with schema of the requested application type. Refer to [/v1/application_type_schemas/schemas](/dial_api#tag/Applications/operation/listCustomApplicationSchemas) to view descriptions of several standard parameters.
+                description: 'Json object with schema of the requested application type. Refer to [/v1/application_type_schemas/schemas](/dial_api#tag/Applications/operation/listCustomApplicationSchemas) to view descriptions of several standard parameters.'
               examples:
                 Example:
                   value:
@@ -2557,15 +2541,13 @@ paths:
     x-codeSamples:
       - lang: cURL
         label: CURL
-        source: |
-          curl -X GET https://chat.<company>.com/v1/application_type_schemas/schema?id=https://mydial.epam.com/custom_application_schemas/quickapps \
-            -H "Api-Key: DIAL_API_KEY"            
+        source: "curl -X GET https://chat.<company>.com/v1/application_type_schemas/schema?id=https://mydial.epam.com/custom_application_schemas/quickapps \\\n  -H \"Api-Key: DIAL_API_KEY\"            \n"
   /v1/application_type_schemas/schemas:
     get:
       tags:
         - Applications
       summary: /v1/application_type_schemas/schemas
-      description: Call this endpoint to get a list of available application types schemas. Refer to [/v1/application_type_schemas/schema](/dial_api#tag/Applications/operation/getCustomApplicationSchema) to see a real example of Quick app schema.
+      description: 'Call this endpoint to get a list of available application types schemas. Refer to [/v1/application_type_schemas/schema](/dial_api#tag/Applications/operation/getCustomApplicationSchema) to see a real example of Quick app schema.'
       operationId: listCustomApplicationSchemas
       responses:
         '200':
@@ -2639,7 +2621,7 @@ paths:
     get:
       tags:
         - Applications
-      summary: /v1/applications/{bucket}/{application_path}
+      summary: '/v1/applications/{bucket}/{application_path}'
       operationId: getCustomApplication
       parameters:
         - name: bucket
@@ -2695,13 +2677,11 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl -X GET https://chat.<company>.com/v1/applications/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/application_name \
-              -H "Api-Key: DIAL_API_KEY"          
+          source: "curl -X GET https://chat.<company>.com/v1/applications/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/application_name \\\n  -H \"Api-Key: DIAL_API_KEY\"          \n"
     put:
       tags:
         - Applications
-      summary: /v1/applications/{bucket}/{application_path}
+      summary: '/v1/applications/{bucket}/{application_path}'
       operationId: saveCustomApplication
       parameters:
         - name: bucket
@@ -2833,25 +2813,11 @@ paths:
               }'
         - lang: cURL
           label: With schema
-          source: |
-            curl -X PUT https://chat.<company>.com/v1/applications/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/application_name \
-              -H "Api-Key: DIAL_API_KEY" \
-              -d '{
-                  "display_name": "Copilot Deck Explorer",
-                  "description": "You can ask about the copilot deck there",
-                  "application_type_schema_id": "https://mydial.epam.com/custom_application_schemas/quickapps",
-                  "application_properties": {
-                    "temperature": 0.8,
-                    "instructions": "You should help explore the document containing the Copilot Deck. You must query the document first to do that. You should answer using only the information in the document. Answer \"I don't know\" if there are any other questions.",
-                    "model": "gpt-4o-2024-05-13",
-                    "web_api_toolset": [],
-                    "document_relative_url": "files/DpZGXdhaTxt4FYCWNadE2Ln/GPT%20Deck.docx"
-                  }
-              }'    
+          source: "curl -X PUT https://chat.<company>.com/v1/applications/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/application_name \\\n  -H \"Api-Key: DIAL_API_KEY\" \\\n  -d '{\n      \"display_name\": \"Copilot Deck Explorer\",\n      \"description\": \"You can ask about the copilot deck there\",\n      \"application_type_schema_id\": \"https://mydial.epam.com/custom_application_schemas/quickapps\",\n      \"application_properties\": {\n        \"temperature\": 0.8,\n        \"instructions\": \"You should help explore the document containing the Copilot Deck. You must query the document first to do that. You should answer using only the information in the document. Answer \\\"I don't know\\\" if there are any other questions.\",\n        \"model\": \"gpt-4o-2024-05-13\",\n        \"web_api_toolset\": [],\n        \"document_relative_url\": \"files/DpZGXdhaTxt4FYCWNadE2Ln/GPT%20Deck.docx\"\n      }\n  }'    \n"
     delete:
       tags:
         - Applications
-      summary: /v1/applications/{bucket}/{application_path}
+      summary: '/v1/applications/{bucket}/{application_path}'
       description: |
         Call this endpoint to delete the application.
       operationId: deleteCustomApplication
@@ -2938,16 +2904,13 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl -X GET https://chat.<company>.com/v1/bucket \
-              -H "Api-Key: DIAL_API_KEY"        
+          source: "curl -X GET https://chat.<company>.com/v1/bucket \\\n  -H \"Api-Key: DIAL_API_KEY\"        \n"
   /v1/consent/{deployment_id}:
     get:
       tags:
         - User Consent
-      summary: /v1/consent/{deployment_id}
-      description: |
-        Call this endpoint to get a user's consent for the deployment id. Refer to [DIAL documentation](https://docs.dialx.ai/tutorials/developers/apps-development/auth-matrix#dial-api) to learn more about consent forms and Auth Matrix.      
+      summary: '/v1/consent/{deployment_id}'
+      description: "Call this endpoint to get a user's consent for the deployment id. Refer to [DIAL documentation](https://docs.dialx.ai/tutorials/developers/apps-development/auth-matrix#dial-api) to learn more about consent forms and Auth Matrix.      \n"
       operationId: requestUserConsent
       parameters:
         - name: deployment_id
@@ -2996,15 +2959,12 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl -X GET https://chat.<company>.com/v1/consent/{deployment_id} \
-              -H "Api-Key: DIAL_API_KEY"          
+          source: "curl -X GET https://chat.<company>.com/v1/consent/{deployment_id} \\\n  -H \"Api-Key: DIAL_API_KEY\"          \n"
     post:
       tags:
         - User Consent
-      summary: /v1/consent/{deployment_id}
-      description: |
-        Call this endpoint to accept user's consent for the deployment id.      
+      summary: '/v1/consent/{deployment_id}'
+      description: "Call this endpoint to accept user's consent for the deployment id.      \n"
       operationId: acceptUserConsent
       parameters:
         - name: deployment_id
@@ -3055,14 +3015,12 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl -X POST https://chat.<company>.com/v1/consent/{deployment_id} \
-              -H "Api-Key: DIAL_API_KEY"            
+          source: "curl -X POST https://chat.<company>.com/v1/consent/{deployment_id} \\\n  -H \"Api-Key: DIAL_API_KEY\"            \n"
   /v1/conversations/{bucket}/{conversation_path}:
     get:
       tags:
         - Conversations
-      summary: /v1/conversations/{bucket}/{conversation_path}
+      summary: '/v1/conversations/{bucket}/{conversation_path}'
       description: |
         Call this endpoint to get the conversation.
       operationId: getConversation
@@ -3120,15 +3078,12 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl -X GET https://chat.<company>.com/v1/conversations/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/conversation_name \
-              -H "Api-Key: DIAL_API_KEY"    
+          source: "curl -X GET https://chat.<company>.com/v1/conversations/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/conversation_name \\\n  -H \"Api-Key: DIAL_API_KEY\"    \n"
     put:
       tags:
         - Conversations
-      summary: /v1/conversations/{bucket}/{conversation_path}
-      description: |
-        Call this endpoint to add a conversation to the specified bucket and path.      
+      summary: '/v1/conversations/{bucket}/{conversation_path}'
+      description: "Call this endpoint to add a conversation to the specified bucket and path.      \n"
       operationId: saveConversation
       parameters:
         - name: bucket
@@ -3191,7 +3146,7 @@ paths:
     delete:
       tags:
         - Conversations
-      summary: /v1/conversations/{bucket}/{conversation_path}
+      summary: '/v1/conversations/{bucket}/{conversation_path}'
       description: |
         Call this endpoint to delete the conversation.
       operationId: deleteConversation
@@ -3230,9 +3185,7 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl -X DELETE https://chat.<company>.com/v1/conversations/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/conversation_name \
-              -H "Api-Key: DIAL_API_KEY"    
+          source: "curl -X DELETE https://chat.<company>.com/v1/conversations/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/conversation_name \\\n  -H \"Api-Key: DIAL_API_KEY\"    \n"
   /v1/deployments:
     get:
       tags:
@@ -3292,7 +3245,7 @@ paths:
                         - custom_ui
                       display_name: GPT World
                       icon_url: https://chat.<company>.com/gpt_world.svg
-                      description: This application producing answer based on the curated set of LLM related publications.\n\nThe source of publications is [arxiv.org](https://arxiv.org/). GPT World is classic example of conversational semantic search application.\nOn every new user question, it performs summarization using GPT-4, calculates embedding using text-embedding-ada-002 model and then it uses chunks of text from curated set.\n\nThis is DIAL version of the [original demo](https://deltix.io/interactive-gpt-world-map.html) with [TSNE map](https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding).
+                      description: "This application producing answer based on the curated set of LLM related publications.\\n\\nThe source of publications is [arxiv.org](https://arxiv.org/). GPT World is classic example of conversational semantic search application.\\nOn every new user question, it performs summarization using GPT-4, calculates embedding using text-embedding-ada-002 model and then it uses chunks of text from curated set.\\n\\nThis is DIAL version of the [original demo](https://deltix.io/interactive-gpt-world-map.html) with [TSNE map](https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding)."
                       owner: organization-owner
                       object: application
                       status: succeeded
@@ -3358,18 +3311,11 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl https://chat.<company>.com/deployments?interface_type={interface_type} \
-              -H "Api-Key: DIAL_API_KEY"          
+          source: "curl https://chat.<company>.com/deployments?interface_type={interface_type} \\\n  -H \"Api-Key: DIAL_API_KEY\"          \n"
   /v1/deployments/{deployment_name}/configuration:
     get:
-      summary: /v1/deployments/{deployment_name}/configuration
-      description: |
-        The endpoint provides JSON schema of the configuration supported by the chat completion deployment.
-
-        If the deployment supports configuration, it's expected to be passed via `custom_fields.configuration` field in the chat completion request.
-        <br><br>
-        A deployment supports configuration if its listing, retrieved by `GET /openai/deployments/{deployment_name}`, has a field `features.configuration` set to `true`.      
+      summary: '/v1/deployments/{deployment_name}/configuration'
+      description: "The endpoint provides JSON schema of the configuration supported by the chat completion deployment.\n\nIf the deployment supports configuration, it's expected to be passed via `custom_fields.configuration` field in the chat completion request.\n<br><br>\nA deployment supports configuration if its listing, retrieved by `GET /openai/deployments/{deployment_name}`, has a field `features.configuration` set to `true`.      \n"
       operationId: configurationDeployment
       parameters:
         - name: deployment_name
@@ -3413,7 +3359,7 @@ paths:
     get:
       tags:
         - Limits
-      summary: /v1/deployments/{deployment_name}/limits
+      summary: '/v1/deployments/{deployment_name}/limits'
       operationId: getDeploymentLimits
       description: |
         Call this endpoint to get information about spent limits for a given deployment.
@@ -3456,14 +3402,14 @@ paths:
                       total: 0.069
                       used: 0.001
                     dayCostStats:
-                      total: 100
-                      used: 10
+                      total: 100.0
+                      used: 10.0
                     weekCostStats:
-                      total: 500
-                      used: 100
+                      total: 500.0
+                      used: 100.0
                     monthCostStats:
-                      total: 20000
-                      used: 1000
+                      total: 20000.0
+                      used: 1000.0
         '401':
           description: Invalid Authentication
           content:
@@ -3481,9 +3427,8 @@ paths:
       tags:
         - Deployments
         - MCP
-      summary: /v1/deployments/{deployment_name}/mcp
-      description: |
-        This endpoint implements MCP-based communication with application deployment using [HTTP transport](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#streamable-http).      
+      summary: '/v1/deployments/{deployment_name}/mcp'
+      description: "This endpoint implements MCP-based communication with application deployment using [HTTP transport](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#streamable-http).      \n"
       operationId: postApplicationMcp
       parameters:
         - name: deployment_name
@@ -3498,8 +3443,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ProxyRequest'
-              description: |
-                A JSON object satisfying [mcp specification](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/schema/2025-06-18/schema.json).       
+              description: "A JSON object satisfying [mcp specification](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/schema/2025-06-18/schema.json).       \n"
       responses:
         '200':
           description: Success
@@ -3507,7 +3451,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProxyResponse'
-                description: A JSON object satisfying [mcp specification](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/schema/2025-06-18/schema.json).
+                description: 'A JSON object satisfying [mcp specification](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/schema/2025-06-18/schema.json).'
         '400':
           description: Bad request
           content:
@@ -3552,7 +3496,7 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
   /v1/deployments/{deployment_name}/tokenize:
     post:
-      summary: /v1/deployments/{deployment_name}/tokenize
+      summary: '/v1/deployments/{deployment_name}/tokenize'
       operationId: tokenize
       parameters:
         - name: deployment_name
@@ -3599,7 +3543,7 @@ paths:
         required: true
   /v1/deployments/{deployment_name}/truncate_prompt:
     post:
-      summary: /v1/deployments/{deployment_name}/truncate_prompt
+      summary: '/v1/deployments/{deployment_name}/truncate_prompt'
       operationId: truncatePrompt
       parameters:
         - name: deployment_name
@@ -3648,7 +3592,7 @@ paths:
     get:
       tags:
         - Files
-      summary: /v1/files/{bucket}/{file_path}
+      summary: '/v1/files/{bucket}/{file_path}'
       description: |
         Call this endpoint to get a file content.
       operationId: downloadFile
@@ -3679,14 +3623,11 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl -X GET https://chat.<company>.com/v1/files/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/file.png \
-              -H "Api-Key: DIAL_API_KEY" \
-              -o new_file.png    
+          source: "curl -X GET https://chat.<company>.com/v1/files/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/file.png \\\n  -H \"Api-Key: DIAL_API_KEY\" \\\n  -o new_file.png    \n"
     put:
       tags:
         - Files
-      summary: /v1/files/{bucket}/{file_path}
+      summary: '/v1/files/{bucket}/{file_path}'
       operationId: uploadFile
       parameters:
         - name: bucket
@@ -3703,7 +3644,7 @@ paths:
             type: string
         - name: If-Match
           in: header
-          description: The entity tag (ETag) of the file. This is used for conditional requests to ensure that the file is only uploaded if it matches the specified ETag. If the file does not exist, and this header is provided, the request returns 412 Precondition Failed response. If this header is not provided or the value is "*", any existing file at the specified path will be overwritten.
+          description: 'The entity tag (ETag) of the file. This is used for conditional requests to ensure that the file is only uploaded if it matches the specified ETag. If the file does not exist, and this header is provided, the request returns 412 Precondition Failed response. If this header is not provided or the value is "*", any existing file at the specified path will be overwritten.'
           required: false
           schema:
             type: string
@@ -3756,7 +3697,7 @@ paths:
     delete:
       tags:
         - Files
-      summary: /v1/files/{bucket}/{file_path}
+      summary: '/v1/files/{bucket}/{file_path}'
       description: |
         Call this endpoint to delete the file.
       operationId: deleteFile
@@ -3776,8 +3717,7 @@ paths:
             type: string
         - name: If-Match
           in: header
-          description: |
-            The entity tag (ETag) of the file. This is used for conditional requests to ensure that the file is only deleted if it matches the specified ETag. 
+          description: "The entity tag (ETag) of the file. This is used for conditional requests to ensure that the file is only deleted if it matches the specified ETag. \n"
           required: false
           schema:
             type: string
@@ -3795,14 +3735,12 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl -X DELETE https://chat.<company>.com/v1/files/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/file.png \
-              -H "Api-Key: DIAL_API_KEY"    
+          source: "curl -X DELETE https://chat.<company>.com/v1/files/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/file.png \\\n  -H \"Api-Key: DIAL_API_KEY\"    \n"
   /v1/interceptors/{bucket}/{path}:
     get:
       tags:
         - Interceptors
-      summary: /v1/interceptors/{bucket}/{path}
+      summary: '/v1/interceptors/{bucket}/{path}'
       operationId: getInterceptor
       parameters:
         - name: bucket
@@ -3884,7 +3822,7 @@ paths:
     put:
       tags:
         - Interceptors
-      summary: /v1/interceptors/{bucket}/{path}
+      summary: '/v1/interceptors/{bucket}/{path}'
       operationId: saveInterceptor
       parameters:
         - name: bucket
@@ -3976,7 +3914,7 @@ paths:
     delete:
       tags:
         - Interceptors
-      summary: /v1/interceptors/{bucket}/{path}
+      summary: '/v1/interceptors/{bucket}/{path}'
       operationId: deleteInterceptor
       parameters:
         - name: bucket
@@ -4048,8 +3986,7 @@ paths:
       tags:
         - Sharing
       summary: /v1/invitations
-      description: |
-        Call this endpoint to get the list of your active invitations.      
+      description: "Call this endpoint to get the list of your active invitations.      \n"
       operationId: getInvitations
       responses:
         '200':
@@ -4115,16 +4052,13 @@ paths:
     x-codeSamples:
       - lang: cURL
         label: CURL
-        source: |
-          curl -X GET https://chat.<company>.com/v1/invitations \
-            -H "Api-Key: DIAL_API_KEY"            
+        source: "curl -X GET https://chat.<company>.com/v1/invitations \\\n  -H \"Api-Key: DIAL_API_KEY\"            \n"
   /v1/invitations/{invitation_id}:
     get:
       tags:
         - Sharing
-      summary: /v1/invitations/{invitation_id}
-      description: |
-        Call this endpoint to get the invitation details or accept the invitation.      
+      summary: '/v1/invitations/{invitation_id}'
+      description: "Call this endpoint to get the invitation details or accept the invitation.      \n"
       operationId: getInvitation
       parameters:
         - name: accept
@@ -4207,15 +4141,12 @@ paths:
               -H "Api-Key: DIAL_API_KEY"
         - lang: cURL
           label: CURL (Accept)
-          source: |
-            curl -X GET https://chat.<company>.com/v1/invitations/2818T2Y...pefm6jTuMQ?accept=true \
-              -H "Api-Key: DIAL_API_KEY"          
+          source: "curl -X GET https://chat.<company>.com/v1/invitations/2818T2Y...pefm6jTuMQ?accept=true \\\n  -H \"Api-Key: DIAL_API_KEY\"          \n"
     delete:
       tags:
         - Sharing
-      summary: /v1/invitations/{invitation_id}
-      description: |
-        Call this endpoint to revoke the invitation.      
+      summary: '/v1/invitations/{invitation_id}'
+      description: "Call this endpoint to revoke the invitation.      \n"
       operationId: deleteInvitation
       parameters:
         - name: invitation_id
@@ -4259,14 +4190,12 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl -X DELETE https://chat.<company>.com/v1/invitations/2818T2Y...pefm6jTuMQ \
-              -H "Api-Key: DIAL_API_KEY"                
+          source: "curl -X DELETE https://chat.<company>.com/v1/invitations/2818T2Y...pefm6jTuMQ \\\n  -H \"Api-Key: DIAL_API_KEY\"                \n"
   /v1/keys/{bucket}/{path}:
     get:
       tags:
         - Keys
-      summary: /v1/keys/{bucket}/{path}
+      summary: '/v1/keys/{bucket}/{path}'
       operationId: getKey
       parameters:
         - name: bucket
@@ -4348,7 +4277,7 @@ paths:
     put:
       tags:
         - Keys
-      summary: /v1/keys/{bucket}/{path}
+      summary: '/v1/keys/{bucket}/{path}'
       operationId: saveKey
       parameters:
         - name: bucket
@@ -4440,7 +4369,7 @@ paths:
     delete:
       tags:
         - Keys
-      summary: /v1/keys/{bucket}/{path}
+      summary: '/v1/keys/{bucket}/{path}'
       operationId: deleteKey
       parameters:
         - name: bucket
@@ -4511,7 +4440,7 @@ paths:
     get:
       tags:
         - Applications
-      summary: /v1/metadata/applications/{bucket}/{path}
+      summary: '/v1/metadata/applications/{bucket}/{path}'
       description: |
         Call this endpoint to get metadata for a folder or an item.
         If the path is a folder, it must end with a "/".
@@ -4554,7 +4483,7 @@ paths:
             type: boolean
         - name: permissions
           in: query
-          description: If true, returns the permissions applicable to the requestor, indicating what actions they can perform on applications.
+          description: 'If true, returns the permissions applicable to the requestor, indicating what actions they can perform on applications.'
           required: false
           schema:
             type: boolean
@@ -4637,7 +4566,7 @@ paths:
     get:
       tags:
         - Conversations
-      summary: /v1/metadata/conversations/{bucket}/{path}
+      summary: '/v1/metadata/conversations/{bucket}/{path}'
       description: |
         Call this endpoint to get metadata for a folder or an item.
         If the path is a folder, it must end with a "/".
@@ -4671,7 +4600,7 @@ paths:
             type: integer
         - name: recursive
           in: query
-          description: If true, returns items recursively without nested folder metadata.
+          description: 'If true, returns items recursively without nested folder metadata.'
           required: false
           schema:
             type: boolean
@@ -4739,18 +4668,13 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl -X GET https://chat.<company>.com/v1/metadata/conversations/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/ \
-              -H "Api-Key: DIAL_API_KEY"          
+          source: "curl -X GET https://chat.<company>.com/v1/metadata/conversations/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/ \\\n  -H \"Api-Key: DIAL_API_KEY\"          \n"
   /v1/metadata/files/{bucket}/{path}:
     get:
       tags:
         - Files
-      summary: /v1/metadata/files/{bucket}/{path}
-      description: |
-        Call this endpoint to retrieve metadata for a file or folder at the specified path.
-        If the path is a folder, it must end with a "/".
-        If it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.     
+      summary: '/v1/metadata/files/{bucket}/{path}'
+      description: "Call this endpoint to retrieve metadata for a file or folder at the specified path.\nIf the path is a folder, it must end with a \"/\".\nIf it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.     \n"
       operationId: getFileMetadata
       parameters:
         - name: bucket
@@ -4824,7 +4748,7 @@ paths:
     get:
       tags:
         - Interceptors
-      summary: /v1/metadata/interceptors/{bucket}/{path}
+      summary: '/v1/metadata/interceptors/{bucket}/{path}'
       operationId: getInterceptorMetadata
       parameters:
         - name: bucket
@@ -4853,7 +4777,7 @@ paths:
             type: integer
         - name: recursive
           in: query
-          description: If true, returns items recursively without nested folder metadata.
+          description: 'If true, returns items recursively without nested folder metadata.'
           required: false
           schema:
             type: boolean
@@ -4898,7 +4822,7 @@ paths:
     get:
       tags:
         - Keys
-      summary: /v1/metadata/keys/{bucket}/{path}
+      summary: '/v1/metadata/keys/{bucket}/{path}'
       operationId: getKeyMetadata
       parameters:
         - name: bucket
@@ -4927,7 +4851,7 @@ paths:
             type: integer
         - name: recursive
           in: query
-          description: If true, returns items recursively without nested folder metadata.
+          description: 'If true, returns items recursively without nested folder metadata.'
           required: false
           schema:
             type: boolean
@@ -4972,7 +4896,7 @@ paths:
     get:
       tags:
         - Models
-      summary: /v1/metadata/models/{bucket}/{path}
+      summary: '/v1/metadata/models/{bucket}/{path}'
       operationId: getModelMetadata
       parameters:
         - name: bucket
@@ -5001,7 +4925,7 @@ paths:
             type: integer
         - name: recursive
           in: query
-          description: If true, returns items recursively without nested folder metadata.
+          description: 'If true, returns items recursively without nested folder metadata.'
           required: false
           schema:
             type: boolean
@@ -5046,7 +4970,7 @@ paths:
     get:
       tags:
         - Prompts
-      summary: /v1/metadata/prompts/{bucket}/{path}
+      summary: '/v1/metadata/prompts/{bucket}/{path}'
       description: |
         Call this endpoint to get metadata for a folder or an item.
         If the path is a folder, it must end with a "/".
@@ -5079,13 +5003,13 @@ paths:
             type: integer
         - name: recursive
           in: query
-          description: If true, returns items recursively without nested folder metadata.
+          description: 'If true, returns items recursively without nested folder metadata.'
           required: false
           schema:
             type: boolean
         - name: permissions
           in: query
-          description: If true, returns the permissions applicable to the requestor, indicating what actions they can perform on the prompts.
+          description: 'If true, returns the permissions applicable to the requestor, indicating what actions they can perform on the prompts.'
           required: false
           schema:
             type: boolean
@@ -5124,7 +5048,7 @@ paths:
     get:
       tags:
         - Roles
-      summary: /v1/metadata/roles/{bucket}/{path}
+      summary: '/v1/metadata/roles/{bucket}/{path}'
       operationId: getRoleMetadata
       parameters:
         - name: bucket
@@ -5153,7 +5077,7 @@ paths:
             type: integer
         - name: recursive
           in: query
-          description: If true, returns items recursively without nested folder metadata.
+          description: 'If true, returns items recursively without nested folder metadata.'
           required: false
           schema:
             type: boolean
@@ -5198,7 +5122,7 @@ paths:
     get:
       tags:
         - Routes
-      summary: /v1/metadata/routes/{bucket}/{path}
+      summary: '/v1/metadata/routes/{bucket}/{path}'
       operationId: getRouteMetadata
       parameters:
         - name: bucket
@@ -5227,7 +5151,7 @@ paths:
             type: integer
         - name: recursive
           in: query
-          description: If true, returns items recursively without nested folder metadata.
+          description: 'If true, returns items recursively without nested folder metadata.'
           required: false
           schema:
             type: boolean
@@ -5272,7 +5196,7 @@ paths:
     get:
       tags:
         - Schemas
-      summary: /v1/metadata/schemas/{bucket}/{path}
+      summary: '/v1/metadata/schemas/{bucket}/{path}'
       operationId: getSchemaMetadata
       parameters:
         - name: bucket
@@ -5301,7 +5225,7 @@ paths:
             type: integer
         - name: recursive
           in: query
-          description: If true, returns items recursively without nested folder metadata.
+          description: 'If true, returns items recursively without nested folder metadata.'
           required: false
           schema:
             type: boolean
@@ -5346,7 +5270,7 @@ paths:
     get:
       tags:
         - Global Settings
-      summary: /v1/metadata/settings/{bucket}/{path}
+      summary: '/v1/metadata/settings/{bucket}/{path}'
       operationId: getGlobalSettingsMetadata
       parameters:
         - name: bucket
@@ -5375,7 +5299,7 @@ paths:
             type: integer
         - name: recursive
           in: query
-          description: If true, returns items recursively without nested folder metadata.
+          description: 'If true, returns items recursively without nested folder metadata.'
           required: false
           schema:
             type: boolean
@@ -5422,11 +5346,8 @@ paths:
     get:
       tags:
         - Toolsets
-      summary: /v1/metadata/toolsets/{bucket}/{path}
-      description: |
-        Call this endpoint to get metadata for a toolset folder or item.<br />
-        If the path is a folder, it must end with a "/".
-        If it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.     
+      summary: '/v1/metadata/toolsets/{bucket}/{path}'
+      description: "Call this endpoint to get metadata for a toolset folder or item.<br />\nIf the path is a folder, it must end with a \"/\".\nIf it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.     \n"
       operationId: getToolSetMetadata
       parameters:
         - name: bucket
@@ -5455,13 +5376,13 @@ paths:
             type: integer
         - name: recursive
           in: query
-          description: If true, returns items recursively without nested folder metadata.
+          description: 'If true, returns items recursively without nested folder metadata.'
           required: false
           schema:
             type: boolean
         - name: permissions
           in: query
-          description: If true, returns the permissions applicable to the requestor, indicating what actions they can perform on the toolsets.
+          description: 'If true, returns the permissions applicable to the requestor, indicating what actions they can perform on the toolsets.'
           required: false
           schema:
             type: boolean
@@ -5500,7 +5421,7 @@ paths:
     get:
       tags:
         - Models
-      summary: /v1/models/{bucket}/{path}
+      summary: '/v1/models/{bucket}/{path}'
       operationId: getModelByPath
       parameters:
         - name: bucket
@@ -5582,7 +5503,7 @@ paths:
     put:
       tags:
         - Models
-      summary: /v1/models/{bucket}/{path}
+      summary: '/v1/models/{bucket}/{path}'
       operationId: saveModel
       parameters:
         - name: bucket
@@ -5674,7 +5595,7 @@ paths:
     delete:
       tags:
         - Models
-      summary: /v1/models/{bucket}/{path}
+      summary: '/v1/models/{bucket}/{path}'
       operationId: deleteModel
       parameters:
         - name: bucket
@@ -5898,7 +5819,7 @@ paths:
       tags:
         - Applications
       summary: /v1/ops/application/undeploy
-      description: Call this endpoint to undeploy an application. After undeploying, the application will no longer be accessible until it is [deployed](#tag/Applications/operation/deployApplication) again. Use [redeploy](#tag/Applications/operation/redeployApplication) to apply changes without downtime.
+      description: 'Call this endpoint to undeploy an application. After undeploying, the application will no longer be accessible until it is [deployed](#tag/Applications/operation/deployApplication) again. Use [redeploy](#tag/Applications/operation/redeployApplication) to apply changes without downtime.'
       operationId: undeployApplication
       requestBody:
         content:
@@ -5948,8 +5869,7 @@ paths:
       tags:
         - Client channel
       summary: /v1/ops/client-channel/interact
-      description: |
-        **Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to send RPC request to client channel and wait for RPC response.    
+      description: "**Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to send RPC request to client channel and wait for RPC response.    \n"
       operationId: interactClientChannel
       parameters:
         - name: X-DIAL-CLIENT-CHANNEL-ID
@@ -6031,18 +5951,13 @@ paths:
     x-codeSamples:
       - lang: cURL
         label: CURL
-        source: |
-          curl -X POST https://chat.<company>.com/v1/ops/client-channel/interact \
-            -H "Api-Key: DIAL_API_KEY" \
-            -H "X-DIAL-CLIENT-CHANNEL-ID: 12345"
-            -d '[{"jsonrpc": "2.0", "method": "toolset/signin", "params": {"toolsetId": "toolsets/public/toolset2"}, "id": "1"},{"jsonrpc": "2.0", "method": "toolset/signin", "params": {"toolsetId": "toolsets/public/my-toolset"}, "id": "2"}]'                  
+        source: "curl -X POST https://chat.<company>.com/v1/ops/client-channel/interact \\\n  -H \"Api-Key: DIAL_API_KEY\" \\\n  -H \"X-DIAL-CLIENT-CHANNEL-ID: 12345\"\n  -d '[{\"jsonrpc\": \"2.0\", \"method\": \"toolset/signin\", \"params\": {\"toolsetId\": \"toolsets/public/toolset2\"}, \"id\": \"1\"},{\"jsonrpc\": \"2.0\", \"method\": \"toolset/signin\", \"params\": {\"toolsetId\": \"toolsets/public/my-toolset\"}, \"id\": \"2\"}]'                  \n"
   /v1/ops/client-channel/report:
     post:
       tags:
         - Client channel
       summary: /v1/ops/client-channel/report
-      description: |
-        **Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to report RPC response to client channel.     
+      description: "**Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to report RPC response to client channel.     \n"
       operationId: reportClientChannel
       parameters:
         - name: X-DIAL-CLIENT-CHANNEL-ID
@@ -6105,11 +6020,7 @@ paths:
     x-codeSamples:
       - lang: cURL
         label: CURL
-        source: |
-          curl -X POST https://chat.<company>.com/v1/ops/client-channel/report \
-            -H "Api-Key: DIAL_API_KEY" \
-            -H "X-DIAL-CLIENT-CHANNEL-ID: 12345"
-            -d '{"jsonrpc":"2.0","result":"success","id":"1"}'            
+        source: "curl -X POST https://chat.<company>.com/v1/ops/client-channel/report \\\n  -H \"Api-Key: DIAL_API_KEY\" \\\n  -H \"X-DIAL-CLIENT-CHANNEL-ID: 12345\"\n  -d '{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"1\"}'            \n"
   /v1/ops/client-channel/subscribe:
     post:
       tags:
@@ -6195,16 +6106,13 @@ paths:
     x-codeSamples:
       - lang: cURL
         label: CURL
-        source: |
-          curl -X POST https://chat.<company>.com/v1/ops/client-channel/subscribe \
-            -H "Api-Key: DIAL_API_KEY"            
+        source: "curl -X POST https://chat.<company>.com/v1/ops/client-channel/subscribe \\\n  -H \"Api-Key: DIAL_API_KEY\"            \n"
   /v1/ops/client-channel/unsubscribe:
     post:
       tags:
         - Client channel
       summary: /v1/ops/client-channel/unsubscribe
-      description: |
-        **Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to remove subscription on events from client channel.     
+      description: "**Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to remove subscription on events from client channel.     \n"
       operationId: unsubscribeClientChannel
       parameters:
         - name: X-DIAL-CLIENT-CHANNEL-ID
@@ -6231,10 +6139,7 @@ paths:
     x-codeSamples:
       - lang: cURL
         label: CURL
-        source: |
-          curl -X POST https://chat.<company>.com/v1/ops/client-channel/unsubscribe \
-            -H "Api-Key: DIAL_API_KEY" \
-            -H "X-DIAL-CLIENT-CHANNEL-ID: 12345"                
+        source: "curl -X POST https://chat.<company>.com/v1/ops/client-channel/unsubscribe \\\n  -H \"Api-Key: DIAL_API_KEY\" \\\n  -H \"X-DIAL-CLIENT-CHANNEL-ID: 12345\"                \n"
   /v1/ops/code_interpreter/close_session:
     post:
       tags:
@@ -6411,7 +6316,7 @@ paths:
       tags:
         - Code interpreter
       summary: /v1/ops/code_interpreter/get_session
-      description: Call this endpoint to get a session description. Note, this API does not reset TTL for a session.
+      description: 'Call this endpoint to get a session description. Note, this API does not reset TTL for a session.'
       operationId: getSession
       requestBody:
         content:
@@ -6807,9 +6712,7 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl -X POST https://chat.<company>.com/v1/ops/config/reload \
-              -H "Api-Key: DIAL_API_KEY"            
+          source: "curl -X POST https://chat.<company>.com/v1/ops/config/reload \\\n  -H \"Api-Key: DIAL_API_KEY\"            \n"
   /v1/ops/notification/delete:
     post:
       tags:
@@ -6867,7 +6770,7 @@ paths:
       tags:
         - Notifications
       summary: /v1/ops/notification/list
-      description: Call this endpoint to get a list of notifications. Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/notifications#notification-api) for more details on how to work with notifications.
+      description: 'Call this endpoint to get a list of notifications. Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/notifications#notification-api) for more details on how to work with notifications.'
       operationId: getNotifications
       responses:
         '200':
@@ -7588,14 +7491,7 @@ paths:
     x-codeSamples:
       - lang: cURL
         label: CURL
-        source: |
-          curl -X POST https://chat.<company>.com/v1/ops/resource/copy \
-            -H "Api-Key: DIAL_API_KEY" \
-            -d '{
-              "sourceUrl": "files/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/file.txt",
-              "destinationUrl": "files/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder/file.txt",
-              "overwrite": true
-            }'            
+        source: "curl -X POST https://chat.<company>.com/v1/ops/resource/copy \\\n  -H \"Api-Key: DIAL_API_KEY\" \\\n  -d '{\n    \"sourceUrl\": \"files/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/file.txt\",\n    \"destinationUrl\": \"files/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder/file.txt\",\n    \"overwrite\": true\n  }'            \n"
   /v1/ops/resource/move:
     post:
       tags:
@@ -7654,25 +7550,13 @@ paths:
     x-codeSamples:
       - lang: cURL
         label: CURL
-        source: |
-          curl -X POST https://chat.<company>.com/v1/ops/resource/move \
-            -H "Api-Key: DIAL_API_KEY" \
-            -d '{
-              "sourceUrl": "files/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/file.txt",
-              "destinationUrl": "files/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder/file.txt",
-              "overwrite": true
-            }'            
+        source: "curl -X POST https://chat.<company>.com/v1/ops/resource/move \\\n  -H \"Api-Key: DIAL_API_KEY\" \\\n  -d '{\n    \"sourceUrl\": \"files/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/file.txt\",\n    \"destinationUrl\": \"files/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder/file.txt\",\n    \"overwrite\": true\n  }'            \n"
   /v1/ops/resource/per-request-permissions/grant:
     post:
       tags:
         - Sharing
       summary: /v1/ops/resource/per-request-permissions/grant
-      description: |
-        Call this endpoint to share resources between deployments (toolsets and applications). 
-
-        **Important**: This request can be authorized only with a [per-request API](https://docs.dialx.ai/platform/core/per-request-keys) key issued by DIAL Core for the deployment sending the request.
-
-        Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/sharing) for more details on how to share resources between deployments.     
+      description: "Call this endpoint to share resources between deployments (toolsets and applications). \n\n**Important**: This request can be authorized only with a [per-request API](https://docs.dialx.ai/platform/core/per-request-keys) key issued by DIAL Core for the deployment sending the request.\n\nRefer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/sharing) for more details on how to share resources between deployments.     \n"
       operationId: grantPerRequestPermissions
       requestBody:
         content:
@@ -7729,12 +7613,7 @@ paths:
       tags:
         - Sharing
       summary: /v1/ops/resource/per-request-permissions/list
-      description: |
-        Call this endpoint to get a list of shared resources by or with a specific deployment (toolset and application). 
-
-        **Important**: This request can be authorized only with a [per-request API](https://docs.dialx.ai/platform/core/per-request-keys) key issued by DIAL Core for the deployment sending the request.
-
-        Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/sharing) for more details on how to share resources between deployments.
+      description: "Call this endpoint to get a list of shared resources by or with a specific deployment (toolset and application). \n\n**Important**: This request can be authorized only with a [per-request API](https://docs.dialx.ai/platform/core/per-request-keys) key issued by DIAL Core for the deployment sending the request.\n\nRefer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/sharing) for more details on how to share resources between deployments.\n"
       operationId: getPerRequestPermissions
       requestBody:
         content:
@@ -7805,12 +7684,7 @@ paths:
       tags:
         - Sharing
       summary: /v1/ops/resource/per-request-permissions/revoke
-      description: |
-        Call this endpoint to revoke access to a shared resources between deployments (toolsets and applications). 
-
-        **Important**: This request can be authorized only with a [per-request API](https://docs.dialx.ai/platform/core/per-request-keys) key issued by DIAL Core for the deployment sending the request.
-
-        Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/sharing) for more details on how to share resources between deployments.
+      description: "Call this endpoint to revoke access to a shared resources between deployments (toolsets and applications). \n\n**Important**: This request can be authorized only with a [per-request API](https://docs.dialx.ai/platform/core/per-request-keys) key issued by DIAL Core for the deployment sending the request.\n\nRefer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/sharing) for more details on how to share resources between deployments.\n"
       operationId: revokePerRequestPermissions
       requestBody:
         content:
@@ -7865,22 +7739,7 @@ paths:
     x-codeSamples:
       - lang: cURL
         label: CURL
-        source: |
-          curl -X POST https://chat.<company>.com/v1/ops/resource/per-request-permissions/revoke \
-            -H "Api-Key: DIAL_API_KEY" \
-            -d '{
-              "resources": [
-                {
-                  "url": "prompts/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/prompt_name",
-                  "permissions": ["READ"]
-                },
-                {
-                  "url": "files/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/image.png",
-                  "permissions": ["WRITE"]
-                }
-              ],
-              "receiver": "132465798"
-            }'            
+        source: "curl -X POST https://chat.<company>.com/v1/ops/resource/per-request-permissions/revoke \\\n  -H \"Api-Key: DIAL_API_KEY\" \\\n  -d '{\n    \"resources\": [\n      {\n        \"url\": \"prompts/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/prompt_name\",\n        \"permissions\": [\"READ\"]\n      },\n      {\n        \"url\": \"files/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/image.png\",\n        \"permissions\": [\"WRITE\"]\n      }\n    ],\n    \"receiver\": \"132465798\"\n  }'            \n"
   /v1/ops/resource/share/copy:
     post:
       tags:
@@ -7987,8 +7846,7 @@ paths:
       tags:
         - Sharing
       summary: /v1/ops/resource/share/discard
-      description: |
-        Call this endpoint to discard the resource shared with you.      
+      description: "Call this endpoint to discard the resource shared with you.      \n"
       operationId: discardSharedResources
       requestBody:
         content:
@@ -8038,19 +7896,7 @@ paths:
     x-codeSamples:
       - lang: cURL
         label: CURL
-        source: |
-          curl -X POST https://chat.<company>.com/v1/ops/resource/share/discard \
-            -H "Api-Key: DIAL_API_KEY" \
-            -d '{
-              "resources": [
-                {
-                  "url": "prompts/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/prompt_name"
-                },
-                {
-                  "url": "files/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/image.png"
-                }
-              ]
-            }'            
+        source: "curl -X POST https://chat.<company>.com/v1/ops/resource/share/discard \\\n  -H \"Api-Key: DIAL_API_KEY\" \\\n  -d '{\n    \"resources\": [\n      {\n        \"url\": \"prompts/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/prompt_name\"\n      },\n      {\n        \"url\": \"files/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/image.png\"\n      }\n    ]\n  }'            \n"
   /v1/ops/resource/share/list:
     post:
       tags:
@@ -8117,8 +7963,7 @@ paths:
       tags:
         - Sharing
       summary: /v1/ops/resource/share/revoke
-      description: |
-        Call this endpoint to revoke shared access from all users.      
+      description: "Call this endpoint to revoke shared access from all users.      \n"
       operationId: revokeSharedResources
       requestBody:
         content:
@@ -8186,8 +8031,7 @@ paths:
       tags:
         - Notifications
       summary: /v1/ops/resource/subscribe
-      description: |
-        Use this endpoint to subscribe to resource updates. Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/notifications#subscribe-api) for more details on how to work with subscriptions.     
+      description: "Use this endpoint to subscribe to resource updates. Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/notifications#subscribe-api) for more details on how to work with subscriptions.     \n"
       operationId: subscribeToResources
       requestBody:
         content:
@@ -8232,17 +8076,7 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl -X POST https://chat.<company>.com/v1/ops/resource/subscribe \
-              -H "Content-Type: application/json" \
-              -H "Api-Key: DIAL_API_KEY" \
-              -d '{
-                "resources": [
-                  {
-                    "url": "conversations/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder/conversation"
-                  }
-                ]
-              }'          
+          source: "curl -X POST https://chat.<company>.com/v1/ops/resource/subscribe \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Api-Key: DIAL_API_KEY\" \\\n  -d '{\n    \"resources\": [\n      {\n        \"url\": \"conversations/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder/conversation\"\n      }\n    ]\n  }'          \n"
   /v1/ops/toolset/signin:
     post:
       tags:
@@ -8369,9 +8203,8 @@ paths:
     get:
       tags:
         - Prompts
-      summary: /v1/prompts/{bucket}/{prompt_path}
-      description: |
-        Call this endpoint to get the prompt.      
+      summary: '/v1/prompts/{bucket}/{prompt_path}'
+      description: "Call this endpoint to get the prompt.      \n"
       operationId: getPrompt
       parameters:
         - name: bucket
@@ -8433,15 +8266,12 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl -X GET https://chat.<company>.com/v1/prompts/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/prompt_name \
-              -H "Api-Key: DIAL_API_KEY"          
+          source: "curl -X GET https://chat.<company>.com/v1/prompts/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/prompt_name \\\n  -H \"Api-Key: DIAL_API_KEY\"          \n"
     put:
       tags:
         - Prompts
-      summary: /v1/prompts/{bucket}/{prompt_path}
-      description: |
-        Call this endpoint to add a prompt to the specified bucket and path.    
+      summary: '/v1/prompts/{bucket}/{prompt_path}'
+      description: "Call this endpoint to add a prompt to the specified bucket and path.    \n"
       operationId: savePrompt
       parameters:
         - name: bucket
@@ -8458,7 +8288,7 @@ paths:
             type: string
         - name: If-Match
           in: header
-          description: The entity tag (ETag) of the prompt. This is used for conditional requests to ensure that the prompt is only uploaded if it matches the specified ETag. If the prompt does not exist, this header is ignored. If this header is not provided or the value is "*", any existing prompt at the specified path will be overwritten.
+          description: 'The entity tag (ETag) of the prompt. This is used for conditional requests to ensure that the prompt is only uploaded if it matches the specified ETag. If the prompt does not exist, this header is ignored. If this header is not provided or the value is "*", any existing prompt at the specified path will be overwritten.'
           required: false
           schema:
             type: string
@@ -8519,14 +8349,11 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl -X PUT https://chat.<company>.com/v1/prompts/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/prompt_name \
-              -H "Api-Key: DIAL_API_KEY" \
-              -d 'You are a helpful assistant'    
+          source: "curl -X PUT https://chat.<company>.com/v1/prompts/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/prompt_name \\\n  -H \"Api-Key: DIAL_API_KEY\" \\\n  -d 'You are a helpful assistant'    \n"
     delete:
       tags:
         - Prompts
-      summary: /v1/prompts/{bucket}/{prompt_path}
+      summary: '/v1/prompts/{bucket}/{prompt_path}'
       description: |
         Call this endpoint to delete the prompt.
       operationId: deletePrompt
@@ -8563,14 +8390,12 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl -X DELETE https://chat.<company>.com/v1/prompts/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/prompt_name \
-              -H "Api-Key: DIAL_API_KEY"      
+          source: "curl -X DELETE https://chat.<company>.com/v1/prompts/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/prompt_name \\\n  -H \"Api-Key: DIAL_API_KEY\"      \n"
   /v1/roles/{bucket}/{path}:
     get:
       tags:
         - Roles
-      summary: /v1/roles/{bucket}/{path}
+      summary: '/v1/roles/{bucket}/{path}'
       operationId: getRole
       parameters:
         - name: bucket
@@ -8652,7 +8477,7 @@ paths:
     put:
       tags:
         - Roles
-      summary: /v1/roles/{bucket}/{path}
+      summary: '/v1/roles/{bucket}/{path}'
       operationId: saveRole
       parameters:
         - name: bucket
@@ -8744,7 +8569,7 @@ paths:
     delete:
       tags:
         - Roles
-      summary: /v1/roles/{bucket}/{path}
+      summary: '/v1/roles/{bucket}/{path}'
       operationId: deleteRole
       parameters:
         - name: bucket
@@ -8815,7 +8640,7 @@ paths:
     get:
       tags:
         - Routes
-      summary: /v1/routes/{bucket}/{path}
+      summary: '/v1/routes/{bucket}/{path}'
       operationId: getRoute
       parameters:
         - name: bucket
@@ -8897,7 +8722,7 @@ paths:
     put:
       tags:
         - Routes
-      summary: /v1/routes/{bucket}/{path}
+      summary: '/v1/routes/{bucket}/{path}'
       operationId: saveRoute
       parameters:
         - name: bucket
@@ -8989,7 +8814,7 @@ paths:
     delete:
       tags:
         - Routes
-      summary: /v1/routes/{bucket}/{path}
+      summary: '/v1/routes/{bucket}/{path}'
       operationId: deleteRoute
       parameters:
         - name: bucket
@@ -9060,7 +8885,7 @@ paths:
     get:
       tags:
         - Schemas
-      summary: /v1/schemas/{bucket}/{path}
+      summary: '/v1/schemas/{bucket}/{path}'
       operationId: getSchema
       parameters:
         - name: bucket
@@ -9142,7 +8967,7 @@ paths:
     put:
       tags:
         - Schemas
-      summary: /v1/schemas/{bucket}/{path}
+      summary: '/v1/schemas/{bucket}/{path}'
       operationId: saveSchema
       parameters:
         - name: bucket
@@ -9234,7 +9059,7 @@ paths:
     delete:
       tags:
         - Schemas
-      summary: /v1/schemas/{bucket}/{path}
+      summary: '/v1/schemas/{bucket}/{path}'
       operationId: deleteSchema
       parameters:
         - name: bucket
@@ -9305,7 +9130,7 @@ paths:
     get:
       tags:
         - Global Settings
-      summary: /v1/settings/{bucket}/{path}
+      summary: '/v1/settings/{bucket}/{path}'
       operationId: getGlobalSettings
       parameters:
         - name: bucket
@@ -9381,7 +9206,7 @@ paths:
     put:
       tags:
         - Global Settings
-      summary: /v1/settings/{bucket}/{path}
+      summary: '/v1/settings/{bucket}/{path}'
       operationId: saveGlobalSettings
       parameters:
         - name: bucket
@@ -9473,7 +9298,7 @@ paths:
     delete:
       tags:
         - Global Settings
-      summary: /v1/settings/{bucket}/{path}
+      summary: '/v1/settings/{bucket}/{path}'
       operationId: deleteGlobalSettings
       parameters:
         - name: bucket
@@ -9544,7 +9369,7 @@ paths:
     get:
       tags:
         - Toolsets
-      summary: /v1/toolset/{toolset_name}/allowed-tools
+      summary: '/v1/toolset/{toolset_name}/allowed-tools'
       description: Call this endpoint to retrieve a filtered list of all allowed tools for a specific MCP server.
       operationId: getToolSetAllowedTools
       parameters:
@@ -9596,7 +9421,7 @@ paths:
       tags:
         - Toolsets
         - MCP
-      summary: /v1/toolset/{toolset_name}/mcp
+      summary: '/v1/toolset/{toolset_name}/mcp'
       operationId: getToolSetMcp
       parameters:
         - name: toolset_name
@@ -9612,7 +9437,7 @@ paths:
             application/json:
               schema:
                 type: object
-                description: A JSON object satisfying [mcp specification](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/schema/2025-06-18/schema.json).
+                description: 'A JSON object satisfying [mcp specification](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/schema/2025-06-18/schema.json).'
         '401':
           description: Invalid Authentication
           content:
@@ -9623,7 +9448,7 @@ paths:
       tags:
         - Toolsets
         - MCP
-      summary: /v1/toolset/{toolset_name}/mcp
+      summary: '/v1/toolset/{toolset_name}/mcp'
       operationId: postToolSetMcp
       parameters:
         - name: toolset_name
@@ -9691,7 +9516,7 @@ paths:
       tags:
         - Toolsets
         - MCP
-      summary: /v1/toolset/{toolset_name}/mcp
+      summary: '/v1/toolset/{toolset_name}/mcp'
       operationId: deleteToolSetMcp
       parameters:
         - name: toolset_name
@@ -9713,7 +9538,7 @@ paths:
     get:
       tags:
         - Toolsets
-      summary: /v1/toolset/{toolset_name}/tools
+      summary: '/v1/toolset/{toolset_name}/tools'
       operationId: getToolSetTools
       parameters:
         - name: toolset_name
@@ -9763,7 +9588,7 @@ paths:
     get:
       tags:
         - Toolsets
-      summary: /v1/toolsets/{bucket}/{toolset_path}
+      summary: '/v1/toolsets/{bucket}/{toolset_path}'
       description: Call this endpoint to retrieve a specific toolset.
       operationId: getCustomToolSet
       parameters:
@@ -9915,13 +9740,11 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl -X GET https://chat.<company>.com/v1/toolset/{toolset_id}/allowed-tools
-              -H "Api-Key: DIAL_API_KEY"           
+          source: "curl -X GET https://chat.<company>.com/v1/toolset/{toolset_id}/allowed-tools\n  -H \"Api-Key: DIAL_API_KEY\"           \n"
     put:
       tags:
         - Toolsets
-      summary: /v1/toolsets/{bucket}/{toolset_path}
+      summary: '/v1/toolsets/{bucket}/{toolset_path}'
       description: Call this endpoint to add a toolset to the specified bucket and path or update the existing toolset.
       operationId: saveToolSet
       parameters:
@@ -9939,7 +9762,7 @@ paths:
             type: string
         - name: If-Match
           in: header
-          description: The entity tag (ETag) of the toolset. This is used for conditional requests to ensure that the toolset is only uploaded if it matches the specified ETag. If the toolset does not exist, this header is ignored. If this header is not provided or the value is "*", any existing toolset at the specified path will be overwritten.
+          description: 'The entity tag (ETag) of the toolset. This is used for conditional requests to ensure that the toolset is only uploaded if it matches the specified ETag. If the toolset does not exist, this header is ignored. If this header is not provided or the value is "*", any existing toolset at the specified path will be overwritten.'
           required: false
           schema:
             type: string
@@ -10046,13 +9869,11 @@ paths:
       x-codeSamples:
         - lang: cURL
           label: CURL
-          source: |
-            curl -X PUT https://chat.<company>.com/v1/toolsets/ENCRYPTED_BUCKET/my-toolset \
-              -H "Api-Key: DIAL_API_KEY"    
+          source: "curl -X PUT https://chat.<company>.com/v1/toolsets/ENCRYPTED_BUCKET/my-toolset \\\n  -H \"Api-Key: DIAL_API_KEY\"    \n"
     delete:
       tags:
         - Toolsets
-      summary: /v1/toolsets/{bucket}/{toolset_path}
+      summary: '/v1/toolsets/{bucket}/{toolset_path}'
       description: Call this endpoint to delete a toolset from the specified path.
       operationId: deleteToolSet
       parameters:
@@ -10088,14 +9909,11 @@ paths:
     x-codeSamples:
       - lang: cURL
         label: CURL
-        source: |
-          curl -X DELETE https://chat.<company>.com/v1/toolsets/ENCRYPTED_BUCKET/my-toolset \
-            -H "Api-Key: DIAL_API_KEY"    
+        source: "curl -X DELETE https://chat.<company>.com/v1/toolsets/ENCRYPTED_BUCKET/my-toolset \\\n  -H \"Api-Key: DIAL_API_KEY\"    \n"
   /v1/user/info:
     get:
       summary: /v1/user/info
-      description: |
-        Call this endpoint to retrieve information about a user. To access the endpoint, a user must be authenticated with API key or access token.     
+      description: "Call this endpoint to retrieve information about a user. To access the endpoint, a user must be authenticated with API key or access token.     \n"
       operationId: getUserInfo
       responses:
         '200':
@@ -10131,14 +9949,11 @@ paths:
               -H "Api-Key: DIAL_API_KEY"
         - lang: cURL
           label: Access Token
-          source: |
-            curl -X GET https://chat.<company>.com/v1/user/info \
-              -H "Authorization: Bearer YOUR_ACCESS_TOKEN"          
+          source: "curl -X GET https://chat.<company>.com/v1/user/info \\\n  -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\"          \n"
   /v1/{deployment_name}/rate:
     post:
-      summary: /v1/{deployment_name}/rate
-      description: |
-        Call this endpoint to rate the response received from the chat completions endpoint.      
+      summary: '/v1/{deployment_name}/rate'
+      description: "Call this endpoint to rate the response received from the chat completions endpoint.      \n"
       operationId: rateDeployment
       parameters:
         - name: deployment_name
@@ -10184,7 +9999,7 @@ paths:
     get:
       tags:
         - Skills
-      summary: /v2/skills/{bucket}/{path}
+      summary: '/v2/skills/{bucket}/{path}'
       operationId: downloadSkillFolder
       parameters:
         - name: bucket
@@ -10261,7 +10076,7 @@ paths:
     put:
       tags:
         - Skills
-      summary: /v2/skills/{bucket}/{path}
+      summary: '/v2/skills/{bucket}/{path}'
       operationId: uploadSkillFolder
       parameters:
         - name: bucket
@@ -10278,7 +10093,7 @@ paths:
             type: string
         - name: If-Match
           in: header
-          description: ETag of the version to replace. Use * to overwrite any existing version, or omit to create only if not exists.
+          description: 'ETag of the version to replace. Use * to overwrite any existing version, or omit to create only if not exists.'
           required: false
           schema:
             type: string

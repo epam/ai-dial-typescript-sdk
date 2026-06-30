@@ -5,7 +5,7 @@ import YAML from 'yaml';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.join(__dirname, '..');
-const OPENAPI = path.join(REPO, 'openapi.yaml');
+const OPENAPI = path.join(REPO, 'open_api_core.yaml');
 const API_PATHS_OUT = path.join(REPO, 'src', 'api-paths.ts');
 const CLIENT_OUT = path.join(REPO, 'src', 'client.ts');
 

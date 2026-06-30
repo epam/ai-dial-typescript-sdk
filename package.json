@@ -16,7 +16,7 @@
     "dist"
   ],
   "scripts": {
-    "bundle": "redocly bundle ./openapi.yaml -o ./openapi.bundle.yaml",
+    "bundle": "redocly bundle ./open_api_core.yaml -o ./openapi.bundle.yaml",
     "gen": "npm run bundle && openapi-typescript ./openapi.bundle.yaml -o ./src/schema.ts && node ./scripts/generate-sdk-client.mjs",
     "build": "tsup src/index.ts --dts --format esm,cjs --target es2020 --sourcemap --clean",
     "dev": "tsup src/index.ts --watch --dts --format esm,cjs",

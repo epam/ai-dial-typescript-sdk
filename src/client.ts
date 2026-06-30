@@ -26,17 +26,16 @@ export interface DIAL_SDK {
     deployment_id: string,
     init: SDKOperationInit<operations['acceptUserConsent']>,
   ) => Promise<SDKOperationResponse<operations['acceptUserConsent']>>;
+  applyConfigManifests: (
+    init: SDKOperationInit<operations['applyConfigManifests']>,
+  ) => Promise<SDKOperationResponse<operations['applyConfigManifests']>>;
   approvePublication: (
     init: SDKOperationInit<operations['approvePublication']>,
   ) => Promise<SDKOperationResponse<operations['approvePublication']>>;
-  callMcp: (
-    deployment_id: string,
-    init: SDKOperationInit<operations['callMcp']>,
-  ) => Promise<SDKOperationResponse<operations['callMcp']>>;
-  callToolSet: (
-    toolset_name: string,
-    init: SDKOperationInit<operations['callToolSet']>,
-  ) => Promise<SDKOperationResponse<operations['callToolSet']>>;
+  cancelResponseItem: (
+    response_id: string,
+    init?: SDKOperationInit<operations['cancelResponseItem']>,
+  ) => Promise<SDKOperationResponse<operations['cancelResponseItem']>>;
   closeSession: (
     init: SDKOperationInit<operations['closeSession']>,
   ) => Promise<SDKOperationResponse<operations['closeSession']>>;
@@ -50,9 +49,20 @@ export interface DIAL_SDK {
   copySharedResources: (
     init: SDKOperationInit<operations['copySharedResources']>,
   ) => Promise<SDKOperationResponse<operations['copySharedResources']>>;
+  createCompletion: (
+    deployment_name: string,
+    init: SDKOperationInit<operations['createCompletion']>,
+  ) => Promise<SDKOperationResponse<operations['createCompletion']>>;
+  createEmbedding: (
+    deployment_name: string,
+    init: SDKOperationInit<operations['createEmbedding']>,
+  ) => Promise<SDKOperationResponse<operations['createEmbedding']>>;
   createPublication: (
-    init?: SDKOperationInit<operations['createPublication']>,
+    init: SDKOperationInit<operations['createPublication']>,
   ) => Promise<SDKOperationResponse<operations['createPublication']>>;
+  createResponse: (
+    init: SDKOperationInit<operations['createResponse']>,
+  ) => Promise<SDKOperationResponse<operations['createResponse']>>;
   deleteConversation: (
     bucket: string,
     conversation_path: string,
@@ -68,10 +78,30 @@ export interface DIAL_SDK {
     file_path: string,
     init?: SDKOperationInit<operations['deleteFile']>,
   ) => Promise<SDKOperationResponse<operations['deleteFile']>>;
+  deleteGlobalSettings: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['deleteGlobalSettings']>,
+  ) => Promise<SDKOperationResponse<operations['deleteGlobalSettings']>>;
+  deleteInterceptor: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['deleteInterceptor']>,
+  ) => Promise<SDKOperationResponse<operations['deleteInterceptor']>>;
   deleteInvitation: (
     invitation_id: string,
     init?: SDKOperationInit<operations['deleteInvitation']>,
   ) => Promise<SDKOperationResponse<operations['deleteInvitation']>>;
+  deleteKey: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['deleteKey']>,
+  ) => Promise<SDKOperationResponse<operations['deleteKey']>>;
+  deleteModel: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['deleteModel']>,
+  ) => Promise<SDKOperationResponse<operations['deleteModel']>>;
   deleteNotifications: (
     init: SDKOperationInit<operations['deleteNotifications']>,
   ) => Promise<SDKOperationResponse<operations['deleteNotifications']>>;
@@ -83,11 +113,34 @@ export interface DIAL_SDK {
   deletePublication: (
     init: SDKOperationInit<operations['deletePublication']>,
   ) => Promise<SDKOperationResponse<operations['deletePublication']>>;
+  deleteResponseItem: (
+    response_id: string,
+    init?: SDKOperationInit<operations['deleteResponseItem']>,
+  ) => Promise<SDKOperationResponse<operations['deleteResponseItem']>>;
+  deleteRole: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['deleteRole']>,
+  ) => Promise<SDKOperationResponse<operations['deleteRole']>>;
+  deleteRoute: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['deleteRoute']>,
+  ) => Promise<SDKOperationResponse<operations['deleteRoute']>>;
+  deleteSchema: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['deleteSchema']>,
+  ) => Promise<SDKOperationResponse<operations['deleteSchema']>>;
   deleteToolSet: (
     bucket: string,
     toolset_path: string,
     init?: SDKOperationInit<operations['deleteToolSet']>,
   ) => Promise<SDKOperationResponse<operations['deleteToolSet']>>;
+  deleteToolSetMcp: (
+    toolset_name: string,
+    init?: SDKOperationInit<operations['deleteToolSetMcp']>,
+  ) => Promise<SDKOperationResponse<operations['deleteToolSetMcp']>>;
   deployApplication: (
     init: SDKOperationInit<operations['deployApplication']>,
   ) => Promise<SDKOperationResponse<operations['deployApplication']>>;
@@ -104,17 +157,14 @@ export interface DIAL_SDK {
   ) => Promise<
     SDKOperationResponse<operations['downloadFileFromCodeInterpreter']>
   >;
+  downloadSkillFolder: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['downloadSkillFolder']>,
+  ) => Promise<SDKOperationResponse<operations['downloadSkillFolder']>>;
   executeCode: (
     init: SDKOperationInit<operations['executeCode']>,
   ) => Promise<SDKOperationResponse<operations['executeCode']>>;
-  getAllToolSetAllowedTools: (
-    toolset_id: string,
-    init?: SDKOperationInit<operations['getAllToolSetAllowedTools']>,
-  ) => Promise<SDKOperationResponse<operations['getAllToolSetAllowedTools']>>;
-  getAllToolSetTools: (
-    toolset_id: string,
-    init?: SDKOperationInit<operations['getAllToolSetTools']>,
-  ) => Promise<SDKOperationResponse<operations['getAllToolSetTools']>>;
   getApplication: (
     application_name: string,
     init?: SDKOperationInit<operations['getApplication']>,
@@ -130,6 +180,9 @@ export interface DIAL_SDK {
   getApplications: (
     init?: SDKOperationInit<operations['getApplications']>,
   ) => Promise<SDKOperationResponse<operations['getApplications']>>;
+  getConfigHealth: (
+    init?: SDKOperationInit<operations['getConfigHealth']>,
+  ) => Promise<SDKOperationResponse<operations['getConfigHealth']>>;
   getConversation: (
     bucket: string,
     conversation_path: string,
@@ -164,16 +217,55 @@ export interface DIAL_SDK {
   getDeployments: (
     init?: SDKOperationInit<operations['getDeployments']>,
   ) => Promise<SDKOperationResponse<operations['getDeployments']>>;
-  getDeploymentsByInterfaceType: (
-    init?: SDKOperationInit<operations['getDeploymentsByInterfaceType']>,
-  ) => Promise<
-    SDKOperationResponse<operations['getDeploymentsByInterfaceType']>
-  >;
+  getFileConfigInterceptor: (
+    name: string,
+    init?: SDKOperationInit<operations['getFileConfigInterceptor']>,
+  ) => Promise<SDKOperationResponse<operations['getFileConfigInterceptor']>>;
+  getFileConfigModel: (
+    name: string,
+    init?: SDKOperationInit<operations['getFileConfigModel']>,
+  ) => Promise<SDKOperationResponse<operations['getFileConfigModel']>>;
+  getFileConfigRole: (
+    name: string,
+    init?: SDKOperationInit<operations['getFileConfigRole']>,
+  ) => Promise<SDKOperationResponse<operations['getFileConfigRole']>>;
+  getFileConfigRoute: (
+    name: string,
+    init?: SDKOperationInit<operations['getFileConfigRoute']>,
+  ) => Promise<SDKOperationResponse<operations['getFileConfigRoute']>>;
+  getFileConfigSchema: (
+    name: string,
+    init?: SDKOperationInit<operations['getFileConfigSchema']>,
+  ) => Promise<SDKOperationResponse<operations['getFileConfigSchema']>>;
+  getFileConfigSettings: (
+    name: string,
+    init?: SDKOperationInit<operations['getFileConfigSettings']>,
+  ) => Promise<SDKOperationResponse<operations['getFileConfigSettings']>>;
   getFileMetadata: (
     bucket: string,
     path: string,
     init?: SDKOperationInit<operations['getFileMetadata']>,
   ) => Promise<SDKOperationResponse<operations['getFileMetadata']>>;
+  getGlobalSettings: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getGlobalSettings']>,
+  ) => Promise<SDKOperationResponse<operations['getGlobalSettings']>>;
+  getGlobalSettingsMetadata: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getGlobalSettingsMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getGlobalSettingsMetadata']>>;
+  getInterceptor: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getInterceptor']>,
+  ) => Promise<SDKOperationResponse<operations['getInterceptor']>>;
+  getInterceptorMetadata: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getInterceptorMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getInterceptorMetadata']>>;
   getInvitation: (
     invitation_id: string,
     init?: SDKOperationInit<operations['getInvitation']>,
@@ -181,6 +273,16 @@ export interface DIAL_SDK {
   getInvitations: (
     init?: SDKOperationInit<operations['getInvitations']>,
   ) => Promise<SDKOperationResponse<operations['getInvitations']>>;
+  getKey: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getKey']>,
+  ) => Promise<SDKOperationResponse<operations['getKey']>>;
+  getKeyMetadata: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getKeyMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getKeyMetadata']>>;
   getMetaSchemaOfCustomApplicationSchema: (
     init?: SDKOperationInit<
       operations['getMetaSchemaOfCustomApplicationSchema']
@@ -192,6 +294,16 @@ export interface DIAL_SDK {
     model_name: string,
     init?: SDKOperationInit<operations['getModel']>,
   ) => Promise<SDKOperationResponse<operations['getModel']>>;
+  getModelByPath: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getModelByPath']>,
+  ) => Promise<SDKOperationResponse<operations['getModelByPath']>>;
+  getModelMetadata: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getModelMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getModelMetadata']>>;
   getModels: (
     init?: SDKOperationInit<operations['getModels']>,
   ) => Promise<SDKOperationResponse<operations['getModels']>>;
@@ -220,17 +332,63 @@ export interface DIAL_SDK {
   getPublications: (
     init: SDKOperationInit<operations['getPublications']>,
   ) => Promise<SDKOperationResponse<operations['getPublications']>>;
+  getResponseItem: (
+    response_id: string,
+    init?: SDKOperationInit<operations['getResponseItem']>,
+  ) => Promise<SDKOperationResponse<operations['getResponseItem']>>;
+  getRole: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getRole']>,
+  ) => Promise<SDKOperationResponse<operations['getRole']>>;
+  getRoleMetadata: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getRoleMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getRoleMetadata']>>;
+  getRoute: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getRoute']>,
+  ) => Promise<SDKOperationResponse<operations['getRoute']>>;
+  getRouteMetadata: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getRouteMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getRouteMetadata']>>;
+  getSchema: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getSchema']>,
+  ) => Promise<SDKOperationResponse<operations['getSchema']>>;
+  getSchemaMetadata: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getSchemaMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getSchemaMetadata']>>;
   getSession: (
     init: SDKOperationInit<operations['getSession']>,
   ) => Promise<SDKOperationResponse<operations['getSession']>>;
   getSharedResources: (
     init: SDKOperationInit<operations['getSharedResources']>,
   ) => Promise<SDKOperationResponse<operations['getSharedResources']>>;
+  getToolSetAllowedTools: (
+    toolset_name: string,
+    init?: SDKOperationInit<operations['getToolSetAllowedTools']>,
+  ) => Promise<SDKOperationResponse<operations['getToolSetAllowedTools']>>;
+  getToolSetMcp: (
+    toolset_name: string,
+    init?: SDKOperationInit<operations['getToolSetMcp']>,
+  ) => Promise<SDKOperationResponse<operations['getToolSetMcp']>>;
   getToolSetMetadata: (
     bucket: string,
     path: string,
     init?: SDKOperationInit<operations['getToolSetMetadata']>,
   ) => Promise<SDKOperationResponse<operations['getToolSetMetadata']>>;
+  getToolSetTools: (
+    toolset_name: string,
+    init?: SDKOperationInit<operations['getToolSetTools']>,
+  ) => Promise<SDKOperationResponse<operations['getToolSetTools']>>;
   getToolSets: (
     init?: SDKOperationInit<operations['getToolSets']>,
   ) => Promise<SDKOperationResponse<operations['getToolSets']>>;
@@ -247,25 +405,57 @@ export interface DIAL_SDK {
   grantPerRequestPermissions: (
     init: SDKOperationInit<operations['grantPerRequestPermissions']>,
   ) => Promise<SDKOperationResponse<operations['grantPerRequestPermissions']>>;
-  interactWithClientChannel: (
-    init: SDKOperationInit<operations['interactWithClientChannel']>,
-  ) => Promise<SDKOperationResponse<operations['interactWithClientChannel']>>;
+  interactClientChannel: (
+    init: SDKOperationInit<operations['interactClientChannel']>,
+  ) => Promise<SDKOperationResponse<operations['interactClientChannel']>>;
   listCustomApplicationSchemas: (
     init?: SDKOperationInit<operations['listCustomApplicationSchemas']>,
   ) => Promise<
     SDKOperationResponse<operations['listCustomApplicationSchemas']>
   >;
+  listDeployments: (
+    init?: SDKOperationInit<operations['listDeployments']>,
+  ) => Promise<SDKOperationResponse<operations['listDeployments']>>;
+  listFileConfigInterceptors: (
+    init?: SDKOperationInit<operations['listFileConfigInterceptors']>,
+  ) => Promise<SDKOperationResponse<operations['listFileConfigInterceptors']>>;
+  listFileConfigModels: (
+    init?: SDKOperationInit<operations['listFileConfigModels']>,
+  ) => Promise<SDKOperationResponse<operations['listFileConfigModels']>>;
+  listFileConfigRoles: (
+    init?: SDKOperationInit<operations['listFileConfigRoles']>,
+  ) => Promise<SDKOperationResponse<operations['listFileConfigRoles']>>;
+  listFileConfigRoutes: (
+    init?: SDKOperationInit<operations['listFileConfigRoutes']>,
+  ) => Promise<SDKOperationResponse<operations['listFileConfigRoutes']>>;
+  listFileConfigSchemas: (
+    init?: SDKOperationInit<operations['listFileConfigSchemas']>,
+  ) => Promise<SDKOperationResponse<operations['listFileConfigSchemas']>>;
+  listFileConfigSettings: (
+    init?: SDKOperationInit<operations['listFileConfigSettings']>,
+  ) => Promise<SDKOperationResponse<operations['listFileConfigSettings']>>;
   listFilesFromCodeInterpreter: (
     init: SDKOperationInit<operations['listFilesFromCodeInterpreter']>,
   ) => Promise<
     SDKOperationResponse<operations['listFilesFromCodeInterpreter']>
   >;
+  listPublishedResources: (
+    init: SDKOperationInit<operations['listPublishedResources']>,
+  ) => Promise<SDKOperationResponse<operations['listPublishedResources']>>;
   moveResource: (
     init: SDKOperationInit<operations['moveResource']>,
   ) => Promise<SDKOperationResponse<operations['moveResource']>>;
   openSession: (
     init: SDKOperationInit<operations['openSession']>,
   ) => Promise<SDKOperationResponse<operations['openSession']>>;
+  postApplicationMcp: (
+    deployment_name: string,
+    init: SDKOperationInit<operations['postApplicationMcp']>,
+  ) => Promise<SDKOperationResponse<operations['postApplicationMcp']>>;
+  postToolSetMcp: (
+    toolset_name: string,
+    init: SDKOperationInit<operations['postToolSetMcp']>,
+  ) => Promise<SDKOperationResponse<operations['postToolSetMcp']>>;
   rateDeployment: (
     deployment_name: string,
     init: SDKOperationInit<operations['rateDeployment']>,
@@ -279,11 +469,9 @@ export interface DIAL_SDK {
   reloadConfig: (
     init?: SDKOperationInit<operations['reloadConfig']>,
   ) => Promise<SDKOperationResponse<operations['reloadConfig']>>;
-  reportResponseToClientChannel: (
-    init: SDKOperationInit<operations['reportResponseToClientChannel']>,
-  ) => Promise<
-    SDKOperationResponse<operations['reportResponseToClientChannel']>
-  >;
+  reportClientChannel: (
+    init: SDKOperationInit<operations['reportClientChannel']>,
+  ) => Promise<SDKOperationResponse<operations['reportClientChannel']>>;
   requestUserConsent: (
     deployment_id: string,
     init?: SDKOperationInit<operations['requestUserConsent']>,
@@ -304,11 +492,46 @@ export interface DIAL_SDK {
     application_path: string,
     init: SDKOperationInit<operations['saveCustomApplication']>,
   ) => Promise<SDKOperationResponse<operations['saveCustomApplication']>>;
+  saveGlobalSettings: (
+    bucket: string,
+    path: string,
+    init: SDKOperationInit<operations['saveGlobalSettings']>,
+  ) => Promise<SDKOperationResponse<operations['saveGlobalSettings']>>;
+  saveInterceptor: (
+    bucket: string,
+    path: string,
+    init: SDKOperationInit<operations['saveInterceptor']>,
+  ) => Promise<SDKOperationResponse<operations['saveInterceptor']>>;
+  saveKey: (
+    bucket: string,
+    path: string,
+    init: SDKOperationInit<operations['saveKey']>,
+  ) => Promise<SDKOperationResponse<operations['saveKey']>>;
+  saveModel: (
+    bucket: string,
+    path: string,
+    init: SDKOperationInit<operations['saveModel']>,
+  ) => Promise<SDKOperationResponse<operations['saveModel']>>;
   savePrompt: (
     bucket: string,
     prompt_path: string,
     init: SDKOperationInit<operations['savePrompt']>,
   ) => Promise<SDKOperationResponse<operations['savePrompt']>>;
+  saveRole: (
+    bucket: string,
+    path: string,
+    init: SDKOperationInit<operations['saveRole']>,
+  ) => Promise<SDKOperationResponse<operations['saveRole']>>;
+  saveRoute: (
+    bucket: string,
+    path: string,
+    init: SDKOperationInit<operations['saveRoute']>,
+  ) => Promise<SDKOperationResponse<operations['saveRoute']>>;
+  saveSchema: (
+    bucket: string,
+    path: string,
+    init: SDKOperationInit<operations['saveSchema']>,
+  ) => Promise<SDKOperationResponse<operations['saveSchema']>>;
   saveToolSet: (
     bucket: string,
     toolset_path: string,
@@ -318,19 +541,19 @@ export interface DIAL_SDK {
     deployment_name: string,
     init: SDKOperationInit<operations['sendChatCompletionRequest']>,
   ) => Promise<SDKOperationResponse<operations['sendChatCompletionRequest']>>;
-  sendEmbeddingsRequest: (
-    deployment_name: string,
-    init: SDKOperationInit<operations['sendEmbeddingsRequest']>,
-  ) => Promise<SDKOperationResponse<operations['sendEmbeddingsRequest']>>;
   shareResource: (
     init: SDKOperationInit<operations['shareResource']>,
   ) => Promise<SDKOperationResponse<operations['shareResource']>>;
-  subscribeOnClientChannel: (
-    init?: SDKOperationInit<operations['subscribeOnClientChannel']>,
-  ) => Promise<SDKOperationResponse<operations['subscribeOnClientChannel']>>;
+  subscribeClientChannel: (
+    init?: SDKOperationInit<operations['subscribeClientChannel']>,
+  ) => Promise<SDKOperationResponse<operations['subscribeClientChannel']>>;
   subscribeToResources: (
     init: SDKOperationInit<operations['subscribeToResources']>,
   ) => Promise<SDKOperationResponse<operations['subscribeToResources']>>;
+  tokenize: (
+    deployment_name: string,
+    init: SDKOperationInit<operations['tokenize']>,
+  ) => Promise<SDKOperationResponse<operations['tokenize']>>;
   toolSetSignout: (
     init: SDKOperationInit<operations['toolSetSignout']>,
   ) => Promise<SDKOperationResponse<operations['toolSetSignout']>>;
@@ -343,14 +566,18 @@ export interface DIAL_SDK {
   transferOutputFile: (
     init: SDKOperationInit<operations['transferOutputFile']>,
   ) => Promise<SDKOperationResponse<operations['transferOutputFile']>>;
+  truncatePrompt: (
+    deployment_name: string,
+    init: SDKOperationInit<operations['truncatePrompt']>,
+  ) => Promise<SDKOperationResponse<operations['truncatePrompt']>>;
   undeployApplication: (
     init: SDKOperationInit<operations['undeployApplication']>,
   ) => Promise<SDKOperationResponse<operations['undeployApplication']>>;
-  unsubscribeOnClientChannel: (
-    init: SDKOperationInit<operations['unsubscribeOnClientChannel']>,
-  ) => Promise<SDKOperationResponse<operations['unsubscribeOnClientChannel']>>;
+  unsubscribeClientChannel: (
+    init: SDKOperationInit<operations['unsubscribeClientChannel']>,
+  ) => Promise<SDKOperationResponse<operations['unsubscribeClientChannel']>>;
   updatePublication: (
-    init?: SDKOperationInit<operations['updatePublication']>,
+    init: SDKOperationInit<operations['updatePublication']>,
   ) => Promise<SDKOperationResponse<operations['updatePublication']>>;
   uploadFile: (
     bucket: string,
@@ -360,6 +587,14 @@ export interface DIAL_SDK {
   uploadFileToCodeInterpreter: (
     init: SDKOperationInit<operations['uploadFileToCodeInterpreter']>,
   ) => Promise<SDKOperationResponse<operations['uploadFileToCodeInterpreter']>>;
+  uploadSkillFolder: (
+    bucket: string,
+    path: string,
+    init: SDKOperationInit<operations['uploadSkillFolder']>,
+  ) => Promise<SDKOperationResponse<operations['uploadSkillFolder']>>;
+  validateConfigManifests: (
+    init: SDKOperationInit<operations['validateConfigManifests']>,
+  ) => Promise<SDKOperationResponse<operations['validateConfigManifests']>>;
 }
 
 export function createSDK(opts: SDKOptions): DIAL_SDK {
@@ -379,19 +614,19 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.acceptUserConsentUrl(deployment_id) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['acceptUserConsent']>>,
+    applyConfigManifests: (init?: any) =>
+      client.POST(apiPaths.applyConfigManifestsUrl, init) as Promise<
+        SDKOperationResponse<operations['applyConfigManifests']>
+      >,
     approvePublication: (init?: any) =>
       client.POST(apiPaths.approvePublicationUrl, init) as Promise<
         SDKOperationResponse<operations['approvePublication']>
       >,
-    callMcp: (deployment_id: string, init?: any) =>
-      client.POST(apiPaths.callMcpUrl(deployment_id) as any, init) as Promise<
-        SDKOperationResponse<operations['callMcp']>
-      >,
-    callToolSet: (toolset_name: string, init?: any) =>
+    cancelResponseItem: (response_id: string, init?: any) =>
       client.POST(
-        apiPaths.callToolSetUrl(toolset_name) as any,
+        apiPaths.cancelResponseItemUrl(response_id) as any,
         init,
-      ) as Promise<SDKOperationResponse<operations['callToolSet']>>,
+      ) as Promise<SDKOperationResponse<operations['cancelResponseItem']>>,
     closeSession: (init?: any) =>
       client.POST(apiPaths.closeSessionUrl, init) as Promise<
         SDKOperationResponse<operations['closeSession']>
@@ -409,9 +644,23 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.copySharedResourcesUrl, init) as Promise<
         SDKOperationResponse<operations['copySharedResources']>
       >,
+    createCompletion: (deployment_name: string, init?: any) =>
+      client.POST(
+        apiPaths.createCompletionUrl(deployment_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['createCompletion']>>,
+    createEmbedding: (deployment_name: string, init?: any) =>
+      client.POST(
+        apiPaths.createEmbeddingUrl(deployment_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['createEmbedding']>>,
     createPublication: (init?: any) =>
       client.POST(apiPaths.createPublicationUrl, init) as Promise<
         SDKOperationResponse<operations['createPublication']>
+      >,
+    createResponse: (init?: any) =>
+      client.POST(apiPaths.createResponseUrl, init) as Promise<
+        SDKOperationResponse<operations['createResponse']>
       >,
     deleteConversation: (
       bucket: string,
@@ -436,11 +685,31 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.deleteFileUrl(bucket, file_path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['deleteFile']>>,
+    deleteGlobalSettings: (bucket: string, path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deleteGlobalSettingsUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deleteGlobalSettings']>>,
+    deleteInterceptor: (bucket: string, path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deleteInterceptorUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deleteInterceptor']>>,
     deleteInvitation: (invitation_id: string, init?: any) =>
       client.DELETE(
         apiPaths.deleteInvitationUrl(invitation_id) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['deleteInvitation']>>,
+    deleteKey: (bucket: string, path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deleteKeyUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deleteKey']>>,
+    deleteModel: (bucket: string, path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deleteModelUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deleteModel']>>,
     deleteNotifications: (init?: any) =>
       client.POST(apiPaths.deleteNotificationsUrl, init) as Promise<
         SDKOperationResponse<operations['deleteNotifications']>
@@ -454,11 +723,36 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.deletePublicationUrl, init) as Promise<
         SDKOperationResponse<operations['deletePublication']>
       >,
+    deleteResponseItem: (response_id: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deleteResponseItemUrl(response_id) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deleteResponseItem']>>,
+    deleteRole: (bucket: string, path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deleteRoleUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deleteRole']>>,
+    deleteRoute: (bucket: string, path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deleteRouteUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deleteRoute']>>,
+    deleteSchema: (bucket: string, path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deleteSchemaUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deleteSchema']>>,
     deleteToolSet: (bucket: string, toolset_path: string, init?: any) =>
       client.DELETE(
         apiPaths.deleteToolSetUrl(bucket, toolset_path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['deleteToolSet']>>,
+    deleteToolSetMcp: (toolset_name: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deleteToolSetMcpUrl(toolset_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deleteToolSetMcp']>>,
     deployApplication: (init?: any) =>
       client.POST(apiPaths.deployApplicationUrl, init) as Promise<
         SDKOperationResponse<operations['deployApplication']>
@@ -476,22 +770,15 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.downloadFileFromCodeInterpreterUrl, init) as Promise<
         SDKOperationResponse<operations['downloadFileFromCodeInterpreter']>
       >,
+    downloadSkillFolder: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.downloadSkillFolderUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['downloadSkillFolder']>>,
     executeCode: (init?: any) =>
       client.POST(apiPaths.executeCodeUrl, init) as Promise<
         SDKOperationResponse<operations['executeCode']>
       >,
-    getAllToolSetAllowedTools: (toolset_id: string, init?: any) =>
-      client.GET(
-        apiPaths.getAllToolSetAllowedToolsUrl(toolset_id) as any,
-        init,
-      ) as Promise<
-        SDKOperationResponse<operations['getAllToolSetAllowedTools']>
-      >,
-    getAllToolSetTools: (toolset_id: string, init?: any) =>
-      client.GET(
-        apiPaths.getAllToolSetToolsUrl(toolset_id) as any,
-        init,
-      ) as Promise<SDKOperationResponse<operations['getAllToolSetTools']>>,
     getApplication: (application_name: string, init?: any) =>
       client.GET(
         apiPaths.getApplicationUrl(application_name) as any,
@@ -509,6 +796,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     getApplications: (init?: any) =>
       client.GET(apiPaths.getApplicationsUrl, init) as Promise<
         SDKOperationResponse<operations['getApplications']>
+      >,
+    getConfigHealth: (init?: any) =>
+      client.GET(apiPaths.getConfigHealthUrl, init) as Promise<
+        SDKOperationResponse<operations['getConfigHealth']>
       >,
     getConversation: (bucket: string, conversation_path: string, init?: any) =>
       client.GET(
@@ -552,15 +843,61 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.GET(apiPaths.getDeploymentsUrl, init) as Promise<
         SDKOperationResponse<operations['getDeployments']>
       >,
-    getDeploymentsByInterfaceType: (init?: any) =>
-      client.GET(apiPaths.getDeploymentsByInterfaceTypeUrl, init) as Promise<
-        SDKOperationResponse<operations['getDeploymentsByInterfaceType']>
+    getFileConfigInterceptor: (name: string, init?: any) =>
+      client.GET(
+        apiPaths.getFileConfigInterceptorUrl(name) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['getFileConfigInterceptor']>
       >,
+    getFileConfigModel: (name: string, init?: any) =>
+      client.GET(apiPaths.getFileConfigModelUrl(name) as any, init) as Promise<
+        SDKOperationResponse<operations['getFileConfigModel']>
+      >,
+    getFileConfigRole: (name: string, init?: any) =>
+      client.GET(apiPaths.getFileConfigRoleUrl(name) as any, init) as Promise<
+        SDKOperationResponse<operations['getFileConfigRole']>
+      >,
+    getFileConfigRoute: (name: string, init?: any) =>
+      client.GET(apiPaths.getFileConfigRouteUrl(name) as any, init) as Promise<
+        SDKOperationResponse<operations['getFileConfigRoute']>
+      >,
+    getFileConfigSchema: (name: string, init?: any) =>
+      client.GET(apiPaths.getFileConfigSchemaUrl(name) as any, init) as Promise<
+        SDKOperationResponse<operations['getFileConfigSchema']>
+      >,
+    getFileConfigSettings: (name: string, init?: any) =>
+      client.GET(
+        apiPaths.getFileConfigSettingsUrl(name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getFileConfigSettings']>>,
     getFileMetadata: (bucket: string, path: string, init?: any) =>
       client.GET(
         apiPaths.getFileMetadataUrl(bucket, path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['getFileMetadata']>>,
+    getGlobalSettings: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getGlobalSettingsUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getGlobalSettings']>>,
+    getGlobalSettingsMetadata: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getGlobalSettingsMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['getGlobalSettingsMetadata']>
+      >,
+    getInterceptor: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getInterceptorUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getInterceptor']>>,
+    getInterceptorMetadata: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getInterceptorMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getInterceptorMetadata']>>,
     getInvitation: (invitation_id: string, init?: any) =>
       client.GET(
         apiPaths.getInvitationUrl(invitation_id) as any,
@@ -570,6 +907,15 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.GET(apiPaths.getInvitationsUrl, init) as Promise<
         SDKOperationResponse<operations['getInvitations']>
       >,
+    getKey: (bucket: string, path: string, init?: any) =>
+      client.GET(apiPaths.getKeyUrl(bucket, path) as any, init) as Promise<
+        SDKOperationResponse<operations['getKey']>
+      >,
+    getKeyMetadata: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getKeyMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getKeyMetadata']>>,
     getMetaSchemaOfCustomApplicationSchema: (init?: any) =>
       client.GET(
         apiPaths.getMetaSchemaOfCustomApplicationSchemaUrl,
@@ -583,6 +929,16 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.GET(apiPaths.getModelUrl(model_name) as any, init) as Promise<
         SDKOperationResponse<operations['getModel']>
       >,
+    getModelByPath: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getModelByPathUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getModelByPath']>>,
+    getModelMetadata: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getModelMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getModelMetadata']>>,
     getModels: (init?: any) =>
       client.GET(apiPaths.getModelsUrl, init) as Promise<
         SDKOperationResponse<operations['getModels']>
@@ -617,6 +973,38 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.getPublicationsUrl, init) as Promise<
         SDKOperationResponse<operations['getPublications']>
       >,
+    getResponseItem: (response_id: string, init?: any) =>
+      client.GET(
+        apiPaths.getResponseItemUrl(response_id) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getResponseItem']>>,
+    getRole: (bucket: string, path: string, init?: any) =>
+      client.GET(apiPaths.getRoleUrl(bucket, path) as any, init) as Promise<
+        SDKOperationResponse<operations['getRole']>
+      >,
+    getRoleMetadata: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getRoleMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getRoleMetadata']>>,
+    getRoute: (bucket: string, path: string, init?: any) =>
+      client.GET(apiPaths.getRouteUrl(bucket, path) as any, init) as Promise<
+        SDKOperationResponse<operations['getRoute']>
+      >,
+    getRouteMetadata: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getRouteMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getRouteMetadata']>>,
+    getSchema: (bucket: string, path: string, init?: any) =>
+      client.GET(apiPaths.getSchemaUrl(bucket, path) as any, init) as Promise<
+        SDKOperationResponse<operations['getSchema']>
+      >,
+    getSchemaMetadata: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getSchemaMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getSchemaMetadata']>>,
     getSession: (init?: any) =>
       client.POST(apiPaths.getSessionUrl, init) as Promise<
         SDKOperationResponse<operations['getSession']>
@@ -625,11 +1013,26 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.getSharedResourcesUrl, init) as Promise<
         SDKOperationResponse<operations['getSharedResources']>
       >,
+    getToolSetAllowedTools: (toolset_name: string, init?: any) =>
+      client.GET(
+        apiPaths.getToolSetAllowedToolsUrl(toolset_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getToolSetAllowedTools']>>,
+    getToolSetMcp: (toolset_name: string, init?: any) =>
+      client.GET(
+        apiPaths.getToolSetMcpUrl(toolset_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getToolSetMcp']>>,
     getToolSetMetadata: (bucket: string, path: string, init?: any) =>
       client.GET(
         apiPaths.getToolSetMetadataUrl(bucket, path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['getToolSetMetadata']>>,
+    getToolSetTools: (toolset_name: string, init?: any) =>
+      client.GET(
+        apiPaths.getToolSetToolsUrl(toolset_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getToolSetTools']>>,
     getToolSets: (init?: any) =>
       client.GET(apiPaths.getToolSetsUrl, init) as Promise<
         SDKOperationResponse<operations['getToolSets']>
@@ -650,17 +1053,49 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.grantPerRequestPermissionsUrl, init) as Promise<
         SDKOperationResponse<operations['grantPerRequestPermissions']>
       >,
-    interactWithClientChannel: (init?: any) =>
-      client.POST(apiPaths.interactWithClientChannelUrl, init) as Promise<
-        SDKOperationResponse<operations['interactWithClientChannel']>
+    interactClientChannel: (init?: any) =>
+      client.POST(apiPaths.interactClientChannelUrl, init) as Promise<
+        SDKOperationResponse<operations['interactClientChannel']>
       >,
     listCustomApplicationSchemas: (init?: any) =>
       client.GET(apiPaths.listCustomApplicationSchemasUrl, init) as Promise<
         SDKOperationResponse<operations['listCustomApplicationSchemas']>
       >,
+    listDeployments: (init?: any) =>
+      client.GET(apiPaths.listDeploymentsUrl, init) as Promise<
+        SDKOperationResponse<operations['listDeployments']>
+      >,
+    listFileConfigInterceptors: (init?: any) =>
+      client.GET(apiPaths.listFileConfigInterceptorsUrl, init) as Promise<
+        SDKOperationResponse<operations['listFileConfigInterceptors']>
+      >,
+    listFileConfigModels: (init?: any) =>
+      client.GET(apiPaths.listFileConfigModelsUrl, init) as Promise<
+        SDKOperationResponse<operations['listFileConfigModels']>
+      >,
+    listFileConfigRoles: (init?: any) =>
+      client.GET(apiPaths.listFileConfigRolesUrl, init) as Promise<
+        SDKOperationResponse<operations['listFileConfigRoles']>
+      >,
+    listFileConfigRoutes: (init?: any) =>
+      client.GET(apiPaths.listFileConfigRoutesUrl, init) as Promise<
+        SDKOperationResponse<operations['listFileConfigRoutes']>
+      >,
+    listFileConfigSchemas: (init?: any) =>
+      client.GET(apiPaths.listFileConfigSchemasUrl, init) as Promise<
+        SDKOperationResponse<operations['listFileConfigSchemas']>
+      >,
+    listFileConfigSettings: (init?: any) =>
+      client.GET(apiPaths.listFileConfigSettingsUrl, init) as Promise<
+        SDKOperationResponse<operations['listFileConfigSettings']>
+      >,
     listFilesFromCodeInterpreter: (init?: any) =>
       client.POST(apiPaths.listFilesFromCodeInterpreterUrl, init) as Promise<
         SDKOperationResponse<operations['listFilesFromCodeInterpreter']>
+      >,
+    listPublishedResources: (init?: any) =>
+      client.POST(apiPaths.listPublishedResourcesUrl, init) as Promise<
+        SDKOperationResponse<operations['listPublishedResources']>
       >,
     moveResource: (init?: any) =>
       client.POST(apiPaths.moveResourceUrl, init) as Promise<
@@ -670,6 +1105,16 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.openSessionUrl, init) as Promise<
         SDKOperationResponse<operations['openSession']>
       >,
+    postApplicationMcp: (deployment_name: string, init?: any) =>
+      client.POST(
+        apiPaths.postApplicationMcpUrl(deployment_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['postApplicationMcp']>>,
+    postToolSetMcp: (toolset_name: string, init?: any) =>
+      client.POST(
+        apiPaths.postToolSetMcpUrl(toolset_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['postToolSetMcp']>>,
     rateDeployment: (deployment_name: string, init?: any) =>
       client.POST(
         apiPaths.rateDeploymentUrl(deployment_name) as any,
@@ -687,9 +1132,9 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.reloadConfigUrl, init) as Promise<
         SDKOperationResponse<operations['reloadConfig']>
       >,
-    reportResponseToClientChannel: (init?: any) =>
-      client.POST(apiPaths.reportResponseToClientChannelUrl, init) as Promise<
-        SDKOperationResponse<operations['reportResponseToClientChannel']>
+    reportClientChannel: (init?: any) =>
+      client.POST(apiPaths.reportClientChannelUrl, init) as Promise<
+        SDKOperationResponse<operations['reportClientChannel']>
       >,
     requestUserConsent: (deployment_id: string, init?: any) =>
       client.GET(
@@ -718,11 +1163,41 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.saveCustomApplicationUrl(bucket, application_path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['saveCustomApplication']>>,
+    saveGlobalSettings: (bucket: string, path: string, init?: any) =>
+      client.PUT(
+        apiPaths.saveGlobalSettingsUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['saveGlobalSettings']>>,
+    saveInterceptor: (bucket: string, path: string, init?: any) =>
+      client.PUT(
+        apiPaths.saveInterceptorUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['saveInterceptor']>>,
+    saveKey: (bucket: string, path: string, init?: any) =>
+      client.PUT(apiPaths.saveKeyUrl(bucket, path) as any, init) as Promise<
+        SDKOperationResponse<operations['saveKey']>
+      >,
+    saveModel: (bucket: string, path: string, init?: any) =>
+      client.PUT(apiPaths.saveModelUrl(bucket, path) as any, init) as Promise<
+        SDKOperationResponse<operations['saveModel']>
+      >,
     savePrompt: (bucket: string, prompt_path: string, init?: any) =>
       client.PUT(
         apiPaths.savePromptUrl(bucket, prompt_path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['savePrompt']>>,
+    saveRole: (bucket: string, path: string, init?: any) =>
+      client.PUT(apiPaths.saveRoleUrl(bucket, path) as any, init) as Promise<
+        SDKOperationResponse<operations['saveRole']>
+      >,
+    saveRoute: (bucket: string, path: string, init?: any) =>
+      client.PUT(apiPaths.saveRouteUrl(bucket, path) as any, init) as Promise<
+        SDKOperationResponse<operations['saveRoute']>
+      >,
+    saveSchema: (bucket: string, path: string, init?: any) =>
+      client.PUT(apiPaths.saveSchemaUrl(bucket, path) as any, init) as Promise<
+        SDKOperationResponse<operations['saveSchema']>
+      >,
     saveToolSet: (bucket: string, toolset_path: string, init?: any) =>
       client.PUT(
         apiPaths.saveToolSetUrl(bucket, toolset_path) as any,
@@ -735,23 +1210,23 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       ) as Promise<
         SDKOperationResponse<operations['sendChatCompletionRequest']>
       >,
-    sendEmbeddingsRequest: (deployment_name: string, init?: any) =>
-      client.POST(
-        apiPaths.sendEmbeddingsRequestUrl(deployment_name) as any,
-        init,
-      ) as Promise<SDKOperationResponse<operations['sendEmbeddingsRequest']>>,
     shareResource: (init?: any) =>
       client.POST(apiPaths.shareResourceUrl, init) as Promise<
         SDKOperationResponse<operations['shareResource']>
       >,
-    subscribeOnClientChannel: (init?: any) =>
-      client.POST(apiPaths.subscribeOnClientChannelUrl, init) as Promise<
-        SDKOperationResponse<operations['subscribeOnClientChannel']>
+    subscribeClientChannel: (init?: any) =>
+      client.POST(apiPaths.subscribeClientChannelUrl, init) as Promise<
+        SDKOperationResponse<operations['subscribeClientChannel']>
       >,
     subscribeToResources: (init?: any) =>
       client.POST(apiPaths.subscribeToResourcesUrl, init) as Promise<
         SDKOperationResponse<operations['subscribeToResources']>
       >,
+    tokenize: (deployment_name: string, init?: any) =>
+      client.POST(
+        apiPaths.tokenizeUrl(deployment_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['tokenize']>>,
     toolSetSignout: (init?: any) =>
       client.POST(apiPaths.toolSetSignoutUrl, init) as Promise<
         SDKOperationResponse<operations['toolSetSignout']>
@@ -768,13 +1243,18 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.transferOutputFileUrl, init) as Promise<
         SDKOperationResponse<operations['transferOutputFile']>
       >,
+    truncatePrompt: (deployment_name: string, init?: any) =>
+      client.POST(
+        apiPaths.truncatePromptUrl(deployment_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['truncatePrompt']>>,
     undeployApplication: (init?: any) =>
       client.POST(apiPaths.undeployApplicationUrl, init) as Promise<
         SDKOperationResponse<operations['undeployApplication']>
       >,
-    unsubscribeOnClientChannel: (init?: any) =>
-      client.POST(apiPaths.unsubscribeOnClientChannelUrl, init) as Promise<
-        SDKOperationResponse<operations['unsubscribeOnClientChannel']>
+    unsubscribeClientChannel: (init?: any) =>
+      client.POST(apiPaths.unsubscribeClientChannelUrl, init) as Promise<
+        SDKOperationResponse<operations['unsubscribeClientChannel']>
       >,
     updatePublication: (init?: any) =>
       client.POST(apiPaths.updatePublicationUrl, init) as Promise<
@@ -788,6 +1268,15 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     uploadFileToCodeInterpreter: (init?: any) =>
       client.POST(apiPaths.uploadFileToCodeInterpreterUrl, init) as Promise<
         SDKOperationResponse<operations['uploadFileToCodeInterpreter']>
+      >,
+    uploadSkillFolder: (bucket: string, path: string, init?: any) =>
+      client.PUT(
+        apiPaths.uploadSkillFolderUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['uploadSkillFolder']>>,
+    validateConfigManifests: (init?: any) =>
+      client.POST(apiPaths.validateConfigManifestsUrl, init) as Promise<
+        SDKOperationResponse<operations['validateConfigManifests']>
       >,
   };
 }

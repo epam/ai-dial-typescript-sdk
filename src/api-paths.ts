@@ -10,13 +10,10 @@ export const acceptUserConsentUrl = (deployment_id: string) => {
   return `/v1/consent/${deployment_id}`;
 };
 
+export const applyConfigManifestsUrl = '/v1/admin/apply';
 export const approvePublicationUrl = '/v1/ops/publication/approve';
-export const callMcpUrl = (deployment_id: string) => {
-  return `/v1/deployments/${deployment_id}/mcp`;
-};
-
-export const callToolSetUrl = (toolset_name: string) => {
-  return `/v1/toolset/${toolset_name}/mcp`;
+export const cancelResponseItemUrl = (response_id: string) => {
+  return `/openai/v1/responses/${response_id}/cancel`;
 };
 
 export const closeSessionUrl = '/v1/ops/code_interpreter/close_session';
@@ -26,7 +23,16 @@ export const configurationDeploymentUrl = (deployment_name: string) => {
 
 export const copyResourceUrl = '/v1/ops/resource/copy';
 export const copySharedResourcesUrl = '/v1/ops/resource/share/copy';
+export const createCompletionUrl = (deployment_name: string) => {
+  return `/openai/deployments/${deployment_name}/completions`;
+};
+
+export const createEmbeddingUrl = (deployment_name: string) => {
+  return `/openai/deployments/${deployment_name}/embeddings`;
+};
+
 export const createPublicationUrl = '/v1/ops/publication/create';
+export const createResponseUrl = '/openai/v1/responses';
 export const deleteConversationUrl = (
   bucket: string,
   conversation_path: string,
@@ -45,8 +51,24 @@ export const deleteFileUrl = (bucket: string, file_path: string) => {
   return `/v1/files/${bucket}/${file_path}`;
 };
 
+export const deleteGlobalSettingsUrl = (bucket: string, path: string) => {
+  return `/v1/settings/${bucket}/${path}`;
+};
+
+export const deleteInterceptorUrl = (bucket: string, path: string) => {
+  return `/v1/interceptors/${bucket}/${path}`;
+};
+
 export const deleteInvitationUrl = (invitation_id: string) => {
   return `/v1/invitations/${invitation_id}`;
+};
+
+export const deleteKeyUrl = (bucket: string, path: string) => {
+  return `/v1/keys/${bucket}/${path}`;
+};
+
+export const deleteModelUrl = (bucket: string, path: string) => {
+  return `/v1/models/${bucket}/${path}`;
 };
 
 export const deleteNotificationsUrl = '/v1/ops/notification/delete';
@@ -55,8 +77,28 @@ export const deletePromptUrl = (bucket: string, prompt_path: string) => {
 };
 
 export const deletePublicationUrl = '/v1/ops/publication/delete';
+export const deleteResponseItemUrl = (response_id: string) => {
+  return `/openai/v1/responses/${response_id}`;
+};
+
+export const deleteRoleUrl = (bucket: string, path: string) => {
+  return `/v1/roles/${bucket}/${path}`;
+};
+
+export const deleteRouteUrl = (bucket: string, path: string) => {
+  return `/v1/routes/${bucket}/${path}`;
+};
+
+export const deleteSchemaUrl = (bucket: string, path: string) => {
+  return `/v1/schemas/${bucket}/${path}`;
+};
+
 export const deleteToolSetUrl = (bucket: string, toolset_path: string) => {
   return `/v1/toolsets/${bucket}/${toolset_path}`;
+};
+
+export const deleteToolSetMcpUrl = (toolset_name: string) => {
+  return `/v1/toolset/${toolset_name}/mcp`;
 };
 
 export const deployApplicationUrl = '/v1/ops/application/deploy';
@@ -67,15 +109,11 @@ export const downloadFileUrl = (bucket: string, file_path: string) => {
 
 export const downloadFileFromCodeInterpreterUrl =
   '/v1/ops/code_interpreter/download_file';
+export const downloadSkillFolderUrl = (bucket: string, path: string) => {
+  return `/v2/skills/${bucket}/${path}`;
+};
+
 export const executeCodeUrl = '/v1/ops/code_interpreter/execute_code';
-export const getAllToolSetAllowedToolsUrl = (toolset_id: string) => {
-  return `/v1/toolset/${toolset_id}/allowed-tools`;
-};
-
-export const getAllToolSetToolsUrl = (toolset_id: string) => {
-  return `/v1/toolset/${toolset_id}/tools`;
-};
-
 export const getApplicationUrl = (application_name: string) => {
   return `/openai/applications/${application_name}`;
 };
@@ -86,6 +124,7 @@ export const getApplicationMetadataUrl = (bucket: string, path: string) => {
 };
 
 export const getApplicationsUrl = '/openai/applications';
+export const getConfigHealthUrl = '/v1/admin/health/config';
 export const getConversationUrl = (
   bucket: string,
   conversation_path: string,
@@ -119,9 +158,48 @@ export const getDeploymentLimitsUrl = (deployment_name: string) => {
 };
 
 export const getDeploymentsUrl = '/openai/deployments';
-export const getDeploymentsByInterfaceTypeUrl = '/v1/deployments';
+export const getFileConfigInterceptorUrl = (name: string) => {
+  return `/v1/admin/config/file/interceptors/${name}`;
+};
+
+export const getFileConfigModelUrl = (name: string) => {
+  return `/v1/admin/config/file/models/${name}`;
+};
+
+export const getFileConfigRoleUrl = (name: string) => {
+  return `/v1/admin/config/file/roles/${name}`;
+};
+
+export const getFileConfigRouteUrl = (name: string) => {
+  return `/v1/admin/config/file/routes/${name}`;
+};
+
+export const getFileConfigSchemaUrl = (name: string) => {
+  return `/v1/admin/config/file/schemas/${name}`;
+};
+
+export const getFileConfigSettingsUrl = (name: string) => {
+  return `/v1/admin/config/file/settings/${name}`;
+};
+
 export const getFileMetadataUrl = (bucket: string, path: string) => {
   return `/v1/metadata/files/${bucket}/${path}`;
+};
+
+export const getGlobalSettingsUrl = (bucket: string, path: string) => {
+  return `/v1/settings/${bucket}/${path}`;
+};
+
+export const getGlobalSettingsMetadataUrl = (bucket: string, path: string) => {
+  return `/v1/metadata/settings/${bucket}/${path}`;
+};
+
+export const getInterceptorUrl = (bucket: string, path: string) => {
+  return `/v1/interceptors/${bucket}/${path}`;
+};
+
+export const getInterceptorMetadataUrl = (bucket: string, path: string) => {
+  return `/v1/metadata/interceptors/${bucket}/${path}`;
 };
 
 export const getInvitationUrl = (invitation_id: string) => {
@@ -129,10 +207,26 @@ export const getInvitationUrl = (invitation_id: string) => {
 };
 
 export const getInvitationsUrl = '/v1/invitations';
+export const getKeyUrl = (bucket: string, path: string) => {
+  return `/v1/keys/${bucket}/${path}`;
+};
+
+export const getKeyMetadataUrl = (bucket: string, path: string) => {
+  return `/v1/metadata/keys/${bucket}/${path}`;
+};
+
 export const getMetaSchemaOfCustomApplicationSchemaUrl =
   '/v1/application_type_schemas/meta_schema';
 export const getModelUrl = (model_name: string) => {
   return `/openai/models/${model_name}`;
+};
+
+export const getModelByPathUrl = (bucket: string, path: string) => {
+  return `/v1/models/${bucket}/${path}`;
+};
+
+export const getModelMetadataUrl = (bucket: string, path: string) => {
+  return `/v1/metadata/models/${bucket}/${path}`;
 };
 
 export const getModelsUrl = '/openai/models';
@@ -150,10 +244,50 @@ export const getPromptMetadataUrl = (bucket: string, path: string) => {
 export const getPublicationUrl = '/v1/ops/publication/get';
 export const getPublicationRulesUrl = '/v1/ops/publication/rule/list';
 export const getPublicationsUrl = '/v1/ops/publication/list';
+export const getResponseItemUrl = (response_id: string) => {
+  return `/openai/v1/responses/${response_id}`;
+};
+
+export const getRoleUrl = (bucket: string, path: string) => {
+  return `/v1/roles/${bucket}/${path}`;
+};
+
+export const getRoleMetadataUrl = (bucket: string, path: string) => {
+  return `/v1/metadata/roles/${bucket}/${path}`;
+};
+
+export const getRouteUrl = (bucket: string, path: string) => {
+  return `/v1/routes/${bucket}/${path}`;
+};
+
+export const getRouteMetadataUrl = (bucket: string, path: string) => {
+  return `/v1/metadata/routes/${bucket}/${path}`;
+};
+
+export const getSchemaUrl = (bucket: string, path: string) => {
+  return `/v1/schemas/${bucket}/${path}`;
+};
+
+export const getSchemaMetadataUrl = (bucket: string, path: string) => {
+  return `/v1/metadata/schemas/${bucket}/${path}`;
+};
+
 export const getSessionUrl = '/v1/ops/code_interpreter/get_session';
 export const getSharedResourcesUrl = '/v1/ops/resource/share/list';
+export const getToolSetAllowedToolsUrl = (toolset_name: string) => {
+  return `/v1/toolset/${toolset_name}/allowed-tools`;
+};
+
+export const getToolSetMcpUrl = (toolset_name: string) => {
+  return `/v1/toolset/${toolset_name}/mcp`;
+};
+
 export const getToolSetMetadataUrl = (bucket: string, path: string) => {
   return `/v1/metadata/toolsets/${bucket}/${path}`;
+};
+
+export const getToolSetToolsUrl = (toolset_name: string) => {
+  return `/v1/toolset/${toolset_name}/tools`;
 };
 
 export const getToolSetsUrl = '/openai/toolsets';
@@ -165,13 +299,30 @@ export const getUserBucketUrl = '/v1/bucket';
 export const getUserInfoUrl = '/v1/user/info';
 export const grantPerRequestPermissionsUrl =
   '/v1/ops/resource/per-request-permissions/grant';
-export const interactWithClientChannelUrl = '/v1/ops/client-channel/interact';
+export const interactClientChannelUrl = '/v1/ops/client-channel/interact';
 export const listCustomApplicationSchemasUrl =
   '/v1/application_type_schemas/schemas';
+export const listDeploymentsUrl = '/v1/deployments';
+export const listFileConfigInterceptorsUrl =
+  '/v1/admin/config/file/interceptors';
+export const listFileConfigModelsUrl = '/v1/admin/config/file/models';
+export const listFileConfigRolesUrl = '/v1/admin/config/file/roles';
+export const listFileConfigRoutesUrl = '/v1/admin/config/file/routes';
+export const listFileConfigSchemasUrl = '/v1/admin/config/file/schemas';
+export const listFileConfigSettingsUrl = '/v1/admin/config/file/settings';
 export const listFilesFromCodeInterpreterUrl =
   '/v1/ops/code_interpreter/list_files';
+export const listPublishedResourcesUrl = '/v1/ops/publication/resource/list';
 export const moveResourceUrl = '/v1/ops/resource/move';
 export const openSessionUrl = '/v1/ops/code_interpreter/open_session';
+export const postApplicationMcpUrl = (deployment_name: string) => {
+  return `/v1/deployments/${deployment_name}/mcp`;
+};
+
+export const postToolSetMcpUrl = (toolset_name: string) => {
+  return `/v1/toolset/${toolset_name}/mcp`;
+};
+
 export const rateDeploymentUrl = (deployment_name: string) => {
   return `/v1/${deployment_name}/rate`;
 };
@@ -179,7 +330,7 @@ export const rateDeploymentUrl = (deployment_name: string) => {
 export const redeployApplicationUrl = '/v1/ops/application/redeploy';
 export const rejectPublicationUrl = '/v1/ops/publication/reject';
 export const reloadConfigUrl = '/v1/ops/config/reload';
-export const reportResponseToClientChannelUrl = '/v1/ops/client-channel/report';
+export const reportClientChannelUrl = '/v1/ops/client-channel/report';
 export const requestUserConsentUrl = (deployment_id: string) => {
   return `/v1/consent/${deployment_id}`;
 };
@@ -201,8 +352,36 @@ export const saveCustomApplicationUrl = (
   return `/v1/applications/${bucket}/${application_path}`;
 };
 
+export const saveGlobalSettingsUrl = (bucket: string, path: string) => {
+  return `/v1/settings/${bucket}/${path}`;
+};
+
+export const saveInterceptorUrl = (bucket: string, path: string) => {
+  return `/v1/interceptors/${bucket}/${path}`;
+};
+
+export const saveKeyUrl = (bucket: string, path: string) => {
+  return `/v1/keys/${bucket}/${path}`;
+};
+
+export const saveModelUrl = (bucket: string, path: string) => {
+  return `/v1/models/${bucket}/${path}`;
+};
+
 export const savePromptUrl = (bucket: string, prompt_path: string) => {
   return `/v1/prompts/${bucket}/${prompt_path}`;
+};
+
+export const saveRoleUrl = (bucket: string, path: string) => {
+  return `/v1/roles/${bucket}/${path}`;
+};
+
+export const saveRouteUrl = (bucket: string, path: string) => {
+  return `/v1/routes/${bucket}/${path}`;
+};
+
+export const saveSchemaUrl = (bucket: string, path: string) => {
+  return `/v1/schemas/${bucket}/${path}`;
 };
 
 export const saveToolSetUrl = (bucket: string, toolset_path: string) => {
@@ -213,22 +392,25 @@ export const sendChatCompletionRequestUrl = (deployment_name: string) => {
   return `/openai/deployments/${deployment_name}/chat/completions`;
 };
 
-export const sendEmbeddingsRequestUrl = (deployment_name: string) => {
-  return `/openai/deployments/${deployment_name}/embeddings`;
+export const shareResourceUrl = '/v1/ops/resource/share/create';
+export const subscribeClientChannelUrl = '/v1/ops/client-channel/subscribe';
+export const subscribeToResourcesUrl = '/v1/ops/resource/subscribe';
+export const tokenizeUrl = (deployment_name: string) => {
+  return `/v1/deployments/${deployment_name}/tokenize`;
 };
 
-export const shareResourceUrl = '/v1/ops/resource/share/create';
-export const subscribeOnClientChannelUrl = '/v1/ops/client-channel/subscribe';
-export const subscribeToResourcesUrl = '/v1/ops/resource/subscribe';
 export const toolSetSignoutUrl = '/v1/ops/toolset/signout';
 export const toolsetSigninUrl = '/v1/ops/toolset/signin';
 export const transferInputFileUrl =
   '/v1/ops/code_interpreter/transfer_input_file';
 export const transferOutputFileUrl =
   '/v1/ops/code_interpreter/transfer_output_file';
+export const truncatePromptUrl = (deployment_name: string) => {
+  return `/v1/deployments/${deployment_name}/truncate_prompt`;
+};
+
 export const undeployApplicationUrl = '/v1/ops/application/undeploy';
-export const unsubscribeOnClientChannelUrl =
-  '/v1/ops/client-channel/unsubscribe';
+export const unsubscribeClientChannelUrl = '/v1/ops/client-channel/unsubscribe';
 export const updatePublicationUrl = '/v1/ops/publication/update';
 export const uploadFileUrl = (bucket: string, file_path: string) => {
   return `/v1/files/${bucket}/${file_path}`;
@@ -236,3 +418,8 @@ export const uploadFileUrl = (bucket: string, file_path: string) => {
 
 export const uploadFileToCodeInterpreterUrl =
   '/v1/ops/code_interpreter/upload_file';
+export const uploadSkillFolderUrl = (bucket: string, path: string) => {
+  return `/v2/skills/${bucket}/${path}`;
+};
+
+export const validateConfigManifestsUrl = '/v1/admin/validate';
