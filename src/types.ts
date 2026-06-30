@@ -171,16 +171,15 @@ export interface ConversationResource {
   [key: string]: unknown;
 }
 
-export type DeploymentData = components['schemas']['DeploymentBase'] &
-  components['schemas']['DeploymentWithFeatures'];
+export type DeploymentData = components['schemas']['DeploymentData'];
 
-export type ModelCapabilities = components['schemas']['ModelCapabilities'];
+export type ModelCapabilities = components['schemas']['CapabilitiesData'];
 
-export type ModelLimits = components['schemas']['ModelLimits'];
+export type ModelLimits = components['schemas']['TokenLimitsData'];
 
-export type ModelPricing = components['schemas']['ModelPricing'];
+export type ModelPricing = components['schemas']['Pricing'];
 
-export type ModelData = components['schemas']['ModelOpenAi'];
+export type ModelData = components['schemas']['ModelData'];
 
 export interface ModelListData {
   /** An array of models. */
