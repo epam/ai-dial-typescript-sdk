@@ -16,8 +16,8 @@
     "dist"
   ],
   "scripts": {
-    "bundle": "redocly bundle ./openapi.yaml -o ./openapi.bundle.yaml",
-    "gen": "npm run bundle && openapi-typescript ./openapi.bundle.yaml -o ./src/schema.ts && node ./scripts/generate-sdk-client.mjs",
+    "bundle": "redocly bundle ./open_api_core.yaml -o ./openapi.bundle.yaml",
+    "gen": "npm run bundle && openapi-typescript ./openapi.bundle.yaml -o ./src/schema.ts && node ./scripts/generate-sdk-client.mjs && tsc --noEmit && npm run format",
     "build": "tsup src/index.ts --dts --format esm,cjs --target es2020 --sourcemap --clean",
     "dev": "tsup src/index.ts --watch --dts --format esm,cjs",
     "lint": "eslint .",
@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@redocly/cli": "^2.30.4",
+    "@redocly/cli": "^2.35.1",
     "@types/node": "^20.11.0",
     "@typescript-eslint/eslint-plugin": "^8.59.0",
     "@typescript-eslint/parser": "^8.59.0",

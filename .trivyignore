@@ -1,2 +1,4 @@
-# picomatch
+# picomatch - bundled in node:24-alpine base image tooling, not in app runtime
 CVE-2026-33671 exp:2026-05-20
+# undici - bundled in Node.js 24 runtime, not an npm dependency
+CVE-2026-12151 exp:2027-01-01
