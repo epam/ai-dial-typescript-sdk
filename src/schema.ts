@@ -4,6 +4,40 @@
  */
 
 export interface paths {
+  '/anthropic/v1/messages': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** /anthropic/v1/messages */
+    post: operations['createAnthropicMessage'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/anthropic/v1/messages/count_tokens': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** /anthropic/v1/messages/count_tokens */
+    post: operations['countAnthropicMessageTokens'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/openai/applications': {
     parameters: {
       query?: never;
@@ -578,6 +612,42 @@ export interface paths {
     put?: never;
     post?: never;
     delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/applications/{appId}/external-services': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/applications/{appId}/external-services */
+    get: operations['listExternalServices'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/applications/{appId}/external-services/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/applications/{appId}/external-services/{id} */
+    get: operations['getExternalService'];
+    /** /v1/applications/{appId}/external-services/{id} */
+    put: operations['putExternalService'];
+    post?: never;
+    /** /v1/applications/{appId}/external-services/{id} */
+    delete: operations['deleteExternalService'];
     options?: never;
     head?: never;
     patch?: never;
@@ -1500,6 +1570,57 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/ops/external-service/credentials': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** /v1/ops/external-service/credentials */
+    post: operations['externalServiceGetCredentials'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/external-service/signin': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** /v1/ops/external-service/signin */
+    post: operations['externalServiceSignIn'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/ops/external-service/signout': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** /v1/ops/external-service/signout */
+    post: operations['externalServiceSignOut'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/ops/notification/delete': {
     parameters: {
       query?: never;
@@ -2211,7 +2332,27 @@ export interface paths {
     /** /v2/skills/{bucket}/{path} */
     put: operations['uploadSkillFolder'];
     post?: never;
-    delete?: never;
+    /** /v2/skills/{bucket}/{path} */
+    delete: operations['deleteSkillFolder'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v2/skills/{bucket}/{path}/files/{filePath}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v2/skills/{bucket}/{path}/files/{filePath} */
+    get: operations['downloadSkillFile'];
+    /** /v2/skills/{bucket}/{path}/files/{filePath} */
+    put: operations['uploadSkillFile'];
+    post?: never;
+    /** /v2/skills/{bucket}/{path}/files/{filePath} */
+    delete: operations['deleteSkillFile'];
     options?: never;
     head?: never;
     patch?: never;
@@ -2239,7 +2380,7 @@ export interface components {
       status?: components['schemas']['AdminApplyStatus'];
     };
     /** @enum {string} */
-    AdminApplyStatus: 'applied' | 'applied_invalid' | 'FAILED' | 'skipped';
+    AdminApplyStatus: 'APPLIED' | 'APPLIED_INVALID' | 'FAILED' | 'SKIPPED';
     AdminManifest: {
       kind?: string;
       name?: string;
@@ -2285,6 +2426,9 @@ export interface components {
       updatedAt?: number;
       userRoles?: string[];
       viewer_url?: string;
+      external_services?: components['schemas']['MapStringExternalService'];
+      interfaces?: components['schemas']['MapStringDeploymentInterface'];
+      intro?: string;
     };
     ApplicationData: {
       application?: string;
@@ -2322,6 +2466,8 @@ export interface components {
       toolset?: string;
       updated_at?: number;
       viewer_url?: string;
+      external_services?: components['schemas']['MapStringExternalService'];
+      intro?: string;
     };
     ApplicationFunction: {
       author_bucket?: string;
@@ -2513,6 +2659,9 @@ export interface components {
       routes?: components['schemas']['LinkedHashMapStringRoute'];
       toolsets?: components['schemas']['MapStringToolSet'];
     };
+    ConfigResourceControllerConfigWriteResponse: {
+      name?: string;
+    };
     Consent: {
       deployments?: components['schemas']['MapStringConsentDeployment'];
     };
@@ -2616,6 +2765,9 @@ export interface components {
       | components['schemas']['ModelData']
       | components['schemas']['ApplicationData']
       | components['schemas']['ToolSetData'];
+    DeploymentInterface: {
+      base_url?: string;
+    };
     Embedding: {
       embedding: string | number[];
       index: number;
@@ -2660,6 +2812,25 @@ export interface components {
       code?: number;
       data?: components['schemas']['JsonNode'];
       message?: string;
+    };
+    ExternalService: {
+      auth_settings?: components['schemas']['ResourceAuthSettings'];
+      description?: string;
+      display_name?: string;
+    };
+    ExternalServiceCredentialsRequest: {
+      url?: string;
+    };
+    ExternalServiceCredentialsResponse: {
+      expires_at?: number;
+      header_name?: string;
+      header_value?: string;
+    };
+    ExternalServiceData: {
+      auth_settings?: components['schemas']['ResourceAuthSettings'];
+      description?: string;
+      display_name?: string;
+      id?: string;
     };
     Features: {
       accessible_by_per_request_key?: boolean;
@@ -2827,6 +2998,8 @@ export interface components {
       responsesEndpoint?: string;
       updatedAt?: number;
       userRoles?: string[];
+      interfaces?: components['schemas']['MapStringDeploymentInterface'];
+      intro?: string;
     };
     Invitation: {
       acceptedUserLocations?: string[];
@@ -2925,6 +3098,12 @@ export interface components {
     };
     MapStringConsentDeployment: {
       [key: string]: components['schemas']['ConsentDeployment'];
+    };
+    MapStringDeploymentInterface: {
+      [key: string]: components['schemas']['DeploymentInterface'];
+    };
+    MapStringExternalService: {
+      [key: string]: components['schemas']['ExternalService'];
     };
     MapStringInterceptor: {
       [key: string]: components['schemas']['Interceptor'];
@@ -3085,6 +3264,8 @@ export interface components {
       updatedAt?: number;
       upstreams?: components['schemas']['Upstream'][];
       userRoles?: string[];
+      interfaces?: components['schemas']['MapStringDeploymentInterface'];
+      intro?: string;
     };
     ModelData: {
       application?: string;
@@ -3120,6 +3301,7 @@ export interface components {
       tokenizer_model?: string;
       toolset?: string;
       updated_at?: number;
+      intro?: string;
     };
     /** @enum {string} */
     ModelType: 'CHAT' | 'COMPLETION' | 'EMBEDDING';
@@ -3661,6 +3843,9 @@ export interface components {
       transport?: components['schemas']['ToolSetTransport'];
       updatedAt?: number;
       userRoles?: string[];
+      interfaces?: components['schemas']['MapStringDeploymentInterface'];
+      provider?: string;
+      intro?: string;
     };
     ToolSetData: {
       allowed_tools?: string[];
@@ -3693,6 +3878,8 @@ export interface components {
       toolset?: string;
       transport?: string;
       updated_at?: number;
+      provider?: string;
+      intro?: string;
     };
     ToolSetToolsResponse: {
       tools?: components['schemas']['McpTool'][];
@@ -3749,28 +3936,24 @@ export interface components {
       completion_tokens?: number;
       total_tokens?: number;
     };
+    UserInfoResponse: {
+      /** @description List of user or API key authorization roles */
+      roles?: string[];
+      /** @description Present only if authenticated via an API Key. Represents the target project scope. */
+      project?: string;
+      /** @description Normalized token claims. Present only for user-based session authentication. */
+      userClaims?: {
+        [key: string]: string[];
+      };
+    };
     ValidationResult: {
       entityId?: string;
       error?: string;
       status?: components['schemas']['ValidationStatus'];
     };
     /** @enum {string} */
-    ValidationStatus: 'valid' | 'FAILED' | 'skipped';
+    ValidationStatus: 'VALID' | 'FAILED' | 'SKIPPED';
     ValueNode: Record<string, never>;
-    /** @description User info */
-    userinfo: {
-      /** @description The project name. */
-      project?: string;
-      /** @description List of user or API key roles. */
-      roles?: string[];
-      /** @description Claims extracted from the access token. */
-      userClaims?: {
-        /** @description The email of the user. */
-        email?: string[];
-        /** @description Identifies the principal or subject of the token. */
-        sub?: string[];
-      };
-    };
   };
   responses: never;
   parameters: never;
@@ -3780,6 +3963,208 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+  createAnthropicMessage: {
+    parameters: {
+      query?: never;
+      header: {
+        /** @description The Anthropic API version (e.g., 2023-06-01) */
+        'anthropic-version': string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ProxyRequest'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Number of upstream attempts performed before returning the response */
+          'X-UPSTREAM-ATTEMPTS'?: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ProxyResponse'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Unsupported Media Type */
+      415: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Failed to connect to upstream server. */
+      502: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The engine is currently overloaded, please try again later. */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  countAnthropicMessageTokens: {
+    parameters: {
+      query?: never;
+      header: {
+        /** @description The Anthropic API version (e.g., 2023-06-01) */
+        'anthropic-version': string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ProxyRequest'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Number of upstream attempts performed before returning the response */
+          'X-UPSTREAM-ATTEMPTS'?: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ProxyResponse'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Unsupported Media Type */
+      415: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Failed to connect to upstream server. */
+      502: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The engine is currently overloaded, please try again later. */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   getApplications: {
     parameters: {
       query?: never;
@@ -5957,6 +6342,270 @@ export interface operations {
       };
     };
   };
+  listExternalServices: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The application ID. Can be either a static config application name or a dynamic application path. */
+        appId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ExternalServiceData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getExternalService: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The application ID. Can be either a static config application name or a dynamic application path. */
+        appId: string;
+        /** @description The external service ID defined in the application's external_services configuration. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ExternalServiceData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  putExternalService: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The application ID. Can be either a static config application name or a dynamic application path. */
+        appId: string;
+        /** @description The external service ID defined in the application's external_services configuration. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ExternalService'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ExternalServiceData'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  deleteExternalService: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The application ID. Can be either a static config application name or a dynamic application path. */
+        appId: string;
+        /** @description The external service ID defined in the application's external_services configuration. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': boolean;
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   getCustomApplication: {
     parameters: {
       query?: never;
@@ -7153,7 +7802,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['ResourceItemMetadata'];
+          'application/json': components['schemas']['ConfigResourceControllerConfigWriteResponse'];
         };
       };
       /** @description Not Modified */
@@ -7662,7 +8311,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['ResourceItemMetadata'];
+          'application/json': components['schemas']['ConfigResourceControllerConfigWriteResponse'];
         };
       };
       /** @description Not Modified */
@@ -8877,7 +9526,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['ResourceItemMetadata'];
+          'application/json': components['schemas']['ConfigResourceControllerConfigWriteResponse'];
         };
       };
       /** @description Not Modified */
@@ -10284,6 +10933,213 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['Config'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  externalServiceGetCredentials: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ExternalServiceCredentialsRequest'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ExternalServiceCredentialsResponse'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  externalServiceSignIn: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ResourceSignInRequest'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': boolean;
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  externalServiceSignOut: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ResourceSignOutRequest'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': boolean;
         };
       };
       /** @description Bad request */
@@ -12241,7 +13097,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['ResourceItemMetadata'];
+          'application/json': components['schemas']['ConfigResourceControllerConfigWriteResponse'];
         };
       };
       /** @description Not Modified */
@@ -12559,7 +13415,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['ResourceItemMetadata'];
+          'application/json': components['schemas']['ConfigResourceControllerConfigWriteResponse'];
         };
       };
       /** @description Not Modified */
@@ -12877,7 +13733,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['ResourceItemMetadata'];
+          'application/json': components['schemas']['ConfigResourceControllerConfigWriteResponse'];
         };
       };
       /** @description Not Modified */
@@ -13193,7 +14049,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['ResourceItemMetadata'];
+          'application/json': components['schemas']['ConfigResourceControllerConfigWriteResponse'];
         };
       };
       /** @description Not Modified */
@@ -13834,7 +14690,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['userinfo'];
+          'application/json': components['schemas']['UserInfoResponse'];
         };
       };
       /** @description Invalid Authentication */
@@ -14112,6 +14968,316 @@ export interface operations {
         content: {
           'application/json': components['schemas']['ErrorData'];
         };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  deleteSkillFolder: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag of the version to delete. Use * to delete any existing version. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The resource path within the bucket. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Folder resource deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Folder resource not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  downloadSkillFile: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The resource path within the bucket. */
+        path: string;
+        /** @description The relative path of the file within the skill. */
+        filePath: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description File downloaded successfully */
+      200: {
+        headers: {
+          /** @description The ETag of the skill version */
+          ETag?: string;
+          /** @description MIME type of the file */
+          'Content-Type'?: string;
+          /** @description Size of the file in bytes */
+          'Content-Length'?: number;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': string;
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description File or skill not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  uploadSkillFile: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag of the skill version. The file is added/replaced in the skill atomically. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The resource path within the bucket. */
+        path: string;
+        /** @description The relative path of the file within the skill. */
+        filePath: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'multipart/form-data': {
+          /** Format: binary */
+          file: string;
+        };
+      };
+    };
+    responses: {
+      /** @description File uploaded successfully */
+      200: {
+        headers: {
+          /** @description The new ETag of the skill after file upload */
+          ETag?: string;
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request - invalid content type or malformed request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Precondition failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  deleteSkillFile: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag of the skill version. The file is removed from the skill atomically. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The resource path within the bucket. */
+        path: string;
+        /** @description The relative path of the file within the skill. */
+        filePath: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description File deleted successfully */
+      200: {
+        headers: {
+          /** @description The new ETag of the skill after file deletion */
+          ETag?: string;
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description File or skill not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description The server had an error while processing your request. */
       500: {

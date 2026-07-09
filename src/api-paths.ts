@@ -23,6 +23,9 @@ export const configurationDeploymentUrl = (deployment_name: string) => {
 
 export const copyResourceUrl = '/v1/ops/resource/copy';
 export const copySharedResourcesUrl = '/v1/ops/resource/share/copy';
+export const countAnthropicMessageTokensUrl =
+  '/anthropic/v1/messages/count_tokens';
+export const createAnthropicMessageUrl = '/anthropic/v1/messages';
 export const createCompletionUrl = (deployment_name: string) => {
   return `/openai/deployments/${deployment_name}/completions`;
 };
@@ -45,6 +48,10 @@ export const deleteCustomApplicationUrl = (
   application_path: string,
 ) => {
   return `/v1/applications/${bucket}/${application_path}`;
+};
+
+export const deleteExternalServiceUrl = (appid: string, id: string) => {
+  return `/v1/applications/${appid}/external-services/${id}`;
 };
 
 export const deleteFileUrl = (bucket: string, file_path: string) => {
@@ -93,6 +100,18 @@ export const deleteSchemaUrl = (bucket: string, path: string) => {
   return `/v1/schemas/${bucket}/${path}`;
 };
 
+export const deleteSkillFileUrl = (
+  bucket: string,
+  path: string,
+  filepath: string,
+) => {
+  return `/v2/skills/${bucket}/${path}/files/${filepath}`;
+};
+
+export const deleteSkillFolderUrl = (bucket: string, path: string) => {
+  return `/v2/skills/${bucket}/${path}`;
+};
+
 export const deleteToolSetUrl = (bucket: string, toolset_path: string) => {
   return `/v1/toolsets/${bucket}/${toolset_path}`;
 };
@@ -109,11 +128,23 @@ export const downloadFileUrl = (bucket: string, file_path: string) => {
 
 export const downloadFileFromCodeInterpreterUrl =
   '/v1/ops/code_interpreter/download_file';
+export const downloadSkillFileUrl = (
+  bucket: string,
+  path: string,
+  filepath: string,
+) => {
+  return `/v2/skills/${bucket}/${path}/files/${filepath}`;
+};
+
 export const downloadSkillFolderUrl = (bucket: string, path: string) => {
   return `/v2/skills/${bucket}/${path}`;
 };
 
 export const executeCodeUrl = '/v1/ops/code_interpreter/execute_code';
+export const externalServiceGetCredentialsUrl =
+  '/v1/ops/external-service/credentials';
+export const externalServiceSignInUrl = '/v1/ops/external-service/signin';
+export const externalServiceSignOutUrl = '/v1/ops/external-service/signout';
 export const getApplicationUrl = (application_name: string) => {
   return `/openai/applications/${application_name}`;
 };
@@ -158,6 +189,10 @@ export const getDeploymentLimitsUrl = (deployment_name: string) => {
 };
 
 export const getDeploymentsUrl = '/openai/deployments';
+export const getExternalServiceUrl = (appid: string, id: string) => {
+  return `/v1/applications/${appid}/external-services/${id}`;
+};
+
 export const getFileConfigInterceptorUrl = (name: string) => {
   return `/v1/admin/config/file/interceptors/${name}`;
 };
@@ -303,6 +338,10 @@ export const interactClientChannelUrl = '/v1/ops/client-channel/interact';
 export const listCustomApplicationSchemasUrl =
   '/v1/application_type_schemas/schemas';
 export const listDeploymentsUrl = '/v1/deployments';
+export const listExternalServicesUrl = (appid: string) => {
+  return `/v1/applications/${appid}/external-services`;
+};
+
 export const listFileConfigInterceptorsUrl =
   '/v1/admin/config/file/interceptors';
 export const listFileConfigModelsUrl = '/v1/admin/config/file/models';
@@ -321,6 +360,10 @@ export const postApplicationMcpUrl = (deployment_name: string) => {
 
 export const postToolSetMcpUrl = (toolset_name: string) => {
   return `/v1/toolset/${toolset_name}/mcp`;
+};
+
+export const putExternalServiceUrl = (appid: string, id: string) => {
+  return `/v1/applications/${appid}/external-services/${id}`;
 };
 
 export const rateDeploymentUrl = (deployment_name: string) => {
@@ -418,6 +461,14 @@ export const uploadFileUrl = (bucket: string, file_path: string) => {
 
 export const uploadFileToCodeInterpreterUrl =
   '/v1/ops/code_interpreter/upload_file';
+export const uploadSkillFileUrl = (
+  bucket: string,
+  path: string,
+  filepath: string,
+) => {
+  return `/v2/skills/${bucket}/${path}/files/${filepath}`;
+};
+
 export const uploadSkillFolderUrl = (bucket: string, path: string) => {
   return `/v2/skills/${bucket}/${path}`;
 };
