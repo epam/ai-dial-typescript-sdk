@@ -49,6 +49,12 @@ export interface DIAL_SDK {
   copySharedResources: (
     init: SDKOperationInit<operations['copySharedResources']>,
   ) => Promise<SDKOperationResponse<operations['copySharedResources']>>;
+  countAnthropicMessageTokens: (
+    init: SDKOperationInit<operations['countAnthropicMessageTokens']>,
+  ) => Promise<SDKOperationResponse<operations['countAnthropicMessageTokens']>>;
+  createAnthropicMessage: (
+    init: SDKOperationInit<operations['createAnthropicMessage']>,
+  ) => Promise<SDKOperationResponse<operations['createAnthropicMessage']>>;
   createCompletion: (
     deployment_name: string,
     init: SDKOperationInit<operations['createCompletion']>,
@@ -73,6 +79,11 @@ export interface DIAL_SDK {
     application_path: string,
     init?: SDKOperationInit<operations['deleteCustomApplication']>,
   ) => Promise<SDKOperationResponse<operations['deleteCustomApplication']>>;
+  deleteExternalService: (
+    appid: string,
+    id: string,
+    init?: SDKOperationInit<operations['deleteExternalService']>,
+  ) => Promise<SDKOperationResponse<operations['deleteExternalService']>>;
   deleteFile: (
     bucket: string,
     file_path: string,
@@ -132,6 +143,17 @@ export interface DIAL_SDK {
     path: string,
     init?: SDKOperationInit<operations['deleteSchema']>,
   ) => Promise<SDKOperationResponse<operations['deleteSchema']>>;
+  deleteSkillFile: (
+    bucket: string,
+    path: string,
+    filepath: string,
+    init?: SDKOperationInit<operations['deleteSkillFile']>,
+  ) => Promise<SDKOperationResponse<operations['deleteSkillFile']>>;
+  deleteSkillFolder: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['deleteSkillFolder']>,
+  ) => Promise<SDKOperationResponse<operations['deleteSkillFolder']>>;
   deleteToolSet: (
     bucket: string,
     toolset_path: string,
@@ -157,6 +179,12 @@ export interface DIAL_SDK {
   ) => Promise<
     SDKOperationResponse<operations['downloadFileFromCodeInterpreter']>
   >;
+  downloadSkillFile: (
+    bucket: string,
+    path: string,
+    filepath: string,
+    init?: SDKOperationInit<operations['downloadSkillFile']>,
+  ) => Promise<SDKOperationResponse<operations['downloadSkillFile']>>;
   downloadSkillFolder: (
     bucket: string,
     path: string,
@@ -165,6 +193,17 @@ export interface DIAL_SDK {
   executeCode: (
     init: SDKOperationInit<operations['executeCode']>,
   ) => Promise<SDKOperationResponse<operations['executeCode']>>;
+  externalServiceGetCredentials: (
+    init: SDKOperationInit<operations['externalServiceGetCredentials']>,
+  ) => Promise<
+    SDKOperationResponse<operations['externalServiceGetCredentials']>
+  >;
+  externalServiceSignIn: (
+    init: SDKOperationInit<operations['externalServiceSignIn']>,
+  ) => Promise<SDKOperationResponse<operations['externalServiceSignIn']>>;
+  externalServiceSignOut: (
+    init: SDKOperationInit<operations['externalServiceSignOut']>,
+  ) => Promise<SDKOperationResponse<operations['externalServiceSignOut']>>;
   getApplication: (
     application_name: string,
     init?: SDKOperationInit<operations['getApplication']>,
@@ -217,6 +256,11 @@ export interface DIAL_SDK {
   getDeployments: (
     init?: SDKOperationInit<operations['getDeployments']>,
   ) => Promise<SDKOperationResponse<operations['getDeployments']>>;
+  getExternalService: (
+    appid: string,
+    id: string,
+    init?: SDKOperationInit<operations['getExternalService']>,
+  ) => Promise<SDKOperationResponse<operations['getExternalService']>>;
   getFileConfigInterceptor: (
     name: string,
     init?: SDKOperationInit<operations['getFileConfigInterceptor']>,
@@ -416,6 +460,10 @@ export interface DIAL_SDK {
   listDeployments: (
     init?: SDKOperationInit<operations['listDeployments']>,
   ) => Promise<SDKOperationResponse<operations['listDeployments']>>;
+  listExternalServices: (
+    appid: string,
+    init?: SDKOperationInit<operations['listExternalServices']>,
+  ) => Promise<SDKOperationResponse<operations['listExternalServices']>>;
   listFileConfigInterceptors: (
     init?: SDKOperationInit<operations['listFileConfigInterceptors']>,
   ) => Promise<SDKOperationResponse<operations['listFileConfigInterceptors']>>;
@@ -456,6 +504,11 @@ export interface DIAL_SDK {
     toolset_name: string,
     init: SDKOperationInit<operations['postToolSetMcp']>,
   ) => Promise<SDKOperationResponse<operations['postToolSetMcp']>>;
+  putExternalService: (
+    appid: string,
+    id: string,
+    init: SDKOperationInit<operations['putExternalService']>,
+  ) => Promise<SDKOperationResponse<operations['putExternalService']>>;
   rateDeployment: (
     deployment_name: string,
     init: SDKOperationInit<operations['rateDeployment']>,
@@ -587,6 +640,12 @@ export interface DIAL_SDK {
   uploadFileToCodeInterpreter: (
     init: SDKOperationInit<operations['uploadFileToCodeInterpreter']>,
   ) => Promise<SDKOperationResponse<operations['uploadFileToCodeInterpreter']>>;
+  uploadSkillFile: (
+    bucket: string,
+    path: string,
+    filepath: string,
+    init: SDKOperationInit<operations['uploadSkillFile']>,
+  ) => Promise<SDKOperationResponse<operations['uploadSkillFile']>>;
   uploadSkillFolder: (
     bucket: string,
     path: string,
@@ -644,6 +703,14 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.copySharedResourcesUrl, init) as Promise<
         SDKOperationResponse<operations['copySharedResources']>
       >,
+    countAnthropicMessageTokens: (init?: any) =>
+      client.POST(apiPaths.countAnthropicMessageTokensUrl, init) as Promise<
+        SDKOperationResponse<operations['countAnthropicMessageTokens']>
+      >,
+    createAnthropicMessage: (init?: any) =>
+      client.POST(apiPaths.createAnthropicMessageUrl, init) as Promise<
+        SDKOperationResponse<operations['createAnthropicMessage']>
+      >,
     createCompletion: (deployment_name: string, init?: any) =>
       client.POST(
         apiPaths.createCompletionUrl(deployment_name) as any,
@@ -680,6 +747,11 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.deleteCustomApplicationUrl(bucket, application_path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['deleteCustomApplication']>>,
+    deleteExternalService: (appid: string, id: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deleteExternalServiceUrl(appid, id) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deleteExternalService']>>,
     deleteFile: (bucket: string, file_path: string, init?: any) =>
       client.DELETE(
         apiPaths.deleteFileUrl(bucket, file_path) as any,
@@ -743,6 +815,21 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.deleteSchemaUrl(bucket, path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['deleteSchema']>>,
+    deleteSkillFile: (
+      bucket: string,
+      path: string,
+      filepath: string,
+      init?: any,
+    ) =>
+      client.DELETE(
+        apiPaths.deleteSkillFileUrl(bucket, path, filepath) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deleteSkillFile']>>,
+    deleteSkillFolder: (bucket: string, path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deleteSkillFolderUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deleteSkillFolder']>>,
     deleteToolSet: (bucket: string, toolset_path: string, init?: any) =>
       client.DELETE(
         apiPaths.deleteToolSetUrl(bucket, toolset_path) as any,
@@ -770,6 +857,16 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.downloadFileFromCodeInterpreterUrl, init) as Promise<
         SDKOperationResponse<operations['downloadFileFromCodeInterpreter']>
       >,
+    downloadSkillFile: (
+      bucket: string,
+      path: string,
+      filepath: string,
+      init?: any,
+    ) =>
+      client.GET(
+        apiPaths.downloadSkillFileUrl(bucket, path, filepath) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['downloadSkillFile']>>,
     downloadSkillFolder: (bucket: string, path: string, init?: any) =>
       client.GET(
         apiPaths.downloadSkillFolderUrl(bucket, path) as any,
@@ -778,6 +875,18 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     executeCode: (init?: any) =>
       client.POST(apiPaths.executeCodeUrl, init) as Promise<
         SDKOperationResponse<operations['executeCode']>
+      >,
+    externalServiceGetCredentials: (init?: any) =>
+      client.POST(apiPaths.externalServiceGetCredentialsUrl, init) as Promise<
+        SDKOperationResponse<operations['externalServiceGetCredentials']>
+      >,
+    externalServiceSignIn: (init?: any) =>
+      client.POST(apiPaths.externalServiceSignInUrl, init) as Promise<
+        SDKOperationResponse<operations['externalServiceSignIn']>
+      >,
+    externalServiceSignOut: (init?: any) =>
+      client.POST(apiPaths.externalServiceSignOutUrl, init) as Promise<
+        SDKOperationResponse<operations['externalServiceSignOut']>
       >,
     getApplication: (application_name: string, init?: any) =>
       client.GET(
@@ -843,6 +952,11 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.GET(apiPaths.getDeploymentsUrl, init) as Promise<
         SDKOperationResponse<operations['getDeployments']>
       >,
+    getExternalService: (appid: string, id: string, init?: any) =>
+      client.GET(
+        apiPaths.getExternalServiceUrl(appid, id) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getExternalService']>>,
     getFileConfigInterceptor: (name: string, init?: any) =>
       client.GET(
         apiPaths.getFileConfigInterceptorUrl(name) as any,
@@ -1065,6 +1179,11 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.GET(apiPaths.listDeploymentsUrl, init) as Promise<
         SDKOperationResponse<operations['listDeployments']>
       >,
+    listExternalServices: (appid: string, init?: any) =>
+      client.GET(
+        apiPaths.listExternalServicesUrl(appid) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['listExternalServices']>>,
     listFileConfigInterceptors: (init?: any) =>
       client.GET(apiPaths.listFileConfigInterceptorsUrl, init) as Promise<
         SDKOperationResponse<operations['listFileConfigInterceptors']>
@@ -1115,6 +1234,11 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.postToolSetMcpUrl(toolset_name) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['postToolSetMcp']>>,
+    putExternalService: (appid: string, id: string, init?: any) =>
+      client.PUT(
+        apiPaths.putExternalServiceUrl(appid, id) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['putExternalService']>>,
     rateDeployment: (deployment_name: string, init?: any) =>
       client.POST(
         apiPaths.rateDeploymentUrl(deployment_name) as any,
@@ -1269,6 +1393,16 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.uploadFileToCodeInterpreterUrl, init) as Promise<
         SDKOperationResponse<operations['uploadFileToCodeInterpreter']>
       >,
+    uploadSkillFile: (
+      bucket: string,
+      path: string,
+      filepath: string,
+      init?: any,
+    ) =>
+      client.PUT(
+        apiPaths.uploadSkillFileUrl(bucket, path, filepath) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['uploadSkillFile']>>,
     uploadSkillFolder: (bucket: string, path: string, init?: any) =>
       client.PUT(
         apiPaths.uploadSkillFolderUrl(bucket, path) as any,

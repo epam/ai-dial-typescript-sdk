@@ -128,9 +128,10 @@ for (const id of sortedIds) {
   if (names.length === 1) {
     const n0 = names[0];
     if (/^[$_a-zA-Z][\w$]*$/.test(n0)) {
+      const paramName = n0.toLowerCase();
       // Example: (toolset_name: string) => { void toolset_name; return '...' as const; }
       apiPathLines.push(
-        `export const ${id}Url = (${n0}: string) => { return \`${esc.replace(`{${n0}}`, `\${${n0.toLowerCase()}}`)}\` };`,
+        `export const ${id}Url = (${paramName}: string) => { return \`${esc.replace(`{${n0}}`, `\${${paramName}}`)}\` };`,
       );
     }
   } else {
