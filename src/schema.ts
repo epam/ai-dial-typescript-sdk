@@ -319,6 +319,40 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/admin/config/file/applications': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/admin/config/file/applications */
+    get: operations['listFileConfigApplications'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/config/file/applications/{name}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/admin/config/file/applications/{name} */
+    get: operations['getFileConfigApplication'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/admin/config/file/interceptors': {
     parameters: {
       query?: never;
@@ -345,6 +379,40 @@ export interface paths {
     };
     /** /v1/admin/config/file/interceptors/{name} */
     get: operations['getFileConfigInterceptor'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/config/file/keys': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/admin/config/file/keys */
+    get: operations['listFileConfigKeys'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/config/file/keys/{name}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/admin/config/file/keys/{name} */
+    get: operations['getFileConfigKey'];
     put?: never;
     post?: never;
     delete?: never;
@@ -515,6 +583,40 @@ export interface paths {
     };
     /** /v1/admin/config/file/settings/{name} */
     get: operations['getFileConfigSettings'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/config/file/toolsets': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/admin/config/file/toolsets */
+    get: operations['listFileConfigToolsets'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/config/file/toolsets/{name}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/admin/config/file/toolsets/{name} */
+    get: operations['getFileConfigToolset'];
     put?: never;
     post?: never;
     delete?: never;
@@ -1587,6 +1689,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/ops/external-service/obo-credentials': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** /v1/ops/external-service/obo-credentials */
+    post: operations['externalServiceGetOboCredentials'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/ops/external-service/signin': {
     parameters: {
       query?: never;
@@ -2092,6 +2211,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/ops/toolset/{bucket}/{path}/repair': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** /v1/ops/toolset/{bucket}/{path}/repair */
+    post: operations['repairToolSet'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/prompts/{bucket}/{prompt_path}': {
     parameters: {
       query?: never;
@@ -2320,6 +2456,40 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v2/metadata/skills/{bucket}/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v2/metadata/skills/{bucket}/{path} */
+    get: operations['listSkillMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v2/metadata/skills/{bucket}/{path}/files/{filePath}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v2/metadata/skills/{bucket}/{path}/files/{filePath} */
+    get: operations['listSkillFileMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v2/skills/{bucket}/{path}': {
     parameters: {
       query?: never;
@@ -2334,6 +2504,25 @@ export interface paths {
     post?: never;
     /** /v2/skills/{bucket}/{path} */
     delete: operations['deleteSkillFolder'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v2/skills/{bucket}/{path}/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v2/skills/{bucket}/{path}/ */
+    get: operations['downloadSkillGroupingFolder'];
+    /** /v2/skills/{bucket}/{path}/ */
+    put: operations['createSkillGroupingFolder'];
+    post?: never;
+    /** /v2/skills/{bucket}/{path}/ */
+    delete: operations['deleteSkillGroupingFolder'];
     options?: never;
     head?: never;
     patch?: never;
@@ -2429,6 +2618,8 @@ export interface components {
       external_services?: components['schemas']['MapStringExternalService'];
       interfaces?: components['schemas']['MapStringDeploymentInterface'];
       intro?: string;
+      allow_user_external_services?: boolean;
+      app_identity?: string;
     };
     ApplicationData: {
       application?: string;
@@ -3078,6 +3269,7 @@ export interface components {
       object?: string;
     };
     ListDeploymentData: components['schemas']['DeploymentData'][];
+    ListExternalServiceData: components['schemas']['ExternalServiceData'][];
     ListPermissionRequest: {
       with?: components['schemas']['ListPermissionRequestShareWith'];
     };
@@ -3324,6 +3516,10 @@ export interface components {
     Notifications: {
       notifications?: components['schemas']['Notification'][];
     };
+    OboCredentialsRequest: {
+      ownerUserId?: string;
+      url?: string;
+    };
     Pattern: Record<string, never>;
     PerRequestReceiver: {
       receiver?: string;
@@ -3408,6 +3604,7 @@ export interface components {
       token_endpoint?: string;
       token_endpoint_auth_method?: string;
       user_level_auth_status?: components['schemas']['ResourceAuthStatus'];
+      dynamically_registered?: boolean;
     };
     ResourceAuthSettingsData: {
       api_key_header?: string;
@@ -3421,6 +3618,7 @@ export interface components {
       redirect_uri?: string;
       scopes_supported?: string[];
       user_level_auth_status?: components['schemas']['ResourceAuthStatus'];
+      dynamically_registered?: boolean;
     };
     /** @enum {string} */
     ResourceAuthStatus: 'SIGNED_IN' | 'SIGNED_OUT' | 'FAILED';
@@ -3489,6 +3687,7 @@ export interface components {
       credentialsLevel?: components['schemas']['CredentialsLevel'];
       redirectUri?: string;
       url?: string;
+      offlineUsageConsent?: boolean;
     };
     ResourceSignOutRequest: {
       authenticationType?: components['schemas']['AuthenticationType'];
@@ -3544,6 +3743,7 @@ export interface components {
       | 'USER_CONSENT'
       | 'TOOL_SET'
       | 'CREDENTIALS'
+      | 'EXTERNAL_SERVICE'
       | 'ENCRYPTION_KEYS'
       | 'CLIENT_CHANNEL'
       | 'MODEL'
@@ -3554,7 +3754,8 @@ export interface components {
       | 'ROUTE'
       | 'GLOBAL_SETTINGS'
       | 'RESPONSE_MAPPING'
-      | 'SKILL';
+      | 'SKILL'
+      | 'BACKGROUND_JOB';
     ResponseFormatJsonObject: {
       /** @enum {string} */
       type: 'json_object';
@@ -3846,6 +4047,7 @@ export interface components {
       interfaces?: components['schemas']['MapStringDeploymentInterface'];
       provider?: string;
       intro?: string;
+      vendor_website?: string;
     };
     ToolSetData: {
       allowed_tools?: string[];
@@ -3880,6 +4082,11 @@ export interface components {
       updated_at?: number;
       provider?: string;
       intro?: string;
+      vendor_website?: string;
+    };
+    ToolSetRepairControllerRepairResponse: {
+      message?: string;
+      result?: string;
     };
     ToolSetToolsResponse: {
       tools?: components['schemas']['McpTool'][];
@@ -3941,6 +4148,8 @@ export interface components {
       roles?: string[];
       /** @description Present only if authenticated via an API Key. Represents the target project scope. */
       project?: string;
+      /** @description The user id as DIAL resolves it from the identity provider configuration (not necessarily the token's sub claim). Present only for user-based session authentication. Use this value as owner_user_id when retrieving credentials on behalf of the user. */
+      userId?: string;
       /** @description Normalized token claims. Present only for user-based session authentication. */
       userClaims?: {
         [key: string]: string[];
@@ -4028,6 +4237,15 @@ export interface operations {
       };
       /** @description Unsupported Media Type */
       415: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Rate limit exceeded */
+      429: {
         headers: {
           [name: string]: unknown;
         };
@@ -4201,6 +4419,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
         headers: {
@@ -4253,6 +4480,15 @@ export interface operations {
       };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         headers: {
           [name: string]: unknown;
         };
@@ -4368,6 +4604,15 @@ export interface operations {
       };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         headers: {
           [name: string]: unknown;
         };
@@ -4865,6 +5110,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
         headers: {
@@ -4914,6 +5168,15 @@ export interface operations {
       };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         headers: {
           [name: string]: unknown;
         };
@@ -4973,6 +5236,15 @@ export interface operations {
       };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         headers: {
           [name: string]: unknown;
         };
@@ -5362,6 +5634,118 @@ export interface operations {
       };
     };
   };
+  listFileConfigApplications: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description List of file-sourced applications */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['FileConfigControllerItemsResponseFileConfigControllerNamedEntity'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getFileConfigApplication: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Application name */
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Model'] &
+            components['schemas']['EntityMetadata'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   listFileConfigInterceptors: {
     parameters: {
       query?: never;
@@ -5435,6 +5819,118 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['Interceptor'] &
+            components['schemas']['EntityMetadata'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  listFileConfigKeys: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description List of file-sourced keys */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['FileConfigControllerItemsResponseFileConfigControllerNamedEntity'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getFileConfigKey: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Key name */
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Model'] &
             components['schemas']['EntityMetadata'];
         };
       };
@@ -6034,6 +6530,118 @@ export interface operations {
       };
     };
   };
+  listFileConfigToolsets: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description List of file-sourced toolsets */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['FileConfigControllerItemsResponseFileConfigControllerNamedEntity'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getFileConfigToolset: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Toolset name */
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Model'] &
+            components['schemas']['EntityMetadata'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   getConfigHealth: {
     parameters: {
       query?: never;
@@ -6193,6 +6801,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
         headers: {
@@ -6245,6 +6862,15 @@ export interface operations {
       };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         headers: {
           [name: string]: unknown;
         };
@@ -6322,6 +6948,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
         headers: {
@@ -6360,7 +6995,16 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['ExternalServiceData'];
+          'application/json': components['schemas']['ListExternalServiceData'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
         };
       };
       /** @description Invalid Authentication */
@@ -6422,6 +7066,15 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['ExternalServiceData'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
         };
       };
       /** @description Invalid Authentication */
@@ -6649,6 +7302,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
         headers: {
@@ -6660,6 +7322,24 @@ export interface operations {
       };
       /** @description The server had an error while processing your request. */
       500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Failed to connect to upstream server. */
+      502: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Gateway Timeout */
+      504: {
         headers: {
           [name: string]: unknown;
         };
@@ -6728,6 +7408,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
         headers: {
@@ -6762,6 +7451,24 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Failed to connect to upstream server. */
+      502: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Gateway Timeout */
+      504: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
     };
   };
   deleteCustomApplication: {
@@ -6788,8 +7495,35 @@ export interface operations {
         };
         content?: never;
       };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
         headers: {
           [name: string]: unknown;
         };
@@ -6803,6 +7537,15 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
       };
     };
   };
@@ -7043,6 +7786,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
         headers: {
@@ -7054,6 +7806,24 @@ export interface operations {
       };
       /** @description The server had an error while processing your request. */
       500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Failed to connect to upstream server. */
+      502: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Gateway Timeout */
+      504: {
         headers: {
           [name: string]: unknown;
         };
@@ -7104,8 +7874,26 @@ export interface operations {
           'application/json': components['schemas']['ResourceItemMetadata'];
         };
       };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         headers: {
           [name: string]: unknown;
         };
@@ -7119,6 +7907,24 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description Payload Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
       };
     };
   };
@@ -7146,8 +7952,35 @@ export interface operations {
         };
         content?: never;
       };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
         headers: {
           [name: string]: unknown;
         };
@@ -7161,6 +7994,15 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
       };
     };
   };
@@ -7262,6 +8104,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
         headers: {
@@ -7271,8 +8122,26 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description The server had an error while processing your request. */
       500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Failed to connect to upstream server. */
+      502: {
         headers: {
           [name: string]: unknown;
         };
@@ -7312,8 +8181,26 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Limit not found */
       404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
         headers: {
           [name: string]: unknown;
         };
@@ -7359,6 +8246,15 @@ export interface operations {
       };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         headers: {
           [name: string]: unknown;
         };
@@ -7418,6 +8314,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
+        /** @description The name of the deployment. */
         deployment_name: string;
       };
       cookie?: never;
@@ -7455,8 +8352,26 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
         headers: {
           [name: string]: unknown;
         };
@@ -7473,6 +8388,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Failed to connect to upstream server. */
+      502: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
     };
   };
   truncatePrompt: {
@@ -7480,6 +8404,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
+        /** @description The name of the deployment. */
         deployment_name: string;
       };
       cookie?: never;
@@ -7517,6 +8442,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
         headers: {
@@ -7526,8 +8460,26 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description The server had an error while processing your request. */
       500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Failed to connect to upstream server. */
+      502: {
         headers: {
           [name: string]: unknown;
         };
@@ -7598,6 +8550,8 @@ export interface operations {
       /** @description Success */
       200: {
         headers: {
+          /** @description Entity tag for the uploaded file */
+          ETag: string;
           [name: string]: unknown;
         };
         content: {
@@ -7605,8 +8559,26 @@ export interface operations {
           'multipart/form-data': components['schemas']['FileMetadata'];
         };
       };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         headers: {
           [name: string]: unknown;
         };
@@ -7620,6 +8592,24 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description Payload Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
       };
     };
   };
@@ -7647,8 +8637,35 @@ export interface operations {
         };
         content?: never;
       };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
         headers: {
           [name: string]: unknown;
         };
@@ -7662,6 +8679,15 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
       };
     };
   };
@@ -8047,6 +9073,7 @@ export interface operations {
       };
       header?: never;
       path: {
+        /** @description The unique identifier of the invitation. */
         invitation_id: string;
       };
       cookie?: never;
@@ -8114,6 +9141,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
+        /** @description The unique identifier of the invitation. */
         invitation_id: string;
       };
       cookie?: never;
@@ -8546,6 +9574,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
         headers: {
@@ -8620,6 +9657,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
         headers: {
@@ -8669,7 +9715,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['MetadataBase'];
+          'application/json': components['schemas']['FileMetadata'];
         };
       };
       /** @description Bad request */
@@ -8683,6 +9729,15 @@ export interface operations {
       };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         headers: {
           [name: string]: unknown;
         };
@@ -8984,6 +10039,15 @@ export interface operations {
       };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         headers: {
           [name: string]: unknown;
         };
@@ -9362,6 +10426,15 @@ export interface operations {
       };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         headers: {
           [name: string]: unknown;
         };
@@ -10028,6 +11101,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
         headers: {
@@ -10109,6 +11191,15 @@ export interface operations {
       };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         headers: {
           [name: string]: unknown;
         };
@@ -10204,6 +11295,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
         headers: {
@@ -10270,6 +11370,15 @@ export interface operations {
         };
         content?: never;
       };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Invalid Authentication */
       401: {
         headers: {
@@ -10279,8 +11388,26 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Limit not found */
       404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
         headers: {
           [name: string]: unknown;
         };
@@ -10992,6 +12119,75 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': components['schemas']['ExternalServiceCredentialsRequest'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ExternalServiceCredentialsResponse'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  externalServiceGetOboCredentials: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['OboCredentialsRequest'];
       };
     };
     responses: {
@@ -12803,6 +13999,76 @@ export interface operations {
       };
     };
   };
+  repairToolSet: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The bucket identifier where the toolset is stored */
+        bucket: string;
+        /** @description The path to the toolset within the bucket */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description ToolSet successfully repaired: new client_id issued, all credentials cleared */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ToolSetRepairControllerRepairResponse'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Failed Dependency */
+      424: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   getPrompt: {
     parameters: {
       query?: never;
@@ -12846,6 +14112,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
         headers: {
@@ -12857,6 +14132,24 @@ export interface operations {
       };
       /** @description The server had an error while processing your request. */
       500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Failed to connect to upstream server. */
+      502: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Gateway Timeout */
+      504: {
         headers: {
           [name: string]: unknown;
         };
@@ -12900,8 +14193,26 @@ export interface operations {
           'application/json': components['schemas']['ResourceItemMetadata'];
         };
       };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         headers: {
           [name: string]: unknown;
         };
@@ -12915,6 +14226,24 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description Payload Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
       };
     };
   };
@@ -12942,8 +14271,35 @@ export interface operations {
         };
         content?: never;
       };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
         headers: {
           [name: string]: unknown;
         };
@@ -12957,6 +14313,15 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
       };
     };
   };
@@ -14251,6 +15616,15 @@ export interface operations {
           'application/json': components['schemas']['AllowedToolsResponse'];
         };
       };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Invalid Authentication */
       401: {
         headers: {
@@ -14373,6 +15747,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
         headers: {
@@ -14471,6 +15854,15 @@ export interface operations {
           'application/json': components['schemas']['ToolSetToolsResponse'];
         };
       };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Invalid Authentication */
       401: {
         headers: {
@@ -14561,6 +15953,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
         headers: {
@@ -14572,6 +15973,24 @@ export interface operations {
       };
       /** @description The server had an error while processing your request. */
       500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Failed to connect to upstream server. */
+      502: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Gateway Timeout */
+      504: {
         headers: {
           [name: string]: unknown;
         };
@@ -14615,8 +16034,26 @@ export interface operations {
           'application/json': components['schemas']['ResourceItemMetadata'];
         };
       };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         headers: {
           [name: string]: unknown;
         };
@@ -14630,6 +16067,24 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description Payload Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
       };
     };
   };
@@ -14657,8 +16112,35 @@ export interface operations {
         };
         content?: never;
       };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
         headers: {
           [name: string]: unknown;
         };
@@ -14672,6 +16154,15 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
       };
     };
   };
@@ -14750,6 +16241,15 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
       /** @description Not found */
       404: {
         headers: {
@@ -14758,6 +16258,154 @@ export interface operations {
         content: {
           'application/json': components['schemas']['ErrorData'];
         };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Failed to connect to upstream server. */
+      502: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  listSkillMetadata: {
+    parameters: {
+      query?: {
+        /** @description Continuation token from a previous page; omit for the first page. */
+        token?: string;
+        /** @description Maximum number of items per page (0-1000, default 100). */
+        limit?: number;
+        /** @description If true, lists the whole subtree; otherwise only immediate children. */
+        recursive?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The grouping folder path within the bucket; empty lists the bucket root. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description The complex resources and grouping folders at this level */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MetadataBase'];
+        };
+      };
+      /** @description Bad request - limit out of range */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Grouping folder not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  listSkillFileMetadata: {
+    parameters: {
+      query?: {
+        /** @description Continuation token from a previous page; omit for the first page. */
+        token?: string;
+        /** @description Maximum number of items per page (0-1000, default 100). */
+        limit?: number;
+        /** @description If true, lists all files of the current version; otherwise only immediate entries. */
+        recursive?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The resource path within the bucket. */
+        path: string;
+        /** @description The relative path of a subfolder inside the resource to scope the listing. */
+        filePath: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description The files of the resource's current version */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MetadataBase'];
+        };
+      };
+      /** @description Bad request - limit out of range */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Resource not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description The server had an error while processing your request. */
       500: {
@@ -15033,6 +16681,180 @@ export interface operations {
       };
       /** @description Folder resource not found */
       404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  downloadSkillGroupingFolder: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The grouping folder path within the bucket. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Path is a folder; use metadata listing */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  createSkillGroupingFolder: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The grouping folder path within the bucket. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Grouping folder created successfully */
+      200: {
+        headers: {
+          /** @description The ETag of the created grouping folder */
+          ETag?: string;
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request - the folder already exists or a resource/folder name collision was detected */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  deleteSkillGroupingFolder: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag of the folder to delete. Use * to delete regardless of the current ETag. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The grouping folder path within the bucket. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Grouping folder deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Grouping folder not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Conflict - the folder is not empty */
+      409: {
         headers: {
           [name: string]: unknown;
         };

@@ -36,6 +36,10 @@ export const createEmbeddingUrl = (deployment_name: string) => {
 
 export const createPublicationUrl = '/v1/ops/publication/create';
 export const createResponseUrl = '/openai/v1/responses';
+export const createSkillGroupingFolderUrl = (bucket: string, path: string) => {
+  return `/v2/skills/${bucket}/${path}/`;
+};
+
 export const deleteConversationUrl = (
   bucket: string,
   conversation_path: string,
@@ -112,6 +116,10 @@ export const deleteSkillFolderUrl = (bucket: string, path: string) => {
   return `/v2/skills/${bucket}/${path}`;
 };
 
+export const deleteSkillGroupingFolderUrl = (bucket: string, path: string) => {
+  return `/v2/skills/${bucket}/${path}/`;
+};
+
 export const deleteToolSetUrl = (bucket: string, toolset_path: string) => {
   return `/v1/toolsets/${bucket}/${toolset_path}`;
 };
@@ -140,9 +148,18 @@ export const downloadSkillFolderUrl = (bucket: string, path: string) => {
   return `/v2/skills/${bucket}/${path}`;
 };
 
+export const downloadSkillGroupingFolderUrl = (
+  bucket: string,
+  path: string,
+) => {
+  return `/v2/skills/${bucket}/${path}/`;
+};
+
 export const executeCodeUrl = '/v1/ops/code_interpreter/execute_code';
 export const externalServiceGetCredentialsUrl =
   '/v1/ops/external-service/credentials';
+export const externalServiceGetOboCredentialsUrl =
+  '/v1/ops/external-service/obo-credentials';
 export const externalServiceSignInUrl = '/v1/ops/external-service/signin';
 export const externalServiceSignOutUrl = '/v1/ops/external-service/signout';
 export const getApplicationUrl = (application_name: string) => {
@@ -193,8 +210,16 @@ export const getExternalServiceUrl = (appid: string, id: string) => {
   return `/v1/applications/${appid}/external-services/${id}`;
 };
 
+export const getFileConfigApplicationUrl = (name: string) => {
+  return `/v1/admin/config/file/applications/${name}`;
+};
+
 export const getFileConfigInterceptorUrl = (name: string) => {
   return `/v1/admin/config/file/interceptors/${name}`;
+};
+
+export const getFileConfigKeyUrl = (name: string) => {
+  return `/v1/admin/config/file/keys/${name}`;
 };
 
 export const getFileConfigModelUrl = (name: string) => {
@@ -215,6 +240,10 @@ export const getFileConfigSchemaUrl = (name: string) => {
 
 export const getFileConfigSettingsUrl = (name: string) => {
   return `/v1/admin/config/file/settings/${name}`;
+};
+
+export const getFileConfigToolsetUrl = (name: string) => {
+  return `/v1/admin/config/file/toolsets/${name}`;
 };
 
 export const getFileMetadataUrl = (bucket: string, path: string) => {
@@ -342,16 +371,32 @@ export const listExternalServicesUrl = (appid: string) => {
   return `/v1/applications/${appid}/external-services`;
 };
 
+export const listFileConfigApplicationsUrl =
+  '/v1/admin/config/file/applications';
 export const listFileConfigInterceptorsUrl =
   '/v1/admin/config/file/interceptors';
+export const listFileConfigKeysUrl = '/v1/admin/config/file/keys';
 export const listFileConfigModelsUrl = '/v1/admin/config/file/models';
 export const listFileConfigRolesUrl = '/v1/admin/config/file/roles';
 export const listFileConfigRoutesUrl = '/v1/admin/config/file/routes';
 export const listFileConfigSchemasUrl = '/v1/admin/config/file/schemas';
 export const listFileConfigSettingsUrl = '/v1/admin/config/file/settings';
+export const listFileConfigToolsetsUrl = '/v1/admin/config/file/toolsets';
 export const listFilesFromCodeInterpreterUrl =
   '/v1/ops/code_interpreter/list_files';
 export const listPublishedResourcesUrl = '/v1/ops/publication/resource/list';
+export const listSkillFileMetadataUrl = (
+  bucket: string,
+  path: string,
+  filepath: string,
+) => {
+  return `/v2/metadata/skills/${bucket}/${path}/files/${filepath}`;
+};
+
+export const listSkillMetadataUrl = (bucket: string, path: string) => {
+  return `/v2/metadata/skills/${bucket}/${path}`;
+};
+
 export const moveResourceUrl = '/v1/ops/resource/move';
 export const openSessionUrl = '/v1/ops/code_interpreter/open_session';
 export const postApplicationMcpUrl = (deployment_name: string) => {
@@ -373,6 +418,10 @@ export const rateDeploymentUrl = (deployment_name: string) => {
 export const redeployApplicationUrl = '/v1/ops/application/redeploy';
 export const rejectPublicationUrl = '/v1/ops/publication/reject';
 export const reloadConfigUrl = '/v1/ops/config/reload';
+export const repairToolSetUrl = (bucket: string, path: string) => {
+  return `/v1/ops/toolset/${bucket}/${path}/repair`;
+};
+
 export const reportClientChannelUrl = '/v1/ops/client-channel/report';
 export const requestUserConsentUrl = (deployment_id: string) => {
   return `/v1/consent/${deployment_id}`;
