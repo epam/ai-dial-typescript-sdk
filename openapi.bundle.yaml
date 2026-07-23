@@ -51,6 +51,7 @@ tags:
   - name: Code interpreter
   - name: Config
   - name: Conversations
+  - name: Deployment Feature
   - name: Deployment listing
   - name: Deployments
   - name: External Services
@@ -132,6 +133,12 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '415':
           description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '429':
+          description: Rate limit exceeded
           content:
             application/json:
               schema:
@@ -274,6 +281,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
           content:
@@ -335,6 +348,12 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
           content:
             application/json:
               schema:
@@ -507,6 +526,12 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
           content:
             application/json:
               schema:
@@ -1006,6 +1031,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
           content:
@@ -1081,6 +1112,12 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
           content:
             application/json:
               schema:
@@ -1166,6 +1203,12 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
           content:
             application/json:
               schema:
@@ -1467,6 +1510,83 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorData'
       x-preview: true
+  /v1/admin/config/file/applications:
+    get:
+      tags:
+        - Admin
+      summary: /v1/admin/config/file/applications
+      operationId: listFileConfigApplications
+      responses:
+        '200':
+          description: List of file-sourced applications
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileConfigControllerItemsResponseFileConfigControllerNamedEntity'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method Not Allowed
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+  /v1/admin/config/file/applications/{name}:
+    get:
+      tags:
+        - Admin
+      summary: /v1/admin/config/file/applications/{name}
+      operationId: getFileConfigApplication
+      parameters:
+        - name: name
+          in: path
+          description: Application name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Model'
+                  - $ref: '#/components/schemas/EntityMetadata'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method Not Allowed
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
   /v1/admin/config/file/interceptors:
     get:
       tags:
@@ -1522,6 +1642,83 @@ paths:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/Interceptor'
+                  - $ref: '#/components/schemas/EntityMetadata'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method Not Allowed
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+  /v1/admin/config/file/keys:
+    get:
+      tags:
+        - Admin
+      summary: /v1/admin/config/file/keys
+      operationId: listFileConfigKeys
+      responses:
+        '200':
+          description: List of file-sourced keys
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileConfigControllerItemsResponseFileConfigControllerNamedEntity'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method Not Allowed
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+  /v1/admin/config/file/keys/{name}:
+    get:
+      tags:
+        - Admin
+      summary: /v1/admin/config/file/keys/{name}
+      operationId: getFileConfigKey
+      parameters:
+        - name: name
+          in: path
+          description: Key name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Model'
                   - $ref: '#/components/schemas/EntityMetadata'
         '403':
           description: Forbidden
@@ -1929,6 +2126,83 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorData'
       x-preview: true
+  /v1/admin/config/file/toolsets:
+    get:
+      tags:
+        - Admin
+      summary: /v1/admin/config/file/toolsets
+      operationId: listFileConfigToolsets
+      responses:
+        '200':
+          description: List of file-sourced toolsets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileConfigControllerItemsResponseFileConfigControllerNamedEntity'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method Not Allowed
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+  /v1/admin/config/file/toolsets/{name}:
+    get:
+      tags:
+        - Admin
+      summary: /v1/admin/config/file/toolsets/{name}
+      operationId: getFileConfigToolset
+      parameters:
+        - name: name
+          in: path
+          description: Toolset name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Model'
+                  - $ref: '#/components/schemas/EntityMetadata'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method Not Allowed
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
   /v1/admin/health/config:
     get:
       tags:
@@ -2040,6 +2314,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
           content:
@@ -2082,6 +2362,12 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
           content:
             application/json:
               schema:
@@ -2167,6 +2453,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
           content:
@@ -2198,7 +2490,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExternalServiceData'
+                $ref: '#/components/schemas/ListExternalServiceData'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
           content:
@@ -2249,6 +2547,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExternalServiceData'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
           content:
@@ -2434,6 +2738,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
           content:
@@ -2442,6 +2752,18 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '500':
           description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '502':
+          description: Failed to connect to upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '504':
+          description: Gateway Timeout
           content:
             application/json:
               schema:
@@ -2527,6 +2849,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
           content:
@@ -2543,6 +2871,18 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '500':
           description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '502':
+          description: Failed to connect to upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '504':
+          description: Gateway Timeout
           content:
             application/json:
               schema:
@@ -2633,14 +2973,38 @@ paths:
       responses:
         '200':
           description: Success
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '412':
           description: Precondition Failed - ETag mismatch
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
   /v1/bucket:
     get:
       tags:
@@ -2859,6 +3223,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
           content:
@@ -2867,6 +3237,18 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '500':
           description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '502':
+          description: Failed to connect to upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '504':
+          description: Gateway Timeout
           content:
             application/json:
               schema:
@@ -2934,14 +3316,38 @@ paths:
               required: true
               schema:
                 type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '412':
           description: Precondition Failed - ETag mismatch
+        '413':
+          description: Payload Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
     delete:
       tags:
         - Conversations
@@ -2973,14 +3379,38 @@ paths:
       responses:
         '200':
           description: Success
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '412':
           description: Precondition Failed - ETag mismatch
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
       x-codeSamples:
         - lang: cURL
           label: CURL
@@ -3151,8 +3581,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '422':
+          description: Unprocessable Entity
           content:
             application/json:
               schema:
@@ -3163,6 +3605,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '502':
+          description: Failed to connect to upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      tags:
+        - Deployment Feature
   /v1/deployments/{deployment_name}/limits:
     get:
       tags:
@@ -3224,8 +3674,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Limit not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: The server had an error while processing your request.
           content:
             application/json:
               schema:
@@ -3274,6 +3736,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
           content:
@@ -3314,6 +3782,7 @@ paths:
           required: true
           schema:
             type: string
+          description: The name of the deployment.
       responses:
         '200':
           description: Success
@@ -3333,8 +3802,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '422':
+          description: Unprocessable Entity
           content:
             application/json:
               schema:
@@ -3345,12 +3826,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '502':
+          description: Failed to connect to upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/TokenizeRequest'
         required: true
+      tags:
+        - Deployment Feature
   /v1/deployments/{deployment_name}/truncate_prompt:
     post:
       summary: /v1/deployments/{deployment_name}/truncate_prompt
@@ -3361,6 +3850,7 @@ paths:
           required: true
           schema:
             type: string
+          description: The name of the deployment.
       responses:
         '200':
           description: Success
@@ -3380,8 +3870,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '422':
+          description: Unprocessable Entity
           content:
             application/json:
               schema:
@@ -3392,12 +3894,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '502':
+          description: Failed to connect to upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/TruncatePromptRequest'
         required: true
+      tags:
+        - Deployment Feature
   /v1/files/{bucket}/{file_path}:
     get:
       tags:
@@ -3499,14 +4009,44 @@ paths:
                     nodeType: ITEM
                     contentLength: 128630
                     contentType: image/png
+          headers:
+            ETag:
+              description: Entity tag for the uploaded file
+              required: true
+              schema:
+                type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '412':
           description: Precondition Failed - ETag mismatch
+        '413':
+          description: Payload Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
     delete:
       tags:
         - Files
@@ -3538,14 +4078,38 @@ paths:
       responses:
         '200':
           description: Success
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '412':
           description: Precondition Failed - ETag mismatch
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
       x-codeSamples:
         - lang: cURL
           label: CURL
@@ -3881,17 +4445,18 @@ paths:
         Call this endpoint to get the invitation details or accept the invitation.      
       operationId: getInvitation
       parameters:
+        - name: invitation_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier of the invitation.
         - name: accept
           in: query
           description: Requests with `accept=true` accept an invitation.
           required: false
           schema:
             type: boolean
-        - name: invitation_id
-          in: path
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: Success
@@ -3977,6 +4542,7 @@ paths:
           required: true
           schema:
             type: string
+          description: The unique identifier of the invitation.
       responses:
         '200':
           description: Success
@@ -4369,6 +4935,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
           content:
@@ -4478,6 +5050,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
           content:
@@ -4549,7 +5127,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MetadataBase'
+                $ref: '#/components/schemas/FileMetadata'
         '400':
           description: Bad request
           content:
@@ -4558,6 +5136,12 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
           content:
             application/json:
               schema:
@@ -4858,6 +5442,12 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
           content:
             application/json:
               schema:
@@ -5234,6 +5824,12 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
           content:
             application/json:
               schema:
@@ -5752,6 +6348,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
           content:
@@ -5822,6 +6424,12 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
           content:
             application/json:
               schema:
@@ -5916,6 +6524,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
           content:
@@ -5970,14 +6584,32 @@ paths:
       responses:
         '200':
           description: Success
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Limit not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: The server had an error while processing your request.
           content:
             application/json:
               schema:
@@ -6575,6 +7207,55 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ExternalServiceCredentialsRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalServiceCredentialsResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Invalid Authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /v1/ops/external-service/obo-credentials:
+    post:
+      tags:
+        - External Services
+      summary: /v1/ops/external-service/obo-credentials
+      operationId: externalServiceGetOboCredentials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OboCredentialsRequest'
         required: true
       responses:
         '200':
@@ -8266,6 +8947,62 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+  /v1/ops/toolset/{bucket}/{path}/repair:
+    post:
+      tags:
+        - Toolsets
+      summary: /v1/ops/toolset/{bucket}/{path}/repair
+      operationId: repairToolSet
+      parameters:
+        - name: bucket
+          in: path
+          description: The bucket identifier where the toolset is stored
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The path to the toolset within the bucket
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'ToolSet successfully repaired: new client_id issued, all credentials cleared'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolSetRepairControllerRepairResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '424':
+          description: Failed Dependency
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
   /v1/prompts/{bucket}/{prompt_path}:
     get:
       tags:
@@ -8319,6 +9056,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
           content:
@@ -8327,6 +9070,18 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '500':
           description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '502':
+          description: Failed to connect to upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '504':
+          description: Gateway Timeout
           content:
             application/json:
               schema:
@@ -8409,14 +9164,38 @@ paths:
               required: true
               schema:
                 type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '412':
           description: Precondition Failed - ETag mismatch
+        '413':
+          description: Payload Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
       x-codeSamples:
         - lang: cURL
           label: CURL
@@ -8453,14 +9232,38 @@ paths:
       responses:
         '200':
           description: Success
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '412':
           description: Precondition Failed - ETag mismatch
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
       x-codeSamples:
         - lang: cURL
           label: CURL
@@ -9462,6 +10265,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AllowedToolsResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
           content:
@@ -9552,6 +10361,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
           content:
@@ -9630,6 +10445,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ToolSetToolsResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
           content:
@@ -9801,6 +10622,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
           content:
@@ -9809,6 +10636,18 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '500':
           description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '502':
+          description: Failed to connect to upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '504':
+          description: Gateway Timeout
           content:
             application/json:
               schema:
@@ -9936,14 +10775,38 @@ paths:
               required: true
               schema:
                 type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '412':
           description: Precondition Failed - ETag mismatch
+        '413':
+          description: Payload Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
       x-codeSamples:
         - lang: cURL
           label: CURL
@@ -9978,14 +10841,38 @@ paths:
       responses:
         '200':
           description: Success
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '401':
           description: Invalid Authentication
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '412':
           description: Precondition Failed - ETag mismatch
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
     x-codeSamples:
       - lang: cURL
         label: CURL
@@ -10063,8 +10950,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '404':
           description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '422':
+          description: Unprocessable Entity
           content:
             application/json:
               schema:
@@ -10075,12 +10974,146 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+        '502':
+          description: Failed to connect to upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/RateRequest'
         required: true
+  /v2/metadata/skills/{bucket}/{path}:
+    get:
+      tags:
+        - Skills
+      summary: /v2/metadata/skills/{bucket}/{path}
+      operationId: listSkillMetadata
+      parameters:
+        - name: bucket
+          in: path
+          description: The target bucket.
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The grouping folder path within the bucket; empty lists the bucket root.
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: query
+          description: Continuation token from a previous page; omit for the first page.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of items per page (0-1000, default 100).
+          required: false
+          schema:
+            type: integer
+        - name: recursive
+          in: query
+          description: If true, lists the whole subtree; otherwise only immediate children.
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: The complex resources and grouping folders at this level
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetadataBase'
+        '400':
+          description: Bad request - limit out of range
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Grouping folder not found
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+  /v2/metadata/skills/{bucket}/{path}/files/{filePath}:
+    get:
+      tags:
+        - Skills
+      summary: /v2/metadata/skills/{bucket}/{path}/files/{filePath}
+      operationId: listSkillFileMetadata
+      parameters:
+        - name: bucket
+          in: path
+          description: The target bucket.
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The resource path within the bucket.
+          required: true
+          schema:
+            type: string
+        - name: filePath
+          in: path
+          description: The relative path of a subfolder inside the resource to scope the listing.
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: query
+          description: Continuation token from a previous page; omit for the first page.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of items per page (0-1000, default 100).
+          required: false
+          schema:
+            type: integer
+        - name: recursive
+          in: query
+          description: If true, lists all files of the current version; otherwise only immediate entries.
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: The files of the resource's current version
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetadataBase'
+        '400':
+          description: Bad request - limit out of range
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Resource not found
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
   /v2/skills/{bucket}/{path}:
     get:
       tags:
@@ -10290,6 +11323,141 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '404':
           description: Folder resource not found
+        '412':
+          description: Precondition failed - ETag mismatch
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+  /v2/skills/{bucket}/{path}/:
+    get:
+      tags:
+        - Skills
+      summary: /v2/skills/{bucket}/{path}/
+      operationId: downloadSkillGroupingFolder
+      parameters:
+        - name: bucket
+          in: path
+          description: The target bucket.
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The grouping folder path within the bucket.
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Path is a folder; use metadata listing
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+    put:
+      tags:
+        - Skills
+      summary: /v2/skills/{bucket}/{path}/
+      operationId: createSkillGroupingFolder
+      parameters:
+        - name: bucket
+          in: path
+          description: The target bucket.
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The grouping folder path within the bucket.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Grouping folder created successfully
+          headers:
+            ETag:
+              description: The ETag of the created grouping folder
+              required: false
+              schema:
+                type: string
+        '400':
+          description: Bad request - the folder already exists or a resource/folder name collision was detected
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+    delete:
+      tags:
+        - Skills
+      summary: /v2/skills/{bucket}/{path}/
+      operationId: deleteSkillGroupingFolder
+      parameters:
+        - name: bucket
+          in: path
+          description: The target bucket.
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The grouping folder path within the bucket.
+          required: true
+          schema:
+            type: string
+        - name: If-Match
+          in: header
+          description: ETag of the folder to delete. Use * to delete regardless of the current ETag.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Grouping folder deleted successfully
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Grouping folder not found
+        '409':
+          description: Conflict - the folder is not empty
         '412':
           description: Precondition failed - ETag mismatch
         '500':
@@ -10670,6 +11838,10 @@ components:
         interfaces:
           $ref: '#/components/schemas/MapStringDeploymentInterface'
         intro:
+          type: string
+        allow_user_external_services:
+          type: boolean
+        app_identity:
           type: string
     ApplicationData:
       type: object
@@ -11988,6 +13160,10 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/DeploymentData'
+    ListExternalServiceData:
+      type: array
+      items:
+        $ref: '#/components/schemas/ExternalServiceData'
     ListPermissionRequest:
       type: object
       properties:
@@ -12429,6 +13605,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Notification'
+    OboCredentialsRequest:
+      type: object
+      properties:
+        ownerUserId:
+          type: string
+        url:
+          type: string
     Pattern:
       type: object
     PerRequestReceiver:
@@ -12602,6 +13785,8 @@ components:
           type: string
         user_level_auth_status:
           $ref: '#/components/schemas/ResourceAuthStatus'
+        dynamically_registered:
+          type: boolean
     ResourceAuthSettingsData:
       type: object
       properties:
@@ -12629,6 +13814,8 @@ components:
             type: string
         user_level_auth_status:
           $ref: '#/components/schemas/ResourceAuthStatus'
+        dynamically_registered:
+          type: boolean
     ResourceAuthStatus:
       type: string
       enum:
@@ -12765,6 +13952,8 @@ components:
           type: string
         url:
           type: string
+        offlineUsageConsent:
+          type: boolean
     ResourceSignOutRequest:
       type: object
       properties:
@@ -12825,6 +14014,7 @@ components:
         - USER_CONSENT
         - TOOL_SET
         - CREDENTIALS
+        - EXTERNAL_SERVICE
         - ENCRYPTION_KEYS
         - CLIENT_CHANNEL
         - MODEL
@@ -12836,6 +14026,7 @@ components:
         - GLOBAL_SETTINGS
         - RESPONSE_MAPPING
         - SKILL
+        - BACKGROUND_JOB
     ResponseFormatJsonObject:
       required:
         - type
@@ -13400,6 +14591,8 @@ components:
           type: string
         intro:
           type: string
+        vendor_website:
+          type: string
     ToolSetData:
       type: object
       properties:
@@ -13466,6 +14659,15 @@ components:
         provider:
           type: string
         intro:
+          type: string
+        vendor_website:
+          type: string
+    ToolSetRepairControllerRepairResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        result:
           type: string
     ToolSetToolsResponse:
       type: object
@@ -13586,6 +14788,9 @@ components:
         project:
           type: string
           description: Present only if authenticated via an API Key. Represents the target project scope.
+        userId:
+          type: string
+          description: The user id as DIAL resolves it from the identity provider configuration (not necessarily the token's sub claim). Present only for user-based session authentication. Use this value as owner_user_id when retrieving credentials on behalf of the user.
         userClaims:
           type: object
           additionalProperties:
