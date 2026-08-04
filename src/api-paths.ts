@@ -40,6 +40,13 @@ export const createSkillGroupingFolderUrl = (bucket: string, path: string) => {
   return `/v2/skills/${bucket}/${path}/`;
 };
 
+export const deleteCatalogSchemaResourceUrl = (
+  bucket: string,
+  path: string,
+) => {
+  return `/v1/catalog_schemas/${bucket}/${path}`;
+};
+
 export const deleteConversationUrl = (
   bucket: string,
   conversation_path: string,
@@ -167,11 +174,24 @@ export const getApplicationUrl = (application_name: string) => {
 };
 
 export const getApplicationLogsUrl = '/v1/ops/application/logs';
+export const getApplicationMcpResourcesUrl = (deployment_name: string) => {
+  return `/v1/deployments/${deployment_name}/mcp/resources`;
+};
+
 export const getApplicationMetadataUrl = (bucket: string, path: string) => {
   return `/v1/metadata/applications/${bucket}/${path}`;
 };
 
 export const getApplicationsUrl = '/openai/applications';
+export const getCatalogSchemaUrl = '/v1/catalog_schemas/schema';
+export const getCatalogSchemaMetadataUrl = (bucket: string, path: string) => {
+  return `/v1/metadata/catalog_schemas/${bucket}/${path}`;
+};
+
+export const getCatalogSchemaResourceUrl = (bucket: string, path: string) => {
+  return `/v1/catalog_schemas/${bucket}/${path}`;
+};
+
 export const getConfigHealthUrl = '/v1/admin/health/config';
 export const getConversationUrl = (
   bucket: string,
@@ -212,6 +232,10 @@ export const getExternalServiceUrl = (appid: string, id: string) => {
 
 export const getFileConfigApplicationUrl = (name: string) => {
   return `/v1/admin/config/file/applications/${name}`;
+};
+
+export const getFileConfigCatalogSchemaUrl = (name: string) => {
+  return `/v1/admin/config/file/catalog_schemas/${name}`;
 };
 
 export const getFileConfigInterceptorUrl = (name: string) => {
@@ -279,6 +303,8 @@ export const getKeyMetadataUrl = (bucket: string, path: string) => {
   return `/v1/metadata/keys/${bucket}/${path}`;
 };
 
+export const getMetaSchemaOfCatalogSchemaUrl =
+  '/v1/catalog_schemas/meta_schema';
 export const getMetaSchemaOfCustomApplicationSchemaUrl =
   '/v1/application_type_schemas/meta_schema';
 export const getModelUrl = (model_name: string) => {
@@ -364,6 +390,7 @@ export const getUserInfoUrl = '/v1/user/info';
 export const grantPerRequestPermissionsUrl =
   '/v1/ops/resource/per-request-permissions/grant';
 export const interactClientChannelUrl = '/v1/ops/client-channel/interact';
+export const listCatalogSchemasUrl = '/v1/catalog_schemas/schemas';
 export const listCustomApplicationSchemasUrl =
   '/v1/application_type_schemas/schemas';
 export const listDeploymentsUrl = '/v1/deployments';
@@ -373,6 +400,8 @@ export const listExternalServicesUrl = (appid: string) => {
 
 export const listFileConfigApplicationsUrl =
   '/v1/admin/config/file/applications';
+export const listFileConfigCatalogSchemasUrl =
+  '/v1/admin/config/file/catalog_schemas';
 export const listFileConfigInterceptorsUrl =
   '/v1/admin/config/file/interceptors';
 export const listFileConfigKeysUrl = '/v1/admin/config/file/keys';
@@ -430,6 +459,10 @@ export const requestUserConsentUrl = (deployment_id: string) => {
 export const revokePerRequestPermissionsUrl =
   '/v1/ops/resource/per-request-permissions/revoke';
 export const revokeSharedResourcesUrl = '/v1/ops/resource/share/revoke';
+export const saveCatalogSchemaResourceUrl = (bucket: string, path: string) => {
+  return `/v1/catalog_schemas/${bucket}/${path}`;
+};
+
 export const saveConversationUrl = (
   bucket: string,
   conversation_path: string,

@@ -74,6 +74,11 @@ export interface DIAL_SDK {
     path: string,
     init?: SDKOperationInit<operations['createSkillGroupingFolder']>,
   ) => Promise<SDKOperationResponse<operations['createSkillGroupingFolder']>>;
+  deleteCatalogSchemaResource: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['deleteCatalogSchemaResource']>,
+  ) => Promise<SDKOperationResponse<operations['deleteCatalogSchemaResource']>>;
   deleteConversation: (
     bucket: string,
     conversation_path: string,
@@ -231,6 +236,10 @@ export interface DIAL_SDK {
   getApplicationLogs: (
     init: SDKOperationInit<operations['getApplicationLogs']>,
   ) => Promise<SDKOperationResponse<operations['getApplicationLogs']>>;
+  getApplicationMcpResources: (
+    deployment_name: string,
+    init: SDKOperationInit<operations['getApplicationMcpResources']>,
+  ) => Promise<SDKOperationResponse<operations['getApplicationMcpResources']>>;
   getApplicationMetadata: (
     bucket: string,
     path: string,
@@ -239,6 +248,19 @@ export interface DIAL_SDK {
   getApplications: (
     init?: SDKOperationInit<operations['getApplications']>,
   ) => Promise<SDKOperationResponse<operations['getApplications']>>;
+  getCatalogSchema: (
+    init: SDKOperationInit<operations['getCatalogSchema']>,
+  ) => Promise<SDKOperationResponse<operations['getCatalogSchema']>>;
+  getCatalogSchemaMetadata: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getCatalogSchemaMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getCatalogSchemaMetadata']>>;
+  getCatalogSchemaResource: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getCatalogSchemaResource']>,
+  ) => Promise<SDKOperationResponse<operations['getCatalogSchemaResource']>>;
   getConfigHealth: (
     init?: SDKOperationInit<operations['getConfigHealth']>,
   ) => Promise<SDKOperationResponse<operations['getConfigHealth']>>;
@@ -285,6 +307,10 @@ export interface DIAL_SDK {
     name: string,
     init?: SDKOperationInit<operations['getFileConfigApplication']>,
   ) => Promise<SDKOperationResponse<operations['getFileConfigApplication']>>;
+  getFileConfigCatalogSchema: (
+    name: string,
+    init?: SDKOperationInit<operations['getFileConfigCatalogSchema']>,
+  ) => Promise<SDKOperationResponse<operations['getFileConfigCatalogSchema']>>;
   getFileConfigInterceptor: (
     name: string,
     init?: SDKOperationInit<operations['getFileConfigInterceptor']>,
@@ -359,6 +385,11 @@ export interface DIAL_SDK {
     path: string,
     init?: SDKOperationInit<operations['getKeyMetadata']>,
   ) => Promise<SDKOperationResponse<operations['getKeyMetadata']>>;
+  getMetaSchemaOfCatalogSchema: (
+    init?: SDKOperationInit<operations['getMetaSchemaOfCatalogSchema']>,
+  ) => Promise<
+    SDKOperationResponse<operations['getMetaSchemaOfCatalogSchema']>
+  >;
   getMetaSchemaOfCustomApplicationSchema: (
     init?: SDKOperationInit<
       operations['getMetaSchemaOfCustomApplicationSchema']
@@ -484,6 +515,9 @@ export interface DIAL_SDK {
   interactClientChannel: (
     init: SDKOperationInit<operations['interactClientChannel']>,
   ) => Promise<SDKOperationResponse<operations['interactClientChannel']>>;
+  listCatalogSchemas: (
+    init?: SDKOperationInit<operations['listCatalogSchemas']>,
+  ) => Promise<SDKOperationResponse<operations['listCatalogSchemas']>>;
   listCustomApplicationSchemas: (
     init?: SDKOperationInit<operations['listCustomApplicationSchemas']>,
   ) => Promise<
@@ -499,6 +533,11 @@ export interface DIAL_SDK {
   listFileConfigApplications: (
     init?: SDKOperationInit<operations['listFileConfigApplications']>,
   ) => Promise<SDKOperationResponse<operations['listFileConfigApplications']>>;
+  listFileConfigCatalogSchemas: (
+    init?: SDKOperationInit<operations['listFileConfigCatalogSchemas']>,
+  ) => Promise<
+    SDKOperationResponse<operations['listFileConfigCatalogSchemas']>
+  >;
   listFileConfigInterceptors: (
     init?: SDKOperationInit<operations['listFileConfigInterceptors']>,
   ) => Promise<SDKOperationResponse<operations['listFileConfigInterceptors']>>;
@@ -592,6 +631,11 @@ export interface DIAL_SDK {
   revokeSharedResources: (
     init: SDKOperationInit<operations['revokeSharedResources']>,
   ) => Promise<SDKOperationResponse<operations['revokeSharedResources']>>;
+  saveCatalogSchemaResource: (
+    bucket: string,
+    path: string,
+    init: SDKOperationInit<operations['saveCatalogSchemaResource']>,
+  ) => Promise<SDKOperationResponse<operations['saveCatalogSchemaResource']>>;
   saveConversation: (
     bucket: string,
     conversation_path: string,
@@ -793,6 +837,13 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       ) as Promise<
         SDKOperationResponse<operations['createSkillGroupingFolder']>
       >,
+    deleteCatalogSchemaResource: (bucket: string, path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deleteCatalogSchemaResourceUrl(bucket, path) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['deleteCatalogSchemaResource']>
+      >,
     deleteConversation: (
       bucket: string,
       conversation_path: string,
@@ -982,6 +1033,13 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.getApplicationLogsUrl, init) as Promise<
         SDKOperationResponse<operations['getApplicationLogs']>
       >,
+    getApplicationMcpResources: (deployment_name: string, init?: any) =>
+      client.GET(
+        apiPaths.getApplicationMcpResourcesUrl(deployment_name) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['getApplicationMcpResources']>
+      >,
     getApplicationMetadata: (bucket: string, path: string, init?: any) =>
       client.GET(
         apiPaths.getApplicationMetadataUrl(bucket, path) as any,
@@ -990,6 +1048,24 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     getApplications: (init?: any) =>
       client.GET(apiPaths.getApplicationsUrl, init) as Promise<
         SDKOperationResponse<operations['getApplications']>
+      >,
+    getCatalogSchema: (init?: any) =>
+      client.GET(apiPaths.getCatalogSchemaUrl, init) as Promise<
+        SDKOperationResponse<operations['getCatalogSchema']>
+      >,
+    getCatalogSchemaMetadata: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getCatalogSchemaMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['getCatalogSchemaMetadata']>
+      >,
+    getCatalogSchemaResource: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getCatalogSchemaResourceUrl(bucket, path) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['getCatalogSchemaResource']>
       >,
     getConfigHealth: (init?: any) =>
       client.GET(apiPaths.getConfigHealthUrl, init) as Promise<
@@ -1048,6 +1124,13 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         init,
       ) as Promise<
         SDKOperationResponse<operations['getFileConfigApplication']>
+      >,
+    getFileConfigCatalogSchema: (name: string, init?: any) =>
+      client.GET(
+        apiPaths.getFileConfigCatalogSchemaUrl(name) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['getFileConfigCatalogSchema']>
       >,
     getFileConfigInterceptor: (name: string, init?: any) =>
       client.GET(
@@ -1131,6 +1214,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.getKeyMetadataUrl(bucket, path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['getKeyMetadata']>>,
+    getMetaSchemaOfCatalogSchema: (init?: any) =>
+      client.GET(apiPaths.getMetaSchemaOfCatalogSchemaUrl, init) as Promise<
+        SDKOperationResponse<operations['getMetaSchemaOfCatalogSchema']>
+      >,
     getMetaSchemaOfCustomApplicationSchema: (init?: any) =>
       client.GET(
         apiPaths.getMetaSchemaOfCustomApplicationSchemaUrl,
@@ -1272,6 +1359,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.interactClientChannelUrl, init) as Promise<
         SDKOperationResponse<operations['interactClientChannel']>
       >,
+    listCatalogSchemas: (init?: any) =>
+      client.GET(apiPaths.listCatalogSchemasUrl, init) as Promise<
+        SDKOperationResponse<operations['listCatalogSchemas']>
+      >,
     listCustomApplicationSchemas: (init?: any) =>
       client.GET(apiPaths.listCustomApplicationSchemasUrl, init) as Promise<
         SDKOperationResponse<operations['listCustomApplicationSchemas']>
@@ -1288,6 +1379,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     listFileConfigApplications: (init?: any) =>
       client.GET(apiPaths.listFileConfigApplicationsUrl, init) as Promise<
         SDKOperationResponse<operations['listFileConfigApplications']>
+      >,
+    listFileConfigCatalogSchemas: (init?: any) =>
+      client.GET(apiPaths.listFileConfigCatalogSchemasUrl, init) as Promise<
+        SDKOperationResponse<operations['listFileConfigCatalogSchemas']>
       >,
     listFileConfigInterceptors: (init?: any) =>
       client.GET(apiPaths.listFileConfigInterceptorsUrl, init) as Promise<
@@ -1405,6 +1500,13 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     revokeSharedResources: (init?: any) =>
       client.POST(apiPaths.revokeSharedResourcesUrl, init) as Promise<
         SDKOperationResponse<operations['revokeSharedResources']>
+      >,
+    saveCatalogSchemaResource: (bucket: string, path: string, init?: any) =>
+      client.PUT(
+        apiPaths.saveCatalogSchemaResourceUrl(bucket, path) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['saveCatalogSchemaResource']>
       >,
     saveConversation: (bucket: string, conversation_path: string, init?: any) =>
       client.PUT(
