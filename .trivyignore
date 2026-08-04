@@ -7,3 +7,7 @@ CVE-2026-59873 exp:2027-01-23
 CVE-2026-59874 exp:2027-01-23
 # brace-expansion - bundled with npm's own node_modules in node:24-alpine base image, not an npm dependency of this project
 CVE-2026-13149 exp:2027-01-23
+CVE-2026-14257 exp:2027-01-23
+CVE-2026-69152 exp:2027-01-23
+# ip-address - bundled with npm's own node_modules in node:24-alpine base image, not an npm dependency of this project
+CVE-2026-69192 exp:2027-01-23
