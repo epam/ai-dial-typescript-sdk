@@ -353,6 +353,40 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/admin/config/file/catalog_schemas': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/admin/config/file/catalog_schemas */
+    get: operations['listFileConfigCatalogSchemas'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/config/file/catalog_schemas/{name}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/admin/config/file/catalog_schemas/{name} */
+    get: operations['getFileConfigCatalogSchema'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/admin/config/file/interceptors': {
     parameters: {
       query?: never;
@@ -797,6 +831,76 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/catalog_schemas/meta_schema': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/catalog_schemas/meta_schema */
+    get: operations['getMetaSchemaOfCatalogSchema'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/catalog_schemas/schema': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/catalog_schemas/schema */
+    get: operations['getCatalogSchema'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/catalog_schemas/schemas': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/catalog_schemas/schemas */
+    get: operations['listCatalogSchemas'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/catalog_schemas/{bucket}/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/catalog_schemas/{bucket}/{path} */
+    get: operations['getCatalogSchemaResource'];
+    /** /v1/catalog_schemas/{bucket}/{path} */
+    put: operations['saveCatalogSchemaResource'];
+    post?: never;
+    /** /v1/catalog_schemas/{bucket}/{path} */
+    delete: operations['deleteCatalogSchemaResource'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/consent/{deployment_id}': {
     parameters: {
       query?: never;
@@ -924,6 +1028,23 @@ export interface paths {
      * @description This endpoint implements MCP-based communication with application deployment using [HTTP transport](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#streamable-http).
      */
     post: operations['postApplicationMcp'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/deployments/{deployment_name}/mcp/resources': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/deployments/{deployment_name}/mcp/resources */
+    get: operations['getApplicationMcpResources'];
+    put?: never;
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -1085,6 +1206,23 @@ export interface paths {
      *     If it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.
      */
     get: operations['getApplicationMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/metadata/catalog_schemas/{bucket}/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/metadata/catalog_schemas/{bucket}/{path} */
+    get: operations['getCatalogSchemaMetadata'];
     put?: never;
     post?: never;
     delete?: never;
@@ -2593,7 +2731,7 @@ export interface components {
       dependencies?: string[];
       description?: string;
       descriptionKeywords?: string[];
-      displayName?: string;
+      displayName?: components['schemas']['LocalizedValue'];
       displayVersion?: string;
       editor_url?: string;
       endpoint?: string;
@@ -2617,9 +2755,13 @@ export interface components {
       viewer_url?: string;
       external_services?: components['schemas']['MapStringExternalService'];
       interfaces?: components['schemas']['MapStringDeploymentInterface'];
-      intro?: string;
+      intro?: components['schemas']['LocalizedValue'];
       allow_user_external_services?: boolean;
       app_identity?: string;
+      catalogProperties?: components['schemas']['MapStringObject'];
+      /** Format: uri */
+      catalogSchemaId?: string;
+      overrideName?: string;
     };
     ApplicationData: {
       application?: string;
@@ -2630,7 +2772,7 @@ export interface components {
       defaults?: components['schemas']['MapStringObject'];
       description?: string;
       description_keywords?: string[];
-      display_name?: string;
+      display_name?: components['schemas']['LocalizedValue'];
       display_version?: string;
       editor_url?: string;
       features?: components['schemas']['FeaturesData'];
@@ -2658,7 +2800,10 @@ export interface components {
       updated_at?: number;
       viewer_url?: string;
       external_services?: components['schemas']['MapStringExternalService'];
-      intro?: string;
+      intro?: components['schemas']['LocalizedValue'];
+      catalog_properties?: components['schemas']['MapStringObject'];
+      /** Format: uri */
+      catalog_schema_id?: string;
     };
     ApplicationFunction: {
       author_bucket?: string;
@@ -2684,6 +2829,7 @@ export interface components {
       endpoint?: string;
       forwardPerRequestKey?: boolean;
       transport?: components['schemas']['ToolSetTransport'];
+      mcpApps?: components['schemas']['McpMcpApps'];
     };
     /** @enum {string} */
     ApplicationMcpConfigDelivery: 'HEADER' | 'META';
@@ -2833,10 +2979,15 @@ export interface components {
       sessionId?: string;
     };
     CollectionMetadataBase: components['schemas']['MetadataBase'][];
+    CompletionTokensDetails: {
+      reasoning_tokens?: number;
+    };
     CompletionUsage: {
       prompt_tokens?: number;
       completion_tokens?: number;
       total_tokens?: number;
+      prompt_tokens_details?: components['schemas']['PromptTokensDetails'];
+      completion_tokens_details?: components['schemas']['CompletionTokensDetails'];
     };
     Config: {
       applicationTypeSchemas?: components['schemas']['MapStringString'];
@@ -2849,6 +3000,8 @@ export interface components {
       roles?: components['schemas']['MapStringRole'];
       routes?: components['schemas']['LinkedHashMapStringRoute'];
       toolsets?: components['schemas']['MapStringToolSet'];
+      catalogSchemas?: components['schemas']['MapStringString'];
+      defaultLocale?: string;
     };
     ConfigResourceControllerConfigWriteResponse: {
       name?: string;
@@ -3173,7 +3326,7 @@ export interface components {
       dependencies?: string[];
       description?: string;
       descriptionKeywords?: string[];
-      displayName?: string;
+      displayName?: components['schemas']['LocalizedValue'];
       displayVersion?: string;
       endpoint?: string;
       features?: components['schemas']['Features'];
@@ -3190,7 +3343,11 @@ export interface components {
       updatedAt?: number;
       userRoles?: string[];
       interfaces?: components['schemas']['MapStringDeploymentInterface'];
-      intro?: string;
+      intro?: components['schemas']['LocalizedValue'];
+      catalogProperties?: components['schemas']['MapStringObject'];
+      /** Format: uri */
+      catalogSchemaId?: string;
+      overrideName?: string;
     };
     Invitation: {
       acceptedUserLocations?: string[];
@@ -3285,6 +3442,10 @@ export interface components {
       resourceTypes?: components['schemas']['ResourceTypes'][];
       with?: string;
     };
+    LocalizedValue: {
+      localeMap?: components['schemas']['MapStringString'];
+      plainValue?: string;
+    };
     MapStringApplication: {
       [key: string]: components['schemas']['Application'];
     };
@@ -3329,6 +3490,9 @@ export interface components {
     };
     MapStringToolSet: {
       [key: string]: components['schemas']['ToolSet'];
+    };
+    McpMcpApps: {
+      domainOverride?: string;
     };
     McpTool: {
       name: string;
@@ -3432,7 +3596,7 @@ export interface components {
       dependencies?: string[];
       description?: string;
       descriptionKeywords?: string[];
-      displayName?: string;
+      displayName?: components['schemas']['LocalizedValue'];
       displayVersion?: string;
       embeddingDimensions?: number;
       endpoint?: string;
@@ -3457,7 +3621,10 @@ export interface components {
       upstreams?: components['schemas']['Upstream'][];
       userRoles?: string[];
       interfaces?: components['schemas']['MapStringDeploymentInterface'];
-      intro?: string;
+      intro?: components['schemas']['LocalizedValue'];
+      catalogProperties?: components['schemas']['MapStringObject'];
+      /** Format: uri */
+      catalogSchemaId?: string;
     };
     ModelData: {
       application?: string;
@@ -3466,7 +3633,7 @@ export interface components {
       defaults?: components['schemas']['MapStringObject'];
       description?: string;
       description_keywords?: string[];
-      display_name?: string;
+      display_name?: components['schemas']['LocalizedValue'];
       display_version?: string;
       embedding_dimensions?: number;
       features?: components['schemas']['FeaturesData'];
@@ -3493,7 +3660,10 @@ export interface components {
       tokenizer_model?: string;
       toolset?: string;
       updated_at?: number;
-      intro?: string;
+      intro?: components['schemas']['LocalizedValue'];
+      catalog_properties?: components['schemas']['MapStringObject'];
+      /** Format: uri */
+      catalog_schema_id?: string;
     };
     /** @enum {string} */
     ModelType: 'CHAT' | 'COMPLETION' | 'EMBEDDING';
@@ -3546,6 +3716,7 @@ export interface components {
     };
     PromptTokensDetails: {
       cached_tokens?: number;
+      cache_write_tokens?: number;
     };
     ProxyRequest: {
       [key: string]: unknown;
@@ -3748,6 +3919,7 @@ export interface components {
       | 'CLIENT_CHANNEL'
       | 'MODEL'
       | 'APP_TYPE_SCHEMA'
+      | 'CATALOG_SCHEMA'
       | 'INTERCEPTOR'
       | 'ROLE'
       | 'PROJECT_KEY'
@@ -4026,7 +4198,7 @@ export interface components {
       dependencies?: string[];
       description?: string;
       descriptionKeywords?: string[];
-      displayName?: string;
+      displayName?: components['schemas']['LocalizedValue'];
       displayVersion?: string;
       endpoint?: string;
       features?: components['schemas']['Features'];
@@ -4046,8 +4218,12 @@ export interface components {
       userRoles?: string[];
       interfaces?: components['schemas']['MapStringDeploymentInterface'];
       provider?: string;
-      intro?: string;
+      intro?: components['schemas']['LocalizedValue'];
       vendor_website?: string;
+      catalogProperties?: components['schemas']['MapStringObject'];
+      /** Format: uri */
+      catalogSchemaId?: string;
+      overrideName?: string;
     };
     ToolSetData: {
       allowed_tools?: string[];
@@ -4057,7 +4233,7 @@ export interface components {
       defaults?: components['schemas']['MapStringObject'];
       description?: string;
       description_keywords?: string[];
-      display_name?: string;
+      display_name?: components['schemas']['LocalizedValue'];
       display_version?: string;
       features?: components['schemas']['FeaturesData'];
       icon_url?: string;
@@ -4081,8 +4257,11 @@ export interface components {
       transport?: string;
       updated_at?: number;
       provider?: string;
-      intro?: string;
+      intro?: components['schemas']['LocalizedValue'];
       vendor_website?: string;
+      catalog_properties?: components['schemas']['MapStringObject'];
+      /** Format: uri */
+      catalog_schema_id?: string;
     };
     ToolSetRepairControllerRepairResponse: {
       message?: string;
@@ -4135,6 +4314,7 @@ export interface components {
       completion_tokens?: number;
       total_tokens?: number;
       prompt_tokens_details?: components['schemas']['PromptTokensDetails'];
+      completion_tokens_details?: components['schemas']['CompletionTokensDetails'];
     };
     UsagePerModel: {
       index?: number;
@@ -4142,6 +4322,8 @@ export interface components {
       prompt_tokens?: number;
       completion_tokens?: number;
       total_tokens?: number;
+      prompt_tokens_details?: components['schemas']['PromptTokensDetails'];
+      completion_tokens_details?: components['schemas']['CompletionTokensDetails'];
     };
     UserInfoResponse: {
       /** @description List of user or API key authorization roles */
@@ -5707,6 +5889,118 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['Model'] &
+            components['schemas']['EntityMetadata'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  listFileConfigCatalogSchemas: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description List of file-sourced catalog schemas */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['FileConfigControllerItemsResponseFileConfigControllerNamedEntity'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getFileConfigCatalogSchema: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Schema name */
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ProxyResponse'] &
             components['schemas']['EntityMetadata'];
         };
       };
@@ -7605,6 +7899,457 @@ export interface operations {
       };
     };
   };
+  getMetaSchemaOfCatalogSchema: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getCatalogSchema: {
+    parameters: {
+      query: {
+        /** @description schema ID of custom application */
+        id: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  listCatalogSchemas: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getCatalogSchemaResource: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Conditional creation precondition. */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description schema ID of custom application */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Entity tag for the catalog schema */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ProxyResponse'] &
+            components['schemas']['EntityMetadata'];
+        };
+      };
+      /** @description Not Modified */
+      304: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  saveCatalogSchemaResource: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+        /** @description Conditional creation precondition. */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description schema ID of custom application */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ProxyRequest'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Entity tag for the saved catalog schema */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ConfigResourceControllerConfigWriteResponse'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  deleteCatalogSchemaResource: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description schema ID of custom application */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   requestUserConsent: {
     parameters: {
       query?: never;
@@ -8282,6 +9027,75 @@ export interface operations {
       };
       /** @description Rate limit reached. */
       429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Failed to connect to upstream server. */
+      502: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getApplicationMcpResources: {
+    parameters: {
+      query: {
+        /** @description URI of the MCP resource to retrieve */
+        uri: string;
+      };
+      header?: never;
+      path: {
+        /** @description Deployment identifier. */
+        deployment_name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description HTML widget content */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
         headers: {
           [name: string]: unknown;
         };
@@ -9567,6 +10381,74 @@ export interface operations {
       };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getCatalogSchemaMetadata: {
+    parameters: {
+      query?: {
+        /** @description The token from the previous request to request next items. */
+        token?: string;
+        /** @description Limit on the number of items in the response. */
+        limit?: number;
+        /** @description If true, returns items recursively without nested folder metadata. */
+        recursive?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The parameter specifies path to the requested directory or application, for example: `folder1/folder2/` or `folder1/application_name/`. Note, it could be empty if you want to list the root folder. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MetadataBase'];
+        };
+      };
+      /** @description Bad request */
+      400: {
         headers: {
           [name: string]: unknown;
         };
