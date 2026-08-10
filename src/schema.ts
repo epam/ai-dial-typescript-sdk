@@ -753,6 +753,25 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/applications/platform/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/applications/platform/{path} */
+    get: operations['getPlatformApplication'];
+    /** /v1/applications/platform/{path} */
+    put: operations['savePlatformApplication'];
+    post?: never;
+    /** /v1/applications/platform/{path} */
+    delete: operations['deletePlatformApplication'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/applications/{appId}/external-services': {
     parameters: {
       query?: never;
@@ -1192,6 +1211,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/metadata/applications/platform/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/metadata/applications/platform/{path} */
+    get: operations['getPlatformApplicationMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/metadata/applications/{bucket}/{path}': {
     parameters: {
       query?: never;
@@ -1408,6 +1444,23 @@ export interface paths {
     };
     /** /v1/metadata/settings/{bucket}/{path} */
     get: operations['getGlobalSettingsMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/metadata/toolsets/platform/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/metadata/toolsets/platform/{path} */
+    get: operations['getPlatformToolSetMetadata'];
     put?: never;
     post?: never;
     delete?: never;
@@ -2526,6 +2579,25 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/toolsets/platform/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/toolsets/platform/{path} */
+    get: operations['getPlatformToolSet'];
+    /** /v1/toolsets/platform/{path} */
+    put: operations['savePlatformToolSet'];
+    post?: never;
+    /** /v1/toolsets/platform/{path} */
+    delete: operations['deletePlatformToolSet'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/toolsets/{bucket}/{toolset_path}': {
     parameters: {
       query?: never;
@@ -3064,6 +3136,7 @@ export interface components {
       model: string;
       choices: components['schemas']['ChatCompletionChoice'][];
       usage?: components['schemas']['CompletionUsage'];
+      statistics?: components['schemas']['Statistics'];
     };
     CreateChatCompletionStreamChoice: {
       index: number;
@@ -3702,11 +3775,15 @@ export interface components {
       completion?: string;
       prompt?: string;
       unit?: string;
+      cacheRead?: string;
+      cacheWrite?: string;
     };
     PricingData: {
       completion?: string;
       prompt?: string;
       unit?: string;
+      cache_read?: string;
+      cache_write?: string;
     };
     Prompt: {
       content?: string;
@@ -7271,6 +7348,259 @@ export interface operations {
       };
     };
   };
+  getPlatformApplication: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description Application name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Entity tag for the application */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Application'] &
+            components['schemas']['EntityMetadata'];
+        };
+      };
+      /** @description Not Modified */
+      304: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  savePlatformApplication: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+        /** @description Conditional creation precondition. */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description Application name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['Application'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Entity tag for the saved application */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ConfigResourceControllerConfigWriteResponse'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  deletePlatformApplication: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description Application name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   listExternalServices: {
     parameters: {
       query?: never;
@@ -10334,6 +10664,72 @@ export interface operations {
       };
     };
   };
+  getPlatformApplicationMetadata: {
+    parameters: {
+      query?: {
+        /** @description The token from the previous request to request next items. */
+        token?: string;
+        /** @description Limit on the number of items in the response. */
+        limit?: number;
+        /** @description If true, returns items recursively without nested folder metadata. */
+        recursive?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description The parameter specifies path to the requested directory or application, for example: `folder1/folder2/` or `folder1/application_name/`. Note, it could be empty if you want to list the root folder. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MetadataBase'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   getApplicationMetadata: {
     parameters: {
       query?: {
@@ -11253,6 +11649,72 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getPlatformToolSetMetadata: {
+    parameters: {
+      query?: {
+        /** @description The token from the previous request to request next items. */
+        token?: string;
+        /** @description Limit on the number of items in the response. */
+        limit?: number;
+        /** @description If true, returns items recursively without nested folder metadata. */
+        recursive?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description The parameter specifies path to a directory or a toolset, for example: `folder1/folder2/`. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MetadataBase'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
       };
       /** @description The server had an error while processing your request. */
       500: {
@@ -16783,6 +17245,259 @@ export interface operations {
       };
       /** @description Failed to connect to upstream server. */
       502: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getPlatformToolSet: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description Toolset name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Entity tag for the toolset */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ToolSet'] &
+            components['schemas']['EntityMetadata'];
+        };
+      };
+      /** @description Not Modified */
+      304: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  savePlatformToolSet: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+        /** @description Conditional creation precondition. */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description Toolset name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ToolSet'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Entity tag for the saved toolset */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ConfigResourceControllerConfigWriteResponse'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  deletePlatformToolSet: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description Toolset name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
         headers: {
           [name: string]: unknown;
         };

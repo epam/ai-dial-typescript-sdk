@@ -90,6 +90,14 @@ export const deleteModelUrl = (bucket: string, path: string) => {
 };
 
 export const deleteNotificationsUrl = '/v1/ops/notification/delete';
+export const deletePlatformApplicationUrl = (path: string) => {
+  return `/v1/applications/platform/${path}`;
+};
+
+export const deletePlatformToolSetUrl = (path: string) => {
+  return `/v1/toolsets/platform/${path}`;
+};
+
 export const deletePromptUrl = (bucket: string, prompt_path: string) => {
   return `/v1/prompts/${bucket}/${prompt_path}`;
 };
@@ -323,6 +331,22 @@ export const getModelsUrl = '/openai/models';
 export const getNotificationsUrl = '/v1/ops/notification/list';
 export const getPerRequestPermissionsUrl =
   '/v1/ops/resource/per-request-permissions/list';
+export const getPlatformApplicationUrl = (path: string) => {
+  return `/v1/applications/platform/${path}`;
+};
+
+export const getPlatformApplicationMetadataUrl = (path: string) => {
+  return `/v1/metadata/applications/platform/${path}`;
+};
+
+export const getPlatformToolSetUrl = (path: string) => {
+  return `/v1/toolsets/platform/${path}`;
+};
+
+export const getPlatformToolSetMetadataUrl = (path: string) => {
+  return `/v1/metadata/toolsets/platform/${path}`;
+};
+
 export const getPromptUrl = (bucket: string, prompt_path: string) => {
   return `/v1/prompts/${bucket}/${prompt_path}`;
 };
@@ -491,6 +515,14 @@ export const saveKeyUrl = (bucket: string, path: string) => {
 
 export const saveModelUrl = (bucket: string, path: string) => {
   return `/v1/models/${bucket}/${path}`;
+};
+
+export const savePlatformApplicationUrl = (path: string) => {
+  return `/v1/applications/platform/${path}`;
+};
+
+export const savePlatformToolSetUrl = (path: string) => {
+  return `/v1/toolsets/platform/${path}`;
 };
 
 export const savePromptUrl = (bucket: string, prompt_path: string) => {
