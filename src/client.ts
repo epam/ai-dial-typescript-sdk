@@ -126,6 +126,14 @@ export interface DIAL_SDK {
   deleteNotifications: (
     init: SDKOperationInit<operations['deleteNotifications']>,
   ) => Promise<SDKOperationResponse<operations['deleteNotifications']>>;
+  deletePlatformApplication: (
+    path: string,
+    init?: SDKOperationInit<operations['deletePlatformApplication']>,
+  ) => Promise<SDKOperationResponse<operations['deletePlatformApplication']>>;
+  deletePlatformToolSet: (
+    path: string,
+    init?: SDKOperationInit<operations['deletePlatformToolSet']>,
+  ) => Promise<SDKOperationResponse<operations['deletePlatformToolSet']>>;
   deletePrompt: (
     bucket: string,
     prompt_path: string,
@@ -420,6 +428,24 @@ export interface DIAL_SDK {
   getPerRequestPermissions: (
     init: SDKOperationInit<operations['getPerRequestPermissions']>,
   ) => Promise<SDKOperationResponse<operations['getPerRequestPermissions']>>;
+  getPlatformApplication: (
+    path: string,
+    init?: SDKOperationInit<operations['getPlatformApplication']>,
+  ) => Promise<SDKOperationResponse<operations['getPlatformApplication']>>;
+  getPlatformApplicationMetadata: (
+    path: string,
+    init?: SDKOperationInit<operations['getPlatformApplicationMetadata']>,
+  ) => Promise<
+    SDKOperationResponse<operations['getPlatformApplicationMetadata']>
+  >;
+  getPlatformToolSet: (
+    path: string,
+    init?: SDKOperationInit<operations['getPlatformToolSet']>,
+  ) => Promise<SDKOperationResponse<operations['getPlatformToolSet']>>;
+  getPlatformToolSetMetadata: (
+    path: string,
+    init?: SDKOperationInit<operations['getPlatformToolSetMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getPlatformToolSetMetadata']>>;
   getPrompt: (
     bucket: string,
     prompt_path: string,
@@ -666,6 +692,14 @@ export interface DIAL_SDK {
     path: string,
     init: SDKOperationInit<operations['saveModel']>,
   ) => Promise<SDKOperationResponse<operations['saveModel']>>;
+  savePlatformApplication: (
+    path: string,
+    init: SDKOperationInit<operations['savePlatformApplication']>,
+  ) => Promise<SDKOperationResponse<operations['savePlatformApplication']>>;
+  savePlatformToolSet: (
+    path: string,
+    init: SDKOperationInit<operations['savePlatformToolSet']>,
+  ) => Promise<SDKOperationResponse<operations['savePlatformToolSet']>>;
   savePrompt: (
     bucket: string,
     prompt_path: string,
@@ -901,6 +935,18 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.deleteNotificationsUrl, init) as Promise<
         SDKOperationResponse<operations['deleteNotifications']>
       >,
+    deletePlatformApplication: (path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deletePlatformApplicationUrl(path) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['deletePlatformApplication']>
+      >,
+    deletePlatformToolSet: (path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deletePlatformToolSetUrl(path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deletePlatformToolSet']>>,
     deletePrompt: (bucket: string, prompt_path: string, init?: any) =>
       client.DELETE(
         apiPaths.deletePromptUrl(bucket, prompt_path) as any,
@@ -1253,6 +1299,29 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.getPerRequestPermissionsUrl, init) as Promise<
         SDKOperationResponse<operations['getPerRequestPermissions']>
       >,
+    getPlatformApplication: (path: string, init?: any) =>
+      client.GET(
+        apiPaths.getPlatformApplicationUrl(path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getPlatformApplication']>>,
+    getPlatformApplicationMetadata: (path: string, init?: any) =>
+      client.GET(
+        apiPaths.getPlatformApplicationMetadataUrl(path) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['getPlatformApplicationMetadata']>
+      >,
+    getPlatformToolSet: (path: string, init?: any) =>
+      client.GET(apiPaths.getPlatformToolSetUrl(path) as any, init) as Promise<
+        SDKOperationResponse<operations['getPlatformToolSet']>
+      >,
+    getPlatformToolSetMetadata: (path: string, init?: any) =>
+      client.GET(
+        apiPaths.getPlatformToolSetMetadataUrl(path) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['getPlatformToolSetMetadata']>
+      >,
     getPrompt: (bucket: string, prompt_path: string, init?: any) =>
       client.GET(
         apiPaths.getPromptUrl(bucket, prompt_path) as any,
@@ -1539,6 +1608,15 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     saveModel: (bucket: string, path: string, init?: any) =>
       client.PUT(apiPaths.saveModelUrl(bucket, path) as any, init) as Promise<
         SDKOperationResponse<operations['saveModel']>
+      >,
+    savePlatformApplication: (path: string, init?: any) =>
+      client.PUT(
+        apiPaths.savePlatformApplicationUrl(path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['savePlatformApplication']>>,
+    savePlatformToolSet: (path: string, init?: any) =>
+      client.PUT(apiPaths.savePlatformToolSetUrl(path) as any, init) as Promise<
+        SDKOperationResponse<operations['savePlatformToolSet']>
       >,
     savePrompt: (bucket: string, prompt_path: string, init?: any) =>
       client.PUT(
