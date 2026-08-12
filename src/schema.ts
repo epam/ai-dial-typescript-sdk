@@ -808,6 +808,24 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/applications/{appId}/external-services/{id}/consent': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** /v1/applications/{appId}/external-services/{id}/consent */
+    post: operations['grantExternalServiceConsent'];
+    /** /v1/applications/{appId}/external-services/{id}/consent */
+    delete: operations['withdrawExternalServiceConsent'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/applications/{bucket}/{application_path}': {
     parameters: {
       query?: never;
@@ -2646,6 +2664,57 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/user/offline-credentials': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/user/offline-credentials */
+    get: operations['getOfflineCredentials'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/user/offline-credentials/signin': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** /v1/user/offline-credentials/signin */
+    post: operations['offlineCredentialsSignIn'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/user/offline-credentials/signout': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** /v1/user/offline-credentials/signout */
+    post: operations['offlineCredentialsSignOut'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/{deployment_name}/rate': {
     parameters: {
       query?: never;
@@ -2918,7 +2987,7 @@ export interface components {
     }) &
       (unknown | unknown);
     /** @enum {string} */
-    AuthenticationType: 'OAUTH' | 'API_KEY' | 'NONE';
+    AuthenticationType: 'OAUTH' | 'API_KEY' | 'NONE' | 'DIAL_NATIVE';
     AzureEmbeddingsRequest: {
       model?: string;
       input: string | unknown[];
@@ -3762,6 +3831,21 @@ export interface components {
     OboCredentialsRequest: {
       ownerUserId?: string;
       url?: string;
+    };
+    OfflineCredentialsSignInRequest: {
+      code?: string;
+      redirectUri?: string;
+    };
+    OfflineCredentialsStatus: {
+      connect?: components['schemas']['OfflineCredentialsStatusConnect'];
+      connected?: boolean;
+      available?: boolean;
+    };
+    OfflineCredentialsStatusConnect: {
+      authorization_endpoint?: string;
+      client_id?: string;
+      redirect_uri?: string;
+      scopes?: string[];
     };
     Pattern: Record<string, never>;
     PerRequestReceiver: {
@@ -7847,6 +7931,128 @@ export interface operations {
       };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  grantExternalServiceConsent: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The application ID. Can be either a static config application name or a dynamic application path. */
+        appId: string;
+        /** @description The external service ID defined in the application's external_services configuration. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': boolean;
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  withdrawExternalServiceConsent: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The application ID. Can be either a static config application name or a dynamic application path. */
+        appId: string;
+        /** @description The external service ID defined in the application's external_services configuration. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': boolean;
+        };
+      };
+      /** @description Bad request */
+      400: {
         headers: {
           [name: string]: unknown;
         };
@@ -17794,6 +18000,151 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+    };
+  };
+  getOfflineCredentials: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['OfflineCredentialsStatus'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  offlineCredentialsSignIn: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['OfflineCredentialsSignInRequest'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': boolean;
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  offlineCredentialsSignOut: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': boolean;
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
       };
     };
   };

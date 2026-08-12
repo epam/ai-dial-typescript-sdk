@@ -425,6 +425,9 @@ export interface DIAL_SDK {
   getNotifications: (
     init?: SDKOperationInit<operations['getNotifications']>,
   ) => Promise<SDKOperationResponse<operations['getNotifications']>>;
+  getOfflineCredentials: (
+    init?: SDKOperationInit<operations['getOfflineCredentials']>,
+  ) => Promise<SDKOperationResponse<operations['getOfflineCredentials']>>;
   getPerRequestPermissions: (
     init: SDKOperationInit<operations['getPerRequestPermissions']>,
   ) => Promise<SDKOperationResponse<operations['getPerRequestPermissions']>>;
@@ -535,6 +538,11 @@ export interface DIAL_SDK {
   getUserInfo: (
     init?: SDKOperationInit<operations['getUserInfo']>,
   ) => Promise<SDKOperationResponse<operations['getUserInfo']>>;
+  grantExternalServiceConsent: (
+    appid: string,
+    id: string,
+    init?: SDKOperationInit<operations['grantExternalServiceConsent']>,
+  ) => Promise<SDKOperationResponse<operations['grantExternalServiceConsent']>>;
   grantPerRequestPermissions: (
     init: SDKOperationInit<operations['grantPerRequestPermissions']>,
   ) => Promise<SDKOperationResponse<operations['grantPerRequestPermissions']>>;
@@ -610,6 +618,12 @@ export interface DIAL_SDK {
   moveResource: (
     init: SDKOperationInit<operations['moveResource']>,
   ) => Promise<SDKOperationResponse<operations['moveResource']>>;
+  offlineCredentialsSignIn: (
+    init: SDKOperationInit<operations['offlineCredentialsSignIn']>,
+  ) => Promise<SDKOperationResponse<operations['offlineCredentialsSignIn']>>;
+  offlineCredentialsSignOut: (
+    init?: SDKOperationInit<operations['offlineCredentialsSignOut']>,
+  ) => Promise<SDKOperationResponse<operations['offlineCredentialsSignOut']>>;
   openSession: (
     init: SDKOperationInit<operations['openSession']>,
   ) => Promise<SDKOperationResponse<operations['openSession']>>;
@@ -789,6 +803,13 @@ export interface DIAL_SDK {
   validateConfigManifests: (
     init: SDKOperationInit<operations['validateConfigManifests']>,
   ) => Promise<SDKOperationResponse<operations['validateConfigManifests']>>;
+  withdrawExternalServiceConsent: (
+    appid: string,
+    id: string,
+    init?: SDKOperationInit<operations['withdrawExternalServiceConsent']>,
+  ) => Promise<
+    SDKOperationResponse<operations['withdrawExternalServiceConsent']>
+  >;
 }
 
 export function createSDK(opts: SDKOptions): DIAL_SDK {
@@ -1295,6 +1316,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.getNotificationsUrl, init) as Promise<
         SDKOperationResponse<operations['getNotifications']>
       >,
+    getOfflineCredentials: (init?: any) =>
+      client.GET(apiPaths.getOfflineCredentialsUrl, init) as Promise<
+        SDKOperationResponse<operations['getOfflineCredentials']>
+      >,
     getPerRequestPermissions: (init?: any) =>
       client.POST(apiPaths.getPerRequestPermissionsUrl, init) as Promise<
         SDKOperationResponse<operations['getPerRequestPermissions']>
@@ -1420,6 +1445,13 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.GET(apiPaths.getUserInfoUrl, init) as Promise<
         SDKOperationResponse<operations['getUserInfo']>
       >,
+    grantExternalServiceConsent: (appid: string, id: string, init?: any) =>
+      client.POST(
+        apiPaths.grantExternalServiceConsentUrl(appid, id) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['grantExternalServiceConsent']>
+      >,
     grantPerRequestPermissions: (init?: any) =>
       client.POST(apiPaths.grantPerRequestPermissionsUrl, init) as Promise<
         SDKOperationResponse<operations['grantPerRequestPermissions']>
@@ -1511,6 +1543,14 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     moveResource: (init?: any) =>
       client.POST(apiPaths.moveResourceUrl, init) as Promise<
         SDKOperationResponse<operations['moveResource']>
+      >,
+    offlineCredentialsSignIn: (init?: any) =>
+      client.POST(apiPaths.offlineCredentialsSignInUrl, init) as Promise<
+        SDKOperationResponse<operations['offlineCredentialsSignIn']>
+      >,
+    offlineCredentialsSignOut: (init?: any) =>
+      client.POST(apiPaths.offlineCredentialsSignOutUrl, init) as Promise<
+        SDKOperationResponse<operations['offlineCredentialsSignOut']>
       >,
     openSession: (init?: any) =>
       client.POST(apiPaths.openSessionUrl, init) as Promise<
@@ -1724,6 +1764,13 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     validateConfigManifests: (init?: any) =>
       client.POST(apiPaths.validateConfigManifestsUrl, init) as Promise<
         SDKOperationResponse<operations['validateConfigManifests']>
+      >,
+    withdrawExternalServiceConsent: (appid: string, id: string, init?: any) =>
+      client.DELETE(
+        apiPaths.withdrawExternalServiceConsentUrl(appid, id) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['withdrawExternalServiceConsent']>
       >,
   };
 }
