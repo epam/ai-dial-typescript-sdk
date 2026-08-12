@@ -329,6 +329,7 @@ export const getModelMetadataUrl = (bucket: string, path: string) => {
 
 export const getModelsUrl = '/openai/models';
 export const getNotificationsUrl = '/v1/ops/notification/list';
+export const getOfflineCredentialsUrl = '/v1/user/offline-credentials';
 export const getPerRequestPermissionsUrl =
   '/v1/ops/resource/per-request-permissions/list';
 export const getPlatformApplicationUrl = (path: string) => {
@@ -411,6 +412,10 @@ export const getToolsetUrl = (toolset_name: string) => {
 
 export const getUserBucketUrl = '/v1/bucket';
 export const getUserInfoUrl = '/v1/user/info';
+export const grantExternalServiceConsentUrl = (appid: string, id: string) => {
+  return `/v1/applications/${appid}/external-services/${id}/consent`;
+};
+
 export const grantPerRequestPermissionsUrl =
   '/v1/ops/resource/per-request-permissions/grant';
 export const interactClientChannelUrl = '/v1/ops/client-channel/interact';
@@ -451,6 +456,10 @@ export const listSkillMetadataUrl = (bucket: string, path: string) => {
 };
 
 export const moveResourceUrl = '/v1/ops/resource/move';
+export const offlineCredentialsSignInUrl =
+  '/v1/user/offline-credentials/signin';
+export const offlineCredentialsSignOutUrl =
+  '/v1/user/offline-credentials/signout';
 export const openSessionUrl = '/v1/ops/code_interpreter/open_session';
 export const postApplicationMcpUrl = (deployment_name: string) => {
   return `/v1/deployments/${deployment_name}/mcp`;
@@ -588,3 +597,9 @@ export const uploadSkillFolderUrl = (bucket: string, path: string) => {
 };
 
 export const validateConfigManifestsUrl = '/v1/admin/validate';
+export const withdrawExternalServiceConsentUrl = (
+  appid: string,
+  id: string,
+) => {
+  return `/v1/applications/${appid}/external-services/${id}/consent`;
+};
