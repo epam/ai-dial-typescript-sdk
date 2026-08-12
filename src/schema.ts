@@ -3584,10 +3584,7 @@ export interface components {
       resourceTypes?: components['schemas']['ResourceTypes'][];
       with?: string;
     };
-    LocalizedValue: {
-      localeMap?: components['schemas']['MapStringString'];
-      plainValue?: string;
-    };
+    LocalizedValue: string | components['schemas']['MapStringString'];
     MapStringApplication: {
       [key: string]: components['schemas']['Application'];
     };
@@ -4521,6 +4518,8 @@ export interface operations {
       header: {
         /** @description The Anthropic API version (e.g., 2023-06-01) */
         'anthropic-version': string;
+        /** @description Upstream selection policy for prompt-caching deployments (availability-priority or cache-priority). */
+        'X-DIAL-CACHE-POLICY'?: 'availability-priority' | 'cache-priority';
       };
       path?: never;
       cookie?: never;
@@ -5621,6 +5620,8 @@ export interface operations {
       header: {
         /** @description Must be application/json */
         'Content-Type': string;
+        /** @description Upstream selection policy for prompt-caching deployments (availability-priority or cache-priority). */
+        'X-DIAL-CACHE-POLICY'?: 'availability-priority' | 'cache-priority';
       };
       path?: never;
       cookie?: never;
