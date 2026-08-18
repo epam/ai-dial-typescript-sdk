@@ -29,6 +29,10 @@ Do **not** trigger on requests like "what changed in 0.2.0?" — that is a recal
 
 `tag` = `$tag` — the GitHub release tag to enhance (e.g. `0.3.0`). If empty, pick the most recent tag from `gh release list --limit 5` and confirm with the user before editing.
 
+## First release / merge-base mode caveat
+
+When there's no previous stable tag, `changelog-mode` is `merge-base` and the raw notes cover the *entire* git history since project inception, including the first commit(s). Do not classify by commit message alone here — a boring or throwaway-sounding first commit (`init commit`, `innit commit`, `initial setup`) is exactly where a huge, product-defining diff hides, since it predates any commit-message conventions. Before dropping *any* early commit as bootstrapping noise, run `git show --stat <hash>` and skim what actually changed. If it introduced the initial OpenAPI spec, generated client, or README describing the SDK's API surface, that is the release's headline feature, not noise — lead the `Features` section with a summary bullet built from that diff/README rather than skipping straight to the first `feat:`-labeled commit.
+
 ## Workflow
 
 ### 1. Resolve target and reference styles
