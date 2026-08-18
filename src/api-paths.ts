@@ -412,6 +412,8 @@ export const getToolsetUrl = (toolset_name: string) => {
 
 export const getUserBucketUrl = '/v1/bucket';
 export const getUserInfoUrl = '/v1/user/info';
+export const getUserLimitsUrl = '/v1/user/limits';
+export const getUserUsageUrl = '/v1/user/usage';
 export const grantExternalServiceConsentUrl = (appid: string, id: string) => {
   return `/v1/applications/${appid}/external-services/${id}/consent`;
 };

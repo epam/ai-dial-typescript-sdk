@@ -538,6 +538,12 @@ export interface DIAL_SDK {
   getUserInfo: (
     init?: SDKOperationInit<operations['getUserInfo']>,
   ) => Promise<SDKOperationResponse<operations['getUserInfo']>>;
+  getUserLimits: (
+    init?: SDKOperationInit<operations['getUserLimits']>,
+  ) => Promise<SDKOperationResponse<operations['getUserLimits']>>;
+  getUserUsage: (
+    init?: SDKOperationInit<operations['getUserUsage']>,
+  ) => Promise<SDKOperationResponse<operations['getUserUsage']>>;
   grantExternalServiceConsent: (
     appid: string,
     id: string,
@@ -1444,6 +1450,14 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     getUserInfo: (init?: any) =>
       client.GET(apiPaths.getUserInfoUrl, init) as Promise<
         SDKOperationResponse<operations['getUserInfo']>
+      >,
+    getUserLimits: (init?: any) =>
+      client.GET(apiPaths.getUserLimitsUrl, init) as Promise<
+        SDKOperationResponse<operations['getUserLimits']>
+      >,
+    getUserUsage: (init?: any) =>
+      client.GET(apiPaths.getUserUsageUrl, init) as Promise<
+        SDKOperationResponse<operations['getUserUsage']>
       >,
     grantExternalServiceConsent: (appid: string, id: string, init?: any) =>
       client.POST(

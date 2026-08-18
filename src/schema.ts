@@ -1236,7 +1236,12 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    /** /v1/metadata/applications/platform/{path} */
+    /**
+     * /v1/metadata/applications/platform/{path}
+     * @description Call this endpoint to get metadata for a folder or an item.
+     *     If the path is a folder, it must end with a "/".
+     *     If it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.
+     */
     get: operations['getPlatformApplicationMetadata'];
     put?: never;
     post?: never;
@@ -2664,6 +2669,62 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/user/limits': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/user/limits
+     * @description Returns limits and current rolling usage for every deployment available to the authenticated caller -
+     *     a JWT user or an API-key project. It replaces calling `/v1/deployments/{deployment_name}/limits` once
+     *     per deployment, and one response labels an entire model picker, so switching model needs no refetch.
+     *
+     *     A deployment the caller has never used is reported, not omitted: its real limits arrive against zeros.
+     *     Use `/v1/user/usage` for the short list of deployments actually used.
+     *
+     *     Five things to know before rendering this response:
+     *
+     *     1. **Models only.** Applications, toolsets and routes are not listed. DIAL never writes rate-limit
+     *        counters for them, so an entry would report zeros against a limit that cannot fire. Tokens and
+     *        spend an application drives are reported against the model that incurred them.
+     *     2. **The cost budget is global; attributed spend is per deployment.** The top-level `*CostStats` are
+     *        the caller's money budget and the spend against it, because a budget cannot be scoped to a
+     *        deployment. The `*CostStats` inside a deployment entry are that deployment's own attributed spend,
+     *        with `total` at the unlimited sentinel since no per-deployment cap exists.
+     *     3. **`*CostStats` means something different on the legacy endpoint.**
+     *        `/v1/deployments/{deployment_name}/limits` returns the caller's *global* cost figures inside its
+     *        per-deployment response. The shape is identical, so re-read the scope, not just the parser.
+     *     4. **A limit is optional.** When no role configures one, `total` is `9223372036854775807`
+     *        (`Long.MAX_VALUE`), meaning unlimited. That value exceeds JavaScript's `Number.MAX_SAFE_INTEGER`
+     *        (`9007199254740991`), so treat any `total` at or above 2^53 as unlimited rather than rendering it
+     *        as a `used / total` ratio.
+     *     5. **Every window is trailing, not calendar-aligned.** `day` is the last 24 hours, `week` the last 7
+     *        days, `month` the last 30 days - never "since midnight" or "since the 1st". As a result `used`
+     *        decreases on its own as older activity ages out; there is no refund and no periodic reset.
+     *        Eviction happens in steps on UTC boundaries at each window's granularity (1 hour for `day`, 1 day
+     *        for `week` and `month`).
+     *
+     *     Per-deployment spend does not reconcile to the global figure. Attribution starts at rollout and does
+     *     not back-fill, and a model without `pricing` never contributes while still consuming tokens, so the
+     *     breakdown must not be presented as a decomposition of the global figure and "other" must not be
+     *     computed as the remainder.
+     *
+     *     Not to be confused with `limits` in the deployment listing, which is `TokenLimitsData`
+     *     (`maxTotalTokens`, `maxPromptTokens`, `maxCompletionTokens`) - context-window sizes, unrelated to
+     *     rate limits.
+     */
+    get: operations['getUserLimits'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/user/offline-credentials': {
     parameters: {
       query?: never;
@@ -2709,6 +2770,38 @@ export interface paths {
     put?: never;
     /** /v1/user/offline-credentials/signout */
     post: operations['offlineCredentialsSignOut'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/user/usage': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/user/usage
+     * @description The `/v1/user/limits` response with the all-zero entries dropped, leaving the deployments the caller
+     *     used within the trailing 30 days and can currently access. Same field names, same figures, same
+     *     top-level cost pairs - a client moving between the two endpoints changes nothing but the set it
+     *     iterates. Every caveat documented on `/v1/user/limits` applies here unchanged.
+     *
+     *     The 30 days is not a parameter: it is the widest window DIAL keeps, so a deployment absent from this
+     *     response has nothing to report in any window. Absence therefore means zero, not "unknown" - a client
+     *     that wants the whole accessible set should call `/v1/user/limits` rather than reconstruct it. A
+     *     deployment the caller used and then lost access to, or that was removed from config, is absent from
+     *     both, even though its spend still counted toward the global cost figures.
+     *
+     *     Intended for a client that renders only what was used - a "where is my budget going" panel, a report,
+     *     a mobile view. In an installation with many models the difference in payload size is large.
+     */
+    get: operations['getUserUsage'];
+    put?: never;
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -2974,36 +3067,16 @@ export interface components {
     };
     /** @enum {string} */
     ApplicationMcpConfigDelivery: 'HEADER' | 'META';
-    Attachment: ({
-      /** @default text/markdown */
-      type: string;
-      title?: string;
-      data?: string;
-      url?: string;
-      reference_type?: string;
-      reference_url?: string;
-    } & {
-      [key: string]: unknown;
-    }) &
-      (unknown | unknown);
     /** @enum {string} */
     AuthenticationType: 'OAUTH' | 'API_KEY' | 'NONE' | 'DIAL_NATIVE';
-    AzureEmbeddingsRequest: {
-      model?: string;
-      input: string | unknown[];
-      /** @enum {string} */
-      encoding_format?: 'float' | 'base64';
-      dimensions?: number;
-      user?: string;
-    };
     Bucket: {
       appdata?: string;
       bucket?: string;
     };
+    /** @description A manual cache breakpoint. The part of the chat completion request up to this breakpoint will be cached by the deployment. Follow-up requests sharing the same prefix have a chance of hitting the cache and reusing the input tokens associated with this prefix. The field only makes sense for the deployments that support [prompt caching](https://docs.dialx.ai/tutorials/developers/prompt-caching). */
     CacheBreakpoint: {
+      /** @description An optional expiration time for the given cache breakpoint, e.g. '2025-10-02T15:01:23Z' */
       expire_at?: string;
-    } & {
-      [key: string]: unknown;
     };
     CapabilitiesData: {
       chat_completion?: boolean;
@@ -3013,68 +3086,562 @@ export interface components {
       inference?: boolean;
       scale_types?: string[];
     };
-    ChatCompletionChoice: {
-      index: number;
-      message: components['schemas']['ChatCompletionMessage'];
-      finish_reason?: string | null;
+    ChatCompletionAddon:
+      | {
+          /** @description The name of an addon defined in the DIAL Core config. */
+          name?: string;
+        }
+      | {
+          /**
+           * @description The URL pointing to an OpenAI Plugin Schema.
+           *     <br><br>
+           *     See for example the [to-do plugin](https://github.com/openai/plugins-quickstart/blob/main/.well-known/ai-plugin.json).
+           */
+          url?: string;
+        };
+    /** @deprecated */
+    ChatCompletionFunction: {
+      /** @description A description of what the function does, used by the model to choose when and how to call the function. */
+      description?: string;
+      /** @description The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64. */
+      name: string;
+      parameters?: components['schemas']['FunctionParameters'];
     };
-    ChatCompletionMessage: {
-      /** @enum {string} */
-      role: 'system' | 'user' | 'assistant' | 'tool';
-      content?: string | null;
-      refusal?: string | null;
+    /** @description Deprecated and replaced by `tool_calls`. The name and arguments of a `function` that should be called, as generated by the model. */
+    ChatCompletionFunctionCall: {
+      /** @description The name of the `function` to call. */
+      name: string;
+      /** @description The arguments to call the `function` with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your `function` schema. Validate the arguments in your code before calling your `function`. */
+      arguments: string;
+    };
+    /** @description Specifying a particular function via `{"name": "my_function"}` forces the model to call that function. */
+    ChatCompletionFunctionCallOption: {
+      /** @description The name of the function to call. */
+      name: string;
+    };
+    ChatCompletionMessageToolCall: {
+      /** @description The ID of the `tool` call. */
+      id: string;
+      type: components['schemas']['ToolCallType'];
+      /** @description The `function` that the model called. */
+      function: {
+        /** @description The name of the `function` to call. */
+        name: string;
+        /** @description The arguments to call the `function` with, as generated by the model in JSON format. Note that the model does not always generate a valid JSON, and may hallucinate parameters not defined by your `function` schema. Validate the arguments in your code before calling your `function`. */
+        arguments: string;
+      };
+    };
+    ChatCompletionMessageToolCallChunk: {
+      index: number;
+      /** @description The ID of the tool call. */
+      id?: string;
+      /**
+       * @description The type of the tool. Currently, only `function` is supported.
+       * @enum {string}
+       */
+      type?: 'function';
+      function?: {
+        /** @description The name of the function to call. */
+        name?: string;
+        /** @description The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function. */
+        arguments?: string;
+      };
+    };
+    /** @description The `tool` calls generated by the model, such as `function` calls. */
+    ChatCompletionMessageToolCalls: components['schemas']['ChatCompletionMessageToolCall'][];
+    /** @description Specifies a `tool` the model should use. Use to force the model to call a specific `function`. */
+    ChatCompletionNamedToolChoice: {
+      /**
+       * @description The type of the `tool`. Currently, only `function` is supported.
+       * @enum {string}
+       */
+      type: 'function';
+      function: {
+        /** @description The name of the `function` to call. */
+        name: string;
+      };
     };
     ChatCompletionRequest: {
+      /** @description The name of the model to use. */
       model?: string;
-      messages: components['schemas']['Message'][];
-      functions?: components['schemas']['Function'][];
+      /** @description A list of messages comprising the conversation so far. */
+      messages: components['schemas']['ChatCompletionRequestMessage'][];
+      /**
+       * @deprecated
+       * @description Deprecated in favor of `tools`.
+       *
+       *     A list of functions the model may generate JSON inputs for.
+       */
+      functions?: components['schemas']['ChatCompletionFunction'][];
+      /**
+       * @deprecated
+       * @description Deprecated in favor of `tool_choice`.
+       *
+       *     Controls which (if any) `function` is called by the model.
+       */
       function_call?:
-        | ('auto' | 'none')
-        | components['schemas']['FunctionChoice'];
-      tools?: (
-        | components['schemas']['Tool']
-        | components['schemas']['StaticTool']
-      )[];
-      tool_choice?:
-        | ('auto' | 'none' | 'required')
-        | components['schemas']['ToolChoice'];
-      /** @default false */
-      stream: boolean;
-      stream_options?: components['schemas']['StreamOptions'];
-      temperature?: number;
-      top_p?: number;
-      n?: number;
-      stop?: string | string[];
-      max_tokens?: number;
-      max_completion_tokens?: number;
-      presence_penalty?: number;
-      frequency_penalty?: number;
-      logit_bias?: {
-        [key: string]: number;
-      };
+        | ('none' | 'auto')
+        | components['schemas']['ChatCompletionFunctionCallOption'];
+      /**
+       * @description A list of tools the model may call. Currently, only `functions`
+       *     are supported as a tool. Use this to provide a list of `functions`
+       *     the model may generate JSON inputs for. A max of 128 functions
+       *     are supported.
+       */
+      tools?: components['schemas']['ChatCompletionTool'][];
+      tool_choice?: components['schemas']['ChatCompletionToolChoiceOption'];
+      /**
+       * @deprecated
+       * @description A list of Addons the Assistant can use.
+       */
+      addons?: components['schemas']['ChatCompletionAddon'][];
+      /**
+       * @description If set, partial message deltas will be sent. Tokens will be sent as data-only server-sent events as they become available.
+       * @default false
+       */
+      stream: boolean | null;
+      /**
+       * @description What sampling temperature to use, between 0 and 2. Higher values such as 0.8 make the output more random, while lower values such as 0.2 make it more focused and deterministic.
+       * @default 1
+       */
+      temperature: number;
+      /**
+       * @description An alternative to sampling with temperature, called nucleus sampling.
+       * @default 1
+       */
+      top_p: number;
+      /**
+       * @description How many chat completion choices to generate for each input message.
+       * @default 1
+       */
+      n: number | null;
+      parallel_tool_calls?: components['schemas']['ParallelToolCalls'];
+      /** @description Up to 4 sequences where the Assistant will stop generating further tokens. */
+      stop?: (string | null) | string[];
+      /**
+       * @description The maximum number of tokens to generate by the Assistant.
+       * @default infinity
+       */
+      max_tokens: number;
+      /**
+       * @description The maximum number of prompt tokens to handle in a request.
+       *     The feature is supported only by the model adapters and the Assistant.
+       * @default infinity
+       */
+      max_prompt_tokens: number;
+      /**
+       * @description Note the parameter is only supported in OpenAI models.
+       *
+       *     An upper bound for the number of tokens that can be generated
+       *     for a completion, including visible output tokens and reasoning tokens.
+       */
+      max_completion_tokens?: number | null;
+      /**
+       * @description A number between -2.0 and 2.0. Positive values impose a penalty on new tokens based on their appearance in the current text.
+       * @default 0
+       */
+      presence_penalty: number;
+      /**
+       * @description A number between -2.0 and 2.0. Positive values apply a penalty to new tokens according to their existing frequency.
+       * @default 0
+       */
+      frequency_penalty: number;
+      /**
+       * @description Modifies the likelihood of specified tokens appearing in the completion.
+       *
+       *     Accepts a JSON object that maps tokens specified by their token ID
+       *     to an associated bias value from -100 to 100.
+       * @default null
+       */
+      logit_bias: Record<string, never> | null;
+      /**
+       * @description This feature is in Beta.
+       *
+       *     If specified, our system will make a best effort to sample deterministically.
+       *     Determinism is not guaranteed.
+       */
+      seed?: number | null;
+      /** @description A unique identifier representing the end-user. */
       user?: string;
-      seed?: number;
-      logprobs?: boolean;
-      top_logprobs?: number;
-      /** @enum {string} */
-      reasoning_effort?: 'none' | 'minimal' | 'low' | 'medium' | 'high';
+      /** @description An object specifying the format that the model must output. */
       response_format?:
         | components['schemas']['ResponseFormatText']
         | components['schemas']['ResponseFormatJsonObject']
         | components['schemas']['ResponseFormatJsonSchema'];
-      parallel_tool_calls?: boolean;
-      max_prompt_tokens?: number;
-      custom_fields?: components['schemas']['ChatCompletionRequestCustomFields'];
-    } & {
-      [key: string]: unknown;
+      custom_fields?: components['schemas']['ChatCompletionsCustomFields'];
     };
+    /** Assistant message */
+    ChatCompletionRequestAssistantMessage: {
+      /** @description The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified. */
+      content?:
+        | (string &
+            (
+              | string
+              | components['schemas']['ChatCompletionRequestAssistantMessageContentPart'][]
+            ))
+        | null;
+      custom_content?: components['schemas']['ChatCompletionRequestAssistantMessageCustomContent'];
+      custom_fields?: components['schemas']['ChatCompletionRequestCustomFields'];
+      /** @description The refusal message by the assistant. */
+      refusal?: string | null;
+      /**
+       * @description The role of the messages author, in this case `assistant`.
+       * @enum {string}
+       */
+      role: 'assistant';
+      /** @description An optional name for the participant. Provides the model information to differentiate between participants of the same role. */
+      name?: string;
+      tool_calls?: components['schemas']['ChatCompletionMessageToolCalls'];
+      /**
+       * @deprecated
+       * @description Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model.
+       */
+      function_call?: {
+        /** @description The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function. */
+        arguments: string;
+        /** @description The name of the function to call. */
+        name: string;
+      } | null;
+    };
+    ChatCompletionRequestAssistantMessageContentPart:
+      | components['schemas']['ChatCompletionRequestMessageContentPartText']
+      | components['schemas']['ChatCompletionRequestMessageContentPartRefusal'];
+    /** @description The custom content of the assistant message. */
+    ChatCompletionRequestAssistantMessageCustomContent: {
+      /** @description The internal state of the Assistant. This field can have an arbitrary set of fields with an arbitrary structure. */
+      state?: Record<string, never>;
+      /** @description List of attachments used to supply an additional output from the model. */
+      attachments?: components['schemas']['RequestAttachment'][];
+      /**
+       * @description The JSON schema describing a form that the assistant prompts the user to fill in.
+       *     Given this schema, the user is expected to provide a JSON value in the next message in the `custom_content.form_value` field.
+       */
+      form_schema?: Record<string, never>;
+    };
+    /** @description DIAL-specific extensions of the Chat Completions message. */
     ChatCompletionRequestCustomFields: {
-      configuration?: {
-        [key: string]: unknown;
-      };
       cache_breakpoint?: components['schemas']['CacheBreakpoint'];
-    } & {
-      [key: string]: unknown;
+    };
+    /**
+     * Developer message
+     * @description Developer-provided instructions that the model should follow, regardless of messages sent by the user. With o1 models and newer, `developer` messages replace the previous `system` messages.
+     */
+    ChatCompletionRequestDeveloperMessage: {
+      /** @description The contents of the developer message. */
+      content:
+        | string
+        | components['schemas']['ChatCompletionRequestDeveloperMessageContentPart'][];
+      custom_fields?: components['schemas']['ChatCompletionRequestCustomFields'];
+      /**
+       * @description The role of the messages author, in this case `developer`.
+       * @enum {string}
+       */
+      role: 'developer';
+      /** @description An optional name for the participant. Provides the model information to differentiate between participants of the same role. */
+      name?: string;
+    };
+    ChatCompletionRequestDeveloperMessageContentPart: components['schemas']['ChatCompletionRequestMessageContentPartText'];
+    /**
+     * Function message
+     * @deprecated
+     */
+    ChatCompletionRequestFunctionMessage: {
+      /**
+       * @description The role of the messages author, in this case `function`.
+       * @enum {string}
+       */
+      role: 'function';
+      /** @description The contents of the function message. */
+      content: string | null;
+      custom_fields?: components['schemas']['ChatCompletionRequestCustomFields'];
+      /** @description The name of the function to call. */
+      name: string;
+    };
+    ChatCompletionRequestMessage:
+      | components['schemas']['ChatCompletionRequestDeveloperMessage']
+      | components['schemas']['ChatCompletionRequestSystemMessage']
+      | components['schemas']['ChatCompletionRequestAssistantMessage']
+      | components['schemas']['ChatCompletionRequestToolMessage']
+      | components['schemas']['ChatCompletionRequestFunctionMessage']
+      | components['schemas']['ChatCompletionRequestUserMessage'];
+    /** Image content part */
+    ChatCompletionRequestMessageContentPartImage: {
+      /**
+       * @description The type of the content part.
+       * @enum {string}
+       */
+      type: 'image_url';
+      image_url: {
+        /**
+         * Format: uri
+         * @description Either a URL of the image or the base64 encoded image data.
+         */
+        url: string;
+        /**
+         * @description Specifies the detail level of the image. Learn more in the [Vision guide](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/gpt-with-vision?tabs=rest%2Csystem-assigned%2Cresource#detail-parameter-settings-in-image-processing-low-high-auto).
+         * @default auto
+         * @enum {string}
+         */
+        detail: 'auto' | 'low' | 'high';
+      };
+    };
+    /** Refusal content part */
+    ChatCompletionRequestMessageContentPartRefusal: {
+      /**
+       * @description The type of the content part.
+       * @enum {string}
+       */
+      type: 'refusal';
+      /** @description The refusal message generated by the model. */
+      refusal: string;
+    };
+    /** Text content part */
+    ChatCompletionRequestMessageContentPartText: {
+      /**
+       * @description The type of the content part.
+       * @enum {string}
+       */
+      type: 'text';
+      /** @description The text content. */
+      text: string;
+    };
+    /** System message */
+    ChatCompletionRequestSystemMessage: {
+      /** @description The contents of the system message. */
+      content:
+        | string
+        | components['schemas']['ChatCompletionRequestSystemMessageContentPart'][];
+      custom_fields?: components['schemas']['ChatCompletionRequestCustomFields'];
+      /**
+       * @description The role of the messages author, in this case `system`.
+       * @enum {string}
+       */
+      role: 'system';
+      /** @description An optional name for the participant. Provides the model information to differentiate between participants of the same role. */
+      name?: string;
+    };
+    ChatCompletionRequestSystemMessageContentPart: components['schemas']['ChatCompletionRequestMessageContentPartText'];
+    /** Tool message */
+    ChatCompletionRequestToolMessage: {
+      /**
+       * @description The role of the messages author, in this case `tool`.
+       * @enum {string}
+       */
+      role: 'tool';
+      /** @description The contents of the tool message. */
+      content:
+        | string
+        | components['schemas']['ChatCompletionRequestToolMessageContentPart'][];
+      custom_fields?: components['schemas']['ChatCompletionRequestCustomFields'];
+      /** @description Tool call that this message is responding to. */
+      tool_call_id: string;
+    };
+    ChatCompletionRequestToolMessageContentPart: components['schemas']['ChatCompletionRequestMessageContentPartText'];
+    /** User message */
+    ChatCompletionRequestUserMessage: {
+      /** @description The contents of the user message. */
+      content:
+        | string
+        | components['schemas']['ChatCompletionRequestUserMessageContentPart'][];
+      custom_content?: components['schemas']['ChatCompletionRequestUserMessageCustomContent'];
+      custom_fields?: components['schemas']['ChatCompletionRequestCustomFields'];
+      /**
+       * @description The role of the messages author, in this case `user`.
+       * @enum {string}
+       */
+      role: 'user';
+      /** @description An optional name for the participant. Provides the model information to differentiate between participants of the same role. */
+      name?: string;
+    };
+    ChatCompletionRequestUserMessageContentPart:
+      | components['schemas']['ChatCompletionRequestMessageContentPartText']
+      | components['schemas']['ChatCompletionRequestMessageContentPartImage'];
+    /** @description The custom content of the user message. */
+    ChatCompletionRequestUserMessageCustomContent: {
+      /** @description List of attachments used to supply an additional input for the model. */
+      attachments?: components['schemas']['RequestAttachment'][];
+      /** @description The JSON value corresponding to the JSON schema sent by the assistant in the previous message in the `custom_content.form_schema` field. */
+      form_value?: Record<string, never>;
+    };
+    ChatCompletionResponseAttachment: {
+      /**
+       * @description In *streaming* chat completion responses, each attachment includes an `index` field
+       *     indicating its position in the final ordered list. This field is required because
+       *     attachments may arrive out of order, and the client must reconstruct the correct
+       *     sequence using `index`.
+       *     <br><br>
+       *     In *non-streaming* responses, the `index` field is omitted because an attachment's
+       *     position is already determined by its place in the returned list.
+       */
+      index: number;
+      /**
+       * @description The content type of the attachment. Should be one of the MIME types.
+       * @default text/markdown
+       */
+      type: string;
+      /** @description The title of the attachment. */
+      title?: string;
+      /**
+       * @description Should follow the format described in the MIME standard for `type`.
+       *
+       *     It is <span style="color: #f604fe;">mandatory</span> for the attachment to have one of the following fields (never both): `data` or `url`.
+       */
+      data?: string;
+      /**
+       * @description The content of `url` should follow the format described in the MIME standard for `type`.
+       *
+       *     It is <span style="color: #f604fe;">mandatory</span> for the attachment to have one of the following fields (never both): `data` or `url`.
+       */
+      url?: string;
+      /** @description The content type of `reference_url`. Should be one of the MIME types. */
+      reference_type?: string;
+      /** @description If `reference_type` is specified, the content of `reference_url` should follow the format described in the MIME standard for `reference_type`. */
+      reference_url?: string;
+    };
+    /** @description The custom content of a message. */
+    ChatCompletionResponseCustomContent: {
+      /** @description List of attachments. */
+      attachments?: components['schemas']['ChatCompletionResponseAttachment'][];
+      /** @description The intermediate stages that the Assistant went through to generate the response. */
+      readonly stages?: components['schemas']['ChatCompletionResponseStage'][];
+      /** @description The internal state of the Assistant. This field can have an arbitrary set of fields with an arbitrary structure. In case of a streaming, the state is published fully in one chunk. */
+      state?: Record<string, never>;
+    };
+    /** @description The Assistant message. */
+    ChatCompletionResponseMessage: {
+      /**
+       * @description The role of the author of the response message.
+       * @enum {string}
+       */
+      role: 'assistant';
+      /** @description The refusal message generated by the model. */
+      refusal: string | null;
+      /** @description The contents of the message. `content` is set for all messages except messages with tool calls, function calls and refusals. */
+      content: string | null;
+      custom_content?: components['schemas']['ChatCompletionResponseCustomContent'];
+      /** @description The tool calls generated by the model, such as function calls. */
+      tool_calls?: components['schemas']['ChatCompletionMessageToolCall'][];
+      function_call?: components['schemas']['ChatCompletionFunctionCall'];
+    };
+    ChatCompletionResponseStage: {
+      /**
+       * @description In *streaming* chat completion responses, each stage includes an `index` field
+       *     indicating its position in the final ordered list. This field is required because
+       *     stages may arrive out of order, and the client must reconstruct the correct
+       *     sequence using `index`.
+       *     <br><br>
+       *     In *non-streaming* responses, the `index` field is omitted because a stage's
+       *     position is already determined by its place in the returned list.
+       */
+      index: number;
+      /** @description The name of the stage. */
+      name: string;
+      /** @description The contents of the stage. */
+      content?: string;
+      /** @description List of attachments to the stage. */
+      attachments?: components['schemas']['ChatCompletionResponseAttachment'][];
+      /**
+       * @description The execution status of the stage. Available status values:
+       *
+       *     * `null`: The stage is in progress.
+       *     * `completed`: The stage is completed.
+       *     * `failed`: The stage is failed.
+       */
+      status: string | null;
+    };
+    /** @description The Assistant work statistics. */
+    ChatCompletionResponseStatistics: {
+      /** @description Statistics of tokens used in models by the Assistant. In case of streaming, the statistics is published fully in one chunk. */
+      usage_per_model?: {
+        /**
+         * @description In *streaming* chat completion responses, each model usage includes an `index` field
+         *     indicating its position in the final ordered list. This field is required because
+         *     model usages may arrive out of order, and the client must reconstruct the correct
+         *     sequence using `index`.
+         *     <br><br>
+         *     In *non-streaming* responses, the `index` field is omitted because the position of a model usage is already determined by its place in the returned list.
+         */
+        index?: number;
+        /** @description The model name. */
+        model?: string;
+        /** @description The number of tokens in the request to the model. */
+        prompt_tokens?: number;
+        /** @description The number of tokens in the response from the model. */
+        completion_tokens?: number;
+        /** @description The sum of prompt and completion tokens. */
+        total_tokens?: number;
+      }[];
+      /**
+       * @description The list of indices of messages that were discarded by the Assistant.
+       *
+       *     Returned only when `max_prompt_tokens` was set in the request.
+       */
+      discarded_messages?: number[];
+    };
+    /** @description A chat completion delta generated by streamed model responses. */
+    ChatCompletionStreamResponseDelta: {
+      /**
+       * @description The role of the author of this message.
+       * @enum {string}
+       */
+      role?: 'assistant';
+      /** @description The refusal message generated by the model. */
+      refusal?: string | null;
+      /** @description The contents of the chunk message. */
+      content?: string | null;
+      custom_content?: components['schemas']['ChatCompletionResponseCustomContent'];
+      /**
+       * @deprecated
+       * @description Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model.
+       */
+      function_call?: {
+        /** @description The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function. */
+        arguments?: string;
+        /** @description The name of the function to call. */
+        name?: string;
+      };
+      tool_calls?: components['schemas']['ChatCompletionMessageToolCallChunk'][];
+    };
+    ChatCompletionTool: {
+      /**
+       * @description The type of the tool. Currently, only `function` is supported.
+       * @enum {string}
+       */
+      type: 'function';
+      function: components['schemas']['FunctionObject'];
+      custom_fields?: components['schemas']['ToolCustomFields'];
+    };
+    /**
+     * @description Controls which (if any) tool is called by the model.
+     *
+     *     `none` means the model will not call any `tool` and instead generates a `message`.
+     *
+     *     `auto` means the model can pick between generating a `message` or calling one or more `tools`.
+     *     `required` means the model must call one or more `tools`.
+     *
+     *     Specifying a particular `tool` via `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that `tool`.
+     *
+     *     `none` is the default when no `tools` are present.
+     *     `auto` is the default if `tools` are present.
+     */
+    ChatCompletionToolChoiceOption:
+      | ('none' | 'auto' | 'required')
+      | components['schemas']['ChatCompletionNamedToolChoice'];
+    /** @description Additional DIAL-specific parameters for a chat completion request. */
+    ChatCompletionsCustomFields: {
+      /**
+       * @description The object that represents configuration of the deployment.
+       *     The schema of the object is specific for each deployment and provided by the endpoint
+       *     `GET /v1/deployments/{deployment_name}/configuration`.
+       *     <br><br>
+       *     A deployment supports configuration if its listing, retrieved by `GET /openai/deployments/{deployment_name}`, has a field `features.configuration` set to **true**.
+       *     <br><br>
+       *     Certain models connected via DIAL adapters are configurable. For detailed configuration information, refer to the documentation of each adapter:
+       *       - [OpenAI Adapter](https://github.com/epam/ai-dial-adapter-openai/?tab=readme-ov-file#configurable-models)
+       *       - [Google VertexAI Adapter](https://github.com/epam/ai-dial-adapter-vertexai/?tab=readme-ov-file#configurable-models)
+       *       - [AWS Bedrock Adapter](https://github.com/epam/ai-dial-adapter-bedrock/?tab=readme-ov-file#configurable-models)
+       */
+      configuration?: Record<string, never>;
     };
     CodeInterpreterExecuteRequest: {
       code?: string;
@@ -3120,16 +3687,6 @@ export interface components {
       sessionId?: string;
     };
     CollectionMetadataBase: components['schemas']['MetadataBase'][];
-    CompletionTokensDetails: {
-      reasoning_tokens?: number;
-    };
-    CompletionUsage: {
-      prompt_tokens?: number;
-      completion_tokens?: number;
-      total_tokens?: number;
-      prompt_tokens_details?: components['schemas']['PromptTokensDetails'];
-      completion_tokens_details?: components['schemas']['CompletionTokensDetails'];
-    };
     Config: {
       applicationTypeSchemas?: components['schemas']['MapStringString'];
       applications?: components['schemas']['MapStringApplication'];
@@ -3197,53 +3754,90 @@ export interface components {
       week?: number;
     };
     CreateChatCompletionResponse: {
-      id: string;
-      /** @enum {string} */
-      object: 'chat.completion';
-      /** Format: int64 */
-      created: number;
-      model: string;
-      choices: components['schemas']['ChatCompletionChoice'][];
-      usage?: components['schemas']['CompletionUsage'];
-      statistics?: components['schemas']['Statistics'];
-    };
-    CreateChatCompletionStreamChoice: {
-      index: number;
-      finish_reason?: components['schemas']['FinishReason'];
-      delta: components['schemas']['CreateChatCompletionStreamDelta'];
-    };
-    CreateChatCompletionStreamDelta: {
-      /** @enum {string} */
-      role?: 'assistant';
-      content?: string;
-      function_call?: components['schemas']['FunctionCall'];
-      tool_calls?: components['schemas']['StreamToolCall'][];
-      custom_content?: components['schemas']['CustomContent'];
-    };
-    CreateChatCompletionStreamResponse: {
+      /** @description The ID of the response. */
       id?: string;
-      model?: string;
-      /** Format: int64 */
+      /** @description Object type. Always is `chat.completion` for non-streaming. */
+      object?: string;
+      /** @description The response timestamp. The time in seconds since the epoch. */
       created?: number;
-      /** @enum {string} */
-      object?: 'chat.completion.chunk';
-      choices?: components['schemas']['CreateChatCompletionStreamChoice'][];
-      usage?: components['schemas']['Usage'];
-      statistics?: components['schemas']['Statistics'];
+      /** @description The name of the model that generated the response. May not be the same as the deployment name. */
+      model?: string;
+      /** @description List of generated messages. Contains _n_ items. */
+      choices?: {
+        /** @description The index of the choice from `0` to `n - 1`. */
+        index: number;
+        message: components['schemas']['ChatCompletionResponseMessage'];
+        /**
+         * @description The reason indicating the completion of the choice generation process. The possible reasons:
+         *
+         *     * `stop`: Successful generation.
+         *     * `length`: The generation was stopped because it surpassed the available number of tokens.
+         *     * `function_call`: The Assistant decided to call a function.
+         *     * `tool_calls`: The Assistant decided to call a tool.
+         *     * `content_filter`: Omitted content due to a flag from content filters.
+         */
+        finish_reason: string | null;
+      }[];
+      /** @description This field contains information about the tokens from the model that were used to generate the response. */
+      usage?: {
+        /** @description The number of tokens in the request to the model. */
+        prompt_tokens?: number;
+        /** @description The number of tokens in the response from the model. */
+        completion_tokens?: number;
+        /** @description The sum of prompt and completion tokens. */
+        total_tokens?: number;
+      };
+      statistics?: components['schemas']['ChatCompletionResponseStatistics'];
+      /** @description Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism. */
+      system_fingerprint?: string;
+    };
+    /** @description Represents a streamed chunk of a chat completion response returned by model, based on the provided input. */
+    CreateChatCompletionStreamResponse: {
+      /** @description A unique identifier for the chat completion. Each chunk has the same ID. */
+      id: string;
+      /**
+       * @description The object type, which is always `chat.completion.chunk`.
+       * @enum {string}
+       */
+      object: 'chat.completion.chunk';
+      /** @description The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp. */
+      created: number;
+      /** @description The model name that generated the response. May not be the same as the deployment name. */
+      model: string;
+      /**
+       * @description This fingerprint represents the backend configuration that the model runs with.
+       *     Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.
+       */
+      system_fingerprint?: string;
+      /** @description A list of generated chunks. */
+      choices: {
+        /** @description The index of the choice from 0 to _n - 1_ */
+        index: number;
+        delta: components['schemas']['ChatCompletionStreamResponseDelta'];
+        /**
+         * @description The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
+         *
+         *     `length` if the maximum number of tokens specified in the request was reached,
+         *
+         *     `content_filter` if content was omitted due to a flag from our content filters,
+         *
+         *     `tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.
+         */
+        finish_reason: string | null;
+      }[];
+      /** @description This field contains information about used models tokens for generation of the response. In case of streaming, the usage is published fully in one chunk. */
+      usage?: {
+        /** @description The number of tokens in the request to the model. */
+        prompt_tokens: number;
+        /** @description The number of tokens in the response from the model. */
+        completion_tokens: number;
+        /** @description The sum of prompt and completion tokens. */
+        total_tokens: number;
+      };
+      statistics?: components['schemas']['ChatCompletionResponseStatistics'];
     };
     /** @enum {string} */
     CredentialsLevel: 'GLOBAL' | 'APPLICATION' | 'USER';
-    CustomContent: {
-      stages?: components['schemas']['Stage'][];
-      attachments?: components['schemas']['Attachment'][];
-      state?: {
-        [key: string]: unknown;
-      };
-      form_value?: unknown;
-      form_schema?: unknown;
-    } & {
-      [key: string]: unknown;
-    };
     DeleteNotificationRequest: {
       ids?: string[];
     };
@@ -3254,31 +3848,84 @@ export interface components {
     DeploymentInterface: {
       base_url?: string;
     };
-    Embedding: {
-      embedding: string | number[];
-      index: number;
-      /** @enum {string} */
-      object?: 'embedding';
-    };
     EmbeddingResponse: {
-      /** @description A list of generated vectors. */
-      data: components['schemas']['Embedding'][];
+      /** @description Object type. Always is `list`. */
+      object: string;
       /** @description The name of the model that generated the response. */
       model: string;
+      /** @description A list of generated vectors. */
+      data: {
+        /** @description The index of the embedding from `0` to `number of regular and custom inputs in the request - 1`. */
+        index: number;
+        /** @description Object type. Always is `embedding`. */
+        object: string;
+        /** @description Embedding output corresponding to the `index`-th embedding input. It's either an array of floats or base64-encoded vector depending on the value of `encoding_format` request parameter. */
+        embedding: number[] | string;
+      }[];
+      /** @description This field contains information about the tokens from the model that were used to generate the response. */
+      usage: {
+        /** @description The number of tokens in the request to the model. */
+        prompt_tokens: number;
+        /** @description The number of tokens in the request to the model. */
+        total_tokens: number;
+      };
+    };
+    /** @description Additional parameters for an embedding model. */
+    EmbeddingsCustomFields: {
       /**
-       * @description Object type. Always is `list`.
+       * @description Type of embedding to embed an input with.
+       *
+       *     The particular values of this parameter are specific for particular models.
+       *
+       *     **Note:** embedding types may not be supported by some models.
+       */
+      type?: string;
+      /**
+       * @description Allows to specify an instruction prompt for an instructor-like embedding model.
+       *
+       *     **Note:** instruction may not be supported by some models.
+       */
+      instruction?: string;
+    };
+    /** @description The custom embedding inputs that represent multi-modal inputs (e.g. images and video) along with compound inputs (e.g. a title for an image and the image itself). */
+    EmbeddingsCustomInput: components['schemas']['EmbeddingsCustomInputElement'][];
+    /** @description An embedding input composed of multiple strings and attachments. */
+    EmbeddingsCustomInputCompoundElement: (
+      | string
+      | components['schemas']['RequestAttachment']
+    )[];
+    /** @description A particular embedding input which embeddings model translates to an embedding vector. */
+    EmbeddingsCustomInputElement:
+      | string
+      | components['schemas']['RequestAttachment']
+      | components['schemas']['EmbeddingsCustomInputCompoundElement'];
+    EmbeddingsRequest: {
+      /**
+       * @description The input text to generate embeddings for. It can be either:
+       *     - a string,
+       *     - an array of strings,
+       *     - an array of token ids <i>(representing a single tokenized string)</i> and
+       *     - an array of arrays of token ids <i>(representing an array of tokenized strings)</i>.
+       *
+       *     **Note:** representation of strings as an array of token ids may not be supported by certain models.
+       */
+      input: string | string[] | number[] | number[][];
+      custom_input?: components['schemas']['EmbeddingsCustomInput'];
+      /** @description A unique identifier representing the end-user. */
+      user?: string;
+      /**
+       * @description The format in which the embeddings are returned.
+       * @default float
        * @enum {string}
        */
-      object?: 'list';
-      /** @description This field contains information about the tokens from the model that were used to generate the response. */
-      usage: components['schemas']['Usage'];
-    };
-    EmbeddingsRequest: {
-      custom_fields?: components['schemas']['EmbeddingsRequestCustomFields'];
-    } & components['schemas']['AzureEmbeddingsRequest'];
-    EmbeddingsRequestCustomFields: {
-      type?: string;
-      instruction?: string;
+      encoding_format: 'float' | 'base64';
+      /**
+       * @description The number of dimensions the resulting output embeddings should have.
+       *
+       *     **Note:** instruction may not be supported by some models.
+       */
+      dimensions?: number;
+      custom_fields?: components['schemas']['EmbeddingsCustomFields'];
     };
     EntityMetadata: {
       name?: string;
@@ -3392,33 +4039,6 @@ export interface components {
       updatedAt?: number;
       url?: string;
     };
-    /** @enum {string} */
-    FinishReason:
-      | 'stop'
-      | 'length'
-      | 'function_call'
-      | 'tool_calls'
-      | 'content_filter';
-    Function: {
-      name: string;
-      /** @default false */
-      strict: boolean;
-      description?: string;
-      parameters?: {
-        [key: string]: unknown;
-      };
-    } & {
-      [key: string]: unknown;
-    };
-    FunctionCall: {
-      name?: string;
-      arguments?: string;
-    };
-    FunctionChoice: {
-      name: string;
-    } & {
-      [key: string]: unknown;
-    };
     FunctionMapping: {
       chat_completion?: string;
       configuration?: string;
@@ -3426,6 +4046,24 @@ export interface components {
       tokenize?: string;
       truncate_prompt?: string;
     };
+    FunctionObject: {
+      /** @description A description of what the `function` does, used by the model to choose when and how to call the `function`. */
+      description?: string;
+      /** @description The name of the `function` to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64. */
+      name: string;
+      parameters?: components['schemas']['FunctionParameters'];
+      /**
+       * @description Whether to enable strict schema adherence when generating the `function` call. If set to `true`, the model will follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when `strict` is `true`. Learn more about Structured Outputs in the [function calling guide](docs/guides/function-calling).
+       * @default false
+       */
+      strict: boolean | null;
+    };
+    /**
+     * @description The parameters the `function` accepts, described as a JSON Schema object. See the [guide](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+     *
+     *     Omitting `parameters` defines a `function` with an empty parameter list.
+     */
+    FunctionParameters: Record<string, never>;
     /** @enum {string} */
     FunctionStatus:
       | 'DEPLOYING'
@@ -3440,26 +4078,6 @@ export interface components {
     HealthResponse: {
       skipped?: components['schemas']['SkippedEntity'][];
       status?: string;
-    };
-    ImageURL: {
-      url: string;
-      /** @enum {string} */
-      detail?: 'auto' | 'low' | 'high';
-    } & {
-      [key: string]: unknown;
-    };
-    InputAudio: {
-      data: string;
-      format: string;
-    } & {
-      [key: string]: unknown;
-    };
-    InputFile: {
-      file_data?: string;
-      file_id?: string;
-      filename?: string;
-    } & {
-      [key: string]: unknown;
     };
     Interceptor: {
       author?: string;
@@ -3584,7 +4202,10 @@ export interface components {
       resourceTypes?: components['schemas']['ResourceTypes'][];
       with?: string;
     };
-    LocalizedValue: string | components['schemas']['MapStringString'];
+    LocalizedValue: {
+      localeMap?: components['schemas']['MapStringString'];
+      plainValue?: string;
+    } & (string | components['schemas']['MapStringString']);
     MapStringApplication: {
       [key: string]: components['schemas']['Application'];
     };
@@ -3605,6 +4226,9 @@ export interface components {
     };
     MapStringLimit: {
       [key: string]: components['schemas']['Limit'];
+    };
+    MapStringLimitStats: {
+      [key: string]: components['schemas']['LimitStats'];
     };
     MapStringList: {
       [key: string]: components['schemas']['Rule'][];
@@ -3649,81 +4273,6 @@ export interface components {
       _meta?: {
         [key: string]: unknown;
       };
-    };
-    Message: {
-      /** @enum {string} */
-      role: 'system' | 'developer' | 'user' | 'assistant' | 'function' | 'tool';
-      content?: string | components['schemas']['MessageContentPart'][];
-      custom_content?: components['schemas']['CustomContent'];
-      custom_fields?: components['schemas']['MessageCustomFields'];
-      name?: string;
-      tool_calls?: components['schemas']['ToolCall'][];
-      tool_call_id?: string;
-      function_call?: components['schemas']['FunctionCall'];
-      refusal?: string;
-    } & {
-      [key: string]: unknown;
-    };
-    MessageContentAudioPart: {
-      /**
-       * @description discriminator enum property added by openapi-typescript
-       * @enum {string}
-       */
-      type: 'MessageContentAudioPart';
-      input_audio: components['schemas']['InputAudio'];
-    } & {
-      [key: string]: unknown;
-    };
-    MessageContentFilePart: {
-      /**
-       * @description discriminator enum property added by openapi-typescript
-       * @enum {string}
-       */
-      type: 'MessageContentFilePart';
-      file: components['schemas']['InputFile'];
-    } & {
-      [key: string]: unknown;
-    };
-    MessageContentImagePart: {
-      /**
-       * @description discriminator enum property added by openapi-typescript
-       * @enum {string}
-       */
-      type: 'MessageContentImagePart';
-      image_url: components['schemas']['ImageURL'];
-    } & {
-      [key: string]: unknown;
-    };
-    MessageContentPart:
-      | components['schemas']['MessageContentTextPart']
-      | components['schemas']['MessageContentImagePart']
-      | components['schemas']['MessageContentFilePart']
-      | components['schemas']['MessageContentAudioPart']
-      | components['schemas']['MessageContentRefusalPart'];
-    MessageContentRefusalPart: {
-      /**
-       * @description discriminator enum property added by openapi-typescript
-       * @enum {string}
-       */
-      type: 'MessageContentRefusalPart';
-      refusal: string;
-    } & {
-      [key: string]: unknown;
-    };
-    MessageContentTextPart: {
-      /**
-       * @description discriminator enum property added by openapi-typescript
-       * @enum {string}
-       */
-      type: 'MessageContentTextPart';
-      text: string;
-    } & {
-      [key: string]: unknown;
-    };
-    MessageCustomFields: {
-      cache_breakpoint?: components['schemas']['CacheBreakpoint'];
-    } & {
-      [key: string]: unknown;
     };
     MetadataBase:
       | components['schemas']['ResourceFolderMetadata']
@@ -3844,6 +4393,11 @@ export interface components {
       redirect_uri?: string;
       scopes?: string[];
     };
+    /**
+     * @description Whether to enable parallel `function` calling during the `tool` use.
+     * @default true
+     */
+    ParallelToolCalls: boolean;
     Pattern: Record<string, never>;
     PerRequestReceiver: {
       receiver?: string;
@@ -3871,10 +4425,6 @@ export interface components {
       folderId?: string;
       id?: string;
       name?: string;
-    };
-    PromptTokensDetails: {
-      cached_tokens?: number;
-      cache_write_tokens?: number;
     };
     ProxyRequest: {
       [key: string]: unknown;
@@ -3914,6 +4464,31 @@ export interface components {
     RejectPublicationRequest: {
       comment?: string;
       url?: string;
+    };
+    RequestAttachment: {
+      /**
+       * @description The content type of the attachment. Should be one of the MIME types.
+       * @default text/markdown
+       */
+      type: string;
+      /** @description The title of the attachment. */
+      title?: string;
+      /**
+       * @description Should follow the format described in the MIME standard for `type`.
+       *
+       *     It is <span style="color: #f604fe;">mandatory</span> for the attachment to have exactly one of the following fields (never both): `data` or `url`.
+       */
+      data?: string;
+      /**
+       * @description The content of `url` should follow the format described in the MIME standard for `type`.
+       *
+       *     It is <span style="color: #f604fe;">mandatory</span> for the attachment to have exactly one of the following fields (never both): `data` or `url`.
+       */
+      url?: string;
+      /** @description The content type of `reference_url`. Should be one of the MIME types. */
+      reference_type?: string;
+      /** @description If `reference_type` is specified, the content of `reference_url` should follow the format described in the MIME standard for `reference_type`. */
+      reference_url?: string;
     };
     /** @enum {string} */
     ResourceAccessType: 'READ' | 'WRITE' | 'SHARE';
@@ -4204,48 +4779,6 @@ export interface components {
       id?: string;
       reason?: string;
     };
-    Stage: {
-      name: string;
-      status: components['schemas']['Status'];
-      content?: string;
-      attachments?: components['schemas']['Attachment'][];
-    } & {
-      [key: string]: unknown;
-    };
-    StaticFunction: {
-      name: string;
-      description?: string;
-      configuration?: {
-        [key: string]: unknown;
-      };
-    } & {
-      [key: string]: unknown;
-    };
-    StaticTool: {
-      /** @enum {string} */
-      type: 'static_function';
-      static_function: components['schemas']['StaticFunction'];
-    } & {
-      [key: string]: unknown;
-    };
-    Statistics: {
-      usage_per_model?: components['schemas']['UsagePerModel'][];
-      discarded_messages?: number[];
-    };
-    /** @enum {string} */
-    Status: 'completed' | 'failed';
-    StreamOptions: {
-      include_usage?: boolean;
-    } & {
-      [key: string]: unknown;
-    };
-    StreamToolCall: {
-      index?: number;
-      id?: string;
-      /** @enum {string} */
-      type?: 'function';
-      function?: components['schemas']['FunctionCall'];
-    };
     SubscribeResourcesRequest: {
       resources?: components['schemas']['ResourceLink'][];
     };
@@ -4303,14 +4836,6 @@ export interface components {
       status: 'TokenizeSuccess';
       token_count: number;
     };
-    Tool: {
-      /** @enum {string} */
-      type: 'function';
-      function: components['schemas']['Function'];
-      custom_fields?: components['schemas']['ToolCustomFields'];
-    } & {
-      [key: string]: unknown;
-    };
     ToolAnnotations: {
       title?: string;
       /** @description Tool does not modify state. */
@@ -4324,24 +4849,11 @@ export interface components {
       /** @description Result should be returned directly to the caller. */
       returnDirect?: boolean;
     };
-    ToolCall: {
-      index?: number;
-      id?: string;
-      /** @enum {string} */
-      type?: 'function';
-      function?: components['schemas']['ToolCallFunction'];
-    };
-    ToolCallFunction: {
-      name?: string;
-      arguments?: string;
-    };
-    ToolChoice: {
-      /** @enum {string} */
-      type: 'function';
-      function: components['schemas']['FunctionChoice'];
-    } & {
-      [key: string]: unknown;
-    };
+    /**
+     * @description The type of the `tool` call, in this case `function`.
+     * @enum {string}
+     */
+    ToolCallType: 'function';
     ToolCustomFields: {
       cache_breakpoint?: components['schemas']['CacheBreakpoint'];
     } & {
@@ -4467,22 +4979,6 @@ export interface components {
       tier?: number;
       weight?: number;
     };
-    Usage: {
-      prompt_tokens?: number;
-      completion_tokens?: number;
-      total_tokens?: number;
-      prompt_tokens_details?: components['schemas']['PromptTokensDetails'];
-      completion_tokens_details?: components['schemas']['CompletionTokensDetails'];
-    };
-    UsagePerModel: {
-      index?: number;
-      model?: string;
-      prompt_tokens?: number;
-      completion_tokens?: number;
-      total_tokens?: number;
-      prompt_tokens_details?: components['schemas']['PromptTokensDetails'];
-      completion_tokens_details?: components['schemas']['CompletionTokensDetails'];
-    };
     UserInfoResponse: {
       /** @description List of user or API key authorization roles */
       roles?: string[];
@@ -4494,6 +4990,13 @@ export interface components {
       userClaims?: {
         [key: string]: string[];
       };
+    };
+    UserLimitStats: {
+      dayCostStats?: components['schemas']['CostItemLimitStats'];
+      deployments?: components['schemas']['MapStringLimitStats'];
+      minuteCostStats?: components['schemas']['CostItemLimitStats'];
+      monthCostStats?: components['schemas']['CostItemLimitStats'];
+      weekCostStats?: components['schemas']['CostItemLimitStats'];
     };
     ValidationResult: {
       entityId?: string;
@@ -8204,6 +8707,15 @@ export interface operations {
       };
       cookie?: never;
     };
+    /**
+     * @description An arbitrary string in JSON format representing the structure of the application.
+     *
+     *     **Important**: Applications may or may not include an `application_type_schema_id`, which affects their creation and modification mechanics. If `application_type_schema_id` is absent or `NULL`, `application_properties` are not required. If you provide `application_type_schema_id` but `application_properties` are `NULL`, the application is a "stub" and can be updated later, but completion requests will not be possible. When you supply `application_properties`, they must be a valid JSON object that conforms to the schema specified by `application_type_schema_id`. An invalid JSON object will result in a bad request status.
+     *
+     *     If you do not provide `application_type_schema_id`, refer to [DIAL Core](https://github.com/epam/ai-dial-core/blob/development/docs/dynamic-settings/applications.md) documentation to learn about available properties of applications you can pass in the JSON object describing the structure of the application.
+     *
+     *     **Note**: When `applicationTypeSchemaId` and `applicationProperties` are specified, parameters defined in the corresponding JSON schema will take precedence and will override the corresponding parameters specified in the `application` object.
+     */
     requestBody: {
       content: {
         'application/json': components['schemas']['Application'];
@@ -9502,6 +10014,7 @@ export interface operations {
       };
       cookie?: never;
     };
+    /** @description A JSON object satisfying [mcp specification](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/schema/2025-06-18/schema.json). */
     requestBody: {
       content: {
         'application/json': components['schemas']['ProxyRequest'];
@@ -18004,6 +18517,44 @@ export interface operations {
       };
     };
   };
+  getUserLimits: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['UserLimitStats'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   getOfflineCredentials: {
     parameters: {
       query?: never;
@@ -18127,6 +18678,44 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getUserUsage: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['UserLimitStats'];
         };
       };
       /** @description Invalid Authentication */
