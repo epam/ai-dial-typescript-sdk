@@ -28,7 +28,7 @@ By submitting this pull request, I confirm that my contribution is made under th
   drop the whole section — either matches existing PRs in this repo, which frequently ship without
   a linked issue.
 - **Description of changes**: required — a real, specific summary, even for small chores. State the
-  *why* when it isn't obvious from the *what* (e.g. dependency bumps: why now, not just what
+  _why_ when it isn't obvious from the _what_ (e.g. dependency bumps: why now, not just what
   version).
 - **Checklist**: the only item is the Conventional Commits title check — tick it since this skill's
   Step 4 always produces a compliant title.
