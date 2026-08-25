@@ -31,7 +31,7 @@ Do **not** trigger on requests like "what changed in 0.2.0?" — that is a recal
 
 ## First release / merge-base mode caveat
 
-When there's no previous stable tag, `changelog-mode` is `merge-base` and the raw notes cover the *entire* git history since project inception, including the first commit(s). Do not classify by commit message alone here — a boring or throwaway-sounding first commit (`init commit`, `innit commit`, `initial setup`) is exactly where a huge, product-defining diff hides, since it predates any commit-message conventions. Before dropping *any* early commit as bootstrapping noise, run `git show --stat <hash>` and skim what actually changed. If it introduced the initial OpenAPI spec, generated client, or README describing the SDK's API surface, that is the release's headline feature, not noise — lead the `Features` section with a summary bullet built from that diff/README rather than skipping straight to the first `feat:`-labeled commit.
+When there's no previous stable tag, `changelog-mode` is `merge-base` and the raw notes cover the _entire_ git history since project inception, including the first commit(s). Do not classify by commit message alone here — a boring or throwaway-sounding first commit (`init commit`, `innit commit`, `initial setup`) is exactly where a huge, product-defining diff hides, since it predates any commit-message conventions. Before dropping _any_ early commit as bootstrapping noise, run `git show --stat <hash>` and skim what actually changed. If it introduced the initial OpenAPI spec, generated client, or README describing the SDK's API surface, that is the release's headline feature, not noise — lead the `Features` section with a summary bullet built from that diff/README rather than skipping straight to the first `feat:`-labeled commit.
 
 ## Workflow
 
@@ -57,17 +57,17 @@ For every bullet in the raw notes:
 
 The raw CI partition (by commit `type:`) is a reasonable starting point here since PR titles are already conventional, but still needs a consumer-impact pass:
 
-| Signal in raw title/commit                                        | Where it belongs | Rule                                                          |
-| ------------------------------------------------------------------ | ----------------- | -------------------------------------------------------------- |
-| `feat: ...`                                                        | `Features`        | New endpoints, operations, schema fields, SDK capabilities.    |
-| `fix: ...`                                                         | `Fixes`           | Corrected types, inference, generated client behavior.        |
-| `feat`/`fix` touching only `openapi.bundle.yaml`/`schema.ts` regen | `Features`/`Fixes`| Keep — this **is** the product surface for an SDK.             |
-| Security-relevant dependency bump (CVE, `dompurify`-style)         | `Other`            | Consumer-relevant even though it's a `chore`.                 |
-| `chore: bump the ai-dial-ci group ...`                             | **Drop**           | CI-only dependency group, zero consumer impact.                |
-| Dependabot bump for `github_actions` label                         | **Drop**           | CI-only.                                                       |
-| `chore: update lock`, `chore: update eslint ...`                   | **Drop**           | Dev-tooling/lockfile churn, not consumer-visible.               |
-| One-off repo-setup chores (`prepare repo to public`, `use trust publishing for npm registry`, `remove rewrite of publish script`) | **Drop** | Internal to this repo's own release plumbing, not SDK behavior. |
-| `[skip ci]` items that are infra-only                              | **Drop**           | Same as above.                                                  |
+| Signal in raw title/commit                                                                                                        | Where it belongs   | Rule                                                            |
+| --------------------------------------------------------------------------------------------------------------------------------- | ------------------ | --------------------------------------------------------------- |
+| `feat: ...`                                                                                                                       | `Features`         | New endpoints, operations, schema fields, SDK capabilities.     |
+| `fix: ...`                                                                                                                        | `Fixes`            | Corrected types, inference, generated client behavior.          |
+| `feat`/`fix` touching only `openapi.bundle.yaml`/`schema.ts` regen                                                                | `Features`/`Fixes` | Keep — this **is** the product surface for an SDK.              |
+| Security-relevant dependency bump (CVE, `dompurify`-style)                                                                        | `Other`            | Consumer-relevant even though it's a `chore`.                   |
+| `chore: bump the ai-dial-ci group ...`                                                                                            | **Drop**           | CI-only dependency group, zero consumer impact.                 |
+| Dependabot bump for `github_actions` label                                                                                        | **Drop**           | CI-only.                                                        |
+| `chore: update lock`, `chore: update eslint ...`                                                                                  | **Drop**           | Dev-tooling/lockfile churn, not consumer-visible.               |
+| One-off repo-setup chores (`prepare repo to public`, `use trust publishing for npm registry`, `remove rewrite of publish script`) | **Drop**           | Internal to this repo's own release plumbing, not SDK behavior. |
+| `[skip ci]` items that are infra-only                                                                                             | **Drop**           | Same as above.                                                  |
 
 If unsure whether to keep a bullet: _would someone importing `@epam/ai-dial-typescript-sdk` care?_ If no, drop it.
 

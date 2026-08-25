@@ -19,8 +19,8 @@ Format:
 Allowed types are CI-enforced (`amannn/action-semantic-pull-request` via the shared
 `pr-title-check.yml` from `epam/ai-dial-ci`):
 
-| Type    | When to use                                            |
-| ------- | ------------------------------------------------------- |
+| Type    | When to use                                              |
+| ------- | -------------------------------------------------------- |
 | `feat`  | New feature, endpoint, schema field, or SDK capability   |
 | `fix`   | Bug fix                                                  |
 | `docs`  | Documentation only                                       |
