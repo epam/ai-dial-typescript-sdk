@@ -38,6 +38,40 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/anthropic/v1/models': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /anthropic/v1/models */
+    get: operations['getAnthropicModels'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/anthropic/v1/models/{model_name}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /anthropic/v1/models/{model_name} */
+    get: operations['getAnthropicModel'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/openai/applications': {
     parameters: {
       query?: never;
@@ -449,6 +483,23 @@ export interface paths {
     get: operations['getFileConfigKey'];
     put?: never;
     post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/config/file/migrate': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** /v1/admin/config/file/migrate */
+    post: operations['migrateFileConfig'];
     delete?: never;
     options?: never;
     head?: never;
@@ -2955,6 +3006,20 @@ export interface components {
     AllowedToolsResponse: {
       tools: components['schemas']['McpTool'][];
     };
+    AnthropicModelData: {
+      created_at?: string;
+      display_name?: string;
+      id?: string;
+      type?: string;
+      max_input_tokens?: number;
+      max_tokens?: number;
+    };
+    AnthropicModelListData: {
+      data?: components['schemas']['AnthropicModelData'][];
+      first_id?: string;
+      has_more?: boolean;
+      last_id?: string;
+    };
     Application: {
       application_properties?: components['schemas']['MapStringObject'];
       /** Format: uri */
@@ -2996,6 +3061,8 @@ export interface components {
       /** Format: uri */
       catalogSchemaId?: string;
       overrideName?: string;
+      defaultHeaders?: components['schemas']['MapStringString'];
+      baseUrl?: string;
     };
     ApplicationData: {
       application?: string;
@@ -3687,6 +3754,11 @@ export interface components {
       sessionId?: string;
     };
     CollectionMetadataBase: components['schemas']['MetadataBase'][];
+    Condition: {
+      field?: string;
+      operator?: components['schemas']['Operator'];
+      value?: unknown;
+    };
     Config: {
       applicationTypeSchemas?: components['schemas']['MapStringString'];
       applications?: components['schemas']['MapStringApplication'];
@@ -3700,7 +3772,28 @@ export interface components {
       toolsets?: components['schemas']['MapStringToolSet'];
       catalogSchemas?: components['schemas']['MapStringString'];
       defaultLocale?: string;
+      translators?: components['schemas']['MapStringTranslator'];
     };
+    ConfigFileMigrateRequest: {
+      dryRun?: boolean;
+      types?: string[];
+    };
+    ConfigFileMigrateResponse: {
+      results?: components['schemas']['ConfigFileMigrateResult'][];
+    };
+    ConfigFileMigrateResult: {
+      id?: string;
+      reason?: string;
+      status?: components['schemas']['ConfigFileMigrateStatus'];
+    };
+    /** @enum {string} */
+    ConfigFileMigrateStatus:
+      | 'migrated'
+      | 'would_migrate'
+      | 'skipped'
+      | 'would_skip'
+      | 'failed'
+      | 'would_fail';
     ConfigResourceControllerConfigWriteResponse: {
       name?: string;
     };
@@ -3847,6 +3940,10 @@ export interface components {
       | components['schemas']['ToolSetData'];
     DeploymentInterface: {
       base_url?: string;
+      defaultHeaders?: components['schemas']['MapStringString'];
+      mode?: components['schemas']['InterfaceMode'];
+      translator?: components['schemas']['TranslatorRef'];
+      defaults?: components['schemas']['MapStringObject'];
     };
     EmbeddingResponse: {
       /** @description Object type. Always is `list`. */
@@ -4108,7 +4205,17 @@ export interface components {
       /** Format: uri */
       catalogSchemaId?: string;
       overrideName?: string;
+      defaultHeaders?: components['schemas']['MapStringString'];
+      baseUrl?: string;
     };
+    /** @enum {string} */
+    InterfaceMode: 'PASSTHROUGH' | 'TRANSLATOR';
+    /** @enum {string} */
+    InterfaceType:
+      | 'OPENAI_CHAT_COMPLETIONS'
+      | 'OPENAI_EMBEDDINGS'
+      | 'OPENAI_RESPONSES'
+      | 'ANTHROPIC_MESSAGES';
     Invitation: {
       acceptedUserLocations?: string[];
       author?: string;
@@ -4254,6 +4361,12 @@ export interface components {
     MapStringToolSet: {
       [key: string]: components['schemas']['ToolSet'];
     };
+    MapStringTranslator: {
+      [key: string]: components['schemas']['Translator'];
+    };
+    MapStringUpstreamInterface: {
+      [key: string]: components['schemas']['UpstreamInterface'];
+    };
     McpMcpApps: {
       domainOverride?: string;
     };
@@ -4313,6 +4426,8 @@ export interface components {
       catalogProperties?: components['schemas']['MapStringObject'];
       /** Format: uri */
       catalogSchemaId?: string;
+      defaultHeaders?: components['schemas']['MapStringString'];
+      baseUrl?: string;
     };
     ModelData: {
       application?: string;
@@ -4393,6 +4508,8 @@ export interface components {
       redirect_uri?: string;
       scopes?: string[];
     };
+    /** @enum {string} */
+    Operator: 'EQ' | 'NE' | 'GT' | 'LT' | 'GE' | 'LE';
     /**
      * @description Whether to enable parallel `function` calling during the `tool` use.
      * @default true
@@ -4410,15 +4527,21 @@ export interface components {
       completion?: string;
       prompt?: string;
       unit?: string;
-      cacheRead?: string;
-      cacheWrite?: string;
+      cacheRead?: components['schemas']['PricingRate'];
+      cacheWrite?: components['schemas']['PricingRate'];
     };
     PricingData: {
       completion?: string;
       prompt?: string;
       unit?: string;
-      cache_read?: string;
-      cache_write?: string;
+      cache_read?: components['schemas']['PricingRate'];
+      cache_write?: components['schemas']['PricingRate'];
+    };
+    PricingRate: {
+      ifFalse?: components['schemas']['PricingRate'];
+      ifTrue?: components['schemas']['PricingRate'];
+      rate?: string;
+      test?: components['schemas']['Condition'];
     };
     Prompt: {
       content?: string;
@@ -4509,6 +4632,7 @@ export interface components {
       token_endpoint_auth_method?: string;
       user_level_auth_status?: components['schemas']['ResourceAuthStatus'];
       dynamically_registered?: boolean;
+      readonly client_secret_hint?: string;
     };
     ResourceAuthSettingsData: {
       api_key_header?: string;
@@ -4532,6 +4656,7 @@ export interface components {
       senderPodId?: string;
       timestamp?: number;
       url?: string;
+      metadata?: components['schemas']['MapStringString'];
     };
     /** @enum {string} */
     ResourceEventAction: 'CREATE' | 'UPDATE' | 'DELETE';
@@ -4894,6 +5019,8 @@ export interface components {
       /** Format: uri */
       catalogSchemaId?: string;
       overrideName?: string;
+      defaultHeaders?: components['schemas']['MapStringString'];
+      baseUrl?: string;
     };
     ToolSetData: {
       allowed_tools?: string[];
@@ -4944,6 +5071,16 @@ export interface components {
     };
     /** @enum {string} */
     ToolSetTransport: 'HTTP' | 'SSE';
+    Translator: {
+      baseUrl?: string;
+      in?: components['schemas']['InterfaceType'];
+      out?: components['schemas']['InterfaceType'];
+    };
+    TranslatorRef: {
+      definition?: components['schemas']['Translator'];
+      name?: string;
+      inline?: components['schemas']['Translator'];
+    };
     TruncatePromptError: {
       /**
        * @description discriminator enum property added by openapi-typescript
@@ -4978,6 +5115,14 @@ export interface components {
       secretExtraData?: string;
       tier?: number;
       weight?: number;
+      baseUrl?: string;
+      interfaces?: components['schemas']['MapStringUpstreamInterface'];
+    };
+    UpstreamInterface: {
+      endpoint?: string;
+      extraData?: string;
+      key?: string;
+      secretExtraData?: string;
     };
     UserInfoResponse: {
       /** @description List of user or API key authorization roles */
@@ -4990,6 +5135,8 @@ export interface components {
       userClaims?: {
         [key: string]: string[];
       };
+      /** @description Human-readable caller name. For user-based session authentication it is resolved from the identity provider's configured userDisplayName claim path; for API key authentication it is the key's project name. Absent when not configured. */
+      userDisplayName?: string;
     };
     UserLimitStats: {
       dayCostStats?: components['schemas']['CostItemLimitStats'];
@@ -5219,6 +5366,89 @@ export interface operations {
       };
       /** @description The engine is currently overloaded, please try again later. */
       503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getAnthropicModels: {
+    parameters: {
+      query?: {
+        /** @description ID of the model to use as a cursor; returns the page immediately after it. */
+        after_id?: string;
+        /** @description ID of the model to use as a cursor; returns the page immediately before it. */
+        before_id?: string;
+        /** @description Number of items to return per page. Defaults to 20. Ranges from 1 to 1000. */
+        limit?: number;
+      };
+      header?: {
+        /** @description Optional beta feature opt-in header(s); DIAL accepts and ignores it for this endpoint. */
+        'anthropic-beta'?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AnthropicModelListData'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getAnthropicModel: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description Optional beta feature opt-in header(s); DIAL accepts and ignores it for this endpoint. */
+        'anthropic-beta'?: string;
+      };
+      path: {
+        /** @description The name of the model. */
+        model_name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AnthropicModelData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
         headers: {
           [name: string]: unknown;
         };
@@ -6917,6 +7147,57 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  migrateFileConfig: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ConfigFileMigrateRequest'];
+      };
+    };
+    responses: {
+      /** @description Migration report */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ConfigFileMigrateResponse'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
       };
       /** @description The server had an error while processing your request. */
       500: {
