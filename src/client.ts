@@ -237,6 +237,13 @@ export interface DIAL_SDK {
   externalServiceSignOut: (
     init: SDKOperationInit<operations['externalServiceSignOut']>,
   ) => Promise<SDKOperationResponse<operations['externalServiceSignOut']>>;
+  getAnthropicModel: (
+    model_name: string,
+    init?: SDKOperationInit<operations['getAnthropicModel']>,
+  ) => Promise<SDKOperationResponse<operations['getAnthropicModel']>>;
+  getAnthropicModels: (
+    init?: SDKOperationInit<operations['getAnthropicModels']>,
+  ) => Promise<SDKOperationResponse<operations['getAnthropicModels']>>;
   getApplication: (
     application_name: string,
     init?: SDKOperationInit<operations['getApplication']>,
@@ -621,6 +628,9 @@ export interface DIAL_SDK {
     path: string,
     init?: SDKOperationInit<operations['listSkillMetadata']>,
   ) => Promise<SDKOperationResponse<operations['listSkillMetadata']>>;
+  migrateFileConfig: (
+    init: SDKOperationInit<operations['migrateFileConfig']>,
+  ) => Promise<SDKOperationResponse<operations['migrateFileConfig']>>;
   moveResource: (
     init: SDKOperationInit<operations['moveResource']>,
   ) => Promise<SDKOperationResponse<operations['moveResource']>>;
@@ -1097,6 +1107,15 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.externalServiceSignOutUrl, init) as Promise<
         SDKOperationResponse<operations['externalServiceSignOut']>
       >,
+    getAnthropicModel: (model_name: string, init?: any) =>
+      client.GET(
+        apiPaths.getAnthropicModelUrl(model_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getAnthropicModel']>>,
+    getAnthropicModels: (init?: any) =>
+      client.GET(apiPaths.getAnthropicModelsUrl, init) as Promise<
+        SDKOperationResponse<operations['getAnthropicModels']>
+      >,
     getApplication: (application_name: string, init?: any) =>
       client.GET(
         apiPaths.getApplicationUrl(application_name) as any,
@@ -1554,6 +1573,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.listSkillMetadataUrl(bucket, path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['listSkillMetadata']>>,
+    migrateFileConfig: (init?: any) =>
+      client.POST(apiPaths.migrateFileConfigUrl, init) as Promise<
+        SDKOperationResponse<operations['migrateFileConfig']>
+      >,
     moveResource: (init?: any) =>
       client.POST(apiPaths.moveResourceUrl, init) as Promise<
         SDKOperationResponse<operations['moveResource']>
