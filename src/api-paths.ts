@@ -177,6 +177,11 @@ export const externalServiceGetOboCredentialsUrl =
   '/v1/ops/external-service/obo-credentials';
 export const externalServiceSignInUrl = '/v1/ops/external-service/signin';
 export const externalServiceSignOutUrl = '/v1/ops/external-service/signout';
+export const getAnthropicModelUrl = (model_name: string) => {
+  return `/anthropic/v1/models/${model_name}`;
+};
+
+export const getAnthropicModelsUrl = '/anthropic/v1/models';
 export const getApplicationUrl = (application_name: string) => {
   return `/openai/applications/${application_name}`;
 };
@@ -457,6 +462,7 @@ export const listSkillMetadataUrl = (bucket: string, path: string) => {
   return `/v2/metadata/skills/${bucket}/${path}`;
 };
 
+export const migrateFileConfigUrl = '/v1/admin/config/file/migrate';
 export const moveResourceUrl = '/v1/ops/resource/move';
 export const offlineCredentialsSignInUrl =
   '/v1/user/offline-credentials/signin';
