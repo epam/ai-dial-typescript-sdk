@@ -53,17 +53,17 @@ For every bullet in the raw notes:
 
 The raw CI partition (by commit `type:`) is a reasonable starting point here since PR titles are already conventional, but still needs a consumer-impact pass:
 
-| Signal in raw title/commit                                        | Where it belongs | Rule                                                          |
-| ------------------------------------------------------------------ | ----------------- | -------------------------------------------------------------- |
-| `feat: ...`                                                        | `Features`        | New endpoints, operations, schema fields, SDK capabilities.    |
-| `fix: ...`                                                         | `Fixes`           | Corrected types, inference, generated client behavior.        |
-| `feat`/`fix` touching only `openapi.bundle.yaml`/`schema.ts` regen | `Features`/`Fixes`| Keep — this **is** the product surface for an SDK.             |
-| Security-relevant dependency bump (CVE, `dompurify`-style)         | `Other`            | Consumer-relevant even though it's a `chore`.                 |
-| `chore: bump the ai-dial-ci group ...`                             | **Drop**           | CI-only dependency group, zero consumer impact.                |
-| Dependabot bump for `github_actions` label                         | **Drop**           | CI-only.                                                       |
-| `chore: update lock`, `chore: update eslint ...`                   | **Drop**           | Dev-tooling/lockfile churn, not consumer-visible.               |
-| One-off repo-setup chores (`prepare repo to public`, `use trust publishing for npm registry`, `remove rewrite of publish script`) | **Drop** | Internal to this repo's own release plumbing, not SDK behavior. |
-| `[skip ci]` items that are infra-only                              | **Drop**           | Same as above.                                                  |
+| Signal in raw title/commit                                                                                                        | Where it belongs   | Rule                                                            |
+| --------------------------------------------------------------------------------------------------------------------------------- | ------------------ | --------------------------------------------------------------- |
+| `feat: ...`                                                                                                                       | `Features`         | New endpoints, operations, schema fields, SDK capabilities.     |
+| `fix: ...`                                                                                                                        | `Fixes`            | Corrected types, inference, generated client behavior.          |
+| `feat`/`fix` touching only `openapi.bundle.yaml`/`schema.ts` regen                                                                | `Features`/`Fixes` | Keep — this **is** the product surface for an SDK.              |
+| Security-relevant dependency bump (CVE, `dompurify`-style)                                                                        | `Other`            | Consumer-relevant even though it's a `chore`.                   |
+| `chore: bump the ai-dial-ci group ...`                                                                                            | **Drop**           | CI-only dependency group, zero consumer impact.                 |
+| Dependabot bump for `github_actions` label                                                                                        | **Drop**           | CI-only.                                                        |
+| `chore: update lock`, `chore: update eslint ...`                                                                                  | **Drop**           | Dev-tooling/lockfile churn, not consumer-visible.               |
+| One-off repo-setup chores (`prepare repo to public`, `use trust publishing for npm registry`, `remove rewrite of publish script`) | **Drop**           | Internal to this repo's own release plumbing, not SDK behavior. |
+| `[skip ci]` items that are infra-only                                                                                             | **Drop**           | Same as above.                                                  |
 
 If unsure whether to keep a bullet: _would someone importing `@epam/ai-dial-typescript-sdk` care?_ If no, drop it.
 
