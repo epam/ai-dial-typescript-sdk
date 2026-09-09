@@ -267,6 +267,88 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorData'
+  /anthropic/v1/models:
+    get:
+      tags:
+        - Deployment listing
+      summary: /anthropic/v1/models
+      operationId: getAnthropicModels
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnthropicModelListData'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      parameters:
+        - name: after_id
+          in: query
+          description: ID of the model to use as a cursor; returns the page immediately after it.
+          required: false
+          schema:
+            type: string
+        - name: before_id
+          in: query
+          description: ID of the model to use as a cursor; returns the page immediately before it.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of items to return per page. Defaults to 20. Ranges from 1 to 1000.
+          required: false
+          schema:
+            type: integer
+        - name: anthropic-beta
+          in: header
+          description: Optional beta feature opt-in header(s); DIAL accepts and ignores it for this endpoint.
+          required: false
+          schema:
+            type: string
+  /anthropic/v1/models/{model_name}:
+    get:
+      tags:
+        - Deployment listing
+      summary: '/anthropic/v1/models/{model_name}'
+      operationId: getAnthropicModel
+      parameters:
+        - name: model_name
+          in: path
+          description: The name of the model.
+          required: true
+          schema:
+            type: string
+        - name: anthropic-beta
+          in: header
+          description: Optional beta feature opt-in header(s); DIAL accepts and ignores it for this endpoint.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnthropicModelData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
   /openai/applications:
     get:
       tags:
@@ -2097,6 +2179,44 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '405':
           description: Method Not Allowed
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+  /v1/admin/config/file/migrate:
+    post:
+      tags:
+        - Admin
+      summary: /v1/admin/config/file/migrate
+      operationId: migrateFileConfig
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigFileMigrateRequest'
+        required: true
+      responses:
+        '200':
+          description: Migration report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigFileMigrateResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
         '500':
           description: The server had an error while processing your request.
           content:
@@ -13439,6 +13559,34 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/McpTool'
+    AnthropicModelData:
+      type: object
+      properties:
+        created_at:
+          type: string
+        display_name:
+          type: string
+        id:
+          type: string
+        type:
+          type: string
+        max_input_tokens:
+          type: integer
+        max_tokens:
+          type: integer
+    AnthropicModelListData:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnthropicModelData'
+        first_id:
+          type: string
+        has_more:
+          type: boolean
+        last_id:
+          type: string
     Application:
       type: object
       properties:
@@ -13530,6 +13678,10 @@ components:
           type: string
           format: uri
         overrideName:
+          type: string
+        defaultHeaders:
+          $ref: '#/components/schemas/MapStringString'
+        baseUrl:
           type: string
     ApplicationData:
       type: object
@@ -14651,6 +14803,14 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/MetadataBase'
+    Condition:
+      type: object
+      properties:
+        field:
+          type: string
+        operator:
+          $ref: '#/components/schemas/Operator'
+        value: {}
     Config:
       type: object
       properties:
@@ -14682,6 +14842,42 @@ components:
           $ref: '#/components/schemas/MapStringString'
         defaultLocale:
           type: string
+        translators:
+          $ref: '#/components/schemas/MapStringTranslator'
+    ConfigFileMigrateRequest:
+      type: object
+      properties:
+        dryRun:
+          type: boolean
+        types:
+          type: array
+          items:
+            type: string
+    ConfigFileMigrateResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConfigFileMigrateResult'
+    ConfigFileMigrateResult:
+      type: object
+      properties:
+        id:
+          type: string
+        reason:
+          type: string
+        status:
+          $ref: '#/components/schemas/ConfigFileMigrateStatus'
+    ConfigFileMigrateStatus:
+      type: string
+      enum:
+        - migrated
+        - would_migrate
+        - skipped
+        - would_skip
+        - failed
+        - would_fail
     ConfigResourceControllerConfigWriteResponse:
       type: object
       properties:
@@ -14941,6 +15137,14 @@ components:
       properties:
         base_url:
           type: string
+        defaultHeaders:
+          $ref: '#/components/schemas/MapStringString'
+        mode:
+          $ref: '#/components/schemas/InterfaceMode'
+        translator:
+          $ref: '#/components/schemas/TranslatorRef'
+        defaults:
+          $ref: '#/components/schemas/MapStringObject'
     EmbeddingResponse:
       required:
         - data
@@ -15433,6 +15637,22 @@ components:
           format: uri
         overrideName:
           type: string
+        defaultHeaders:
+          $ref: '#/components/schemas/MapStringString'
+        baseUrl:
+          type: string
+    InterfaceMode:
+      type: string
+      enum:
+        - PASSTHROUGH
+        - TRANSLATOR
+    InterfaceType:
+      type: string
+      enum:
+        - OPENAI_CHAT_COMPLETIONS
+        - OPENAI_EMBEDDINGS
+        - OPENAI_RESPONSES
+        - ANTHROPIC_MESSAGES
     Invitation:
       type: object
       properties:
@@ -15711,6 +15931,14 @@ components:
       type: object
       additionalProperties:
         $ref: '#/components/schemas/ToolSet'
+    MapStringTranslator:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/Translator'
+    MapStringUpstreamInterface:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/UpstreamInterface'
     McpMcpApps:
       type: object
       properties:
@@ -15837,6 +16065,10 @@ components:
         catalogSchemaId:
           type: string
           format: uri
+        defaultHeaders:
+          $ref: '#/components/schemas/MapStringString'
+        baseUrl:
+          type: string
     ModelData:
       type: object
       properties:
@@ -15991,6 +16223,15 @@ components:
           type: array
           items:
             type: string
+    Operator:
+      type: string
+      enum:
+        - EQ
+        - NE
+        - GT
+        - LT
+        - GE
+        - LE
     ParallelToolCalls:
       type: boolean
       description: Whether to enable parallel `function` calling during the `tool` use.
@@ -16023,9 +16264,9 @@ components:
         unit:
           type: string
         cacheRead:
-          type: string
+          $ref: '#/components/schemas/PricingRate'
         cacheWrite:
-          type: string
+          $ref: '#/components/schemas/PricingRate'
     PricingData:
       type: object
       properties:
@@ -16036,9 +16277,20 @@ components:
         unit:
           type: string
         cache_read:
-          type: string
+          $ref: '#/components/schemas/PricingRate'
         cache_write:
+          $ref: '#/components/schemas/PricingRate'
+    PricingRate:
+      type: object
+      properties:
+        ifFalse:
+          $ref: '#/components/schemas/PricingRate'
+        ifTrue:
+          $ref: '#/components/schemas/PricingRate'
+        rate:
           type: string
+        test:
+          $ref: '#/components/schemas/Condition'
     Prompt:
       type: object
       properties:
@@ -16201,6 +16453,9 @@ components:
           $ref: '#/components/schemas/ResourceAuthStatus'
         dynamically_registered:
           type: boolean
+        client_secret_hint:
+          type: string
+          readOnly: true
     ResourceAuthSettingsData:
       type: object
       properties:
@@ -16249,6 +16504,8 @@ components:
           type: integer
         url:
           type: string
+        metadata:
+          $ref: '#/components/schemas/MapStringString'
     ResourceEventAction:
       type: string
       enum:
@@ -16894,6 +17151,10 @@ components:
           format: uri
         overrideName:
           type: string
+        defaultHeaders:
+          $ref: '#/components/schemas/MapStringString'
+        baseUrl:
+          type: string
     ToolSetData:
       type: object
       properties:
@@ -16990,6 +17251,24 @@ components:
       enum:
         - HTTP
         - SSE
+    Translator:
+      type: object
+      properties:
+        baseUrl:
+          type: string
+        in:
+          $ref: '#/components/schemas/InterfaceType'
+        out:
+          $ref: '#/components/schemas/InterfaceType'
+    TranslatorRef:
+      type: object
+      properties:
+        definition:
+          $ref: '#/components/schemas/Translator'
+        name:
+          type: string
+        inline:
+          $ref: '#/components/schemas/Translator'
     TruncatePromptError:
       required:
         - error
@@ -17059,6 +17338,23 @@ components:
           type: integer
         weight:
           type: integer
+        baseUrl:
+          type: string
+        interfaces:
+          $ref: '#/components/schemas/MapStringUpstreamInterface'
+    UpstreamInterface:
+      type: object
+      properties:
+        endpoint:
+          type: string
+        extraData:
+          type: string
+        key:
+          type: string
+          writeOnly: true
+        secretExtraData:
+          type: string
+          writeOnly: true
     UserInfoResponse:
       type: object
       properties:
@@ -17081,6 +17377,9 @@ components:
             items:
               type: string
           description: Normalized token claims. Present only for user-based session authentication.
+        userDisplayName:
+          type: string
+          description: Human-readable caller name. For user-based session authentication it is resolved from the identity provider's configured userDisplayName claim path; for API key authentication it is the key's project name. Absent when not configured.
     UserLimitStats:
       type: object
       properties:
