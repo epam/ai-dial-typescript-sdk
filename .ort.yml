@@ -1,19 +1,9 @@
 ---
 excludes:
   paths:
-    - pattern: 'package-lock.json'
-      reason: 'BUILD_TOOL_OF'
+    - pattern: "package-lock.json"
+      reason: "BUILD_TOOL_OF"
   scopes:
-    - pattern: 'devDependencies'
-      reason: 'DEV_DEPENDENCY_OF'
-      comment: 'Packages for development only.'
-resolutions:
-  rule_violations:
-    - message: "No license information is available for dependency \
-        'NPM::stickyfill:1\\.1\\.1'\\."
-      reason: 'CANT_FIX_EXCEPTION'
-      comment: 'No license information available in github repo'
-    - message: "No license information is available for dependency \
-        'NPM::decko:1\\.2\\.0'\\."
-      reason: 'CANT_FIX_EXCEPTION'
-      comment: 'No license information available in github repo'
+    - pattern: "devDependencies"
+      reason: "DEV_DEPENDENCY_OF"
+      comment: "Packages for development only."

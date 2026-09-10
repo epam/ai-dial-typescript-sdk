@@ -1,3 +1,10 @@
+# Config files
+
+.github
+.ort.yml
+
+# Others
+
 dist
 node_modules
 coverage
