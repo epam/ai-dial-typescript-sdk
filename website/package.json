@@ -1,0 +1,36 @@
+{
+  "name": "@epam/ai-dial-sdk-website",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "predev": "node ../scripts/generate-api-docs.mjs",
+    "dev": "vite --host 127.0.0.1",
+    "prebuild": "node ../scripts/generate-api-docs.mjs",
+    "build": "tsc --noEmit && vite build && node scripts/prepare-pages.mjs",
+    "preview": "vite preview --host 127.0.0.1",
+    "docs:generate": "node ../scripts/generate-api-docs.mjs",
+    "docs:check": "node ../scripts/generate-api-docs.mjs --check",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fontsource-variable/geist": "^5.2.0",
+    "@fontsource/ibm-plex-mono": "^5.2.0",
+    "lucide-react": "^0.577.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.6",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.0"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  }
+}

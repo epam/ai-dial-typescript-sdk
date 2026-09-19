@@ -1,0 +1,85 @@
+name: Website and GitHub Pages
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'website/**'
+      - 'src/**'
+      - 'open_api_core.yaml'
+      - 'scripts/generate-api-docs.mjs'
+      - 'tests/docs/**'
+      - 'package*.json'
+      - '.github/workflows/website.yml'
+  push:
+    branches: [development, main]
+    paths:
+      - 'website/**'
+      - 'src/**'
+      - 'open_api_core.yaml'
+      - 'scripts/generate-api-docs.mjs'
+      - 'tests/docs/**'
+      - 'package*.json'
+      - '.github/workflows/website.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  website:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            website/package-lock.json
+      - run: npm ci
+      - run: npm ci --prefix website
+      - run: npm run docs:check
+      - run: npm run docs:test
+      - name: Build website for GitHub Pages
+        run: npm run website:build
+        env:
+          WEBSITE_BASE_PATH: /${{ github.event.repository.name }}/
+      - run: npm run build
+      - name: Verify npm package isolation
+        run: |
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import { execFileSync } from 'node:child_process';
+          const [pkg] = JSON.parse(execFileSync('npm', ['pack', '--dry-run', '--json'], { encoding: 'utf8' }));
+          assert(pkg.files.some(file => file.path.startsWith('dist/')));
+          assert(!pkg.files.some(file => file.path.startsWith('website/')));
+          JS
+      - name: Upload website artifact
+        if: github.ref == 'refs/heads/development' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ./website/dist
+
+  deploy:
+    if: github.ref == 'refs/heads/development' && github.event_name != 'pull_request'
+    needs: website
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+        with:
+          artifact_name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}

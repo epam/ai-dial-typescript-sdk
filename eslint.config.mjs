@@ -13,9 +13,19 @@ export default [
       'coverage/**',
       'src/generated/**',
       'tools/**',
+      'website/node_modules/**',
+      'website/dist/**',
     ],
   },
   js.configs.recommended,
+  {
+    files: [
+      'scripts/generate-api-docs.mjs',
+      'website/scripts/**/*.mjs',
+      'tests/docs/**/*.mjs',
+    ],
+    languageOptions: { globals: globals.node },
+  },
   {
     files: ['**/*.{ts,tsx,mts,cts}'],
     languageOptions: {

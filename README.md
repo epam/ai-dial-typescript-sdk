@@ -244,3 +244,22 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). All PRs must follow [Conventional Commit
 ## License
 
 Apache 2.0 — see [LICENSE](LICENSE).
+
+## Marketing website and API reference
+
+The React website lives in [`website/`](website/README.md), with an independent
+package and build. It is excluded from the published SDK.
+
+```bash
+npm ci --prefix website
+npm run website:dev
+```
+
+`npm run website:build` builds the site into `website/dist/`.
+`npm run docs:generate` refreshes the complete method reference from the SDK and
+OpenAPI; `npm run docs:check` detects stale documentation. Generation also runs
+automatically with `npm run gen` and before website development/build commands.
+
+The [website workflow](.github/workflows/website.yml) publishes to GitHub Pages
+from `development`. See the [one-time Pages setup](website/README.md#github-pages-deployment)
+before the first deployment.
