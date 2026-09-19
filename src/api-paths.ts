@@ -143,6 +143,10 @@ export const deleteToolSetMcpUrl = (toolset_name: string) => {
   return `/v1/toolset/${toolset_name}/mcp`;
 };
 
+export const deleteTranslatorUrl = (bucket: string, path: string) => {
+  return `/v1/translators/${bucket}/${path}`;
+};
+
 export const deployApplicationUrl = '/v1/ops/application/deploy';
 export const discardSharedResourcesUrl = '/v1/ops/resource/share/discard';
 export const downloadFileUrl = (bucket: string, file_path: string) => {
@@ -234,6 +238,10 @@ export const getDeploymentUrl = (deployment_name: string) => {
   return `/openai/deployments/${deployment_name}`;
 };
 
+export const getDeploymentInfoUrl = (deployment_name: string) => {
+  return `/v1/deployments/${deployment_name}`;
+};
+
 export const getDeploymentLimitsUrl = (deployment_name: string) => {
   return `/v1/deployments/${deployment_name}/limits`;
 };
@@ -281,6 +289,10 @@ export const getFileConfigSettingsUrl = (name: string) => {
 
 export const getFileConfigToolsetUrl = (name: string) => {
   return `/v1/admin/config/file/toolsets/${name}`;
+};
+
+export const getFileConfigTranslatorUrl = (name: string) => {
+  return `/v1/admin/config/file/translators/${name}`;
 };
 
 export const getFileMetadataUrl = (bucket: string, path: string) => {
@@ -415,6 +427,14 @@ export const getToolsetUrl = (toolset_name: string) => {
   return `/openai/toolsets/${toolset_name}`;
 };
 
+export const getTranslatorUrl = (bucket: string, path: string) => {
+  return `/v1/translators/${bucket}/${path}`;
+};
+
+export const getTranslatorMetadataUrl = (bucket: string, path: string) => {
+  return `/v1/metadata/translators/${bucket}/${path}`;
+};
+
 export const getUserBucketUrl = '/v1/bucket';
 export const getUserInfoUrl = '/v1/user/info';
 export const getUserLimitsUrl = '/v1/user/limits';
@@ -447,6 +467,7 @@ export const listFileConfigRoutesUrl = '/v1/admin/config/file/routes';
 export const listFileConfigSchemasUrl = '/v1/admin/config/file/schemas';
 export const listFileConfigSettingsUrl = '/v1/admin/config/file/settings';
 export const listFileConfigToolsetsUrl = '/v1/admin/config/file/toolsets';
+export const listFileConfigTranslatorsUrl = '/v1/admin/config/file/translators';
 export const listFilesFromCodeInterpreterUrl =
   '/v1/ops/code_interpreter/list_files';
 export const listPublishedResourcesUrl = '/v1/ops/publication/resource/list';
@@ -560,6 +581,10 @@ export const saveSchemaUrl = (bucket: string, path: string) => {
 
 export const saveToolSetUrl = (bucket: string, toolset_path: string) => {
   return `/v1/toolsets/${bucket}/${toolset_path}`;
+};
+
+export const saveTranslatorUrl = (bucket: string, path: string) => {
+  return `/v1/translators/${bucket}/${path}`;
 };
 
 export const sendChatCompletionRequestUrl = (deployment_name: string) => {
