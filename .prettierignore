@@ -11,3 +11,8 @@ coverage
 openapi.bundle.yaml
 openapi.clean.yaml
 src/generated
+
+# Generated website reference and independent build
+website/src/data/api-reference.json
+website/src/data/sdk-summary.json
+website/dist
