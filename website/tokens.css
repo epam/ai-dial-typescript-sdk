@@ -1,0 +1,56 @@
+/* Hallmark · macrostructure: Split Studio · genre: modern-minimal · theme: Quiet (dark)
+ * tone: technical · anchor hue: 255 · nav: N1 (two destinations) · footer: Ft2
+ * H2: 6/6, code proof, negative space · enrichment: real code, no synthetic chrome
+ * Pre-emit critique: P4 H4 E4 S5 R5 V4 · review: website/VALIDATION.md
+ */
+:root {
+  color-scheme: dark;
+  --color-paper: oklch(17% 0.012 255);
+  --color-paper-2: oklch(20% 0.014 255);
+  --color-paper-3: oklch(24% 0.016 255);
+  --color-ink: oklch(96% 0.006 255);
+  --color-muted: oklch(74% 0.018 255);
+  --color-neutral: oklch(68% 0.018 255);
+  --color-rule: oklch(31% 0.018 255);
+  --color-rule-strong: oklch(46% 0.018 255);
+  --color-accent: oklch(79% 0.11 255);
+  --color-accent-soft: oklch(27% 0.04 255);
+  --color-accent-ink: oklch(17% 0.015 255);
+  --color-focus: oklch(84% 0.13 90);
+  --color-success: oklch(80% 0.095 165);
+  --color-warning: oklch(82% 0.1 80);
+  --color-error: oklch(79% 0.11 25);
+  --color-transparent: transparent;
+  --color-backdrop: oklch(10% 0.01 255 / 0.8);
+  --font-display: 'Geist Variable', sans-serif;
+  --font-body: 'Geist Variable', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  --space-4xl: 9rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.25rem;
+  --text-lg: 1.5rem;
+  --text-title: clamp(2rem, 3.2vw, 3.25rem);
+  --text-display: clamp(2.75rem, 5.4vw, 5.5rem);
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-pill: 999px;
+  --rule-width: 1px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-minor: 220ms;
+  --z-base: 1;
+  --z-sticky: 20;
+  --page-gutter: clamp(1rem, 4vw, 4rem);
+}
