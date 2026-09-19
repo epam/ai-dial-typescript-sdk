@@ -186,6 +186,11 @@ export interface DIAL_SDK {
     toolset_name: string,
     init?: SDKOperationInit<operations['deleteToolSetMcp']>,
   ) => Promise<SDKOperationResponse<operations['deleteToolSetMcp']>>;
+  deleteTranslator: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['deleteTranslator']>,
+  ) => Promise<SDKOperationResponse<operations['deleteTranslator']>>;
   deployApplication: (
     init: SDKOperationInit<operations['deployApplication']>,
   ) => Promise<SDKOperationResponse<operations['deployApplication']>>;
@@ -306,6 +311,10 @@ export interface DIAL_SDK {
     deployment_name: string,
     init?: SDKOperationInit<operations['getDeployment']>,
   ) => Promise<SDKOperationResponse<operations['getDeployment']>>;
+  getDeploymentInfo: (
+    deployment_name: string,
+    init?: SDKOperationInit<operations['getDeploymentInfo']>,
+  ) => Promise<SDKOperationResponse<operations['getDeploymentInfo']>>;
   getDeploymentLimits: (
     deployment_name: string,
     init?: SDKOperationInit<operations['getDeploymentLimits']>,
@@ -358,6 +367,10 @@ export interface DIAL_SDK {
     name: string,
     init?: SDKOperationInit<operations['getFileConfigToolset']>,
   ) => Promise<SDKOperationResponse<operations['getFileConfigToolset']>>;
+  getFileConfigTranslator: (
+    name: string,
+    init?: SDKOperationInit<operations['getFileConfigTranslator']>,
+  ) => Promise<SDKOperationResponse<operations['getFileConfigTranslator']>>;
   getFileMetadata: (
     bucket: string,
     path: string,
@@ -539,6 +552,16 @@ export interface DIAL_SDK {
     toolset_name: string,
     init?: SDKOperationInit<operations['getToolset']>,
   ) => Promise<SDKOperationResponse<operations['getToolset']>>;
+  getTranslator: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getTranslator']>,
+  ) => Promise<SDKOperationResponse<operations['getTranslator']>>;
+  getTranslatorMetadata: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getTranslatorMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getTranslatorMetadata']>>;
   getUserBucket: (
     init?: SDKOperationInit<operations['getUserBucket']>,
   ) => Promise<SDKOperationResponse<operations['getUserBucket']>>;
@@ -609,6 +632,9 @@ export interface DIAL_SDK {
   listFileConfigToolsets: (
     init?: SDKOperationInit<operations['listFileConfigToolsets']>,
   ) => Promise<SDKOperationResponse<operations['listFileConfigToolsets']>>;
+  listFileConfigTranslators: (
+    init?: SDKOperationInit<operations['listFileConfigTranslators']>,
+  ) => Promise<SDKOperationResponse<operations['listFileConfigTranslators']>>;
   listFilesFromCodeInterpreter: (
     init: SDKOperationInit<operations['listFilesFromCodeInterpreter']>,
   ) => Promise<
@@ -755,6 +781,11 @@ export interface DIAL_SDK {
     toolset_path: string,
     init: SDKOperationInit<operations['saveToolSet']>,
   ) => Promise<SDKOperationResponse<operations['saveToolSet']>>;
+  saveTranslator: (
+    bucket: string,
+    path: string,
+    init: SDKOperationInit<operations['saveTranslator']>,
+  ) => Promise<SDKOperationResponse<operations['saveTranslator']>>;
   sendChatCompletionRequest: (
     deployment_name: string,
     init: SDKOperationInit<operations['sendChatCompletionRequest']>,
@@ -1045,6 +1076,11 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.deleteToolSetMcpUrl(toolset_name) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['deleteToolSetMcp']>>,
+    deleteTranslator: (bucket: string, path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deleteTranslatorUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deleteTranslator']>>,
     deployApplication: (init?: any) =>
       client.POST(apiPaths.deployApplicationUrl, init) as Promise<
         SDKOperationResponse<operations['deployApplication']>
@@ -1196,6 +1232,11 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.getDeploymentUrl(deployment_name) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['getDeployment']>>,
+    getDeploymentInfo: (deployment_name: string, init?: any) =>
+      client.GET(
+        apiPaths.getDeploymentInfoUrl(deployment_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getDeploymentInfo']>>,
     getDeploymentLimits: (deployment_name: string, init?: any) =>
       client.GET(
         apiPaths.getDeploymentLimitsUrl(deployment_name) as any,
@@ -1261,6 +1302,11 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.getFileConfigToolsetUrl(name) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['getFileConfigToolset']>>,
+    getFileConfigTranslator: (name: string, init?: any) =>
+      client.GET(
+        apiPaths.getFileConfigTranslatorUrl(name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getFileConfigTranslator']>>,
     getFileMetadata: (bucket: string, path: string, init?: any) =>
       client.GET(
         apiPaths.getFileMetadataUrl(bucket, path) as any,
@@ -1462,6 +1508,16 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.GET(apiPaths.getToolsetUrl(toolset_name) as any, init) as Promise<
         SDKOperationResponse<operations['getToolset']>
       >,
+    getTranslator: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getTranslatorUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getTranslator']>>,
+    getTranslatorMetadata: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getTranslatorMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getTranslatorMetadata']>>,
     getUserBucket: (init?: any) =>
       client.GET(apiPaths.getUserBucketUrl, init) as Promise<
         SDKOperationResponse<operations['getUserBucket']>
@@ -1549,6 +1605,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     listFileConfigToolsets: (init?: any) =>
       client.GET(apiPaths.listFileConfigToolsetsUrl, init) as Promise<
         SDKOperationResponse<operations['listFileConfigToolsets']>
+      >,
+    listFileConfigTranslators: (init?: any) =>
+      client.GET(apiPaths.listFileConfigTranslatorsUrl, init) as Promise<
+        SDKOperationResponse<operations['listFileConfigTranslators']>
       >,
     listFilesFromCodeInterpreter: (init?: any) =>
       client.POST(apiPaths.listFilesFromCodeInterpreterUrl, init) as Promise<
@@ -1717,6 +1777,11 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.saveToolSetUrl(bucket, toolset_path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['saveToolSet']>>,
+    saveTranslator: (bucket: string, path: string, init?: any) =>
+      client.PUT(
+        apiPaths.saveTranslatorUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['saveTranslator']>>,
     sendChatCompletionRequest: (deployment_name: string, init?: any) =>
       client.POST(
         apiPaths.sendChatCompletionRequestUrl(deployment_name) as any,

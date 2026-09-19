@@ -710,6 +710,40 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/admin/config/file/translators': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/admin/config/file/translators */
+    get: operations['listFileConfigTranslators'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/config/file/translators/{name}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/admin/config/file/translators/{name} */
+    get: operations['getFileConfigTranslator'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/admin/health/config': {
     parameters: {
       query?: never;
@@ -1050,6 +1084,23 @@ export interface paths {
     };
     /** /v1/deployments */
     get: operations['listDeployments'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/deployments/{deployment_name}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/deployments/{deployment_name} */
+    get: operations['getDeploymentInfo'];
     put?: never;
     post?: never;
     delete?: never;
@@ -1557,6 +1608,23 @@ export interface paths {
      *     If it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.
      */
     get: operations['getToolSetMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/metadata/translators/{bucket}/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/metadata/translators/{bucket}/{path} */
+    get: operations['getTranslatorMetadata'];
     put?: never;
     post?: never;
     delete?: never;
@@ -2700,6 +2768,25 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/translators/{bucket}/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/translators/{bucket}/{path} */
+    get: operations['getTranslator'];
+    /** /v1/translators/{bucket}/{path} */
+    put: operations['saveTranslator'];
+    post?: never;
+    /** /v1/translators/{bucket}/{path} */
+    delete: operations['deleteTranslator'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/user/info': {
     parameters: {
       query?: never;
@@ -2729,7 +2816,7 @@ export interface paths {
     };
     /**
      * /v1/user/limits
-     * @description Returns limits and current rolling usage for every deployment available to the authenticated caller -
+     * @description Returns limits and current usage for every deployment available to the authenticated caller -
      *     a JWT user or an API-key project. It replaces calling `/v1/deployments/{deployment_name}/limits` once
      *     per deployment, and one response labels an entire model picker, so switching model needs no refetch.
      *
@@ -2752,11 +2839,20 @@ export interface paths {
      *        (`Long.MAX_VALUE`), meaning unlimited. That value exceeds JavaScript's `Number.MAX_SAFE_INTEGER`
      *        (`9007199254740991`), so treat any `total` at or above 2^53 as unlimited rather than rendering it
      *        as a `used / total` ratio.
-     *     5. **Every window is trailing, not calendar-aligned.** `day` is the last 24 hours, `week` the last 7
-     *        days, `month` the last 30 days - never "since midnight" or "since the 1st". As a result `used`
-     *        decreases on its own as older activity ages out; there is no refund and no periodic reset.
-     *        Eviction happens in steps on UTC boundaries at each window's granularity (1 hour for `day`, 1 day
-     *        for `week` and `month`).
+     *     5. **`minute` and `hour` windows are trailing; `day`, `week` and `month` are calendar-aligned.**
+     *        `minuteTokenStats`/`minuteCostStats` and `hourRequestStats` are a trailing window - the last 60
+     *        seconds or 60 minutes - so their `used` decreases on its own as older activity ages out, with no
+     *        periodic reset. `day`/`week`/`month` windows instead reset all at once at a deterministic
+     *        boundary (e.g. "since midnight" or "since the 1st") anchored to the deployment-wide
+     *        `rateLimitSchedule` config setting (default: UTC, Monday, 00:00) - `used` only ever grows within a
+     *        period, then drops to zero at the next boundary.
+     *     6. **`resetsAt` names that boundary, only for calendar-aligned windows.** `dayTokenStats`,
+     *        `weekTokenStats`, `monthTokenStats`, `dayRequestStats`, `dayCostStats`, `weekCostStats` and
+     *        `monthCostStats` carry a `resetsAt` field - an absolute ISO-8601 instant (e.g.
+     *        `"2026-10-01T00:00:00+02:00"`), not a countdown - for when that window's usage resets next.
+     *        `minuteTokenStats`, `minuteCostStats` and `hourRequestStats` omit the field entirely rather than
+     *        serializing it as `null`: a trailing window has no single reset instant to report, so clients
+     *        should treat a missing `resetsAt` as a permanent, expected omission rather than poll for it.
      *
      *     Per-deployment spend does not reconcile to the global figure. Attribution starts at rollout and does
      *     not back-fill, and a model without `pricing` never contributes while still consuming tokens, so the
@@ -2977,6 +3073,15 @@ export interface components {
     AcceptConsentRequest: {
       consent?: components['schemas']['Consent'];
     };
+    AdminApplicationManifest: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind: 'Application';
+      name?: string;
+      spec?: components['schemas']['Application'];
+    };
     AdminApplyRequest: {
       manifests?: components['schemas']['AdminManifest'][];
       precheck?: boolean;
@@ -2993,10 +3098,107 @@ export interface components {
     };
     /** @enum {string} */
     AdminApplyStatus: 'APPLIED' | 'APPLIED_INVALID' | 'FAILED' | 'SKIPPED';
-    AdminManifest: {
-      kind?: string;
+    AdminCatalogSchemaManifest: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind: 'CatalogSchema';
       name?: string;
-      spec?: components['schemas']['JsonNode'];
+      spec?: components['schemas']['CatalogSchema'];
+    };
+    AdminInterceptorManifest: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind: 'Interceptor';
+      name?: string;
+      spec?: components['schemas']['Interceptor'];
+    };
+    AdminKeyManifest: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind: 'Key';
+      name?: string;
+      spec?: components['schemas']['Key'];
+    };
+    AdminManifest:
+      | components['schemas']['AdminSettingsManifest']
+      | components['schemas']['AdminSchemaManifest']
+      | components['schemas']['AdminCatalogSchemaManifest']
+      | components['schemas']['AdminInterceptorManifest']
+      | components['schemas']['AdminTranslatorManifest']
+      | components['schemas']['AdminRoleManifest']
+      | components['schemas']['AdminKeyManifest']
+      | components['schemas']['AdminRouteManifest']
+      | components['schemas']['AdminModelManifest']
+      | components['schemas']['AdminToolSetManifest']
+      | components['schemas']['AdminApplicationManifest'];
+    AdminModelManifest: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind: 'Model';
+      name?: string;
+      spec?: components['schemas']['Model'];
+    };
+    AdminRoleManifest: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind: 'Role';
+      name?: string;
+      spec?: components['schemas']['Role'];
+    };
+    AdminRouteManifest: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind: 'Route';
+      name?: string;
+      spec?: components['schemas']['Route'];
+    };
+    AdminSchemaManifest: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind: 'Schema';
+      name?: string;
+      spec?: components['schemas']['ApplicationTypeSchema'];
+    };
+    AdminSettingsManifest: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind: 'Settings';
+      name?: string;
+      spec?: components['schemas']['GlobalSettings'];
+    };
+    AdminToolSetManifest: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind: 'ToolSet';
+      name?: string;
+      spec?: components['schemas']['ToolSet'];
+    };
+    AdminTranslatorManifest: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind: 'Translator';
+      name?: string;
+      spec?: components['schemas']['Translator'];
     };
     AdminValidateResponse: {
       failed?: number;
@@ -3105,6 +3307,7 @@ export interface components {
       catalog_properties?: components['schemas']['MapStringObject'];
       /** Format: uri */
       catalog_schema_id?: string;
+      interface_configs?: components['schemas']['MapStringInterfaceConfigData'];
     };
     ApplicationFunction: {
       author_bucket?: string;
@@ -3134,6 +3337,13 @@ export interface components {
     };
     /** @enum {string} */
     ApplicationMcpConfigDelivery: 'HEADER' | 'META';
+    /** @description JSON Schema document describing a custom application type. Alongside standard JSON Schema keywords it carries `dial`-prefixed extension properties; `$id` is required and must be non-blank. */
+    ApplicationTypeSchema: {
+      /** Format: uri-reference */
+      $id: string;
+    } & {
+      [key: string]: unknown;
+    };
     /** @enum {string} */
     AuthenticationType: 'OAUTH' | 'API_KEY' | 'NONE' | 'DIAL_NATIVE';
     Bucket: {
@@ -3152,6 +3362,13 @@ export interface components {
       fine_tune?: boolean;
       inference?: boolean;
       scale_types?: string[];
+    };
+    /** @description JSON Schema document describing a catalog entity type. Alongside standard JSON Schema keywords it carries `dial`-prefixed extension properties; `$id` is required and must be non-blank. */
+    CatalogSchema: {
+      /** Format: uri-reference */
+      $id: string;
+    } & {
+      [key: string]: unknown;
     };
     ChatCompletionAddon:
       | {
@@ -3384,6 +3601,8 @@ export interface components {
        *     Given this schema, the user is expected to provide a JSON value in the next message in the `custom_content.form_value` field.
        */
       form_schema?: Record<string, never>;
+      /** @description List of skills referenced by the model as part of the response. */
+      skills?: components['schemas']['RequestSkill'][];
     };
     /** @description DIAL-specific extensions of the Chat Completions message. */
     ChatCompletionRequestCustomFields: {
@@ -3529,6 +3748,8 @@ export interface components {
       attachments?: components['schemas']['RequestAttachment'][];
       /** @description The JSON value corresponding to the JSON schema sent by the assistant in the previous message in the `custom_content.form_schema` field. */
       form_value?: Record<string, never>;
+      /** @description List of skills used to supply an additional input for the model. */
+      skills?: components['schemas']['RequestSkill'][];
     };
     ChatCompletionResponseAttachment: {
       /**
@@ -3754,6 +3975,22 @@ export interface components {
       sessionId?: string;
     };
     CollectionMetadataBase: components['schemas']['MetadataBase'][];
+    ComplexResourceItemMetadata: {
+      attributes?: components['schemas']['MapStringObject'];
+      author?: string;
+      bucket?: string;
+      createdAt?: number;
+      etag?: string;
+      name?: string;
+      nodeType?: components['schemas']['NodeType'];
+      parentPath?: string;
+      permissions?: components['schemas']['ResourceAccessType'][];
+      resourceType?: components['schemas']['ResourceType'];
+      sharedBy?: components['schemas']['ShareMetadata'][];
+      sharedWith?: components['schemas']['ShareMetadata'][];
+      updatedAt?: number;
+      url?: string;
+    };
     Condition: {
       field?: string;
       operator?: components['schemas']['Operator'];
@@ -3773,6 +4010,7 @@ export interface components {
       catalogSchemas?: components['schemas']['MapStringString'];
       defaultLocale?: string;
       translators?: components['schemas']['MapStringTranslator'];
+      rateLimitSchedule?: components['schemas']['RateLimitSchedule'];
     };
     ConfigFileMigrateRequest: {
       dryRun?: boolean;
@@ -3782,9 +4020,14 @@ export interface components {
       results?: components['schemas']['ConfigFileMigrateResult'][];
     };
     ConfigFileMigrateResult: {
-      id?: string;
       reason?: string;
       status?: components['schemas']['ConfigFileMigrateStatus'];
+      /** @description Percent-encoded admin API path (relative, no leading /v1/) at which the resulting entity is reachable, e.g. models/platform/gpt-4. Present once the entity exists in blob storage or a resource url could be derived for it; absent when no resource url could be determined. */
+      resourceUrl?: string;
+      /** @description Entity's identifier in the source file config (a short name, or a schema's $id). Absent when the entity has no safe file-side name to report - e.g. a key entity's file-side identity is its raw secret, which must never be echoed back, and global settings is a singleton with no name of its own. */
+      key?: string;
+      /** @description Entity kind being migrated (e.g. Model, Interceptor, Key, Schema, CatalogSchema, Settings). */
+      kind?: string;
     };
     /** @enum {string} */
     ConfigFileMigrateStatus:
@@ -3839,6 +4082,7 @@ export interface components {
     CostItemLimitStats: {
       total?: number;
       used?: number;
+      resetsAt?: string;
     };
     CostLimit: {
       day?: number;
@@ -3944,6 +4188,8 @@ export interface components {
       mode?: components['schemas']['InterfaceMode'];
       translator?: components['schemas']['TranslatorRef'];
       defaults?: components['schemas']['MapStringObject'];
+      features?: components['schemas']['Features'];
+      overridePaths?: components['schemas']['MapStringString'];
     };
     EmbeddingResponse: {
       /** @description Object type. Always is `list`. */
@@ -3988,8 +4234,7 @@ export interface components {
     EmbeddingsCustomInput: components['schemas']['EmbeddingsCustomInputElement'][];
     /** @description An embedding input composed of multiple strings and attachments. */
     EmbeddingsCustomInputCompoundElement: (
-      | string
-      | components['schemas']['RequestAttachment']
+      string | components['schemas']['RequestAttachment']
     )[];
     /** @description A particular embedding input which embeddings model translates to an embedding vector. */
     EmbeddingsCustomInputElement:
@@ -4086,6 +4331,7 @@ export interface components {
       tools_supported?: boolean;
       truncate_prompt_endpoint?: string;
       url_attachments_supported?: boolean;
+      skills_supported?: boolean;
     };
     FeaturesData: {
       accessible_by_per_request_key?: boolean;
@@ -4112,6 +4358,7 @@ export interface components {
       tools?: boolean;
       truncate_prompt?: boolean;
       url_attachments?: boolean;
+      skills_supported?: boolean;
     };
     FileConfigControllerItemsResponseFileConfigControllerNamedEntity: {
       items?: components['schemas']['FileConfigControllerNamedEntity'][];
@@ -4163,14 +4410,11 @@ export interface components {
     FunctionParameters: Record<string, never>;
     /** @enum {string} */
     FunctionStatus:
-      | 'DEPLOYING'
-      | 'UNDEPLOYING'
-      | 'DEPLOYED'
-      | 'UNDEPLOYED'
-      | 'FAILED';
+      'DEPLOYING' | 'UNDEPLOYING' | 'DEPLOYED' | 'UNDEPLOYED' | 'FAILED';
     GlobalSettings: {
       globalInterceptors?: string[];
       retriableErrorCodes?: number[];
+      rateLimitSchedule?: components['schemas']['RateLimitSchedule'];
     };
     HealthResponse: {
       skipped?: components['schemas']['SkippedEntity'][];
@@ -4208,6 +4452,11 @@ export interface components {
       defaultHeaders?: components['schemas']['MapStringString'];
       baseUrl?: string;
     };
+    InterfaceConfigData: {
+      defaults?: components['schemas']['MapStringObject'];
+      features?: components['schemas']['FeaturesData'];
+      default_headers?: components['schemas']['MapStringString'];
+    };
     /** @enum {string} */
     InterfaceMode: 'PASSTHROUGH' | 'TRANSLATOR';
     /** @enum {string} */
@@ -4243,6 +4492,7 @@ export interface components {
     ItemLimitStats: {
       total?: number;
       used?: number;
+      resetsAt?: string;
     };
     JsonNode: Record<string, never>;
     Key: {
@@ -4327,6 +4577,9 @@ export interface components {
     };
     MapStringInterceptor: {
       [key: string]: components['schemas']['Interceptor'];
+    };
+    MapStringInterfaceConfigData: {
+      [key: string]: components['schemas']['InterfaceConfigData'];
     };
     MapStringKey: {
       [key: string]: components['schemas']['Key'];
@@ -4467,6 +4720,7 @@ export interface components {
       catalog_properties?: components['schemas']['MapStringObject'];
       /** Format: uri */
       catalog_schema_id?: string;
+      interface_configs?: components['schemas']['MapStringInterfaceConfigData'];
     };
     /** @enum {string} */
     ModelType: 'CHAT' | 'COMPLETION' | 'EMBEDDING';
@@ -4579,6 +4833,11 @@ export interface components {
     PublicationResourceAction: 'ADD' | 'DELETE' | 'ADD_IF_ABSENT';
     /** @enum {string} */
     PublicationStatus: 'PENDING' | 'APPROVED' | 'REJECTED';
+    RateLimitSchedule: {
+      resetTime?: string;
+      timezone?: string;
+      weekStartDay?: components['schemas']['WeekDay'];
+    };
     RateRequest: {
       responseId?: string | null;
       /** @default false */
@@ -4612,6 +4871,10 @@ export interface components {
       reference_type?: string;
       /** @description If `reference_type` is specified, the content of `reference_url` should follow the format described in the MIME standard for `reference_type`. */
       reference_url?: string;
+    };
+    RequestSkill: {
+      /** @description The URL of the skill resource, e.g. `skills/<bucket>/<path>`. */
+      url: string;
     };
     /** @enum {string} */
     ResourceAccessType: 'READ' | 'WRITE' | 'SHARE';
@@ -4779,6 +5042,7 @@ export interface components {
       | 'APP_TYPE_SCHEMA'
       | 'CATALOG_SCHEMA'
       | 'INTERCEPTOR'
+      | 'TRANSLATOR'
       | 'ROLE'
       | 'PROJECT_KEY'
       | 'ROUTE'
@@ -5059,6 +5323,7 @@ export interface components {
       catalog_properties?: components['schemas']['MapStringObject'];
       /** Format: uri */
       catalog_schema_id?: string;
+      interface_configs?: components['schemas']['MapStringInterfaceConfigData'];
     };
     ToolSetRepairControllerRepairResponse: {
       message?: string;
@@ -5153,6 +5418,8 @@ export interface components {
     /** @enum {string} */
     ValidationStatus: 'VALID' | 'FAILED' | 'SKIPPED';
     ValueNode: Record<string, never>;
+    /** @enum {string} */
+    WeekDay: 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun';
   };
   responses: never;
   parameters: never;
@@ -6783,7 +7050,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['Model'] &
+          'application/json': components['schemas']['Application'] &
             components['schemas']['EntityMetadata'];
         };
       };
@@ -7119,7 +7386,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['Model'] &
+          'application/json': components['schemas']['Key'] &
             components['schemas']['EntityMetadata'];
         };
       };
@@ -7842,7 +8109,119 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['Model'] &
+          'application/json': components['schemas']['ToolSet'] &
+            components['schemas']['EntityMetadata'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  listFileConfigTranslators: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description List of file-sourced translators */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['FileConfigControllerItemsResponseFileConfigControllerNamedEntity'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getFileConfigTranslator: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Translator name */
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Translator'] &
             components['schemas']['EntityMetadata'];
         };
       };
@@ -9446,7 +9825,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['ProxyResponse'] &
+          'application/json': components['schemas']['CatalogSchema'] &
             components['schemas']['EntityMetadata'];
         };
       };
@@ -9528,7 +9907,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['ProxyRequest'];
+        'application/json': components['schemas']['CatalogSchema'];
       };
     };
     responses: {
@@ -10113,6 +10492,65 @@ export interface operations {
       };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getDeploymentInfo: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The name of the deployment. */
+        deployment_name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['DeploymentData'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         headers: {
           [name: string]: unknown;
         };
@@ -12771,6 +13209,74 @@ export interface operations {
       };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getTranslatorMetadata: {
+    parameters: {
+      query?: {
+        /** @description The token from the previous request to request next items. */
+        token?: string;
+        /** @description Limit on the number of items in the response. */
+        limit?: number;
+        /** @description If true, returns items recursively without nested folder metadata. */
+        recursive?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The parameter specifies path to the requested directory or application, for example: `folder1/folder2/` or `folder1/application_name/`. Note, it could be empty if you want to list the root folder. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MetadataBase'];
+        };
+      };
+      /** @description Bad request */
+      400: {
         headers: {
           [name: string]: unknown;
         };
@@ -17331,7 +17837,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['ProxyResponse'] &
+          'application/json': components['schemas']['ApplicationTypeSchema'] &
             components['schemas']['EntityMetadata'];
         };
       };
@@ -17431,7 +17937,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['ProxyRequest'];
+        'application/json': components['schemas']['ApplicationTypeSchema'];
       };
     };
     responses: {
@@ -18764,6 +19270,265 @@ export interface operations {
       };
     };
   };
+  getTranslator: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description Translator name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Entity tag for the translator */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Translator'] &
+            components['schemas']['EntityMetadata'];
+        };
+      };
+      /** @description Not Modified */
+      304: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  saveTranslator: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+        /** @description Conditional creation precondition. */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description Translator name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['Translator'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Entity tag for the saved translator */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ConfigResourceControllerConfigWriteResponse'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  deleteTranslator: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description Translator name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   getUserInfo: {
     parameters: {
       query?: never;
@@ -19134,7 +19899,9 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['MetadataBase'];
+          'application/json':
+            | components['schemas']['ResourceFolderMetadata']
+            | components['schemas']['ComplexResourceItemMetadata'];
         };
       };
       /** @description Bad request - limit out of range */
