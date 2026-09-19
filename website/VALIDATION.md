@@ -7,9 +7,9 @@ Reviewed on 2026-09-19 using Node.js 20.19.5 and local Chrome through Playwright
 - Website TypeScript checking and production build pass.
 - The SDK's original ESM, CJS and declaration build passes.
 - Repository ESLint passes.
-- Nine generator/example/Pages tests pass. They cover complete method coverage,
+- Ten generator/example/Pages tests pass. They cover complete method coverage,
   operation drift, parameter overrides, local references, deterministic output,
-  stale-data detection, package isolation, compilation of the displayed examples,
+  stale-data detection, package isolation, compilation of website and README examples,
   static route coverage and rejection of invalid route names.
 - The reference contains all 205 public `DIAL_SDK` methods in 32 categories.
 - `npm pack --dry-run --json` contains only `dist/*`, LICENSE, README.md and
@@ -54,9 +54,10 @@ its visual identity deliberately stays close to a technical documentation tool.
   HTTP 200. Refreshes, search, navigation, guide anchors and both favicon uses
   worked; an unknown method returned HTTP 404 and rendered the not-found view.
 - Workflow YAML, artifact names, build dependency, branch guards and job
-  permissions were checked locally. GitHub-hosted execution has not been run.
-- GitHub API inspection confirmed Pages is disabled and Actions is enabled.
-  Repository settings were read, not changed; no site has been published.
+  permissions were checked locally. PR checks passed on GitHub Actions.
+- GitHub API inspection confirmed Pages uses GitHub Actions as its source.
+  The first deployment from `development` succeeded, and the home page returned
+  HTTP 200 at `https://epam.github.io/ai-dial-typescript-sdk/`.
 
 ## Limits
 
@@ -68,5 +69,4 @@ and Markdown renderer produce an approximately 641 KB JavaScript chunk
 (89 KB gzip), which triggers Vite's default size warning. The landing does not
 load that chunk until documentation is opened.
 
-GitHub Pages must be enabled as described in README.md before the first deployment.
 Local browser checks used Chrome; Safari and Firefox were not tested.

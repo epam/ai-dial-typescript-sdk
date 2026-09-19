@@ -101,10 +101,10 @@ One-time repository setup, by an administrator or maintainer:
 3. Merge the website and workflow into `development`, or run the workflow
    manually from that branch after the first merge.
 
-Checked on 2026-09-19: this repository has Pages disabled, GitHub Actions enabled,
-all actions allowed, and no deployment environments. Thus enabling the Pages
-source is the required settings change; no new secrets or general Actions
-permission changes are needed. Repository settings have not been modified.
+Checked on 2026-09-19: Pages is configured with **GitHub Actions** as its source,
+and the first deployment from `development` succeeded. The
+[home page](https://epam.github.io/ai-dial-typescript-sdk/) is live. No new secrets
+or general Actions permission changes are needed.
 
 To inspect the exact project-path build locally:
 
