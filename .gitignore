@@ -63,6 +63,7 @@ sandbox/
 .playwright-mcp/
 skills-lock.json
 screenshots/
+.claude/release-notes/
 
 # Build artifacts
 *.tsbuildinfo
