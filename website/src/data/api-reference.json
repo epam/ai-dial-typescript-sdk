@@ -34780,5 +34780,5 @@
     "ModelListData": "export interface ModelListData {\n  /** An array of models. */\n  data?: ModelData[];\n  [key: string]: unknown;\n}"
   },
   "sdkOptions": "export interface SDKOptions {\n  baseUrl: string;\n  apiKey?: string;\n  token?: string;\n  headers?: Record<string, string>;\n  fetch?: typeof fetch;\n}",
-  "sourceHash": "795066c48ca804f98d74f3c659cd081fcb640d96f2ab575c21bb11c1ec3972a6"
+  "sourceHash": "901525c4f8b6e28f6ea476d1789ee9ff9e60c0499b9f2bd8c00738f3876133f1"
 }
