@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title description">
+  <title id="title">One TypeScript client for DIAL Core</title>
+  <desc id="description">Your application calls the DIAL SDK, which connects it to DIAL Core. Types are generated from the OpenAPI contract.</desc>
+  <rect width="1200" height="800" rx="32" fill="#0d1117"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="82" font-weight="600" text-anchor="middle">
+    <text x="600" y="140" fill="#edf2f7">Your app</text>
+    <text x="600" y="395" fill="#8ebcff">DIAL SDK</text>
+    <text x="600" y="650" fill="#edf2f7">DIAL Core</text>
+  </g>
+  <g fill="none" stroke="#8ebcff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M600 248v44m-16-16 16 16 16-16"/>
+    <path d="M600 503v44m-16-16 16 16 16-16"/>
+  </g>
+  <g font-family="ui-monospace, 'SFMono-Regular', Menlo, monospace" font-size="48" text-anchor="middle" fill="#a3adba">
+    <text x="600" y="204">TypeScript</text>
+    <text x="600" y="459">OpenAPI types</text>
+    <text x="600" y="714">Models + resources</text>
+  </g>
+</svg>

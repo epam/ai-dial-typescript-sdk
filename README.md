@@ -1,265 +1,182 @@
-# ai-dial-typescript-sdk
+# <img src="website/public/favicon.png" width="36" height="36" alt="DIAL logo"> DIAL TypeScript SDK
 
-A type-safe TypeScript SDK for the [DIAL Core API](https://dialx.ai/dial_api), built on top of [openapi-fetch](https://openapi-ts.dev/openapi-fetch/). It provides a unified, fully-typed interface for calling chat/completion and embedding models, and for managing files, conversations, prompts, and other DIAL resources.
+Typed access to [DIAL Core](https://dialx.ai/): connect to models and manage files,
+conversations, prompts and application resources from one TypeScript client.
 
-## Installation
+**[Home page](https://epam.github.io/ai-dial-typescript-sdk/)** ·
+**[Get started](https://epam.github.io/ai-dial-typescript-sdk/getting-started/)** ·
+**[API reference](https://epam.github.io/ai-dial-typescript-sdk/api/)** ·
+**[npm](https://www.npmjs.com/package/@epam/ai-dial-typescript-sdk)**
 
-```bash
+[![npm version](https://img.shields.io/npm/v/%40epam%2Fai-dial-typescript-sdk?style=flat&color=8ebcff)](https://www.npmjs.com/package/@epam/ai-dial-typescript-sdk)
+[![Apache-2.0 license](https://img.shields.io/badge/license-Apache--2.0-8ebcff?style=flat)](LICENSE)
+[![CI](https://github.com/epam/ai-dial-typescript-sdk/actions/workflows/pr.yml/badge.svg)](https://github.com/epam/ai-dial-typescript-sdk/actions/workflows/pr.yml)
+
+<picture>
+  <source media="(min-width: 600px)" srcset="assets/readme/overview.svg">
+  <img src="assets/readme/overview-mobile.svg" width="100%" alt="Your TypeScript application calls the DIAL SDK, which connects to DIAL Core using types generated from OpenAPI.">
+</picture>
+
+- **Types from the API contract.** Discover method arguments, request bodies and responses in your editor.
+- **One connection.** Configure a base URL and authentication once; reuse them across model and resource calls.
+- **Your transport.** Supply a custom `fetch` for your application's networking policies. The SDK is built on [openapi-fetch](https://openapi-ts.dev/openapi-fetch/).
+
+## Install
+
+```sh
 npm install @epam/ai-dial-typescript-sdk
 ```
 
-## Quick Start
+## Make your first request
+
+Set `DIAL_URL` to your DIAL Core address and `DIAL_API_KEY` to a valid key, then
+run this in a server-side TypeScript application with native `fetch`:
 
 ```typescript
 import { createSDK } from '@epam/ai-dial-typescript-sdk';
 
 const sdk = createSDK({
-  baseUrl: 'https://your-dial-instance.example.com',
-  apiKey: 'your-api-key',
+  baseUrl: process.env.DIAL_URL!,
+  apiKey: process.env.DIAL_API_KEY!,
 });
 
-// Send a chat completion request
-const response = await sdk.sendChatCompletionRequest('gpt-4o', {
+const { data, error, response } = await sdk.getDeployments();
+
+if (!response.ok) {
+  throw new Error(`DIAL request failed: ${response.status}`, { cause: error });
+}
+
+console.info(data);
+```
+
+This lists the deployments available to your credentials. Keep API keys on your
+server. For configuration and error handling, see the
+[getting-started guide](https://epam.github.io/ai-dial-typescript-sdk/getting-started/).
+
+## Work with models
+
+Use the `sdk` instance above and deployment names available on your DIAL instance.
+Set `DIAL_API_VERSION` to a version supported by the target deployment.
+
+### Create embeddings
+
+```typescript
+const embeddings = await sdk.createEmbedding('your-embedding-deployment', {
+  params: { query: { 'api-version': process.env.DIAL_API_VERSION! } },
   body: {
-    messages: [{ role: 'user', content: 'Hello!' }],
+    input: ['TypeScript SDK', 'DIAL Core'],
+    encoding_format: 'float',
   },
 });
 
-// Send an embeddings request
-const embeddings = await sdk.sendEmbeddingsRequest('text-embedding-ada-002', {
-  body: { input: 'Hello world' },
+if (!embeddings.response.ok) {
+  throw new Error(`Embedding request failed: ${embeddings.response.status}`);
+}
+
+console.info(embeddings.data?.data[0]?.embedding);
+```
+
+<details>
+<summary><strong>Chat completion example</strong></summary>
+
+The current generated TypeScript contract requires the fields shown below,
+including several that have defaults in OpenAPI.
+
+```typescript
+const completion = await sdk.sendChatCompletionRequest('your-chat-deployment', {
+  params: { query: { 'api-version': process.env.DIAL_API_VERSION! } },
+  body: {
+    messages: [{ role: 'user', content: 'Hello, DIAL.' }],
+    stream: false,
+    temperature: 0.7,
+    top_p: 1,
+    n: 1,
+    max_tokens: 256,
+    max_prompt_tokens: 4096,
+    presence_penalty: 0,
+    frequency_penalty: 0,
+    logit_bias: null,
+  },
 });
+
+if (!completion.response.ok) {
+  throw new Error(`Chat request failed: ${completion.response.status}`);
+}
+
+console.info(completion.data?.choices?.[0]?.message.content);
 ```
 
-## Configuration
+</details>
 
-`createSDK(options: SDKOptions)` accepts the following options:
+## Explore the API
 
-| Option    | Type                     | Description                                                     |
-| --------- | ------------------------ | --------------------------------------------------------------- |
-| `baseUrl` | `string`                 | **Required.** Base URL of the DIAL Core API.                    |
-| `apiKey`  | `string`                 | API key — sent as the `Api-Key` header.                         |
-| `token`   | `string`                 | JWT bearer token — sent as `Authorization: Bearer <token>`.     |
-| `headers` | `Record<string, string>` | Additional custom headers merged into every request.            |
-| `fetch`   | `typeof fetch`           | Custom fetch implementation (e.g. for Node.js < 18 or testing). |
+The [generated reference](https://epam.github.io/ai-dial-typescript-sdk/api/)
+covers every public SDK method, with search, exact signatures, parameters and
+request/response schemas.
 
-Only one of `apiKey` or `token` is typically needed.
+| Work with              | Start here                                                                                                                                                                                                                                               |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Models and inference   | [Deployments](https://epam.github.io/ai-dial-typescript-sdk/api/getDeployments/), [chat](https://epam.github.io/ai-dial-typescript-sdk/api/sendChatCompletionRequest/), [embeddings](https://epam.github.io/ai-dial-typescript-sdk/api/createEmbedding/) |
+| Stored resources       | [Files](https://epam.github.io/ai-dial-typescript-sdk/api/?category=Files), [conversations](https://epam.github.io/ai-dial-typescript-sdk/api/?category=Conversations), [prompts](https://epam.github.io/ai-dial-typescript-sdk/api/?category=Prompts)   |
+| Applications and tools | [Applications](https://epam.github.io/ai-dial-typescript-sdk/api/?category=Applications), [toolsets](https://epam.github.io/ai-dial-typescript-sdk/api/?category=Toolsets)                                                                               |
+| Collaboration          | [Sharing](https://epam.github.io/ai-dial-typescript-sdk/api/?category=Sharing), [publications](https://epam.github.io/ai-dial-typescript-sdk/api/?category=Publications)                                                                                 |
 
-## API Reference
+Available operations depend on your DIAL instance and permissions. Type checking
+helps while writing code; it does not validate responses at runtime. Streaming,
+retries and token refresh need application-side handling.
 
-### Chat & Embeddings
+## Configure the client
 
-```typescript
-sdk.sendChatCompletionRequest(deployment_name, init?)
-sdk.sendEmbeddingsRequest(deployment_name, init?)
-```
+`createSDK(options)` accepts:
 
-### Deployments & Models
+| Option    | Type                     | Purpose                                                   |
+| --------- | ------------------------ | --------------------------------------------------------- |
+| `baseUrl` | `string`                 | Required DIAL Core address.                               |
+| `apiKey`  | `string`                 | Sent as the `Api-Key` header.                             |
+| `token`   | `string`                 | Sent as `Authorization: Bearer <token>`.                  |
+| `headers` | `Record<string, string>` | Additional headers for requests.                          |
+| `fetch`   | `typeof fetch`           | Custom transport, instrumentation or test implementation. |
 
-```typescript
-sdk.getDeployments(init?)
-sdk.getDeploymentsByInterfaceType(init?)
-sdk.getDeployment(deployment_name, init?)
-sdk.getDeploymentLimits(deployment_name, init?)
-sdk.configurationDeployment(deployment_name, init?)
-sdk.rateDeployment(deployment_name, init?)
-sdk.getModels(init?)
-sdk.getModel(model_name, init?)
-```
+Use an API key or bearer token according to your DIAL setup. HTTP results contain
+`data` or `error` and the original `Response`; transport and parsing failures can
+throw. Path values are positional arguments, query/header values belong in
+`init.params`, and request payloads belong in `init.body`.
 
-### Files
+## Develop and contribute
 
-```typescript
-sdk.uploadFile(bucket, file_path, init?)
-sdk.downloadFile(bucket, file_path, init?)
-sdk.deleteFile(bucket, file_path, init?)
-sdk.getFileMetadata(bucket, path, init?)
-sdk.transferInputFile(init?)
-sdk.transferOutputFile(init?)
-```
+Use Node.js 24, as in CI, and install dependencies with `npm ci`.
 
-### Conversations
+| Command                 | Purpose                                                     |
+| ----------------------- | ----------------------------------------------------------- |
+| `npm run build`         | Build the SDK's ESM, CJS and TypeScript declarations.       |
+| `npm run dev`           | Rebuild the SDK as sources change.                          |
+| `npm run gen`           | Regenerate the SDK and reference from `open_api_core.yaml`. |
+| `npm run docs:generate` | Refresh the website's API reference.                        |
+| `npm run docs:check`    | Detect stale generated documentation.                       |
+| `npm run docs:test`     | Check documentation generation, examples and static routes. |
+| `npm run lint`          | Run ESLint.                                                 |
+| `npm run format`        | Format the repository with Prettier.                        |
 
-```typescript
-sdk.getConversation(bucket, conversation_path, init?)
-sdk.saveConversation(bucket, conversation_path, init?)
-sdk.deleteConversation(bucket, conversation_path, init?)
-sdk.getConversationMetadata(bucket, path, init?)
-```
+After editing `open_api_core.yaml`, run `npm run gen`. It bundles the contract,
+regenerates `src/schema.ts`, `src/client.ts` and `src/api-paths.ts`, then updates
+the website reference. Prefer editing the contract and generator over generated files.
 
-### Prompts
+### Run the website
 
-```typescript
-sdk.getPrompt(bucket, prompt_path, init?)
-sdk.savePrompt(bucket, prompt_path, init?)
-sdk.deletePrompt(bucket, prompt_path, init?)
-sdk.getPromptMetadata(bucket, path, init?)
-```
-
-### Custom Applications
-
-```typescript
-sdk.getApplications(init?)
-sdk.getApplication(application_name, init?)
-sdk.deployApplication(init?)
-sdk.undeployApplication(init?)
-sdk.redeployApplication(init?)
-sdk.getApplicationLogs(init?)
-sdk.getApplicationMetadata(bucket, path, init?)
-sdk.getCustomApplication(bucket, application_path, init?)
-sdk.saveCustomApplication(bucket, application_path, init?)
-sdk.deleteCustomApplication(bucket, application_path, init?)
-sdk.getCustomApplicationSchema(init?)
-sdk.listCustomApplicationSchemas(init?)
-sdk.getMetaSchemaOfCustomApplicationSchema(init?)
-```
-
-### Tool Sets (MCP)
-
-```typescript
-sdk.getToolSets(init?)
-sdk.getToolset(toolset_name, init?)
-sdk.getCustomToolSet(bucket, toolset_path, init?)
-sdk.saveToolSet(bucket, toolset_path, init?)
-sdk.deleteToolSet(bucket, toolset_path, init?)
-sdk.getToolSetMetadata(bucket, path, init?)
-sdk.callToolSet(toolset_name, init?)
-sdk.toolsetSignin(init?)
-sdk.toolSetSignout(init?)
-```
-
-### Code Interpreter
-
-```typescript
-sdk.uploadFileToCodeInterpreter(init?)
-sdk.downloadFileFromCodeInterpreter(init?)
-sdk.listFilesFromCodeInterpreter(init?)
-sdk.executeCode(init?)
-```
-
-### Resource Sharing
-
-```typescript
-sdk.copyResource(init?)
-sdk.moveResource(init?)
-sdk.deleteResource(init?)       // via deleteFile/deleteConversation/deletePrompt
-sdk.shareResource(init?)
-sdk.getSharedResources(init?)
-sdk.copySharedResources(init?)
-sdk.discardSharedResources(init?)
-sdk.revokeSharedResources(init?)
-sdk.subscribeToResources(init?)
-```
-
-### Publications
-
-```typescript
-sdk.createPublication(init?)
-sdk.getPublication(init?)
-sdk.getPublications(init?)
-sdk.getPublicationRules(init?)
-sdk.updatePublication(init?)
-sdk.approvePublication(init?)
-sdk.rejectPublication(init?)
-sdk.deletePublication(init?)
-```
-
-### Sessions & User
-
-```typescript
-sdk.openSession(init?)
-sdk.closeSession(init?)
-sdk.getSession(init?)
-sdk.getUserInfo(init?)
-sdk.getUserBucket(init?)
-```
-
-### Permissions & Consent
-
-```typescript
-sdk.getPerRequestPermissions(init?)
-sdk.grantPerRequestPermissions(init?)
-sdk.revokePerRequestPermissions(init?)
-sdk.requestUserConsent(deployment_id, init?)
-sdk.acceptUserConsent(deployment_id, init?)
-```
-
-### Invitations & Notifications
-
-```typescript
-sdk.getInvitations(init?)
-sdk.getInvitation(invitation_id, init?)
-sdk.deleteInvitation(invitation_id, init?)
-sdk.getNotifications(init?)
-sdk.deleteNotifications(init?)
-```
-
-### Other
-
-```typescript
-sdk.reloadConfig(init?)
-```
-
-## Development
-
-### Prerequisites
-
-- Node.js 18+
-- npm
-
-### Setup
-
-```bash
-npm install
-```
-
-### Scripts
-
-| Command          | Description                                                            |
-| ---------------- | ---------------------------------------------------------------------- |
-| `npm run gen`    | Bundle the OpenAPI spec and regenerate TypeScript types and SDK client |
-| `npm run build`  | Generate types and compile to CJS + ESM with type definitions          |
-| `npm run dev`    | Watch mode build                                                       |
-| `npm run lint`   | Run ESLint                                                             |
-| `npm run format` | Run Prettier                                                           |
-
-### Code Generation
-
-The SDK client and types are auto-generated from `openapi.yaml`. After modifying the spec, run:
-
-```bash
-npm run gen
-```
-
-This will:
-
-1. Bundle `openapi.yaml` into `openapi.bundle.yaml` via Redocly CLI
-2. Generate TypeScript types (`src/schema.ts`) via `openapi-typescript`
-3. Generate the SDK client (`src/client.ts`) and path helpers (`src/api-paths.ts`)
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md). All PRs must follow [Conventional Commits](https://www.conventionalcommits.org/).
-
-## License
-
-Apache 2.0 — see [LICENSE](LICENSE).
-
-## Marketing website and API reference
-
-The React website lives in [`website/`](website/README.md), with an independent
-package and build. It is excluded from the published SDK.
-
-```bash
+```sh
 npm ci --prefix website
 npm run website:dev
 ```
 
-`npm run website:build` builds the site into `website/dist/`.
-`npm run docs:generate` refreshes the complete method reference from the SDK and
-OpenAPI; `npm run docs:check` detects stale documentation. Generation also runs
-automatically with `npm run gen` and before website development/build commands.
+The React site is an independent private package. Its dependencies and build
+output are excluded from the published SDK. `npm run website:build` writes to
+`website/dist/`; the [Pages workflow](.github/workflows/website.yml) publishes
+that directory from `development`. See [website/README.md](website/README.md)
+for hosting and deployment setup.
 
-The [website workflow](.github/workflows/website.yml) publishes to GitHub Pages
-from `development`. See the [one-time Pages setup](website/README.md#github-pages-deployment)
-before the first deployment.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines. PR titles
+follow [Conventional Commits](https://www.conventionalcommits.org/).
+
+## License
+
+[Apache-2.0](LICENSE).
