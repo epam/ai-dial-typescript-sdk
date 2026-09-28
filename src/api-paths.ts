@@ -26,6 +26,7 @@ export const copySharedResourcesUrl = '/v1/ops/resource/share/copy';
 export const countAnthropicMessageTokensUrl =
   '/anthropic/v1/messages/count_tokens';
 export const createAnthropicMessageUrl = '/anthropic/v1/messages';
+export const createChatCompletionUrl = '/openai/v1/chat/completions';
 export const createCompletionUrl = (deployment_name: string) => {
   return `/openai/deployments/${deployment_name}/completions`;
 };

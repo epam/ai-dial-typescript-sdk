@@ -284,6 +284,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/openai/v1/chat/completions': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** /openai/v1/chat/completions */
+    post: operations['createChatCompletion'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/openai/v1/responses': {
     parameters: {
       query?: never;
@@ -4458,13 +4475,13 @@ export interface components {
       default_headers?: components['schemas']['MapStringString'];
     };
     /** @enum {string} */
-    InterfaceMode: 'PASSTHROUGH' | 'TRANSLATOR';
+    InterfaceMode: 'passthrough' | 'translator';
     /** @enum {string} */
     InterfaceType:
-      | 'OPENAI_CHAT_COMPLETIONS'
-      | 'OPENAI_EMBEDDINGS'
-      | 'OPENAI_RESPONSES'
-      | 'ANTHROPIC_MESSAGES';
+      | 'openaiChatCompletions'
+      | 'openaiEmbeddings'
+      | 'openaiResponses'
+      | 'anthropicMessages';
     Invitation: {
       acceptedUserLocations?: string[];
       author?: string;
@@ -4763,7 +4780,7 @@ export interface components {
       scopes?: string[];
     };
     /** @enum {string} */
-    Operator: 'EQ' | 'NE' | 'GT' | 'LT' | 'GE' | 'LE';
+    Operator: '==' | '!=' | '>' | '<' | '>=' | '<=';
     /**
      * @description Whether to enable parallel `function` calling during the `tool` use.
      * @default true
@@ -6605,6 +6622,110 @@ export interface operations {
       };
       /** @description The server had an error while processing your request. */
       500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  createChatCompletion: {
+    parameters: {
+      query?: never;
+      header: {
+        /** @description Must be application/json */
+        'Content-Type': string;
+        /** @description Upstream selection policy for prompt-caching deployments (availability-priority or cache-priority). */
+        'X-DIAL-CACHE-POLICY'?: 'availability-priority' | 'cache-priority';
+        /** @description Pin the request to one configured upstream, matched by upstream id */
+        'X-UPSTREAM-ID'?: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ChatCompletionRequest'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CreateChatCompletionResponse'];
+          'text/event-stream': components['schemas']['CreateChatCompletionStreamResponse'][];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Unsupported Media Type */
+      415: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Rate limit exceeded */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Bad Gateway - failed to connect to upstream server */
+      502: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The engine is currently overloaded, please try again later. */
+      503: {
         headers: {
           [name: string]: unknown;
         };

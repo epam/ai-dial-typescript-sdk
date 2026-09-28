@@ -55,6 +55,9 @@ export interface DIAL_SDK {
   createAnthropicMessage: (
     init: SDKOperationInit<operations['createAnthropicMessage']>,
   ) => Promise<SDKOperationResponse<operations['createAnthropicMessage']>>;
+  createChatCompletion: (
+    init: SDKOperationInit<operations['createChatCompletion']>,
+  ) => Promise<SDKOperationResponse<operations['createChatCompletion']>>;
   createCompletion: (
     deployment_name: string,
     init: SDKOperationInit<operations['createCompletion']>,
@@ -913,6 +916,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     createAnthropicMessage: (init?: any) =>
       client.POST(apiPaths.createAnthropicMessageUrl, init) as Promise<
         SDKOperationResponse<operations['createAnthropicMessage']>
+      >,
+    createChatCompletion: (init?: any) =>
+      client.POST(apiPaths.createChatCompletionUrl, init) as Promise<
+        SDKOperationResponse<operations['createChatCompletion']>
       >,
     createCompletion: (deployment_name: string, init?: any) =>
       client.POST(
