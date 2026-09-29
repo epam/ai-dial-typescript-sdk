@@ -19686,7 +19686,10 @@ export interface operations {
   };
   getUserLimits: {
     parameters: {
-      query?: never;
+      query?: {
+        /** @description Which deployment kinds to report on (model, application). Defaults to model. */
+        deploymentTypes?: ('model' | 'application')[];
+      };
       header?: never;
       path?: never;
       cookie?: never;
@@ -19869,7 +19872,10 @@ export interface operations {
   };
   getUserUsage: {
     parameters: {
-      query?: never;
+      query?: {
+        /** @description Which deployment kinds to report on (model, application). Defaults to model. */
+        deploymentTypes?: ('model' | 'application')[];
+      };
       header?: never;
       path?: never;
       cookie?: never;

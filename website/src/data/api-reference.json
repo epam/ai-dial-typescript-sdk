@@ -18134,7 +18134,24 @@
       "endpoint": "/v1/user/limits",
       "httpMethod": "GET",
       "deprecated": false,
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "deploymentTypes",
+          "location": "query",
+          "required": false,
+          "description": "Which deployment kinds to report on (model, application). Defaults to model.",
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "model",
+                "application"
+              ]
+            }
+          }
+        }
+      ],
       "requestBody": null,
       "responses": [
         {
@@ -18205,7 +18222,24 @@
       "endpoint": "/v1/user/usage",
       "httpMethod": "GET",
       "deprecated": false,
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "deploymentTypes",
+          "location": "query",
+          "required": false,
+          "description": "Which deployment kinds to report on (model, application). Defaults to model.",
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "model",
+                "application"
+              ]
+            }
+          }
+        }
+      ],
       "requestBody": null,
       "responses": [
         {
@@ -34981,5 +35015,5 @@
     "ModelListData": "export interface ModelListData {\n  /** An array of models. */\n  data?: ModelData[];\n  [key: string]: unknown;\n}"
   },
   "sdkOptions": "export interface SDKOptions {\n  baseUrl: string;\n  apiKey?: string;\n  token?: string;\n  headers?: Record<string, string>;\n  fetch?: typeof fetch;\n}",
-  "sourceHash": "01ac77ca1a3044018a13263d64f4a2225a5f1d0f54f89261a47b0d8c4ec02afc"
+  "sourceHash": "c705691336fcc96d8503e8a14da2f224781bdfdcb839fc92f4463c98b6e7cecf"
 }
