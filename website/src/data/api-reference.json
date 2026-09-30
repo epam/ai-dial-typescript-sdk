@@ -30480,6 +30480,11 @@
           "type": "string",
           "description": "The execution status of the stage. Available status values:\n\n* `null`: The stage is in progress.\n* `completed`: The stage is completed.\n* `failed`: The stage is failed.",
           "nullable": true
+        },
+        "parent_stage_index": {
+          "minimum": 0,
+          "type": "integer",
+          "description": "Index of the parent stage. Present only for nested stages; absent for top-level stages.\n<br><br>\nIn *streaming* responses, the field is sent only in the chunk that opens the stage and\nrefers to the parent's `index`. The parent is always announced before its children,\nbelongs to the same choice, and `parent_stage_index` is always less than `index`.\n<br><br>\nIn *non-streaming* responses, `index` is omitted, and `parent_stage_index` is the\nposition of the parent stage in the `stages` array.\n<br><br>\nClients that don't support nesting can ignore this field and show stages as a flat list.\nA reference to an unknown parent should be shown as a top-level stage."
         }
       },
       "x-typescript-required": [
@@ -33142,10 +33147,10 @@
       "type": "object",
       "properties": {
         "completion": {
-          "type": "string"
+          "$ref": "#/components/schemas/PricingRate"
         },
         "prompt": {
-          "type": "string"
+          "$ref": "#/components/schemas/PricingRate"
         },
         "unit": {
           "type": "string"
@@ -33163,10 +33168,10 @@
       "type": "object",
       "properties": {
         "completion": {
-          "type": "string"
+          "$ref": "#/components/schemas/PricingRate"
         },
         "prompt": {
-          "type": "string"
+          "$ref": "#/components/schemas/PricingRate"
         },
         "unit": {
           "type": "string"
@@ -35015,5 +35020,5 @@
     "ModelListData": "export interface ModelListData {\n  /** An array of models. */\n  data?: ModelData[];\n  [key: string]: unknown;\n}"
   },
   "sdkOptions": "export interface SDKOptions {\n  baseUrl: string;\n  apiKey?: string;\n  token?: string;\n  headers?: Record<string, string>;\n  fetch?: typeof fetch;\n}",
-  "sourceHash": "c705691336fcc96d8503e8a14da2f224781bdfdcb839fc92f4463c98b6e7cecf"
+  "sourceHash": "6f5fdc7a9730c8dd8433a4af53ed50de48e21186d4bb201222fd1053b2fae55d"
 }
