@@ -3853,6 +3853,20 @@ export interface components {
        *     * `failed`: The stage is failed.
        */
       status: string | null;
+      /**
+       * @description Index of the parent stage. Present only for nested stages; absent for top-level stages.
+       *     <br><br>
+       *     In *streaming* responses, the field is sent only in the chunk that opens the stage and
+       *     refers to the parent's `index`. The parent is always announced before its children,
+       *     belongs to the same choice, and `parent_stage_index` is always less than `index`.
+       *     <br><br>
+       *     In *non-streaming* responses, `index` is omitted, and `parent_stage_index` is the
+       *     position of the parent stage in the `stages` array.
+       *     <br><br>
+       *     Clients that don't support nesting can ignore this field and show stages as a flat list.
+       *     A reference to an unknown parent should be shown as a top-level stage.
+       */
+      parent_stage_index?: number;
     };
     /** @description The Assistant work statistics. */
     ChatCompletionResponseStatistics: {
@@ -4795,15 +4809,15 @@ export interface components {
       receivers?: components['schemas']['PerRequestReceiver'][];
     };
     Pricing: {
-      completion?: string;
-      prompt?: string;
+      completion?: components['schemas']['PricingRate'];
+      prompt?: components['schemas']['PricingRate'];
       unit?: string;
       cacheRead?: components['schemas']['PricingRate'];
       cacheWrite?: components['schemas']['PricingRate'];
     };
     PricingData: {
-      completion?: string;
-      prompt?: string;
+      completion?: components['schemas']['PricingRate'];
+      prompt?: components['schemas']['PricingRate'];
       unit?: string;
       cache_read?: components['schemas']['PricingRate'];
       cache_write?: components['schemas']['PricingRate'];
