@@ -35,8 +35,16 @@ export const createEmbeddingUrl = (deployment_name: string) => {
   return `/openai/deployments/${deployment_name}/embeddings`;
 };
 
+export const createProjectGroupingFolderUrl = (
+  bucket: string,
+  path: string,
+) => {
+  return `/v2/projects/${bucket}/${path}/`;
+};
+
 export const createPublicationUrl = '/v1/ops/publication/create';
 export const createResponseUrl = '/openai/v1/responses';
+export const createResponseUnversionedUrl = '/openai/responses';
 export const createSkillGroupingFolderUrl = (bucket: string, path: string) => {
   return `/v2/skills/${bucket}/${path}/`;
 };
@@ -99,6 +107,25 @@ export const deletePlatformToolSetUrl = (path: string) => {
   return `/v1/toolsets/platform/${path}`;
 };
 
+export const deleteProjectFileUrl = (
+  bucket: string,
+  path: string,
+  filepath: string,
+) => {
+  return `/v2/projects/${bucket}/${path}/files/${filepath}`;
+};
+
+export const deleteProjectFolderUrl = (bucket: string, path: string) => {
+  return `/v2/projects/${bucket}/${path}`;
+};
+
+export const deleteProjectGroupingFolderUrl = (
+  bucket: string,
+  path: string,
+) => {
+  return `/v2/projects/${bucket}/${path}/`;
+};
+
 export const deletePromptUrl = (bucket: string, prompt_path: string) => {
   return `/v1/prompts/${bucket}/${prompt_path}`;
 };
@@ -156,6 +183,25 @@ export const downloadFileUrl = (bucket: string, file_path: string) => {
 
 export const downloadFileFromCodeInterpreterUrl =
   '/v1/ops/code_interpreter/download_file';
+export const downloadProjectFileUrl = (
+  bucket: string,
+  path: string,
+  filepath: string,
+) => {
+  return `/v2/projects/${bucket}/${path}/files/${filepath}`;
+};
+
+export const downloadProjectFolderUrl = (bucket: string, path: string) => {
+  return `/v2/projects/${bucket}/${path}`;
+};
+
+export const downloadProjectGroupingFolderUrl = (
+  bucket: string,
+  path: string,
+) => {
+  return `/v2/projects/${bucket}/${path}/`;
+};
+
 export const downloadSkillFileUrl = (
   bucket: string,
   path: string,
@@ -245,6 +291,10 @@ export const getDeploymentInfoUrl = (deployment_name: string) => {
 
 export const getDeploymentLimitsUrl = (deployment_name: string) => {
   return `/v1/deployments/${deployment_name}/limits`;
+};
+
+export const getDeploymentUsageUrl = (deployment_name: string) => {
+  return `/v1/deployments/${deployment_name}/usage`;
 };
 
 export const getDeploymentsUrl = '/openai/deployments';
@@ -450,6 +500,7 @@ export const interactClientChannelUrl = '/v1/ops/client-channel/interact';
 export const listCatalogSchemasUrl = '/v1/catalog_schemas/schemas';
 export const listCustomApplicationSchemasUrl =
   '/v1/application_type_schemas/schemas';
+export const listDeploymentNamesUrl = '/v1/deployment-names';
 export const listDeploymentsUrl = '/v1/deployments';
 export const listExternalServicesUrl = (appid: string) => {
   return `/v1/applications/${appid}/external-services`;
@@ -471,6 +522,18 @@ export const listFileConfigToolsetsUrl = '/v1/admin/config/file/toolsets';
 export const listFileConfigTranslatorsUrl = '/v1/admin/config/file/translators';
 export const listFilesFromCodeInterpreterUrl =
   '/v1/ops/code_interpreter/list_files';
+export const listProjectFileMetadataUrl = (
+  bucket: string,
+  path: string,
+  filepath: string,
+) => {
+  return `/v2/metadata/projects/${bucket}/${path}/files/${filepath}`;
+};
+
+export const listProjectMetadataUrl = (bucket: string, path: string) => {
+  return `/v2/metadata/projects/${bucket}/${path}`;
+};
+
 export const listPublishedResourcesUrl = '/v1/ops/publication/resource/list';
 export const listSkillFileMetadataUrl = (
   bucket: string,
@@ -618,6 +681,18 @@ export const uploadFileUrl = (bucket: string, file_path: string) => {
 
 export const uploadFileToCodeInterpreterUrl =
   '/v1/ops/code_interpreter/upload_file';
+export const uploadProjectFileUrl = (
+  bucket: string,
+  path: string,
+  filepath: string,
+) => {
+  return `/v2/projects/${bucket}/${path}/files/${filepath}`;
+};
+
+export const uploadProjectFolderUrl = (bucket: string, path: string) => {
+  return `/v2/projects/${bucket}/${path}`;
+};
+
 export const uploadSkillFileUrl = (
   bucket: string,
   path: string,

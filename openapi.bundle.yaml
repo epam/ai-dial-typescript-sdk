@@ -81,6 +81,7 @@ tags:
   - name: MCP
   - name: Models
   - name: Notifications
+  - name: Projects
   - name: Prompts
   - name: Publications
   - name: Responses API
@@ -1429,6 +1430,85 @@ paths:
           source: |
             curl https://chat.<company>.com/openai/models/gpt-4 \
               -H "Api-Key: DIAL_API_KEY"          
+  /openai/responses:
+    post:
+      tags:
+        - LLM
+      summary: /openai/responses
+      operationId: createResponseUnversioned
+      parameters:
+        - name: Content-Type
+          in: header
+          description: Must be application/json
+          required: true
+          schema:
+            type: string
+        - name: X-DIAL-CACHE-POLICY
+          in: header
+          description: Upstream selection policy for prompt-caching deployments (availability-priority or cache-priority).
+          required: false
+          schema:
+            type: string
+            enum:
+              - availability-priority
+              - cache-priority
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResponsesApiRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '502':
+          description: Bad Gateway - failed to connect to upstream server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '503':
+          description: The engine is currently overloaded, please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
   /openai/toolsets:
     get:
       tags:
@@ -4727,6 +4807,44 @@ paths:
           source: |
             curl -X DELETE https://chat.<company>.com/v1/conversations/3CcedGxCx23EwiVbVmscVktScRyf46KypuBQ65miviST/folder1/folder2/conversation_name \
               -H "Api-Key: DIAL_API_KEY"    
+  /v1/deployment-names:
+    get:
+      tags:
+        - Deployment listing
+      summary: /v1/deployment-names
+      operationId: listDeploymentNames
+      parameters:
+        - name: type
+          in: query
+          description: Filter deployment names by kind (model, application, toolset). Defaults to all kinds.
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - model
+                - application
+                - toolset
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListDeploymentNameData'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
   /v1/deployments:
     get:
       tags:
@@ -4978,6 +5096,11 @@ paths:
       operationId: getDeploymentLimits
       description: |
         Call this endpoint to get information about spent limits for a given deployment.
+
+        Only `*TokenStats` and `*RequestStats` are scoped to this deployment. `*CostStats` here is the
+        caller's *account-wide* cost budget and spend - the same figures on every deployment this caller
+        queries - not this deployment's own cost. For this deployment's own attributed spend, call
+        `GET /v1/deployments/{deployment_name}/usage` instead.
       parameters:
         - name: deployment_name
           in: path
@@ -5317,6 +5440,76 @@ paths:
         required: true
       tags:
         - Deployment Feature
+  /v1/deployments/{deployment_name}/usage:
+    get:
+      tags:
+        - Limits
+      summary: /v1/deployments/{deployment_name}/usage
+      operationId: getDeploymentUsage
+      description: |
+        Returns limits and current usage for exactly one deployment, attributing cost correctly where
+        `/v1/deployments/{deployment_name}/limits` cannot: token and request stats are capped by this
+        deployment's own limit, and `*CostStats` here is this deployment's own attributed spend (direct
+        plus any aggregated cost rolled up from a chain it drove), not the caller's account-wide budget.
+        Since no per-deployment cost cap exists, cost `total` is always the unlimited sentinel
+        `9223372036854775807` (`Long.MAX_VALUE`).
+
+        This is the single-deployment equivalent of a `deployments[deployment_name]` entry in
+        `GET /v1/user/usage` - same figures, same caveats about trailing vs calendar-aligned windows and
+        `resetsAt` - without downloading the whole account's usage report to find one entry. A deployment
+        that was never used still returns 200 with `used: 0` against its real limits, not 404; a
+        deployment name the caller cannot access, or that does not exist, returns 404.
+      parameters:
+        - name: deployment_name
+          in: path
+          description: The name of the deployment.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LimitStats'
+              examples:
+                Example:
+                  value:
+                    dayTokenStats:
+                      total: 1000000
+                      used: 3222
+                      resetsAt: '2026-10-02T00:00:00Z'
+                    weekTokenStats:
+                      total: 9223372036854776000
+                      used: 3222
+                      resetsAt: '2026-10-05T00:00:00Z'
+                    dayCostStats:
+                      total: 9223372036854776000
+                      used: 0.028953
+                      resetsAt: '2026-10-02T00:00:00Z'
+                    weekCostStats:
+                      total: 9223372036854776000
+                      used: 0.028953
+                      resetsAt: '2026-10-05T00:00:00Z'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
   /v1/files/{bucket}/{file_path}:
     get:
       tags:
@@ -13514,6 +13707,136 @@ paths:
               -d '{
                 "rate": true,
                 "responseId": "chatcmpl-8mixpbdJ9S5Y3w8hRBVpPmFgNk0Li"
+  /v2/metadata/projects/{bucket}/{path}:
+    get:
+      tags:
+        - Projects
+      summary: /v2/metadata/projects/{bucket}/{path}
+      operationId: listProjectMetadata
+      parameters:
+        - name: bucket
+          in: path
+          description: The target bucket.
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The grouping folder path within the bucket; empty lists the bucket root.
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: query
+          description: Continuation token from a previous page; omit for the first page.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of items per page (0-1000, default 100).
+          required: false
+          schema:
+            type: integer
+        - name: recursive
+          in: query
+          description: If true, lists the whole subtree; otherwise only immediate children.
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: The complex resources and grouping folders at this level
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ResourceFolderMetadata'
+                  - $ref: '#/components/schemas/ComplexResourceItemMetadata'
+        '400':
+          description: Bad request - limit out of range
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Grouping folder not found
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+  /v2/metadata/projects/{bucket}/{path}/files/{filePath}:
+    get:
+      tags:
+        - Projects
+      summary: /v2/metadata/projects/{bucket}/{path}/files/{filePath}
+      operationId: listProjectFileMetadata
+      parameters:
+        - name: bucket
+          in: path
+          description: The target bucket.
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The resource path within the bucket.
+          required: true
+          schema:
+            type: string
+        - name: filePath
+          in: path
+          description: The relative path of a subfolder inside the resource to scope the listing.
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: query
+          description: Continuation token from a previous page; omit for the first page.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of items per page (0-1000, default 100).
+          required: false
+          schema:
+            type: integer
+        - name: recursive
+          in: query
+          description: If true, lists all files of the current version; otherwise only immediate entries.
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: The files of the resource's current version
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetadataBase'
+        '400':
+          description: Bad request - limit out of range
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Resource not found
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
   /v2/metadata/skills/{bucket}/{path}:
     get:
       tags:
@@ -13637,6 +13960,520 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
         '404':
           description: Resource not found
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+  /v2/projects/{bucket}/{path}:
+    get:
+      tags:
+        - Projects
+      summary: /v2/projects/{bucket}/{path}
+      operationId: downloadProjectFolder
+      parameters:
+        - name: bucket
+          in: path
+          description: The target bucket.
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The resource path within the bucket.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Folder resource downloaded as ZIP archive
+          headers:
+            ETag:
+              description: The ETag of the resource version
+              required: false
+              schema:
+                type: string
+            Content-Length:
+              description: Size of the ZIP archive in bytes
+              required: false
+              schema:
+                type: integer
+                format: int32
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Folder resource not found
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+    put:
+      tags:
+        - Projects
+      summary: /v2/projects/{bucket}/{path}
+      operationId: uploadProjectFolder
+      parameters:
+        - name: bucket
+          in: path
+          description: The target bucket.
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The resource path within the bucket.
+          required: true
+          schema:
+            type: string
+        - name: If-Match
+          in: header
+          description: ETag of the version to replace. Use * to overwrite any existing version, or omit to create only if not exists.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+        required: true
+      responses:
+        '200':
+          description: Folder resource uploaded successfully
+          headers:
+            ETag:
+              description: The ETag of the uploaded resource version
+              required: false
+              schema:
+                type: string
+        '400':
+          description: Bad request - invalid content type or malformed request
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '412':
+          description: Precondition failed - ETag mismatch
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+    delete:
+      tags:
+        - Projects
+      summary: /v2/projects/{bucket}/{path}
+      operationId: deleteProjectFolder
+      parameters:
+        - name: bucket
+          in: path
+          description: The target bucket.
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The resource path within the bucket.
+          required: true
+          schema:
+            type: string
+        - name: If-Match
+          in: header
+          description: ETag of the version to delete. Use * to delete any existing version.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Folder resource deleted successfully
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Folder resource not found
+        '412':
+          description: Precondition failed - ETag mismatch
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+  /v2/projects/{bucket}/{path}/:
+    get:
+      tags:
+        - Projects
+      summary: /v2/projects/{bucket}/{path}/
+      operationId: downloadProjectGroupingFolder
+      parameters:
+        - name: bucket
+          in: path
+          description: The target bucket.
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The grouping folder path within the bucket.
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Path is a folder; use metadata listing
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+    put:
+      tags:
+        - Projects
+      summary: /v2/projects/{bucket}/{path}/
+      operationId: createProjectGroupingFolder
+      parameters:
+        - name: bucket
+          in: path
+          description: The target bucket.
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The grouping folder path within the bucket.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Grouping folder created successfully
+          headers:
+            ETag:
+              description: The ETag of the created grouping folder
+              required: false
+              schema:
+                type: string
+        '400':
+          description: Bad request - the folder already exists or a resource/folder name collision was detected
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+    delete:
+      tags:
+        - Projects
+      summary: /v2/projects/{bucket}/{path}/
+      operationId: deleteProjectGroupingFolder
+      parameters:
+        - name: bucket
+          in: path
+          description: The target bucket.
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The grouping folder path within the bucket.
+          required: true
+          schema:
+            type: string
+        - name: If-Match
+          in: header
+          description: ETag of the folder to delete. Use * to delete regardless of the current ETag.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Grouping folder deleted successfully
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Grouping folder not found
+        '409':
+          description: Conflict - the folder is not empty
+        '412':
+          description: Precondition failed - ETag mismatch
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+  /v2/projects/{bucket}/{path}/files/{filePath}:
+    get:
+      tags:
+        - Projects
+      summary: /v2/projects/{bucket}/{path}/files/{filePath}
+      operationId: downloadProjectFile
+      parameters:
+        - name: bucket
+          in: path
+          description: The target bucket.
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The resource path within the bucket.
+          required: true
+          schema:
+            type: string
+        - name: filePath
+          in: path
+          description: The relative path of the file within the project.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: File downloaded successfully
+          headers:
+            ETag:
+              description: The ETag of the project version
+              required: false
+              schema:
+                type: string
+            Content-Type:
+              description: MIME type of the file
+              required: false
+              schema:
+                type: string
+            Content-Length:
+              description: Size of the file in bytes
+              required: false
+              schema:
+                type: integer
+                format: int64
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: File or project not found
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+    put:
+      tags:
+        - Projects
+      summary: /v2/projects/{bucket}/{path}/files/{filePath}
+      operationId: uploadProjectFile
+      parameters:
+        - name: bucket
+          in: path
+          description: The target bucket.
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The resource path within the bucket.
+          required: true
+          schema:
+            type: string
+        - name: filePath
+          in: path
+          description: The relative path of the file within the project.
+          required: true
+          schema:
+            type: string
+        - name: If-Match
+          in: header
+          description: ETag of the project version. The file is added/replaced in the project atomically.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+        required: true
+      responses:
+        '200':
+          description: File uploaded successfully
+          headers:
+            ETag:
+              description: The new ETag of the project after file upload
+              required: false
+              schema:
+                type: string
+        '400':
+          description: Bad request - invalid content type or malformed request
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '412':
+          description: Precondition failed - ETag mismatch
+        '500':
+          description: The server had an error while processing your request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      x-preview: true
+    delete:
+      tags:
+        - Projects
+      summary: /v2/projects/{bucket}/{path}/files/{filePath}
+      operationId: deleteProjectFile
+      parameters:
+        - name: bucket
+          in: path
+          description: The target bucket.
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: path
+          description: The resource path within the bucket.
+          required: true
+          schema:
+            type: string
+        - name: filePath
+          in: path
+          description: The relative path of the file within the project.
+          required: true
+          schema:
+            type: string
+        - name: If-Match
+          in: header
+          description: ETag of the project version. The file is removed from the project atomically.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: File deleted successfully
+          headers:
+            ETag:
+              description: The new ETag of the project after file deletion
+              required: false
+              schema:
+                type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '404':
+          description: File or project not found
+        '412':
+          description: Precondition failed - ETag mismatch
         '500':
           description: The server had an error while processing your request.
           content:
@@ -16094,6 +16931,13 @@ components:
           $ref: '#/components/schemas/Features'
         overridePaths:
           $ref: '#/components/schemas/MapStringString'
+    DeploymentNameData:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
     EmbeddingResponse:
       required:
         - data
@@ -16787,6 +17631,10 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/DeploymentData'
+    ListDeploymentNameData:
+      type: array
+      items:
+        $ref: '#/components/schemas/DeploymentNameData'
     ListExternalServiceData:
       type: array
       items:
@@ -17641,7 +18489,6 @@ components:
         - API_KEY_DATA
         - NOTIFICATION
         - APPLICATION
-        - DEPLOYMENT_COST_STATS
         - CODE_INTERPRETER_SESSION
         - USER_CONSENT
         - TOOL_SET
@@ -17672,7 +18519,6 @@ components:
         - API_KEY_DATA
         - NOTIFICATION
         - APPLICATION
-        - DEPLOYMENT_COST_STATS
         - CODE_INTERPRETER_SESSION
         - USER_CONSENT
         - TOOL_SET
@@ -17692,6 +18538,7 @@ components:
         - RESPONSE_MAPPING
         - SKILL
         - BACKGROUND_JOB
+        - PROJECT
     ResponseFormatJsonObject:
       required:
         - type
@@ -18337,6 +19184,13 @@ components:
           type: string
         interfaces:
           $ref: '#/components/schemas/MapStringUpstreamInterface'
+        authType:
+          $ref: '#/components/schemas/UpstreamAuthType'
+    UpstreamAuthType:
+      type: string
+      enum:
+        - API_KEY
+        - BEARER
     UpstreamInterface:
       type: object
       properties:
