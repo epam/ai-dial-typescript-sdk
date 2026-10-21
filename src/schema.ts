@@ -244,6 +244,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/openai/responses': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** /openai/responses */
+    post: operations['createResponseUnversioned'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/openai/toolsets': {
     parameters: {
       query?: never;
@@ -1092,6 +1109,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/deployment-names': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/deployment-names */
+    get: operations['listDeploymentNames'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/deployments': {
     parameters: {
       query?: never;
@@ -1160,6 +1194,11 @@ export interface paths {
     /**
      * /v1/deployments/{deployment_name}/limits
      * @description Call this endpoint to get information about spent limits for a given deployment.
+     *
+     *     Only `*TokenStats` and `*RequestStats` are scoped to this deployment. `*CostStats` here is the
+     *     caller's *account-wide* cost budget and spend - the same figures on every deployment this caller
+     *     queries - not this deployment's own cost. For this deployment's own attributed spend, call
+     *     `GET /v1/deployments/{deployment_name}/usage` instead.
      */
     get: operations['getDeploymentLimits'];
     put?: never;
@@ -1235,6 +1274,37 @@ export interface paths {
     put?: never;
     /** /v1/deployments/{deployment_name}/truncate_prompt */
     post: operations['truncatePrompt'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/deployments/{deployment_name}/usage': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/deployments/{deployment_name}/usage
+     * @description Returns limits and current usage for exactly one deployment, attributing cost correctly where
+     *     `/v1/deployments/{deployment_name}/limits` cannot: token and request stats are capped by this
+     *     deployment's own limit, and `*CostStats` here is this deployment's own attributed spend (direct
+     *     plus any aggregated cost rolled up from a chain it drove), not the caller's account-wide budget.
+     *     Since no per-deployment cost cap exists, cost `total` is always the unlimited sentinel
+     *     `9223372036854775807` (`Long.MAX_VALUE`).
+     *
+     *     This is the single-deployment equivalent of a `deployments[deployment_name]` entry in
+     *     `GET /v1/user/usage` - same figures, same caveats about trailing vs calendar-aligned windows and
+     *     `resetsAt` - without downloading the whole account's usage report to find one entry. A deployment
+     *     that was never used still returns 200 with `used: 0` against its real limits, not 404; a
+     *     deployment name the caller cannot access, or that does not exist, returns 404.
+     */
+    get: operations['getDeploymentUsage'];
+    put?: never;
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -2992,6 +3062,40 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v2/metadata/projects/{bucket}/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v2/metadata/projects/{bucket}/{path} */
+    get: operations['listProjectMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v2/metadata/projects/{bucket}/{path}/files/{filePath}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v2/metadata/projects/{bucket}/{path}/files/{filePath} */
+    get: operations['listProjectFileMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v2/metadata/skills/{bucket}/{path}': {
     parameters: {
       query?: never;
@@ -3021,6 +3125,63 @@ export interface paths {
     put?: never;
     post?: never;
     delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v2/projects/{bucket}/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v2/projects/{bucket}/{path} */
+    get: operations['downloadProjectFolder'];
+    /** /v2/projects/{bucket}/{path} */
+    put: operations['uploadProjectFolder'];
+    post?: never;
+    /** /v2/projects/{bucket}/{path} */
+    delete: operations['deleteProjectFolder'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v2/projects/{bucket}/{path}/': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v2/projects/{bucket}/{path}/ */
+    get: operations['downloadProjectGroupingFolder'];
+    /** /v2/projects/{bucket}/{path}/ */
+    put: operations['createProjectGroupingFolder'];
+    post?: never;
+    /** /v2/projects/{bucket}/{path}/ */
+    delete: operations['deleteProjectGroupingFolder'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v2/projects/{bucket}/{path}/files/{filePath}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v2/projects/{bucket}/{path}/files/{filePath} */
+    get: operations['downloadProjectFile'];
+    /** /v2/projects/{bucket}/{path}/files/{filePath} */
+    put: operations['uploadProjectFile'];
+    post?: never;
+    /** /v2/projects/{bucket}/{path}/files/{filePath} */
+    delete: operations['deleteProjectFile'];
     options?: never;
     head?: never;
     patch?: never;
@@ -4222,6 +4383,10 @@ export interface components {
       features?: components['schemas']['Features'];
       overridePaths?: components['schemas']['MapStringString'];
     };
+    DeploymentNameData: {
+      id?: string;
+      object?: string;
+    };
     EmbeddingResponse: {
       /** @description Object type. Always is `list`. */
       object: string;
@@ -4574,6 +4739,7 @@ export interface components {
       object?: string;
     };
     ListDeploymentData: components['schemas']['DeploymentData'][];
+    ListDeploymentNameData: components['schemas']['DeploymentNameData'][];
     ListExternalServiceData: components['schemas']['ExternalServiceData'][];
     ListPermissionRequest: {
       with?: components['schemas']['ListPermissionRequestShareWith'];
@@ -5031,7 +5197,6 @@ export interface components {
       | 'API_KEY_DATA'
       | 'NOTIFICATION'
       | 'APPLICATION'
-      | 'DEPLOYMENT_COST_STATS'
       | 'CODE_INTERPRETER_SESSION'
       | 'USER_CONSENT'
       | 'TOOL_SET'
@@ -5061,7 +5226,6 @@ export interface components {
       | 'API_KEY_DATA'
       | 'NOTIFICATION'
       | 'APPLICATION'
-      | 'DEPLOYMENT_COST_STATS'
       | 'CODE_INTERPRETER_SESSION'
       | 'USER_CONSENT'
       | 'TOOL_SET'
@@ -5080,7 +5244,8 @@ export interface components {
       | 'GLOBAL_SETTINGS'
       | 'RESPONSE_MAPPING'
       | 'SKILL'
-      | 'BACKGROUND_JOB';
+      | 'BACKGROUND_JOB'
+      | 'PROJECT';
     ResponseFormatJsonObject: {
       /** @enum {string} */
       type: 'json_object';
@@ -5413,7 +5578,10 @@ export interface components {
       weight?: number;
       baseUrl?: string;
       interfaces?: components['schemas']['MapStringUpstreamInterface'];
+      authType?: components['schemas']['UpstreamAuthType'];
     };
+    /** @enum {string} */
+    UpstreamAuthType: 'API_KEY' | 'BEARER';
     UpstreamInterface: {
       endpoint?: string;
       extraData?: string;
@@ -6503,6 +6671,105 @@ export interface operations {
       };
       /** @description The server had an error while processing your request. */
       500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  createResponseUnversioned: {
+    parameters: {
+      query?: never;
+      header: {
+        /** @description Must be application/json */
+        'Content-Type': string;
+        /** @description Upstream selection policy for prompt-caching deployments (availability-priority or cache-priority). */
+        'X-DIAL-CACHE-POLICY'?: 'availability-priority' | 'cache-priority';
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ResponsesApiRequest'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Unsupported Media Type */
+      415: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Rate limit exceeded */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Bad Gateway - failed to connect to upstream server */
+      502: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The engine is currently overloaded, please try again later. */
+      503: {
         headers: {
           [name: string]: unknown;
         };
@@ -10595,6 +10862,47 @@ export interface operations {
       };
     };
   };
+  listDeploymentNames: {
+    parameters: {
+      query?: {
+        /** @description Filter deployment names by kind (model, application, toolset). Defaults to all kinds. */
+        type?: ('model' | 'application' | 'toolset')[];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ListDeploymentNameData'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   listDeployments: {
     parameters: {
       query?: {
@@ -11198,6 +11506,56 @@ export interface operations {
       };
       /** @description Failed to connect to upstream server. */
       502: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getDeploymentUsage: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The name of the deployment. */
+        deployment_name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['LimitStats'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
         headers: {
           [name: string]: unknown;
         };
@@ -20013,6 +20371,138 @@ export interface operations {
       };
     };
   };
+  listProjectMetadata: {
+    parameters: {
+      query?: {
+        /** @description Continuation token from a previous page; omit for the first page. */
+        token?: string;
+        /** @description Maximum number of items per page (0-1000, default 100). */
+        limit?: number;
+        /** @description If true, lists the whole subtree; otherwise only immediate children. */
+        recursive?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The grouping folder path within the bucket; empty lists the bucket root. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description The complex resources and grouping folders at this level */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json':
+            | components['schemas']['ResourceFolderMetadata']
+            | components['schemas']['ComplexResourceItemMetadata'];
+        };
+      };
+      /** @description Bad request - limit out of range */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Grouping folder not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  listProjectFileMetadata: {
+    parameters: {
+      query?: {
+        /** @description Continuation token from a previous page; omit for the first page. */
+        token?: string;
+        /** @description Maximum number of items per page (0-1000, default 100). */
+        limit?: number;
+        /** @description If true, lists all files of the current version; otherwise only immediate entries. */
+        recursive?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The resource path within the bucket. */
+        path: string;
+        /** @description The relative path of a subfolder inside the resource to scope the listing. */
+        filePath: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description The files of the resource's current version */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MetadataBase'];
+        };
+      };
+      /** @description Bad request - limit out of range */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Resource not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   listSkillMetadata: {
     parameters: {
       query?: {
@@ -20129,6 +20619,593 @@ export interface operations {
       };
       /** @description Resource not found */
       404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  downloadProjectFolder: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The resource path within the bucket. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Folder resource downloaded as ZIP archive */
+      200: {
+        headers: {
+          /** @description The ETag of the resource version */
+          ETag?: string;
+          /** @description Size of the ZIP archive in bytes */
+          'Content-Length'?: number;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/zip': string;
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Folder resource not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  uploadProjectFolder: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag of the version to replace. Use * to overwrite any existing version, or omit to create only if not exists. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The resource path within the bucket. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'multipart/form-data': {
+          /** Format: binary */
+          file: string;
+        };
+      };
+    };
+    responses: {
+      /** @description Folder resource uploaded successfully */
+      200: {
+        headers: {
+          /** @description The ETag of the uploaded resource version */
+          ETag?: string;
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request - invalid content type or malformed request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Precondition failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  deleteProjectFolder: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag of the version to delete. Use * to delete any existing version. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The resource path within the bucket. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Folder resource deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Folder resource not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  downloadProjectGroupingFolder: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The grouping folder path within the bucket. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Path is a folder; use metadata listing */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  createProjectGroupingFolder: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The grouping folder path within the bucket. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Grouping folder created successfully */
+      200: {
+        headers: {
+          /** @description The ETag of the created grouping folder */
+          ETag?: string;
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request - the folder already exists or a resource/folder name collision was detected */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  deleteProjectGroupingFolder: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag of the folder to delete. Use * to delete regardless of the current ETag. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The grouping folder path within the bucket. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Grouping folder deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Grouping folder not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Conflict - the folder is not empty */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  downloadProjectFile: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The resource path within the bucket. */
+        path: string;
+        /** @description The relative path of the file within the project. */
+        filePath: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description File downloaded successfully */
+      200: {
+        headers: {
+          /** @description The ETag of the project version */
+          ETag?: string;
+          /** @description MIME type of the file */
+          'Content-Type'?: string;
+          /** @description Size of the file in bytes */
+          'Content-Length'?: number;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': string;
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description File or project not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  uploadProjectFile: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag of the project version. The file is added/replaced in the project atomically. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The resource path within the bucket. */
+        path: string;
+        /** @description The relative path of the file within the project. */
+        filePath: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'multipart/form-data': {
+          /** Format: binary */
+          file: string;
+        };
+      };
+    };
+    responses: {
+      /** @description File uploaded successfully */
+      200: {
+        headers: {
+          /** @description The new ETag of the project after file upload */
+          ETag?: string;
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request - invalid content type or malformed request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Precondition failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  deleteProjectFile: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag of the project version. The file is removed from the project atomically. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The resource path within the bucket. */
+        path: string;
+        /** @description The relative path of the file within the project. */
+        filePath: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description File deleted successfully */
+      200: {
+        headers: {
+          /** @description The new ETag of the project after file deletion */
+          ETag?: string;
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description File or project not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition failed - ETag mismatch */
+      412: {
         headers: {
           [name: string]: unknown;
         };

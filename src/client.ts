@@ -66,12 +66,20 @@ export interface DIAL_SDK {
     deployment_name: string,
     init: SDKOperationInit<operations['createEmbedding']>,
   ) => Promise<SDKOperationResponse<operations['createEmbedding']>>;
+  createProjectGroupingFolder: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['createProjectGroupingFolder']>,
+  ) => Promise<SDKOperationResponse<operations['createProjectGroupingFolder']>>;
   createPublication: (
     init: SDKOperationInit<operations['createPublication']>,
   ) => Promise<SDKOperationResponse<operations['createPublication']>>;
   createResponse: (
     init: SDKOperationInit<operations['createResponse']>,
   ) => Promise<SDKOperationResponse<operations['createResponse']>>;
+  createResponseUnversioned: (
+    init: SDKOperationInit<operations['createResponseUnversioned']>,
+  ) => Promise<SDKOperationResponse<operations['createResponseUnversioned']>>;
   createSkillGroupingFolder: (
     bucket: string,
     path: string,
@@ -137,6 +145,22 @@ export interface DIAL_SDK {
     path: string,
     init?: SDKOperationInit<operations['deletePlatformToolSet']>,
   ) => Promise<SDKOperationResponse<operations['deletePlatformToolSet']>>;
+  deleteProjectFile: (
+    bucket: string,
+    path: string,
+    filepath: string,
+    init?: SDKOperationInit<operations['deleteProjectFile']>,
+  ) => Promise<SDKOperationResponse<operations['deleteProjectFile']>>;
+  deleteProjectFolder: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['deleteProjectFolder']>,
+  ) => Promise<SDKOperationResponse<operations['deleteProjectFolder']>>;
+  deleteProjectGroupingFolder: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['deleteProjectGroupingFolder']>,
+  ) => Promise<SDKOperationResponse<operations['deleteProjectGroupingFolder']>>;
   deletePrompt: (
     bucket: string,
     prompt_path: string,
@@ -209,6 +233,24 @@ export interface DIAL_SDK {
     init: SDKOperationInit<operations['downloadFileFromCodeInterpreter']>,
   ) => Promise<
     SDKOperationResponse<operations['downloadFileFromCodeInterpreter']>
+  >;
+  downloadProjectFile: (
+    bucket: string,
+    path: string,
+    filepath: string,
+    init?: SDKOperationInit<operations['downloadProjectFile']>,
+  ) => Promise<SDKOperationResponse<operations['downloadProjectFile']>>;
+  downloadProjectFolder: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['downloadProjectFolder']>,
+  ) => Promise<SDKOperationResponse<operations['downloadProjectFolder']>>;
+  downloadProjectGroupingFolder: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['downloadProjectGroupingFolder']>,
+  ) => Promise<
+    SDKOperationResponse<operations['downloadProjectGroupingFolder']>
   >;
   downloadSkillFile: (
     bucket: string,
@@ -322,6 +364,10 @@ export interface DIAL_SDK {
     deployment_name: string,
     init?: SDKOperationInit<operations['getDeploymentLimits']>,
   ) => Promise<SDKOperationResponse<operations['getDeploymentLimits']>>;
+  getDeploymentUsage: (
+    deployment_name: string,
+    init?: SDKOperationInit<operations['getDeploymentUsage']>,
+  ) => Promise<SDKOperationResponse<operations['getDeploymentUsage']>>;
   getDeployments: (
     init?: SDKOperationInit<operations['getDeployments']>,
   ) => Promise<SDKOperationResponse<operations['getDeployments']>>;
@@ -596,6 +642,9 @@ export interface DIAL_SDK {
   ) => Promise<
     SDKOperationResponse<operations['listCustomApplicationSchemas']>
   >;
+  listDeploymentNames: (
+    init?: SDKOperationInit<operations['listDeploymentNames']>,
+  ) => Promise<SDKOperationResponse<operations['listDeploymentNames']>>;
   listDeployments: (
     init?: SDKOperationInit<operations['listDeployments']>,
   ) => Promise<SDKOperationResponse<operations['listDeployments']>>;
@@ -643,6 +692,17 @@ export interface DIAL_SDK {
   ) => Promise<
     SDKOperationResponse<operations['listFilesFromCodeInterpreter']>
   >;
+  listProjectFileMetadata: (
+    bucket: string,
+    path: string,
+    filepath: string,
+    init?: SDKOperationInit<operations['listProjectFileMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['listProjectFileMetadata']>>;
+  listProjectMetadata: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['listProjectMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['listProjectMetadata']>>;
   listPublishedResources: (
     init: SDKOperationInit<operations['listPublishedResources']>,
   ) => Promise<SDKOperationResponse<operations['listPublishedResources']>>;
@@ -839,6 +899,17 @@ export interface DIAL_SDK {
   uploadFileToCodeInterpreter: (
     init: SDKOperationInit<operations['uploadFileToCodeInterpreter']>,
   ) => Promise<SDKOperationResponse<operations['uploadFileToCodeInterpreter']>>;
+  uploadProjectFile: (
+    bucket: string,
+    path: string,
+    filepath: string,
+    init: SDKOperationInit<operations['uploadProjectFile']>,
+  ) => Promise<SDKOperationResponse<operations['uploadProjectFile']>>;
+  uploadProjectFolder: (
+    bucket: string,
+    path: string,
+    init: SDKOperationInit<operations['uploadProjectFolder']>,
+  ) => Promise<SDKOperationResponse<operations['uploadProjectFolder']>>;
   uploadSkillFile: (
     bucket: string,
     path: string,
@@ -931,6 +1002,13 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.createEmbeddingUrl(deployment_name) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['createEmbedding']>>,
+    createProjectGroupingFolder: (bucket: string, path: string, init?: any) =>
+      client.PUT(
+        apiPaths.createProjectGroupingFolderUrl(bucket, path) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['createProjectGroupingFolder']>
+      >,
     createPublication: (init?: any) =>
       client.POST(apiPaths.createPublicationUrl, init) as Promise<
         SDKOperationResponse<operations['createPublication']>
@@ -938,6 +1016,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     createResponse: (init?: any) =>
       client.POST(apiPaths.createResponseUrl, init) as Promise<
         SDKOperationResponse<operations['createResponse']>
+      >,
+    createResponseUnversioned: (init?: any) =>
+      client.POST(apiPaths.createResponseUnversionedUrl, init) as Promise<
+        SDKOperationResponse<operations['createResponseUnversioned']>
       >,
     createSkillGroupingFolder: (bucket: string, path: string, init?: any) =>
       client.PUT(
@@ -1022,6 +1104,28 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.deletePlatformToolSetUrl(path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['deletePlatformToolSet']>>,
+    deleteProjectFile: (
+      bucket: string,
+      path: string,
+      filepath: string,
+      init?: any,
+    ) =>
+      client.DELETE(
+        apiPaths.deleteProjectFileUrl(bucket, path, filepath) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deleteProjectFile']>>,
+    deleteProjectFolder: (bucket: string, path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deleteProjectFolderUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deleteProjectFolder']>>,
+    deleteProjectGroupingFolder: (bucket: string, path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deleteProjectGroupingFolderUrl(bucket, path) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['deleteProjectGroupingFolder']>
+      >,
     deletePrompt: (bucket: string, prompt_path: string, init?: any) =>
       client.DELETE(
         apiPaths.deletePromptUrl(bucket, prompt_path) as any,
@@ -1104,6 +1208,28 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     downloadFileFromCodeInterpreter: (init?: any) =>
       client.POST(apiPaths.downloadFileFromCodeInterpreterUrl, init) as Promise<
         SDKOperationResponse<operations['downloadFileFromCodeInterpreter']>
+      >,
+    downloadProjectFile: (
+      bucket: string,
+      path: string,
+      filepath: string,
+      init?: any,
+    ) =>
+      client.GET(
+        apiPaths.downloadProjectFileUrl(bucket, path, filepath) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['downloadProjectFile']>>,
+    downloadProjectFolder: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.downloadProjectFolderUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['downloadProjectFolder']>>,
+    downloadProjectGroupingFolder: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.downloadProjectGroupingFolderUrl(bucket, path) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['downloadProjectGroupingFolder']>
       >,
     downloadSkillFile: (
       bucket: string,
@@ -1249,6 +1375,11 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.getDeploymentLimitsUrl(deployment_name) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['getDeploymentLimits']>>,
+    getDeploymentUsage: (deployment_name: string, init?: any) =>
+      client.GET(
+        apiPaths.getDeploymentUsageUrl(deployment_name) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getDeploymentUsage']>>,
     getDeployments: (init?: any) =>
       client.GET(apiPaths.getDeploymentsUrl, init) as Promise<
         SDKOperationResponse<operations['getDeployments']>
@@ -1564,6 +1695,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.GET(apiPaths.listCustomApplicationSchemasUrl, init) as Promise<
         SDKOperationResponse<operations['listCustomApplicationSchemas']>
       >,
+    listDeploymentNames: (init?: any) =>
+      client.GET(apiPaths.listDeploymentNamesUrl, init) as Promise<
+        SDKOperationResponse<operations['listDeploymentNames']>
+      >,
     listDeployments: (init?: any) =>
       client.GET(apiPaths.listDeploymentsUrl, init) as Promise<
         SDKOperationResponse<operations['listDeployments']>
@@ -1621,6 +1756,21 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.listFilesFromCodeInterpreterUrl, init) as Promise<
         SDKOperationResponse<operations['listFilesFromCodeInterpreter']>
       >,
+    listProjectFileMetadata: (
+      bucket: string,
+      path: string,
+      filepath: string,
+      init?: any,
+    ) =>
+      client.GET(
+        apiPaths.listProjectFileMetadataUrl(bucket, path, filepath) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['listProjectFileMetadata']>>,
+    listProjectMetadata: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.listProjectMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['listProjectMetadata']>>,
     listPublishedResources: (init?: any) =>
       client.POST(apiPaths.listPublishedResourcesUrl, init) as Promise<
         SDKOperationResponse<operations['listPublishedResources']>
@@ -1855,6 +2005,21 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.uploadFileToCodeInterpreterUrl, init) as Promise<
         SDKOperationResponse<operations['uploadFileToCodeInterpreter']>
       >,
+    uploadProjectFile: (
+      bucket: string,
+      path: string,
+      filepath: string,
+      init?: any,
+    ) =>
+      client.PUT(
+        apiPaths.uploadProjectFileUrl(bucket, path, filepath) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['uploadProjectFile']>>,
+    uploadProjectFolder: (bucket: string, path: string, init?: any) =>
+      client.PUT(
+        apiPaths.uploadProjectFolderUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['uploadProjectFolder']>>,
     uploadSkillFile: (
       bucket: string,
       path: string,
