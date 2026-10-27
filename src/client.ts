@@ -145,6 +145,16 @@ export interface DIAL_SDK {
     path: string,
     init?: SDKOperationInit<operations['deletePlatformToolSet']>,
   ) => Promise<SDKOperationResponse<operations['deletePlatformToolSet']>>;
+  deletePolicy: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['deletePolicy']>,
+  ) => Promise<SDKOperationResponse<operations['deletePolicy']>>;
+  deletePolicyAssignment: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['deletePolicyAssignment']>,
+  ) => Promise<SDKOperationResponse<operations['deletePolicyAssignment']>>;
   deleteProjectFile: (
     bucket: string,
     path: string,
@@ -271,6 +281,9 @@ export interface DIAL_SDK {
   executeCode: (
     init: SDKOperationInit<operations['executeCode']>,
   ) => Promise<SDKOperationResponse<operations['executeCode']>>;
+  exportAdminBuckets: (
+    init?: SDKOperationInit<operations['exportAdminBuckets']>,
+  ) => Promise<SDKOperationResponse<operations['exportAdminBuckets']>>;
   externalServiceGetCredentials: (
     init: SDKOperationInit<operations['externalServiceGetCredentials']>,
   ) => Promise<
@@ -294,6 +307,9 @@ export interface DIAL_SDK {
   getAnthropicModels: (
     init?: SDKOperationInit<operations['getAnthropicModels']>,
   ) => Promise<SDKOperationResponse<operations['getAnthropicModels']>>;
+  getAnthropicUsage: (
+    init?: SDKOperationInit<operations['getAnthropicUsage']>,
+  ) => Promise<SDKOperationResponse<operations['getAnthropicUsage']>>;
   getApplication: (
     application_name: string,
     init?: SDKOperationInit<operations['getApplication']>,
@@ -518,6 +534,26 @@ export interface DIAL_SDK {
     path: string,
     init?: SDKOperationInit<operations['getPlatformToolSetMetadata']>,
   ) => Promise<SDKOperationResponse<operations['getPlatformToolSetMetadata']>>;
+  getPolicy: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getPolicy']>,
+  ) => Promise<SDKOperationResponse<operations['getPolicy']>>;
+  getPolicyAssignment: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getPolicyAssignment']>,
+  ) => Promise<SDKOperationResponse<operations['getPolicyAssignment']>>;
+  getPolicyAssignmentMetadata: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getPolicyAssignmentMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getPolicyAssignmentMetadata']>>;
+  getPolicyMetadata: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getPolicyMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getPolicyMetadata']>>;
   getPrompt: (
     bucket: string,
     prompt_path: string,
@@ -819,6 +855,16 @@ export interface DIAL_SDK {
     path: string,
     init: SDKOperationInit<operations['savePlatformToolSet']>,
   ) => Promise<SDKOperationResponse<operations['savePlatformToolSet']>>;
+  savePolicy: (
+    bucket: string,
+    path: string,
+    init: SDKOperationInit<operations['savePolicy']>,
+  ) => Promise<SDKOperationResponse<operations['savePolicy']>>;
+  savePolicyAssignment: (
+    bucket: string,
+    path: string,
+    init: SDKOperationInit<operations['savePolicyAssignment']>,
+  ) => Promise<SDKOperationResponse<operations['savePolicyAssignment']>>;
   savePrompt: (
     bucket: string,
     prompt_path: string,
@@ -1104,6 +1150,16 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.deletePlatformToolSetUrl(path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['deletePlatformToolSet']>>,
+    deletePolicy: (bucket: string, path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deletePolicyUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deletePolicy']>>,
+    deletePolicyAssignment: (bucket: string, path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deletePolicyAssignmentUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deletePolicyAssignment']>>,
     deleteProjectFile: (
       bucket: string,
       path: string,
@@ -1257,6 +1313,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.executeCodeUrl, init) as Promise<
         SDKOperationResponse<operations['executeCode']>
       >,
+    exportAdminBuckets: (init?: any) =>
+      client.POST(apiPaths.exportAdminBucketsUrl, init) as Promise<
+        SDKOperationResponse<operations['exportAdminBuckets']>
+      >,
     externalServiceGetCredentials: (init?: any) =>
       client.POST(apiPaths.externalServiceGetCredentialsUrl, init) as Promise<
         SDKOperationResponse<operations['externalServiceGetCredentials']>
@@ -1284,6 +1344,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     getAnthropicModels: (init?: any) =>
       client.GET(apiPaths.getAnthropicModelsUrl, init) as Promise<
         SDKOperationResponse<operations['getAnthropicModels']>
+      >,
+    getAnthropicUsage: (init?: any) =>
+      client.GET(apiPaths.getAnthropicUsageUrl, init) as Promise<
+        SDKOperationResponse<operations['getAnthropicUsage']>
       >,
     getApplication: (application_name: string, init?: any) =>
       client.GET(
@@ -1556,6 +1620,27 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       ) as Promise<
         SDKOperationResponse<operations['getPlatformToolSetMetadata']>
       >,
+    getPolicy: (bucket: string, path: string, init?: any) =>
+      client.GET(apiPaths.getPolicyUrl(bucket, path) as any, init) as Promise<
+        SDKOperationResponse<operations['getPolicy']>
+      >,
+    getPolicyAssignment: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getPolicyAssignmentUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getPolicyAssignment']>>,
+    getPolicyAssignmentMetadata: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getPolicyAssignmentMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['getPolicyAssignmentMetadata']>
+      >,
+    getPolicyMetadata: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getPolicyMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getPolicyMetadata']>>,
     getPrompt: (bucket: string, prompt_path: string, init?: any) =>
       client.GET(
         apiPaths.getPromptUrl(bucket, prompt_path) as any,
@@ -1912,6 +1997,15 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.PUT(apiPaths.savePlatformToolSetUrl(path) as any, init) as Promise<
         SDKOperationResponse<operations['savePlatformToolSet']>
       >,
+    savePolicy: (bucket: string, path: string, init?: any) =>
+      client.PUT(apiPaths.savePolicyUrl(bucket, path) as any, init) as Promise<
+        SDKOperationResponse<operations['savePolicy']>
+      >,
+    savePolicyAssignment: (bucket: string, path: string, init?: any) =>
+      client.PUT(
+        apiPaths.savePolicyAssignmentUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['savePolicyAssignment']>>,
     savePrompt: (bucket: string, prompt_path: string, init?: any) =>
       client.PUT(
         apiPaths.savePromptUrl(bucket, prompt_path) as any,

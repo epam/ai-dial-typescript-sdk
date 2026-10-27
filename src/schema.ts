@@ -4,6 +4,23 @@
  */
 
 export interface paths {
+  '/anthropic/api/oauth/usage': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /anthropic/api/oauth/usage */
+    get: operations['getAnthropicUsage'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/anthropic/v1/messages': {
     parameters: {
       query?: never;
@@ -772,6 +789,23 @@ export interface paths {
     get: operations['getFileConfigTranslator'];
     put?: never;
     post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/export': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** /v1/admin/export */
+    post: operations['exportAdminBuckets'];
     delete?: never;
     options?: never;
     head?: never;
@@ -1566,6 +1600,40 @@ export interface paths {
     };
     /** /v1/metadata/models/{bucket}/{path} */
     get: operations['getModelMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/metadata/policies/{bucket}/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/metadata/policies/{bucket}/{path} */
+    get: operations['getPolicyMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/metadata/policy_assignments/{bucket}/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/metadata/policy_assignments/{bucket}/{path} */
+    get: operations['getPolicyAssignmentMetadata'];
     put?: never;
     post?: never;
     delete?: never;
@@ -2648,6 +2716,44 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/policies/{bucket}/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/policies/{bucket}/{path} */
+    get: operations['getPolicy'];
+    /** /v1/policies/{bucket}/{path} */
+    put: operations['savePolicy'];
+    post?: never;
+    /** /v1/policies/{bucket}/{path} */
+    delete: operations['deletePolicy'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/policy_assignments/{bucket}/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/policy_assignments/{bucket}/{path} */
+    get: operations['getPolicyAssignment'];
+    /** /v1/policy_assignments/{bucket}/{path} */
+    put: operations['savePolicyAssignment'];
+    post?: never;
+    /** /v1/policy_assignments/{bucket}/{path} */
+    delete: operations['deletePolicyAssignment'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/prompts/{bucket}/{prompt_path}': {
     parameters: {
       query?: never;
@@ -3314,7 +3420,9 @@ export interface components {
       | components['schemas']['AdminRouteManifest']
       | components['schemas']['AdminModelManifest']
       | components['schemas']['AdminToolSetManifest']
-      | components['schemas']['AdminApplicationManifest'];
+      | components['schemas']['AdminApplicationManifest']
+      | components['schemas']['AdminPolicyManifest']
+      | components['schemas']['AdminPolicyAssignmentManifest'];
     AdminModelManifest: {
       /**
        * @description discriminator enum property added by openapi-typescript
@@ -3323,6 +3431,24 @@ export interface components {
       kind: 'Model';
       name?: string;
       spec?: components['schemas']['Model'];
+    };
+    AdminPolicyAssignmentManifest: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind: 'PolicyAssignment';
+      name?: string;
+      spec?: components['schemas']['PolicyAssignment'];
+    };
+    AdminPolicyManifest: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind: 'Policy';
+      name?: string;
+      spec?: components['schemas']['Policy'];
     };
     AdminRoleManifest: {
       /**
@@ -3386,6 +3512,14 @@ export interface components {
     AllowedToolsResponse: {
       tools: components['schemas']['McpTool'][];
     };
+    AnthropicErrorData: {
+      error?: components['schemas']['AnthropicErrorDataDetail'];
+      type?: string;
+    };
+    AnthropicErrorDataDetail: {
+      message?: string;
+      type?: string;
+    };
     AnthropicModelData: {
       created_at?: string;
       display_name?: string;
@@ -3399,6 +3533,25 @@ export interface components {
       first_id?: string;
       has_more?: boolean;
       last_id?: string;
+    };
+    AnthropicUsageData: {
+      extra_usage?: components['schemas']['AnthropicUsageDataExtraUsage'];
+      limits?: components['schemas']['AnthropicUsageDataUsageLimit'][];
+    };
+    AnthropicUsageDataExtraUsage: {
+      currency?: string;
+      is_enabled?: boolean;
+      monthly_limit?: number;
+      used_credits?: number;
+      utilization?: number;
+    };
+    AnthropicUsageDataUsageLimit: {
+      group?: string;
+      is_active?: boolean;
+      kind?: string;
+      percent?: number;
+      resets_at?: string;
+      severity?: string;
     };
     Application: {
       application_properties?: components['schemas']['MapStringObject'];
@@ -4974,6 +5127,47 @@ export interface components {
     PerRequestReceiverList: {
       receivers?: components['schemas']['PerRequestReceiver'][];
     };
+    Policy: {
+      attachedTo?: components['schemas']['JsonNode'];
+      broker?: components['schemas']['JsonNode'];
+      cost?: components['schemas']['PolicyAmounts'];
+      costObject?: string;
+      harness?: components['schemas']['JsonNode'];
+      id?: string;
+      kind?: components['schemas']['PolicyKind'];
+      object?: components['schemas']['PolicyObjectSet'];
+      packages?: components['schemas']['JsonNode'];
+      per?: string[];
+      priority?: number;
+      quantity?: components['schemas']['PolicyQuantity'];
+      subject?: components['schemas']['PolicySubjectRule'][];
+    };
+    PolicyAmounts: {
+      day?: number;
+      month?: number;
+    };
+    PolicyAssignment: {
+      costObject?: string;
+      description?: string;
+      expiresAt?: string;
+      id?: string;
+      policy?: string;
+      source?: string;
+      subject?: components['schemas']['PolicySubjectRule'][];
+      ticket?: string;
+    };
+    /** @enum {string} */
+    PolicyKind: 'budget';
+    PolicyObjectSet: Record<string, never>;
+    /** @enum {string} */
+    PolicyQuantity: 'cost' | 'tokens' | 'requests';
+    PolicySubjectRule: {
+      function?: components['schemas']['PolicySubjectRuleFunction'];
+      source?: string;
+      targets?: string[];
+    };
+    /** @enum {string} */
+    PolicySubjectRuleFunction: 'TRUE' | 'FALSE' | 'EQUAL' | 'CONTAIN' | 'REGEX';
     Pricing: {
       completion?: components['schemas']['PricingRate'];
       prompt?: components['schemas']['PricingRate'];
@@ -5240,6 +5434,8 @@ export interface components {
       | 'TRANSLATOR'
       | 'ROLE'
       | 'PROJECT_KEY'
+      | 'POLICY'
+      | 'POLICY_ASSIGNMENT'
       | 'ROUTE'
       | 'GLOBAL_SETTINGS'
       | 'RESPONSE_MAPPING'
@@ -5578,10 +5774,15 @@ export interface components {
       weight?: number;
       baseUrl?: string;
       interfaces?: components['schemas']['MapStringUpstreamInterface'];
-      authType?: components['schemas']['UpstreamAuthType'];
+      authType?: components['schemas']['UpstreamAuthConfig'];
+    };
+    UpstreamAuthConfig: {
+      type?: components['schemas']['UpstreamAuthType'];
+      /** @description Required for CUSTOM_HEADER, not allowed otherwise */
+      headerName?: string;
     };
     /** @enum {string} */
-    UpstreamAuthType: 'API_KEY' | 'BEARER';
+    UpstreamAuthType: 'API_KEY' | 'BEARER' | 'CUSTOM_HEADER';
     UpstreamInterface: {
       endpoint?: string;
       extraData?: string;
@@ -5628,6 +5829,44 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+  getAnthropicUsage: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AnthropicUsageData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   createAnthropicMessage: {
     parameters: {
       query?: never;
@@ -5651,6 +5890,20 @@ export interface operations {
         headers: {
           /** @description Number of upstream attempts performed before returning the response */
           'X-UPSTREAM-ATTEMPTS'?: string;
+          /** @description DIAL spend cap status before this request: `allowed`, or `allowed_warning` past 75%. Sent only when the caller has a day/week/month cost limit; the upstream's own `anthropic-ratelimit-*` headers are removed */
+          'anthropic-ratelimit-unified-status'?: string;
+          /** @description Always `overage` */
+          'anthropic-ratelimit-unified-representative-claim'?: string;
+          /** @description Same value as `anthropic-ratelimit-unified-status` */
+          'anthropic-ratelimit-unified-overage-status'?: string;
+          /** @description Used/total of the reported spend cap, floored to two decimals and capped at 0.99 */
+          'anthropic-ratelimit-unified-overage-utilization'?: string;
+          /** @description `0.75` or `0.95` once the utilization reaches it; absent below 75% */
+          'anthropic-ratelimit-unified-overage-surpassed-threshold'?: string;
+          /** @description When the reported spend cap resets, Unix seconds */
+          'anthropic-ratelimit-unified-reset'?: string;
+          /** @description Same value as `anthropic-ratelimit-unified-reset` */
+          'anthropic-ratelimit-unified-overage-reset'?: string;
           [name: string]: unknown;
         };
         content: {
@@ -5708,7 +5961,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['ErrorData'];
+          'application/json': components['schemas']['AnthropicErrorData'];
         };
       };
       /** @description The server had an error while processing your request. */
@@ -8647,6 +8900,51 @@ export interface operations {
       };
       /** @description Method Not Allowed */
       405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  exportAdminBuckets: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description ZIP archive of the public and platform buckets */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/zip': string;
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Another export or a write holds a bucket lock, retry later */
+      409: {
         headers: {
           [name: string]: unknown;
         };
@@ -13206,6 +13504,142 @@ export interface operations {
       };
     };
   };
+  getPolicyMetadata: {
+    parameters: {
+      query?: {
+        /** @description The token from the previous request to request next items. */
+        token?: string;
+        /** @description Limit on the number of items in the response. */
+        limit?: number;
+        /** @description If true, returns items recursively without nested folder metadata. */
+        recursive?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description Empty for the root of the policies, a cost object folder (ending with a slash) to list its project policies, or a policy name. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MetadataBase'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getPolicyAssignmentMetadata: {
+    parameters: {
+      query?: {
+        /** @description The token from the previous request to request next items. */
+        token?: string;
+        /** @description Limit on the number of items in the response. */
+        limit?: number;
+        /** @description If true, returns items recursively without nested folder metadata. */
+        recursive?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description Empty for the cost objects that have assignments, a cost object folder (ending with a slash) to list its assignments, or an assignment path. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MetadataBase'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   getPromptMetadata: {
     parameters: {
       query?: {
@@ -17401,6 +17835,479 @@ export interface operations {
         content: {
           'application/json': components['schemas']['ErrorData'];
         };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getPolicy: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag of the cached copy; answers 304 when it is still current */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description Policy name, with the folder of its cost object for a project policy: [<costObject>/]<name> */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Entity tag for the policy */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Policy'];
+        };
+      };
+      /** @description Not Modified */
+      304: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  savePolicy: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+        /** @description Conditional creation precondition. */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description Policy name, with the folder of its cost object for a project policy: [<costObject>/]<name> */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['Policy'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Entity tag for the saved policy */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ConfigResourceControllerConfigWriteResponse'];
+        };
+      };
+      /** @description Malformed path or JSON, or a body that does not fit the record schema: an unknown field, a wrong type */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The policy would tie in priority with another budget of a cost object, or its name is taken by an assignment */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The policy breaks a validation rule */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  deletePolicy: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description Policy name, with the folder of its cost object for a project policy: [<costObject>/]<name> */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description An assignment references the policy */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getPolicyAssignment: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag of the cached copy; answers 304 when it is still current */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description Assignment path: <costObject>/<id> */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Entity tag for the assignment */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PolicyAssignment'];
+        };
+      };
+      /** @description Not Modified */
+      304: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  savePolicyAssignment: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+        /** @description Conditional creation precondition. */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description Assignment path: <costObject>/<id> */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PolicyAssignment'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Entity tag for the saved assignment */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ConfigResourceControllerConfigWriteResponse'];
+        };
+      };
+      /** @description Malformed path or JSON, or a body that does not fit the record schema: an unknown field, a wrong type */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The assignment would tie in priority with another budget of the cost object, or its id is taken by a self-applying policy */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The assignment breaks a validation rule */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  deletePolicyAssignment: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description Assignment path: <costObject>/<id> */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description The server had an error while processing your request. */
       500: {
