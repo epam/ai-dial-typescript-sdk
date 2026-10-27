@@ -107,6 +107,14 @@ export const deletePlatformToolSetUrl = (path: string) => {
   return `/v1/toolsets/platform/${path}`;
 };
 
+export const deletePolicyUrl = (bucket: string, path: string) => {
+  return `/v1/policies/${bucket}/${path}`;
+};
+
+export const deletePolicyAssignmentUrl = (bucket: string, path: string) => {
+  return `/v1/policy_assignments/${bucket}/${path}`;
+};
+
 export const deleteProjectFileUrl = (
   bucket: string,
   path: string,
@@ -222,6 +230,7 @@ export const downloadSkillGroupingFolderUrl = (
 };
 
 export const executeCodeUrl = '/v1/ops/code_interpreter/execute_code';
+export const exportAdminBucketsUrl = '/v1/admin/export';
 export const externalServiceGetCredentialsUrl =
   '/v1/ops/external-service/credentials';
 export const externalServiceGetOboCredentialsUrl =
@@ -233,6 +242,7 @@ export const getAnthropicModelUrl = (model_name: string) => {
 };
 
 export const getAnthropicModelsUrl = '/anthropic/v1/models';
+export const getAnthropicUsageUrl = '/anthropic/api/oauth/usage';
 export const getApplicationUrl = (application_name: string) => {
   return `/openai/applications/${application_name}`;
 };
@@ -414,6 +424,25 @@ export const getPlatformToolSetUrl = (path: string) => {
 
 export const getPlatformToolSetMetadataUrl = (path: string) => {
   return `/v1/metadata/toolsets/platform/${path}`;
+};
+
+export const getPolicyUrl = (bucket: string, path: string) => {
+  return `/v1/policies/${bucket}/${path}`;
+};
+
+export const getPolicyAssignmentUrl = (bucket: string, path: string) => {
+  return `/v1/policy_assignments/${bucket}/${path}`;
+};
+
+export const getPolicyAssignmentMetadataUrl = (
+  bucket: string,
+  path: string,
+) => {
+  return `/v1/metadata/policy_assignments/${bucket}/${path}`;
+};
+
+export const getPolicyMetadataUrl = (bucket: string, path: string) => {
+  return `/v1/metadata/policies/${bucket}/${path}`;
 };
 
 export const getPromptUrl = (bucket: string, prompt_path: string) => {
@@ -625,6 +654,14 @@ export const savePlatformApplicationUrl = (path: string) => {
 
 export const savePlatformToolSetUrl = (path: string) => {
   return `/v1/toolsets/platform/${path}`;
+};
+
+export const savePolicyUrl = (bucket: string, path: string) => {
+  return `/v1/policies/${bucket}/${path}`;
+};
+
+export const savePolicyAssignmentUrl = (bucket: string, path: string) => {
+  return `/v1/policy_assignments/${bucket}/${path}`;
 };
 
 export const savePromptUrl = (bucket: string, prompt_path: string) => {

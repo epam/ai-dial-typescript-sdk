@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "Apache-2.0",
   "runtimeDependencyCount": 1,
-  "methodCount": 220,
+  "methodCount": 230,
   "categories": [
     "Admin",
     "Anthropic",
@@ -26,6 +26,8 @@
     "Models",
     "Notifications",
     "Other",
+    "Policies",
+    "Policy Assignments",
     "Projects",
     "Prompts",
     "Publications",
