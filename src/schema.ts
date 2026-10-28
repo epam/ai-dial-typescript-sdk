@@ -2657,6 +2657,8 @@ export interface paths {
     /**
      * /v1/ops/resource/subscribe
      * @description Use this endpoint to subscribe to resource updates. Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/notifications#subscribe-api) for more details on how to work with subscriptions.
+     *
+     *      Files, conversations, prompts, applications, toolsets, skills and projects can be subscribed to. For a skill or project the stream also carries the events of the files inside it (`{resource url}/files/{path}`).
      */
     post: operations['subscribeToResources'];
     delete?: never;
