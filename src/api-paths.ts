@@ -35,6 +35,10 @@ export const createEmbeddingUrl = (deployment_name: string) => {
   return `/openai/deployments/${deployment_name}/embeddings`;
 };
 
+export const createOrgUnitUrl = (path: string) => {
+  return `/v1/org-units/${path}`;
+};
+
 export const createProjectGroupingFolderUrl = (
   bucket: string,
   path: string,
@@ -99,6 +103,10 @@ export const deleteModelUrl = (bucket: string, path: string) => {
 };
 
 export const deleteNotificationsUrl = '/v1/ops/notification/delete';
+export const deleteOrgUnitUrl = (path: string) => {
+  return `/v1/org-units/${path}`;
+};
+
 export const deletePlatformApplicationUrl = (path: string) => {
   return `/v1/applications/platform/${path}`;
 };
@@ -230,7 +238,6 @@ export const downloadSkillGroupingFolderUrl = (
 };
 
 export const executeCodeUrl = '/v1/ops/code_interpreter/execute_code';
-export const exportAdminBucketsUrl = '/v1/admin/export';
 export const externalServiceGetCredentialsUrl =
   '/v1/ops/external-service/credentials';
 export const externalServiceGetOboCredentialsUrl =
@@ -408,6 +415,10 @@ export const getModelMetadataUrl = (bucket: string, path: string) => {
 export const getModelsUrl = '/openai/models';
 export const getNotificationsUrl = '/v1/ops/notification/list';
 export const getOfflineCredentialsUrl = '/v1/user/offline-credentials';
+export const getOrgUnitUrl = (path: string) => {
+  return `/v1/org-units/${path}`;
+};
+
 export const getPerRequestPermissionsUrl =
   '/v1/ops/resource/per-request-permissions/list';
 export const getPlatformApplicationUrl = (path: string) => {
@@ -695,6 +706,7 @@ export const sendChatCompletionRequestUrl = (deployment_name: string) => {
 export const shareResourceUrl = '/v1/ops/resource/share/create';
 export const subscribeClientChannelUrl = '/v1/ops/client-channel/subscribe';
 export const subscribeToResourcesUrl = '/v1/ops/resource/subscribe';
+export const systemExportUrl = '/v1/admin/system-export';
 export const tokenizeUrl = (deployment_name: string) => {
   return `/v1/deployments/${deployment_name}/tokenize`;
 };
@@ -711,6 +723,10 @@ export const truncatePromptUrl = (deployment_name: string) => {
 
 export const undeployApplicationUrl = '/v1/ops/application/undeploy';
 export const unsubscribeClientChannelUrl = '/v1/ops/client-channel/unsubscribe';
+export const updateOrgUnitUrl = (path: string) => {
+  return `/v1/org-units/${path}`;
+};
+
 export const updatePublicationUrl = '/v1/ops/publication/update';
 export const uploadFileUrl = (bucket: string, file_path: string) => {
   return `/v1/files/${bucket}/${file_path}`;
