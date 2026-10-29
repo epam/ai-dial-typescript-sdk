@@ -1,6 +1,6 @@
 {
   "name": "@epam/ai-dial-typescript-sdk",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Type-safe SDK (openapi-typescript + openapi-fetch)",
   "license": "Apache-2.0",
   "homepage": "https://epam.github.io/ai-dial-typescript-sdk/",
