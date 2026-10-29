@@ -795,23 +795,6 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/v1/admin/export': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /** /v1/admin/export */
-    post: operations['exportAdminBuckets'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
   '/v1/admin/health/config': {
     parameters: {
       query?: never;
@@ -823,6 +806,23 @@ export interface paths {
     get: operations['getConfigHealth'];
     put?: never;
     post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/system-export': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** /v1/admin/system-export */
+    post: operations['systemExport'];
     delete?: never;
     options?: never;
     head?: never;
@@ -2657,6 +2657,8 @@ export interface paths {
     /**
      * /v1/ops/resource/subscribe
      * @description Use this endpoint to subscribe to resource updates. Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/notifications#subscribe-api) for more details on how to work with subscriptions.
+     *
+     *      Files, conversations, prompts, applications, toolsets, skills and projects can be subscribed to. For a skill or project the stream also carries the events of the files inside it (`{resource url}/files/{path}`).
      */
     post: operations['subscribeToResources'];
     delete?: never;
@@ -2714,6 +2716,26 @@ export interface paths {
     options?: never;
     head?: never;
     patch?: never;
+    trace?: never;
+  };
+  '/v1/org-units/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/org-units/{path} */
+    get: operations['getOrgUnit'];
+    put?: never;
+    /** /v1/org-units/{path} */
+    post: operations['createOrgUnit'];
+    /** /v1/org-units/{path} */
+    delete: operations['deleteOrgUnit'];
+    options?: never;
+    head?: never;
+    /** /v1/org-units/{path} */
+    patch: operations['updateOrgUnit'];
     trace?: never;
   };
   '/v1/policies/{bucket}/{path}': {
@@ -3681,6 +3703,13 @@ export interface components {
       appdata?: string;
       bucket?: string;
     };
+    BudgetStats: {
+      costObject?: string;
+      day?: components['schemas']['CostItemLimitStats'];
+      month?: components['schemas']['CostItemLimitStats'];
+      policy?: string;
+      priority?: number;
+    };
     /** @description A manual cache breakpoint. The part of the chat completion request up to this breakpoint will be cached by the deployment. Follow-up requests sharing the same prefix have a chance of hitting the cache and reusing the input tokens associated with this prefix. The field only makes sense for the deployments that support [prompt caching](https://docs.dialx.ai/tutorials/developers/prompt-caching). */
     CacheBreakpoint: {
       /** @description An optional expiration time for the given cache breakpoint, e.g. '2025-10-02T15:01:23Z' */
@@ -4356,6 +4385,7 @@ export interface components {
       defaultLocale?: string;
       translators?: components['schemas']['MapStringTranslator'];
       rateLimitSchedule?: components['schemas']['RateLimitSchedule'];
+      spendingLimits?: components['schemas']['SpendingLimits'];
     };
     ConfigFileMigrateRequest: {
       dryRun?: boolean;
@@ -4518,10 +4548,17 @@ export interface components {
       };
       statistics?: components['schemas']['ChatCompletionResponseStatistics'];
     };
+    CreateOrgUnitRequest: {
+      displayName?: string;
+      name?: string;
+    };
     /** @enum {string} */
     CredentialsLevel: 'GLOBAL' | 'APPLICATION' | 'USER';
     DeleteNotificationRequest: {
       ids?: string[];
+    };
+    DeleteOrgUnitResult: {
+      removed?: string[];
     };
     DeploymentData:
       | components['schemas']['ModelData']
@@ -5114,6 +5151,25 @@ export interface components {
     };
     /** @enum {string} */
     Operator: '==' | '!=' | '>' | '<' | '>=' | '<=';
+    OrgUnitData: {
+      author?: string;
+      createdAt?: number;
+      displayName?: string;
+      folder?: string;
+      id?: string;
+      items?: components['schemas']['OrgUnitDataSummary'][];
+      name?: string;
+      path?: string;
+    };
+    OrgUnitDataSummary: {
+      author?: string;
+      createdAt?: number;
+      displayName?: string;
+      folder?: string;
+      id?: string;
+      name?: string;
+      path?: string;
+    };
     /**
      * @description Whether to enable parallel `function` calling during the `tool` use.
      * @default true
@@ -5417,6 +5473,7 @@ export interface components {
       | 'INVITATION'
       | 'PUBLICATION'
       | 'RULES'
+      | 'ORG_UNITS'
       | 'API_KEY_DATA'
       | 'NOTIFICATION'
       | 'APPLICATION'
@@ -5559,6 +5616,12 @@ export interface components {
     SkippedEntity: {
       id?: string;
       reason?: string;
+    };
+    /** @enum {string} */
+    SpendingLimitMode: 'off' | 'shadow' | 'enforce';
+    SpendingLimits: {
+      defaultCostObject?: string;
+      mode?: components['schemas']['SpendingLimitMode'];
     };
     SubscribeResourcesRequest: {
       resources?: components['schemas']['ResourceLink'][];
@@ -5763,6 +5826,9 @@ export interface components {
       status: 'TruncatePromptSuccess';
       discarded_messages: number[];
     };
+    UpdateOrgUnitRequest: {
+      displayName?: string;
+    };
     Upstream: {
       endpoint?: string;
       extraData?: string;
@@ -5809,6 +5875,7 @@ export interface components {
       minuteCostStats?: components['schemas']['CostItemLimitStats'];
       monthCostStats?: components['schemas']['CostItemLimitStats'];
       weekCostStats?: components['schemas']['CostItemLimitStats'];
+      budgets?: components['schemas']['BudgetStats'][];
     };
     ValidationResult: {
       entityId?: string;
@@ -6954,6 +7021,18 @@ export interface operations {
       /** @description Success */
       200: {
         headers: {
+          /** @description Spent share of the caller's reported DIAL day/week/month spend cap before this request, a whole percent rounded down. Sent only when the caller has such a cost limit; the upstream's own `x-codex-*` headers are removed */
+          'x-codex-primary-used-percent'?: string;
+          /** @description `1440`, `10080` or `43200`: the reported cap's day, week or month */
+          'x-codex-primary-window-minutes'?: string;
+          /** @description When the reported cap resets, Unix seconds */
+          'x-codex-primary-reset-at'?: string;
+          /** @description Same as `x-codex-primary-used-percent` for the fullest of the other capped windows; absent when there is none */
+          'x-codex-secondary-used-percent'?: string;
+          /** @description Window of the secondary cap, as `x-codex-primary-window-minutes` */
+          'x-codex-secondary-window-minutes'?: string;
+          /** @description When the secondary cap resets, Unix seconds */
+          'x-codex-secondary-reset-at'?: string;
           [name: string]: unknown;
         };
         content?: never;
@@ -7290,6 +7369,18 @@ export interface operations {
       /** @description Success */
       200: {
         headers: {
+          /** @description Spent share of the caller's reported DIAL day/week/month spend cap before this request, a whole percent rounded down. Sent only when the caller has such a cost limit; the upstream's own `x-codex-*` headers are removed */
+          'x-codex-primary-used-percent'?: string;
+          /** @description `1440`, `10080` or `43200`: the reported cap's day, week or month */
+          'x-codex-primary-window-minutes'?: string;
+          /** @description When the reported cap resets, Unix seconds */
+          'x-codex-primary-reset-at'?: string;
+          /** @description Same as `x-codex-primary-used-percent` for the fullest of the other capped windows; absent when there is none */
+          'x-codex-secondary-used-percent'?: string;
+          /** @description Window of the secondary cap, as `x-codex-primary-window-minutes` */
+          'x-codex-secondary-window-minutes'?: string;
+          /** @description When the secondary cap resets, Unix seconds */
+          'x-codex-secondary-reset-at'?: string;
           [name: string]: unknown;
         };
         content: {
@@ -8916,51 +9007,6 @@ export interface operations {
       };
     };
   };
-  exportAdminBuckets: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description ZIP archive of the public and platform buckets */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/zip': string;
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['ErrorData'];
-        };
-      };
-      /** @description Another export or a write holds a bucket lock, retry later */
-      409: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description The server had an error while processing your request. */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['ErrorData'];
-        };
-      };
-    };
-  };
   getConfigHealth: {
     parameters: {
       query?: never;
@@ -8999,6 +9045,51 @@ export interface operations {
       };
       /** @description Method Not Allowed */
       405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  systemExport: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description ZIP archive of the public and platform buckets */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/zip': string;
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Another system export or a write holds a bucket lock, retry later */
+      409: {
         headers: {
           [name: string]: unknown;
         };
@@ -16353,6 +16444,13 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description A skill or project target is an org unit's folder */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
       /** @description The server had an error while processing your request. */
       500: {
         headers: {
@@ -16421,6 +16519,13 @@ export interface operations {
         content: {
           'application/json': components['schemas']['ErrorData'];
         };
+      };
+      /** @description A skill or project target is an org unit's folder */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description The server had an error while processing your request. */
       500: {
@@ -16972,6 +17077,13 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
+      /** @description The copy would put a skill or project on an org unit's folder */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
       /** @description The server had an error while processing your request. */
       500: {
         headers: {
@@ -17038,6 +17150,13 @@ export interface operations {
         content: {
           'application/json': components['schemas']['ErrorData'];
         };
+      };
+      /** @description A move inside the shared space would change which org unit owns the resource (into, out of or between units), or put a skill or project on an org unit's folder */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description The server had an error while processing your request. */
       500: {
@@ -17829,6 +17948,261 @@ export interface operations {
       };
       /** @description Failed Dependency */
       424: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getOrgUnit: {
+    parameters: {
+      query?: {
+        /** @description If true, items lists every unit below, parents before children; otherwise only the units directly below. */
+        recursive?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description public, then each unit's name, separated by '/': public/Acme/Risk/US Risk */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['OrgUnitData'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  createOrgUnit: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The parent: public, then each unit's name, separated by '/' */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateOrgUnitRequest'];
+      };
+    };
+    responses: {
+      /** @description The unit is created */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['OrgUnitData'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The name is taken or the depth limit is reached */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  deleteOrgUnit: {
+    parameters: {
+      query?: {
+        /** @description Also remove every unit below it */
+        recursive?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description public, then each unit's name, separated by '/': public/Acme/Risk/US Risk */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description The units are removed, with their folder markers */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['DeleteOrgUnitResult'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The unit holds content, or has units below it and recursive is not set */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  updateOrgUnit: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description public, then each unit's name, separated by '/': public/Acme/Risk/US Risk */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateOrgUnitRequest'];
+      };
+    };
+    responses: {
+      /** @description The display name is changed */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['OrgUnitData'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
         headers: {
           [name: string]: unknown;
         };
@@ -22307,6 +22681,13 @@ export interface operations {
       };
       /** @description Method Not Allowed */
       405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description An org unit holds this path */
+      409: {
         headers: {
           [name: string]: unknown;
         };

@@ -66,6 +66,10 @@ export interface DIAL_SDK {
     deployment_name: string,
     init: SDKOperationInit<operations['createEmbedding']>,
   ) => Promise<SDKOperationResponse<operations['createEmbedding']>>;
+  createOrgUnit: (
+    path: string,
+    init: SDKOperationInit<operations['createOrgUnit']>,
+  ) => Promise<SDKOperationResponse<operations['createOrgUnit']>>;
   createProjectGroupingFolder: (
     bucket: string,
     path: string,
@@ -137,6 +141,10 @@ export interface DIAL_SDK {
   deleteNotifications: (
     init: SDKOperationInit<operations['deleteNotifications']>,
   ) => Promise<SDKOperationResponse<operations['deleteNotifications']>>;
+  deleteOrgUnit: (
+    path: string,
+    init?: SDKOperationInit<operations['deleteOrgUnit']>,
+  ) => Promise<SDKOperationResponse<operations['deleteOrgUnit']>>;
   deletePlatformApplication: (
     path: string,
     init?: SDKOperationInit<operations['deletePlatformApplication']>,
@@ -281,9 +289,6 @@ export interface DIAL_SDK {
   executeCode: (
     init: SDKOperationInit<operations['executeCode']>,
   ) => Promise<SDKOperationResponse<operations['executeCode']>>;
-  exportAdminBuckets: (
-    init?: SDKOperationInit<operations['exportAdminBuckets']>,
-  ) => Promise<SDKOperationResponse<operations['exportAdminBuckets']>>;
   externalServiceGetCredentials: (
     init: SDKOperationInit<operations['externalServiceGetCredentials']>,
   ) => Promise<
@@ -513,6 +518,10 @@ export interface DIAL_SDK {
   getOfflineCredentials: (
     init?: SDKOperationInit<operations['getOfflineCredentials']>,
   ) => Promise<SDKOperationResponse<operations['getOfflineCredentials']>>;
+  getOrgUnit: (
+    path: string,
+    init?: SDKOperationInit<operations['getOrgUnit']>,
+  ) => Promise<SDKOperationResponse<operations['getOrgUnit']>>;
   getPerRequestPermissions: (
     init: SDKOperationInit<operations['getPerRequestPermissions']>,
   ) => Promise<SDKOperationResponse<operations['getPerRequestPermissions']>>;
@@ -908,6 +917,9 @@ export interface DIAL_SDK {
   subscribeToResources: (
     init: SDKOperationInit<operations['subscribeToResources']>,
   ) => Promise<SDKOperationResponse<operations['subscribeToResources']>>;
+  systemExport: (
+    init?: SDKOperationInit<operations['systemExport']>,
+  ) => Promise<SDKOperationResponse<operations['systemExport']>>;
   tokenize: (
     deployment_name: string,
     init: SDKOperationInit<operations['tokenize']>,
@@ -934,6 +946,10 @@ export interface DIAL_SDK {
   unsubscribeClientChannel: (
     init: SDKOperationInit<operations['unsubscribeClientChannel']>,
   ) => Promise<SDKOperationResponse<operations['unsubscribeClientChannel']>>;
+  updateOrgUnit: (
+    path: string,
+    init: SDKOperationInit<operations['updateOrgUnit']>,
+  ) => Promise<SDKOperationResponse<operations['updateOrgUnit']>>;
   updatePublication: (
     init: SDKOperationInit<operations['updatePublication']>,
   ) => Promise<SDKOperationResponse<operations['updatePublication']>>;
@@ -1048,6 +1064,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.createEmbeddingUrl(deployment_name) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['createEmbedding']>>,
+    createOrgUnit: (path: string, init?: any) =>
+      client.POST(apiPaths.createOrgUnitUrl(path) as any, init) as Promise<
+        SDKOperationResponse<operations['createOrgUnit']>
+      >,
     createProjectGroupingFolder: (bucket: string, path: string, init?: any) =>
       client.PUT(
         apiPaths.createProjectGroupingFolderUrl(bucket, path) as any,
@@ -1137,6 +1157,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     deleteNotifications: (init?: any) =>
       client.POST(apiPaths.deleteNotificationsUrl, init) as Promise<
         SDKOperationResponse<operations['deleteNotifications']>
+      >,
+    deleteOrgUnit: (path: string, init?: any) =>
+      client.DELETE(apiPaths.deleteOrgUnitUrl(path) as any, init) as Promise<
+        SDKOperationResponse<operations['deleteOrgUnit']>
       >,
     deletePlatformApplication: (path: string, init?: any) =>
       client.DELETE(
@@ -1312,10 +1336,6 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     executeCode: (init?: any) =>
       client.POST(apiPaths.executeCodeUrl, init) as Promise<
         SDKOperationResponse<operations['executeCode']>
-      >,
-    exportAdminBuckets: (init?: any) =>
-      client.POST(apiPaths.exportAdminBucketsUrl, init) as Promise<
-        SDKOperationResponse<operations['exportAdminBuckets']>
       >,
     externalServiceGetCredentials: (init?: any) =>
       client.POST(apiPaths.externalServiceGetCredentialsUrl, init) as Promise<
@@ -1592,6 +1612,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     getOfflineCredentials: (init?: any) =>
       client.GET(apiPaths.getOfflineCredentialsUrl, init) as Promise<
         SDKOperationResponse<operations['getOfflineCredentials']>
+      >,
+    getOrgUnit: (path: string, init?: any) =>
+      client.GET(apiPaths.getOrgUnitUrl(path) as any, init) as Promise<
+        SDKOperationResponse<operations['getOrgUnit']>
       >,
     getPerRequestPermissions: (init?: any) =>
       client.POST(apiPaths.getPerRequestPermissionsUrl, init) as Promise<
@@ -2052,6 +2076,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.subscribeToResourcesUrl, init) as Promise<
         SDKOperationResponse<operations['subscribeToResources']>
       >,
+    systemExport: (init?: any) =>
+      client.POST(apiPaths.systemExportUrl, init) as Promise<
+        SDKOperationResponse<operations['systemExport']>
+      >,
     tokenize: (deployment_name: string, init?: any) =>
       client.POST(
         apiPaths.tokenizeUrl(deployment_name) as any,
@@ -2085,6 +2113,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     unsubscribeClientChannel: (init?: any) =>
       client.POST(apiPaths.unsubscribeClientChannelUrl, init) as Promise<
         SDKOperationResponse<operations['unsubscribeClientChannel']>
+      >,
+    updateOrgUnit: (path: string, init?: any) =>
+      client.PATCH(apiPaths.updateOrgUnitUrl(path) as any, init) as Promise<
+        SDKOperationResponse<operations['updateOrgUnit']>
       >,
     updatePublication: (init?: any) =>
       client.POST(apiPaths.updatePublicationUrl, init) as Promise<
