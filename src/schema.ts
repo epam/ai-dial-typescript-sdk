@@ -2279,7 +2279,7 @@ export interface paths {
     put?: never;
     /**
      * /v1/ops/publication/approve
-     * @description Admins only! <br> Call this endpoint to approve the publication request.
+     * @description Admins only, or with org units on, a holder of read and write publications/** in every unit the request touches (see docs/org-units.md). <br> Call this endpoint to approve the publication request.
      */
     post: operations['approvePublication'];
     delete?: never;
@@ -2373,7 +2373,7 @@ export interface paths {
     put?: never;
     /**
      * /v1/ops/publication/reject
-     * @description Admins only! <br> Call this endpoint to reject the publication request.
+     * @description Admins only, or with org units on, a holder of read and write publications/** in every unit the request touches (see docs/org-units.md). <br> Call this endpoint to reject the publication request.
      */
     post: operations['rejectPublication'];
     delete?: never;
@@ -2736,6 +2736,58 @@ export interface paths {
     head?: never;
     /** /v1/org-units/{path} */
     patch: operations['updateOrgUnit'];
+    trace?: never;
+  };
+  '/v1/org-units/{path}/role-assignments': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/org-units/{path}/role-assignments */
+    get: operations['listOrgUnitRoleAssignments'];
+    put?: never;
+    /** /v1/org-units/{path}/role-assignments */
+    post: operations['addOrgUnitRoleAssignment'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/org-units/{path}/role-assignments/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /** /v1/org-units/{path}/role-assignments/{id} */
+    delete: operations['removeOrgUnitRoleAssignment'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/org-units/{path}/roles': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/org-units/{path}/roles */
+    get: operations['listOrgUnitRoles'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
     trace?: never;
   };
   '/v1/policies/{bucket}/{path}': {
@@ -4385,6 +4437,7 @@ export interface components {
       defaultLocale?: string;
       translators?: components['schemas']['MapStringTranslator'];
       rateLimitSchedule?: components['schemas']['RateLimitSchedule'];
+      orgUnitRoles?: components['schemas']['MapStringOrgUnitRole'];
       spendingLimits?: components['schemas']['SpendingLimits'];
     };
     ConfigFileMigrateRequest: {
@@ -4552,6 +4605,14 @@ export interface components {
       displayName?: string;
       name?: string;
     };
+    CreateRoleAssignmentRequest: {
+      roleName?: string;
+      subject?:
+        | components['schemas']['SubjectUser-2']
+        | components['schemas']['SubjectApiKey-2']
+        | components['schemas']['SubjectClaimsPredicate-2']
+        | components['schemas']['SubjectAny-2'];
+    };
     /** @enum {string} */
     CredentialsLevel: 'GLOBAL' | 'APPLICATION' | 'USER';
     DeleteNotificationRequest: {
@@ -4559,6 +4620,9 @@ export interface components {
     };
     DeleteOrgUnitResult: {
       removed?: string[];
+    };
+    DeleteRoleAssignmentResult: {
+      removed?: string;
     };
     DeploymentData:
       | components['schemas']['ModelData']
@@ -4986,6 +5050,9 @@ export interface components {
     MapStringObject: {
       [key: string]: unknown;
     };
+    MapStringOrgUnitRole: {
+      [key: string]: components['schemas']['OrgUnitRole'];
+    };
     MapStringRole: {
       [key: string]: components['schemas']['Role'];
     };
@@ -5169,6 +5236,23 @@ export interface components {
       id?: string;
       name?: string;
       path?: string;
+    };
+    OrgUnitPermission: {
+      actions?: string[];
+      pathPattern?: string;
+    };
+    OrgUnitRole: {
+      description?: string;
+      permissions?: components['schemas']['OrgUnitPermission'][];
+    };
+    OrgUnitRoleData: {
+      description?: string;
+      name?: string;
+      permissions?: components['schemas']['OrgUnitPermission'][];
+      system?: boolean;
+    };
+    OrgUnitRoleList: {
+      items?: components['schemas']['OrgUnitRoleData'][];
     };
     /**
      * @description Whether to enable parallel `function` calling during the `tool` use.
@@ -5543,6 +5627,18 @@ export interface components {
       name?: string;
       share?: components['schemas']['MapStringShareResourceLimit'];
     };
+    RoleAssignment: {
+      id?: string;
+      roleName?: string;
+      subject?:
+        | components['schemas']['SubjectUser-2']
+        | components['schemas']['SubjectApiKey-2']
+        | components['schemas']['SubjectClaimsPredicate-2']
+        | components['schemas']['SubjectAny-2'];
+    };
+    RoleAssignmentList: {
+      items?: components['schemas']['RoleAssignment'][];
+    };
     Route: {
       attachmentPaths?: components['schemas']['RouteAttachmentPath'];
       maxRetryAttempts?: number;
@@ -5623,6 +5719,22 @@ export interface components {
       defaultCostObject?: string;
       mode?: components['schemas']['SpendingLimitMode'];
     };
+    'SubjectAny-1': Record<string, never>;
+    'SubjectAny-2': components['schemas']['SubjectAny-1'];
+    'SubjectApiKey-1': {
+      id?: string;
+    };
+    'SubjectApiKey-2': components['schemas']['SubjectApiKey-1'];
+    'SubjectClaimsPredicate-1': {
+      function?: components['schemas']['RuleFunction'];
+      source?: string;
+      targets?: string[];
+    };
+    'SubjectClaimsPredicate-2': components['schemas']['SubjectClaimsPredicate-1'];
+    'SubjectUser-1': {
+      id?: string;
+    };
+    'SubjectUser-2': components['schemas']['SubjectUser-1'];
     SubscribeResourcesRequest: {
       resources?: components['schemas']['ResourceLink'][];
     };
@@ -18104,7 +18216,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      /** @description The units are removed, with their folder markers */
+      /** @description The units are removed, with their assignments, markers and the read rules of their subtree */
       200: {
         headers: {
           [name: string]: unknown;
@@ -18181,6 +18293,248 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['OrgUnitData'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  listOrgUnitRoleAssignments: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description public, then each unit's name, separated by '/': public/Acme/Risk/US Risk */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['RoleAssignmentList'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  addOrgUnitRoleAssignment: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description public, then each unit's name, separated by '/': public/Acme/Risk/US Risk */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateRoleAssignmentRequest'];
+      };
+    };
+    responses: {
+      /** @description The role is given, or was already given to the subject */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['RoleAssignment'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  removeOrgUnitRoleAssignment: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description public, then each unit's name, separated by '/': public/Acme/Risk/US Risk */
+        path: string;
+        /** @description The assignment's id */
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description The assignment is removed */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['DeleteRoleAssignmentResult'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  listOrgUnitRoles: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description public, then each unit's name, separated by '/': public/Acme/Risk/US Risk */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['OrgUnitRoleList'];
         };
       };
       /** @description Bad request */
@@ -22036,6 +22390,13 @@ export interface operations {
         content: {
           'application/json': components['schemas']['ErrorData'];
         };
+      };
+      /** @description An org unit holds this path */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description Precondition failed - ETag mismatch */
       412: {

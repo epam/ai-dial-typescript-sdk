@@ -10,6 +10,10 @@ export const acceptUserConsentUrl = (deployment_id: string) => {
   return `/v1/consent/${deployment_id}`;
 };
 
+export const addOrgUnitRoleAssignmentUrl = (path: string) => {
+  return `/v1/org-units/${path}/role-assignments`;
+};
+
 export const applyConfigManifestsUrl = '/v1/admin/apply';
 export const approvePublicationUrl = '/v1/ops/publication/approve';
 export const cancelResponseItemUrl = (response_id: string) => {
@@ -562,6 +566,14 @@ export const listFileConfigToolsetsUrl = '/v1/admin/config/file/toolsets';
 export const listFileConfigTranslatorsUrl = '/v1/admin/config/file/translators';
 export const listFilesFromCodeInterpreterUrl =
   '/v1/ops/code_interpreter/list_files';
+export const listOrgUnitRoleAssignmentsUrl = (path: string) => {
+  return `/v1/org-units/${path}/role-assignments`;
+};
+
+export const listOrgUnitRolesUrl = (path: string) => {
+  return `/v1/org-units/${path}/roles`;
+};
+
 export const listProjectFileMetadataUrl = (
   bucket: string,
   path: string,
@@ -613,6 +625,10 @@ export const rateDeploymentUrl = (deployment_name: string) => {
 export const redeployApplicationUrl = '/v1/ops/application/redeploy';
 export const rejectPublicationUrl = '/v1/ops/publication/reject';
 export const reloadConfigUrl = '/v1/ops/config/reload';
+export const removeOrgUnitRoleAssignmentUrl = (path: string, id: string) => {
+  return `/v1/org-units/${path}/role-assignments/${id}`;
+};
+
 export const repairToolSetUrl = (bucket: string, path: string) => {
   return `/v1/ops/toolset/${bucket}/${path}/repair`;
 };

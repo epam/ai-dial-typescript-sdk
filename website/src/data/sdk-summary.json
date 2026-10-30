@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "Apache-2.0",
   "runtimeDependencyCount": 1,
-  "methodCount": 234,
+  "methodCount": 238,
   "categories": [
     "Admin",
     "Anthropic",
