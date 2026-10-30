@@ -26,6 +26,10 @@ export interface DIAL_SDK {
     deployment_id: string,
     init: SDKOperationInit<operations['acceptUserConsent']>,
   ) => Promise<SDKOperationResponse<operations['acceptUserConsent']>>;
+  addOrgUnitRoleAssignment: (
+    path: string,
+    init: SDKOperationInit<operations['addOrgUnitRoleAssignment']>,
+  ) => Promise<SDKOperationResponse<operations['addOrgUnitRoleAssignment']>>;
   applyConfigManifests: (
     init: SDKOperationInit<operations['applyConfigManifests']>,
   ) => Promise<SDKOperationResponse<operations['applyConfigManifests']>>;
@@ -737,6 +741,14 @@ export interface DIAL_SDK {
   ) => Promise<
     SDKOperationResponse<operations['listFilesFromCodeInterpreter']>
   >;
+  listOrgUnitRoleAssignments: (
+    path: string,
+    init?: SDKOperationInit<operations['listOrgUnitRoleAssignments']>,
+  ) => Promise<SDKOperationResponse<operations['listOrgUnitRoleAssignments']>>;
+  listOrgUnitRoles: (
+    path: string,
+    init?: SDKOperationInit<operations['listOrgUnitRoles']>,
+  ) => Promise<SDKOperationResponse<operations['listOrgUnitRoles']>>;
   listProjectFileMetadata: (
     bucket: string,
     path: string,
@@ -803,6 +815,11 @@ export interface DIAL_SDK {
   reloadConfig: (
     init?: SDKOperationInit<operations['reloadConfig']>,
   ) => Promise<SDKOperationResponse<operations['reloadConfig']>>;
+  removeOrgUnitRoleAssignment: (
+    path: string,
+    id: string,
+    init?: SDKOperationInit<operations['removeOrgUnitRoleAssignment']>,
+  ) => Promise<SDKOperationResponse<operations['removeOrgUnitRoleAssignment']>>;
   repairToolSet: (
     bucket: string,
     path: string,
@@ -1012,6 +1029,13 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.acceptUserConsentUrl(deployment_id) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['acceptUserConsent']>>,
+    addOrgUnitRoleAssignment: (path: string, init?: any) =>
+      client.POST(
+        apiPaths.addOrgUnitRoleAssignmentUrl(path) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['addOrgUnitRoleAssignment']>
+      >,
     applyConfigManifests: (init?: any) =>
       client.POST(apiPaths.applyConfigManifestsUrl, init) as Promise<
         SDKOperationResponse<operations['applyConfigManifests']>
@@ -1865,6 +1889,17 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.POST(apiPaths.listFilesFromCodeInterpreterUrl, init) as Promise<
         SDKOperationResponse<operations['listFilesFromCodeInterpreter']>
       >,
+    listOrgUnitRoleAssignments: (path: string, init?: any) =>
+      client.GET(
+        apiPaths.listOrgUnitRoleAssignmentsUrl(path) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['listOrgUnitRoleAssignments']>
+      >,
+    listOrgUnitRoles: (path: string, init?: any) =>
+      client.GET(apiPaths.listOrgUnitRolesUrl(path) as any, init) as Promise<
+        SDKOperationResponse<operations['listOrgUnitRoles']>
+      >,
     listProjectFileMetadata: (
       bucket: string,
       path: string,
@@ -1950,6 +1985,13 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     reloadConfig: (init?: any) =>
       client.POST(apiPaths.reloadConfigUrl, init) as Promise<
         SDKOperationResponse<operations['reloadConfig']>
+      >,
+    removeOrgUnitRoleAssignment: (path: string, id: string, init?: any) =>
+      client.DELETE(
+        apiPaths.removeOrgUnitRoleAssignmentUrl(path, id) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['removeOrgUnitRoleAssignment']>
       >,
     repairToolSet: (bucket: string, path: string, init?: any) =>
       client.POST(
