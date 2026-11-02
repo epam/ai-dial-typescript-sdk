@@ -4865,6 +4865,7 @@ export interface components {
       globalInterceptors?: string[];
       retriableErrorCodes?: number[];
       rateLimitSchedule?: components['schemas']['RateLimitSchedule'];
+      spendingLimits?: components['schemas']['SpendingLimits'];
     };
     HealthResponse: {
       skipped?: components['schemas']['SkippedEntity'][];
