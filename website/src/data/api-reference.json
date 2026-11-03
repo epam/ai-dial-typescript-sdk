@@ -36628,6 +36628,9 @@
         },
         "rateLimitSchedule": {
           "$ref": "#/components/schemas/RateLimitSchedule"
+        },
+        "spendingLimits": {
+          "$ref": "#/components/schemas/SpendingLimits"
         }
       },
       "x-typescript-required": []
@@ -40077,5 +40080,5 @@
     "ModelListData": "export interface ModelListData {\n  /** An array of models. */\n  data?: ModelData[];\n  [key: string]: unknown;\n}"
   },
   "sdkOptions": "export interface SDKOptions {\n  baseUrl: string;\n  apiKey?: string;\n  token?: string;\n  headers?: Record<string, string>;\n  fetch?: typeof fetch;\n}",
-  "sourceHash": "c28d402e4e508eed455bc563b7f4c1d64d1ffefa05ca9357738082c1157926fb"
+  "sourceHash": "dab4663a5a12573ede6940df89834eb385f8310155eb2d39006237013f87d2b2"
 }
