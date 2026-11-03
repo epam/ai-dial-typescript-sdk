@@ -4865,7 +4865,6 @@ export interface components {
       globalInterceptors?: string[];
       retriableErrorCodes?: number[];
       rateLimitSchedule?: components['schemas']['RateLimitSchedule'];
-      spendingLimits?: components['schemas']['SpendingLimits'];
     };
     HealthResponse: {
       skipped?: components['schemas']['SkippedEntity'][];
@@ -5428,6 +5427,7 @@ export interface components {
       user_level_auth_status?: components['schemas']['ResourceAuthStatus'];
       dynamically_registered?: boolean;
       readonly client_secret_hint?: string;
+      resource?: string;
     };
     ResourceAuthSettingsData: {
       api_key_header?: string;
@@ -5442,6 +5442,7 @@ export interface components {
       scopes_supported?: string[];
       user_level_auth_status?: components['schemas']['ResourceAuthStatus'];
       dynamically_registered?: boolean;
+      resource?: string;
     };
     /** @enum {string} */
     ResourceAuthStatus: 'SIGNED_IN' | 'SIGNED_OUT' | 'FAILED';

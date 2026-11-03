@@ -36628,9 +36628,6 @@
         },
         "rateLimitSchedule": {
           "$ref": "#/components/schemas/RateLimitSchedule"
-        },
-        "spendingLimits": {
-          "$ref": "#/components/schemas/SpendingLimits"
         }
       },
       "x-typescript-required": []
@@ -38377,6 +38374,9 @@
         "client_secret_hint": {
           "type": "string",
           "readOnly": true
+        },
+        "resource": {
+          "type": "string"
         }
       },
       "x-typescript-required": []
@@ -38422,6 +38422,9 @@
         },
         "dynamically_registered": {
           "type": "boolean"
+        },
+        "resource": {
+          "type": "string"
         }
       },
       "x-typescript-required": []
@@ -40074,5 +40077,5 @@
     "ModelListData": "export interface ModelListData {\n  /** An array of models. */\n  data?: ModelData[];\n  [key: string]: unknown;\n}"
   },
   "sdkOptions": "export interface SDKOptions {\n  baseUrl: string;\n  apiKey?: string;\n  token?: string;\n  headers?: Record<string, string>;\n  fetch?: typeof fetch;\n}",
-  "sourceHash": "bf489d7f00e55eba33a45c0f01d5e32c8dae55cb8b59829e0adc26cbc2040901"
+  "sourceHash": "c28d402e4e508eed455bc563b7f4c1d64d1ffefa05ca9357738082c1157926fb"
 }
