@@ -38377,6 +38377,9 @@
         "client_secret_hint": {
           "type": "string",
           "readOnly": true
+        },
+        "resource": {
+          "type": "string"
         }
       },
       "x-typescript-required": []
@@ -38422,6 +38425,9 @@
         },
         "dynamically_registered": {
           "type": "boolean"
+        },
+        "resource": {
+          "type": "string"
         }
       },
       "x-typescript-required": []
@@ -40074,5 +40080,5 @@
     "ModelListData": "export interface ModelListData {\n  /** An array of models. */\n  data?: ModelData[];\n  [key: string]: unknown;\n}"
   },
   "sdkOptions": "export interface SDKOptions {\n  baseUrl: string;\n  apiKey?: string;\n  token?: string;\n  headers?: Record<string, string>;\n  fetch?: typeof fetch;\n}",
-  "sourceHash": "bf489d7f00e55eba33a45c0f01d5e32c8dae55cb8b59829e0adc26cbc2040901"
+  "sourceHash": "dab4663a5a12573ede6940df89834eb385f8310155eb2d39006237013f87d2b2"
 }
