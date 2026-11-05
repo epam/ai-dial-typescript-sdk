@@ -3190,6 +3190,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/user/role-assignments': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/user/role-assignments */
+    get: operations['getUserRoleAssignments'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/user/usage': {
     parameters: {
       query?: never;
@@ -5060,6 +5077,9 @@ export interface components {
     MapStringRoute: {
       [key: string]: components['schemas']['Route'];
     };
+    MapStringSet: {
+      [key: string]: string[];
+    };
     MapStringShareResourceLimit: {
       [key: string]: components['schemas']['ShareResourceLimit'];
     };
@@ -5991,6 +6011,21 @@ export interface components {
       monthCostStats?: components['schemas']['CostItemLimitStats'];
       weekCostStats?: components['schemas']['CostItemLimitStats'];
       budgets?: components['schemas']['BudgetStats'][];
+    };
+    UserOrgUnits: {
+      adminAccess?: components['schemas']['UserOrgUnitsAdminAccess'];
+      items?: components['schemas']['UserOrgUnitsUnit'][];
+    };
+    /** @enum {string} */
+    UserOrgUnitsAdminAccess: 'FULL' | 'NONE';
+    UserOrgUnitsUnit: {
+      displayName?: string;
+      folder?: string;
+      id?: string;
+      name?: string;
+      path?: string;
+      permissions?: components['schemas']['MapStringSet'];
+      roles?: string[];
     };
     ValidationResult: {
       entityId?: string;
@@ -21862,6 +21897,51 @@ export interface operations {
       };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getUserRoleAssignments: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['UserOrgUnits'];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Not found */
+      404: {
         headers: {
           [name: string]: unknown;
         };

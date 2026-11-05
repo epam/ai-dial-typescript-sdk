@@ -669,6 +669,9 @@ export interface DIAL_SDK {
   getUserLimits: (
     init?: SDKOperationInit<operations['getUserLimits']>,
   ) => Promise<SDKOperationResponse<operations['getUserLimits']>>;
+  getUserRoleAssignments: (
+    init?: SDKOperationInit<operations['getUserRoleAssignments']>,
+  ) => Promise<SDKOperationResponse<operations['getUserRoleAssignments']>>;
   getUserUsage: (
     init?: SDKOperationInit<operations['getUserUsage']>,
   ) => Promise<SDKOperationResponse<operations['getUserUsage']>>;
@@ -1800,6 +1803,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     getUserLimits: (init?: any) =>
       client.GET(apiPaths.getUserLimitsUrl, init) as Promise<
         SDKOperationResponse<operations['getUserLimits']>
+      >,
+    getUserRoleAssignments: (init?: any) =>
+      client.GET(apiPaths.getUserRoleAssignmentsUrl, init) as Promise<
+        SDKOperationResponse<operations['getUserRoleAssignments']>
       >,
     getUserUsage: (init?: any) =>
       client.GET(apiPaths.getUserUsageUrl, init) as Promise<
