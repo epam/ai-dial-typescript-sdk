@@ -30420,7 +30420,17 @@
       "endpoint": "/v1/admin/system-export",
       "httpMethod": "POST",
       "deprecated": false,
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "scope",
+          "location": "query",
+          "required": false,
+          "description": "Comma-separated, case-insensitive list of the buckets to export: public, platform. May be repeated, the lists are combined. All buckets when omitted.",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
       "requestBody": null,
       "responses": [
         {
@@ -30435,6 +30445,12 @@
               }
             }
           ],
+          "headers": []
+        },
+        {
+          "status": "400",
+          "description": "The scope is empty, has an empty element or names an unknown bucket",
+          "content": [],
           "headers": []
         },
         {
@@ -40219,5 +40235,5 @@
     "ModelListData": "export interface ModelListData {\n  /** An array of models. */\n  data?: ModelData[];\n  [key: string]: unknown;\n}"
   },
   "sdkOptions": "export interface SDKOptions {\n  baseUrl: string;\n  apiKey?: string;\n  token?: string;\n  headers?: Record<string, string>;\n  fetch?: typeof fetch;\n}",
-  "sourceHash": "5b896df81507c49e5c10e6d557465c2a97ae772395ba640015f0142d8857f682"
+  "sourceHash": "948f571043891813213b5315e231d3765e2eb779ddd6dc30240de88a75422147"
 }
