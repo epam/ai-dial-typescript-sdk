@@ -9213,7 +9213,10 @@ export interface operations {
   };
   systemExport: {
     parameters: {
-      query?: never;
+      query?: {
+        /** @description Comma-separated, case-insensitive list of the buckets to export: public, platform. May be repeated, the lists are combined. All buckets when omitted. */
+        scope?: string;
+      };
       header?: never;
       path?: never;
       cookie?: never;
@@ -9228,6 +9231,13 @@ export interface operations {
         content: {
           'application/zip': string;
         };
+      };
+      /** @description The scope is empty, has an empty element or names an unknown bucket */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description Forbidden */
       403: {
