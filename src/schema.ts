@@ -404,6 +404,40 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/admin/config/file/aliases': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/admin/config/file/aliases */
+    get: operations['listFileConfigAliases'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/config/file/aliases/{name}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/admin/config/file/aliases/{name} */
+    get: operations['getFileConfigAlias'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/admin/config/file/applications': {
     parameters: {
       query?: never;
@@ -625,6 +659,40 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/admin/config/file/routers': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/admin/config/file/routers */
+    get: operations['listFileConfigRouters'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/config/file/routers/{name}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/admin/config/file/routers/{name} */
+    get: operations['getFileConfigRouter'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/admin/config/file/routes': {
     parameters: {
       query?: never;
@@ -829,6 +897,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/admin/system-import': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** /v1/admin/system-import */
+    post: operations['systemImport'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/admin/validate': {
     parameters: {
       query?: never;
@@ -841,6 +926,25 @@ export interface paths {
     /** /v1/admin/validate */
     post: operations['validateConfigManifests'];
     delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/aliases/{bucket}/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/aliases/{bucket}/{path} */
+    get: operations['getPublicAlias'];
+    /** /v1/aliases/{bucket}/{path} */
+    put: operations['savePublicAlias'];
+    post?: never;
+    /** /v1/aliases/{bucket}/{path} */
+    delete: operations['deletePublicAlias'];
     options?: never;
     head?: never;
     patch?: never;
@@ -1452,6 +1556,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/metadata/aliases/{bucket}/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/metadata/aliases/{bucket}/{path} */
+    get: operations['getPublicAliasMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/metadata/applications/platform/{path}': {
     parameters: {
       query?: never;
@@ -1673,6 +1794,23 @@ export interface paths {
     };
     /** /v1/metadata/roles/{bucket}/{path} */
     get: operations['getRoleMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/metadata/routers/{bucket}/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/metadata/routers/{bucket}/{path} */
+    get: operations['getRouterMetadata'];
     put?: never;
     post?: never;
     delete?: never;
@@ -2875,6 +3013,59 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/routers': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/routers */
+    get: operations['getRouters'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/routers/{bucket}/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/routers/{bucket}/{path} */
+    get: operations['getPlatformRouter'];
+    /** /v1/routers/{bucket}/{path} */
+    put: operations['savePlatformRouter'];
+    post?: never;
+    /** /v1/routers/{bucket}/{path} */
+    delete: operations['deletePlatformRouter'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/routers/{router_name}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/routers/{router_name} */
+    get: operations['getRouter'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/routes/{bucket}/{path}': {
     parameters: {
       query?: never;
@@ -3505,6 +3696,7 @@ export interface components {
       | components['schemas']['AdminSchemaManifest']
       | components['schemas']['AdminCatalogSchemaManifest']
       | components['schemas']['AdminInterceptorManifest']
+      | components['schemas']['AdminRouterManifest']
       | components['schemas']['AdminTranslatorManifest']
       | components['schemas']['AdminRoleManifest']
       | components['schemas']['AdminKeyManifest']
@@ -3559,6 +3751,15 @@ export interface components {
       name?: string;
       spec?: components['schemas']['Route'];
     };
+    AdminRouterManifest: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind: 'Router';
+      name?: string;
+      spec?: components['schemas']['Router'];
+    };
     AdminSchemaManifest: {
       /**
        * @description discriminator enum property added by openapi-typescript
@@ -3599,6 +3800,47 @@ export interface components {
       failed?: number;
       results?: components['schemas']['ValidationResult'][];
       valid?: number;
+    };
+    Alias: {
+      author?: string;
+      baseUrl?: string;
+      catalogProperties?: components['schemas']['MapStringObject'];
+      /** Format: uri */
+      catalogSchemaId?: string;
+      createdAt?: number;
+      defaultHeaders?: components['schemas']['MapStringString'];
+      defaults?: components['schemas']['MapStringObject'];
+      dependencies?: string[];
+      description?: components['schemas']['LocalizedValue'];
+      descriptionKeywords?: string[];
+      displayName?: components['schemas']['LocalizedValue'];
+      displayVersion?: string;
+      endpoint?: string;
+      features?: components['schemas']['Features'];
+      forwardAuthToken?: boolean;
+      iconUrl?: string;
+      inputAttachmentTypes?: string[];
+      interceptors?: string[];
+      interfaces?: components['schemas']['MapStringDeploymentInterface'];
+      intro?: components['schemas']['LocalizedValue'];
+      maxInputAttachments?: number;
+      maxRetryAttempts?: number;
+      name?: string;
+      overrideName?: string;
+      presentAs?: components['schemas']['AliasPresentation'];
+      reference?: string;
+      responsesDefaults?: components['schemas']['MapStringObject'];
+      responsesEndpoint?: string;
+      target?: components['schemas']['AliasTarget'];
+      updatedAt?: number;
+      userRoles?: string[];
+    };
+    /** @enum {string} */
+    AliasPresentation: 'model' | 'application' | 'toolset';
+    AliasTarget: {
+      id?: unknown;
+      path?: string;
+      version?: unknown;
     };
     AllowedToolsResponse: {
       tools: components['schemas']['McpTool'][];
@@ -4456,6 +4698,8 @@ export interface components {
       rateLimitSchedule?: components['schemas']['RateLimitSchedule'];
       orgUnitRoles?: components['schemas']['MapStringOrgUnitRole'];
       spendingLimits?: components['schemas']['SpendingLimits'];
+      aliases?: components['schemas']['MapStringAlias'];
+      routers?: components['schemas']['MapStringRouter'];
     };
     ConfigFileMigrateRequest: {
       dryRun?: boolean;
@@ -4644,7 +4888,8 @@ export interface components {
     DeploymentData:
       | components['schemas']['ModelData']
       | components['schemas']['ApplicationData']
-      | components['schemas']['ToolSetData'];
+      | components['schemas']['ToolSetData']
+      | components['schemas']['RouterData'];
     DeploymentInterface: {
       base_url?: string;
       defaultHeaders?: components['schemas']['MapStringString'];
@@ -5006,6 +5251,10 @@ export interface components {
       data?: components['schemas']['ModelData'][];
       object?: string;
     };
+    ListDataRouterData: {
+      data?: components['schemas']['RouterData'][];
+      object?: string;
+    };
     ListDataToolSetData: {
       data?: components['schemas']['ToolSetData'][];
       object?: string;
@@ -5032,6 +5281,9 @@ export interface components {
       localeMap?: components['schemas']['MapStringString'];
       plainValue?: string;
     } & (string | components['schemas']['MapStringString']);
+    MapStringAlias: {
+      [key: string]: components['schemas']['Alias'];
+    };
     MapStringApplication: {
       [key: string]: components['schemas']['Application'];
     };
@@ -5076,6 +5328,9 @@ export interface components {
     };
     MapStringRoute: {
       [key: string]: components['schemas']['Route'];
+    };
+    MapStringRouter: {
+      [key: string]: components['schemas']['Router'];
     };
     MapStringSet: {
       [key: string]: string[];
@@ -5595,6 +5850,7 @@ export interface components {
       | 'APP_TYPE_SCHEMA'
       | 'CATALOG_SCHEMA'
       | 'INTERCEPTOR'
+      | 'ROUTER'
       | 'TRANSLATOR'
       | 'ROLE'
       | 'PROJECT_KEY'
@@ -5605,7 +5861,8 @@ export interface components {
       | 'RESPONSE_MAPPING'
       | 'SKILL'
       | 'BACKGROUND_JOB'
-      | 'PROJECT';
+      | 'PROJECT'
+      | 'ALIAS';
     ResponseFormatJsonObject: {
       /** @enum {string} */
       type: 'json_object';
@@ -5683,6 +5940,84 @@ export interface components {
       body?: string;
       status?: number;
     };
+    Router: {
+      author?: string;
+      baseUrl?: string;
+      catalogProperties?: components['schemas']['MapStringObject'];
+      /** Format: uri */
+      catalogSchemaId?: string;
+      createdAt?: number;
+      defaultHeaders?: components['schemas']['MapStringString'];
+      defaults?: components['schemas']['MapStringObject'];
+      dependencies?: string[];
+      description?: components['schemas']['LocalizedValue'];
+      descriptionKeywords?: string[];
+      displayName?: components['schemas']['LocalizedValue'];
+      displayVersion?: string;
+      endpoint?: string;
+      features?: components['schemas']['Features'];
+      forwardAuthToken?: boolean;
+      iconUrl?: string;
+      inputAttachmentTypes?: string[];
+      interceptors?: string[];
+      interfaces?: components['schemas']['MapStringDeploymentInterface'];
+      intro?: components['schemas']['LocalizedValue'];
+      maxInputAttachments?: number;
+      maxRetryAttempts?: number;
+      name?: string;
+      overrideName?: string;
+      reference?: string;
+      responsesDefaults?: components['schemas']['MapStringObject'];
+      responsesEndpoint?: string;
+      updatedAt?: number;
+      userRoles?: string[];
+      applicationProperties?: components['schemas']['MapStringObject'];
+      /** Format: uri */
+      applicationTypeSchemaId?: string;
+      decision?: components['schemas']['RouterDecision'];
+      mode?: components['schemas']['RouterMode'];
+    };
+    RouterData: {
+      application?: string;
+      catalog_properties?: components['schemas']['MapStringObject'];
+      /** Format: uri */
+      catalog_schema_id?: string;
+      created_at?: number;
+      defaults?: components['schemas']['MapStringObject'];
+      description?: components['schemas']['LocalizedValue'];
+      description_keywords?: string[];
+      display_name?: components['schemas']['LocalizedValue'];
+      display_version?: string;
+      features?: components['schemas']['FeaturesData'];
+      icon_url?: string;
+      id?: string;
+      input_attachment_types?: string[];
+      interface_configs?: components['schemas']['MapStringInterfaceConfigData'];
+      interfaces?: string[];
+      intro?: components['schemas']['LocalizedValue'];
+      max_input_attachments?: number;
+      max_retry_attempts?: number;
+      model?: string;
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      object: 'router';
+      owner?: string;
+      reference?: string;
+      responses_defaults?: components['schemas']['MapStringObject'];
+      scale_settings?: components['schemas']['ScaleSettingsData'];
+      status?: string;
+      toolset?: string;
+      updated_at?: number;
+    };
+    RouterDecision: {
+      body?: boolean;
+      maxDecisions?: number;
+      timeoutMs?: number;
+    };
+    /** @enum {string} */
+    RouterMode: 'proxy' | 'decision';
     RpcRequest: {
       id?: components['schemas']['ValueNode'];
       jsonrpc?: string;
@@ -6107,7 +6442,7 @@ export interface operations {
         headers: {
           /** @description Number of upstream attempts performed before returning the response */
           'X-UPSTREAM-ATTEMPTS'?: string;
-          /** @description DIAL spend cap status before this request: `allowed`, or `allowed_warning` past 75%. Sent only when the caller has a day/week/month cost limit; the upstream's own `anthropic-ratelimit-*` headers are removed */
+          /** @description DIAL spend cap status before this request: `allowed`, or `allowed_warning` past 75%. Sent only when the caller has a day/week/month cost limit, or with enforced budgets exactly one budget in their cost object; the upstream's own `anthropic-ratelimit-*` headers are removed */
           'anthropic-ratelimit-unified-status'?: string;
           /** @description Always `overage` */
           'anthropic-ratelimit-unified-representative-claim'?: string;
@@ -7171,7 +7506,7 @@ export interface operations {
       /** @description Success */
       200: {
         headers: {
-          /** @description Spent share of the caller's reported DIAL day/week/month spend cap before this request, a whole percent rounded down. Sent only when the caller has such a cost limit; the upstream's own `x-codex-*` headers are removed */
+          /** @description Spent share of the caller's reported DIAL day/week/month spend cap before this request, a whole percent rounded down. Sent only when the caller has such a cost limit, or with enforced budgets exactly one budget in their cost object; the upstream's own `x-codex-*` headers are removed */
           'x-codex-primary-used-percent'?: string;
           /** @description `1440`, `10080` or `43200`: the reported cap's day, week or month */
           'x-codex-primary-window-minutes'?: string;
@@ -7519,7 +7854,7 @@ export interface operations {
       /** @description Success */
       200: {
         headers: {
-          /** @description Spent share of the caller's reported DIAL day/week/month spend cap before this request, a whole percent rounded down. Sent only when the caller has such a cost limit; the upstream's own `x-codex-*` headers are removed */
+          /** @description Spent share of the caller's reported DIAL day/week/month spend cap before this request, a whole percent rounded down. Sent only when the caller has such a cost limit, or with enforced budgets exactly one budget in their cost object; the upstream's own `x-codex-*` headers are removed */
           'x-codex-primary-used-percent'?: string;
           /** @description `1440`, `10080` or `43200`: the reported cap's day, week or month */
           'x-codex-primary-window-minutes'?: string;
@@ -7862,6 +8197,118 @@ export interface operations {
         content: {
           'application/json': components['schemas']['AdminApplyResponse'];
         };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  listFileConfigAliases: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description List of file-sourced aliases */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['FileConfigControllerItemsResponseFileConfigControllerNamedEntity'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getFileConfigAlias: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Alias name */
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Alias'] &
+            components['schemas']['EntityMetadata'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description The server had an error while processing your request. */
       500: {
@@ -8597,6 +9044,118 @@ export interface operations {
       };
     };
   };
+  listFileConfigRouters: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description List of file-sourced routers */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['FileConfigControllerItemsResponseFileConfigControllerNamedEntity'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getFileConfigRouter: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Router name */
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Router'] &
+            components['schemas']['EntityMetadata'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   listFileConfigRoutes: {
     parameters: {
       query?: never;
@@ -9266,6 +9825,72 @@ export interface operations {
       };
     };
   };
+  systemImport: {
+    parameters: {
+      query?: {
+        /** @description merge (the default) writes the archive's blobs over the buckets and deletes nothing; replace first deletes the blobs of each bucket that the archive has blobs for. Case-insensitive. */
+        mode?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/zip': string;
+      };
+    };
+    responses: {
+      /** @description Newline-delimited JSON: progress lines while the replace runs, then a final status line */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/x-ndjson': string;
+        };
+      };
+      /** @description The archive is missing, malformed or not accepted by this version */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description No bytes were received from the client for adminSystemImport.stallTimeout */
+      408: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Another system import already holds the guard, retry later */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   validateConfigManifests: {
     parameters: {
       query?: never;
@@ -9323,6 +9948,217 @@ export interface operations {
         content: {
           'application/json': components['schemas']['AdminValidateResponse'];
         };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getPublicAlias: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description Must be public */
+        bucket: string;
+        /** @description Alias name, which is also its invocation name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success: presentAs, target, userRoles and the display fields, with status valid, or the stored body with status invalid and validationWarnings when calls ignore it */
+      200: {
+        headers: {
+          /** @description Entity tag for the alias */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Alias'] &
+            components['schemas']['EntityMetadata'];
+        };
+      };
+      /** @description Not Modified */
+      304: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  savePublicAlias: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+        /** @description Conditional creation precondition. */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description Must be public */
+        bucket: string;
+        /** @description Alias name, which is also its invocation name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['Alias'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Entity tag for the saved alias */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ConfigResourceControllerConfigWriteResponse'];
+        };
+      };
+      /** @description Invalid body, a field other than presentAs, target, userRoles and the display fields, a body name other than the path name, an invalid name or one the url encoding changes, or a target that does not fit presentAs */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  deletePublicAlias: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description Must be public */
+        bucket: string;
+        /** @description Alias name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description The server had an error while processing your request. */
       500: {
@@ -11414,8 +12250,8 @@ export interface operations {
   listDeploymentNames: {
     parameters: {
       query?: {
-        /** @description Filter deployment names by kind (model, application, toolset). Defaults to all kinds. */
-        type?: ('model' | 'application' | 'toolset')[];
+        /** @description Filter deployment names by kind (model, application, toolset, router). Defaults to all kinds. */
+        type?: ('model' | 'application' | 'toolset' | 'router')[];
       };
       header?: never;
       path?: never;
@@ -13145,6 +13981,74 @@ export interface operations {
       };
     };
   };
+  getPublicAliasMetadata: {
+    parameters: {
+      query?: {
+        /** @description The token from the previous request to request next items. */
+        token?: string;
+        /** @description Limit on the number of items in the response. */
+        limit?: number;
+        /** @description If true, returns items recursively without nested folder metadata. */
+        recursive?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description Must be public */
+        bucket: string;
+        /** @description Empty to list the aliases, or an alias name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MetadataBase'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   getPlatformApplicationMetadata: {
     parameters: {
       query?: {
@@ -14011,6 +14915,74 @@ export interface operations {
       };
       /** @description Invalid Authentication */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getRouterMetadata: {
+    parameters: {
+      query?: {
+        /** @description The token from the previous request to request next items. */
+        token?: string;
+        /** @description Limit on the number of items in the response. */
+        limit?: number;
+        /** @description If true, returns items recursively without nested folder metadata. */
+        recursive?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The parameter specifies path to the requested directory or application, for example: `folder1/folder2/` or `folder1/application_name/`. Note, it could be empty if you want to list the root folder. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MetadataBase'];
+        };
+      };
+      /** @description Bad request */
+      400: {
         headers: {
           [name: string]: unknown;
         };
@@ -19661,6 +20633,326 @@ export interface operations {
       };
       /** @description The server had an error while processing your request. */
       500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getRouters: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ListDataRouterData'];
+        };
+      };
+    };
+  };
+  getPlatformRouter: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description Router name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Entity tag for the router */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Router'] &
+            components['schemas']['EntityMetadata'];
+        };
+      };
+      /** @description Not Modified */
+      304: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  savePlatformRouter: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+        /** @description Conditional creation precondition. */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description Router name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['Router'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Entity tag for the saved router */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ConfigResourceControllerConfigWriteResponse'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  deletePlatformRouter: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description Router name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getRouter: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Router name */
+        router_name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['RouterData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
         headers: {
           [name: string]: unknown;
         };
