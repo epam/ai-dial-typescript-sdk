@@ -115,6 +115,10 @@ export const deletePlatformApplicationUrl = (path: string) => {
   return `/v1/applications/platform/${path}`;
 };
 
+export const deletePlatformRouterUrl = (bucket: string, path: string) => {
+  return `/v1/routers/${bucket}/${path}`;
+};
+
 export const deletePlatformToolSetUrl = (path: string) => {
   return `/v1/toolsets/platform/${path}`;
 };
@@ -148,6 +152,10 @@ export const deleteProjectGroupingFolderUrl = (
 
 export const deletePromptUrl = (bucket: string, prompt_path: string) => {
   return `/v1/prompts/${bucket}/${prompt_path}`;
+};
+
+export const deletePublicAliasUrl = (bucket: string, path: string) => {
+  return `/v1/aliases/${bucket}/${path}`;
 };
 
 export const deletePublicationUrl = '/v1/ops/publication/delete';
@@ -323,6 +331,10 @@ export const getExternalServiceUrl = (appid: string, id: string) => {
   return `/v1/applications/${appid}/external-services/${id}`;
 };
 
+export const getFileConfigAliasUrl = (name: string) => {
+  return `/v1/admin/config/file/aliases/${name}`;
+};
+
 export const getFileConfigApplicationUrl = (name: string) => {
   return `/v1/admin/config/file/applications/${name}`;
 };
@@ -349,6 +361,10 @@ export const getFileConfigRoleUrl = (name: string) => {
 
 export const getFileConfigRouteUrl = (name: string) => {
   return `/v1/admin/config/file/routes/${name}`;
+};
+
+export const getFileConfigRouterUrl = (name: string) => {
+  return `/v1/admin/config/file/routers/${name}`;
 };
 
 export const getFileConfigSchemaUrl = (name: string) => {
@@ -433,6 +449,10 @@ export const getPlatformApplicationMetadataUrl = (path: string) => {
   return `/v1/metadata/applications/platform/${path}`;
 };
 
+export const getPlatformRouterUrl = (bucket: string, path: string) => {
+  return `/v1/routers/${bucket}/${path}`;
+};
+
 export const getPlatformToolSetUrl = (path: string) => {
   return `/v1/toolsets/platform/${path}`;
 };
@@ -468,6 +488,14 @@ export const getPromptMetadataUrl = (bucket: string, path: string) => {
   return `/v1/metadata/prompts/${bucket}/${path}`;
 };
 
+export const getPublicAliasUrl = (bucket: string, path: string) => {
+  return `/v1/aliases/${bucket}/${path}`;
+};
+
+export const getPublicAliasMetadataUrl = (bucket: string, path: string) => {
+  return `/v1/metadata/aliases/${bucket}/${path}`;
+};
+
 export const getPublicationUrl = '/v1/ops/publication/get';
 export const getPublicationRulesUrl = '/v1/ops/publication/rule/list';
 export const getPublicationsUrl = '/v1/ops/publication/list';
@@ -491,6 +519,15 @@ export const getRouteMetadataUrl = (bucket: string, path: string) => {
   return `/v1/metadata/routes/${bucket}/${path}`;
 };
 
+export const getRouterUrl = (router_name: string) => {
+  return `/v1/routers/${router_name}`;
+};
+
+export const getRouterMetadataUrl = (bucket: string, path: string) => {
+  return `/v1/metadata/routers/${bucket}/${path}`;
+};
+
+export const getRoutersUrl = '/v1/routers';
 export const getSchemaUrl = (bucket: string, path: string) => {
   return `/v1/schemas/${bucket}/${path}`;
 };
@@ -551,6 +588,7 @@ export const listExternalServicesUrl = (appid: string) => {
   return `/v1/applications/${appid}/external-services`;
 };
 
+export const listFileConfigAliasesUrl = '/v1/admin/config/file/aliases';
 export const listFileConfigApplicationsUrl =
   '/v1/admin/config/file/applications';
 export const listFileConfigCatalogSchemasUrl =
@@ -560,6 +598,7 @@ export const listFileConfigInterceptorsUrl =
 export const listFileConfigKeysUrl = '/v1/admin/config/file/keys';
 export const listFileConfigModelsUrl = '/v1/admin/config/file/models';
 export const listFileConfigRolesUrl = '/v1/admin/config/file/roles';
+export const listFileConfigRoutersUrl = '/v1/admin/config/file/routers';
 export const listFileConfigRoutesUrl = '/v1/admin/config/file/routes';
 export const listFileConfigSchemasUrl = '/v1/admin/config/file/schemas';
 export const listFileConfigSettingsUrl = '/v1/admin/config/file/settings';
@@ -680,6 +719,10 @@ export const savePlatformApplicationUrl = (path: string) => {
   return `/v1/applications/platform/${path}`;
 };
 
+export const savePlatformRouterUrl = (bucket: string, path: string) => {
+  return `/v1/routers/${bucket}/${path}`;
+};
+
 export const savePlatformToolSetUrl = (path: string) => {
   return `/v1/toolsets/platform/${path}`;
 };
@@ -694,6 +737,10 @@ export const savePolicyAssignmentUrl = (bucket: string, path: string) => {
 
 export const savePromptUrl = (bucket: string, prompt_path: string) => {
   return `/v1/prompts/${bucket}/${prompt_path}`;
+};
+
+export const savePublicAliasUrl = (bucket: string, path: string) => {
+  return `/v1/aliases/${bucket}/${path}`;
 };
 
 export const saveRoleUrl = (bucket: string, path: string) => {
@@ -724,6 +771,7 @@ export const shareResourceUrl = '/v1/ops/resource/share/create';
 export const subscribeClientChannelUrl = '/v1/ops/client-channel/subscribe';
 export const subscribeToResourcesUrl = '/v1/ops/resource/subscribe';
 export const systemExportUrl = '/v1/admin/system-export';
+export const systemImportUrl = '/v1/admin/system-import';
 export const tokenizeUrl = (deployment_name: string) => {
   return `/v1/deployments/${deployment_name}/tokenize`;
 };
