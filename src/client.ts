@@ -153,6 +153,11 @@ export interface DIAL_SDK {
     path: string,
     init?: SDKOperationInit<operations['deletePlatformApplication']>,
   ) => Promise<SDKOperationResponse<operations['deletePlatformApplication']>>;
+  deletePlatformRouter: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['deletePlatformRouter']>,
+  ) => Promise<SDKOperationResponse<operations['deletePlatformRouter']>>;
   deletePlatformToolSet: (
     path: string,
     init?: SDKOperationInit<operations['deletePlatformToolSet']>,
@@ -188,6 +193,11 @@ export interface DIAL_SDK {
     prompt_path: string,
     init?: SDKOperationInit<operations['deletePrompt']>,
   ) => Promise<SDKOperationResponse<operations['deletePrompt']>>;
+  deletePublicAlias: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['deletePublicAlias']>,
+  ) => Promise<SDKOperationResponse<operations['deletePublicAlias']>>;
   deletePublication: (
     init: SDKOperationInit<operations['deletePublication']>,
   ) => Promise<SDKOperationResponse<operations['deletePublication']>>;
@@ -401,6 +411,10 @@ export interface DIAL_SDK {
     id: string,
     init?: SDKOperationInit<operations['getExternalService']>,
   ) => Promise<SDKOperationResponse<operations['getExternalService']>>;
+  getFileConfigAlias: (
+    name: string,
+    init?: SDKOperationInit<operations['getFileConfigAlias']>,
+  ) => Promise<SDKOperationResponse<operations['getFileConfigAlias']>>;
   getFileConfigApplication: (
     name: string,
     init?: SDKOperationInit<operations['getFileConfigApplication']>,
@@ -429,6 +443,10 @@ export interface DIAL_SDK {
     name: string,
     init?: SDKOperationInit<operations['getFileConfigRoute']>,
   ) => Promise<SDKOperationResponse<operations['getFileConfigRoute']>>;
+  getFileConfigRouter: (
+    name: string,
+    init?: SDKOperationInit<operations['getFileConfigRouter']>,
+  ) => Promise<SDKOperationResponse<operations['getFileConfigRouter']>>;
   getFileConfigSchema: (
     name: string,
     init?: SDKOperationInit<operations['getFileConfigSchema']>,
@@ -539,6 +557,11 @@ export interface DIAL_SDK {
   ) => Promise<
     SDKOperationResponse<operations['getPlatformApplicationMetadata']>
   >;
+  getPlatformRouter: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getPlatformRouter']>,
+  ) => Promise<SDKOperationResponse<operations['getPlatformRouter']>>;
   getPlatformToolSet: (
     path: string,
     init?: SDKOperationInit<operations['getPlatformToolSet']>,
@@ -577,6 +600,16 @@ export interface DIAL_SDK {
     path: string,
     init?: SDKOperationInit<operations['getPromptMetadata']>,
   ) => Promise<SDKOperationResponse<operations['getPromptMetadata']>>;
+  getPublicAlias: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getPublicAlias']>,
+  ) => Promise<SDKOperationResponse<operations['getPublicAlias']>>;
+  getPublicAliasMetadata: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getPublicAliasMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getPublicAliasMetadata']>>;
   getPublication: (
     init: SDKOperationInit<operations['getPublication']>,
   ) => Promise<SDKOperationResponse<operations['getPublication']>>;
@@ -610,6 +643,18 @@ export interface DIAL_SDK {
     path: string,
     init?: SDKOperationInit<operations['getRouteMetadata']>,
   ) => Promise<SDKOperationResponse<operations['getRouteMetadata']>>;
+  getRouter: (
+    router_name: string,
+    init?: SDKOperationInit<operations['getRouter']>,
+  ) => Promise<SDKOperationResponse<operations['getRouter']>>;
+  getRouterMetadata: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getRouterMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getRouterMetadata']>>;
+  getRouters: (
+    init?: SDKOperationInit<operations['getRouters']>,
+  ) => Promise<SDKOperationResponse<operations['getRouters']>>;
   getSchema: (
     bucket: string,
     path: string,
@@ -704,6 +749,9 @@ export interface DIAL_SDK {
     appid: string,
     init?: SDKOperationInit<operations['listExternalServices']>,
   ) => Promise<SDKOperationResponse<operations['listExternalServices']>>;
+  listFileConfigAliases: (
+    init?: SDKOperationInit<operations['listFileConfigAliases']>,
+  ) => Promise<SDKOperationResponse<operations['listFileConfigAliases']>>;
   listFileConfigApplications: (
     init?: SDKOperationInit<operations['listFileConfigApplications']>,
   ) => Promise<SDKOperationResponse<operations['listFileConfigApplications']>>;
@@ -724,6 +772,9 @@ export interface DIAL_SDK {
   listFileConfigRoles: (
     init?: SDKOperationInit<operations['listFileConfigRoles']>,
   ) => Promise<SDKOperationResponse<operations['listFileConfigRoles']>>;
+  listFileConfigRouters: (
+    init?: SDKOperationInit<operations['listFileConfigRouters']>,
+  ) => Promise<SDKOperationResponse<operations['listFileConfigRouters']>>;
   listFileConfigRoutes: (
     init?: SDKOperationInit<operations['listFileConfigRoutes']>,
   ) => Promise<SDKOperationResponse<operations['listFileConfigRoutes']>>;
@@ -880,6 +931,11 @@ export interface DIAL_SDK {
     path: string,
     init: SDKOperationInit<operations['savePlatformApplication']>,
   ) => Promise<SDKOperationResponse<operations['savePlatformApplication']>>;
+  savePlatformRouter: (
+    bucket: string,
+    path: string,
+    init: SDKOperationInit<operations['savePlatformRouter']>,
+  ) => Promise<SDKOperationResponse<operations['savePlatformRouter']>>;
   savePlatformToolSet: (
     path: string,
     init: SDKOperationInit<operations['savePlatformToolSet']>,
@@ -899,6 +955,11 @@ export interface DIAL_SDK {
     prompt_path: string,
     init: SDKOperationInit<operations['savePrompt']>,
   ) => Promise<SDKOperationResponse<operations['savePrompt']>>;
+  savePublicAlias: (
+    bucket: string,
+    path: string,
+    init: SDKOperationInit<operations['savePublicAlias']>,
+  ) => Promise<SDKOperationResponse<operations['savePublicAlias']>>;
   saveRole: (
     bucket: string,
     path: string,
@@ -940,6 +1001,9 @@ export interface DIAL_SDK {
   systemExport: (
     init?: SDKOperationInit<operations['systemExport']>,
   ) => Promise<SDKOperationResponse<operations['systemExport']>>;
+  systemImport: (
+    init: SDKOperationInit<operations['systemImport']>,
+  ) => Promise<SDKOperationResponse<operations['systemImport']>>;
   tokenize: (
     deployment_name: string,
     init: SDKOperationInit<operations['tokenize']>,
@@ -1196,6 +1260,11 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       ) as Promise<
         SDKOperationResponse<operations['deletePlatformApplication']>
       >,
+    deletePlatformRouter: (bucket: string, path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deletePlatformRouterUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deletePlatformRouter']>>,
     deletePlatformToolSet: (path: string, init?: any) =>
       client.DELETE(
         apiPaths.deletePlatformToolSetUrl(path) as any,
@@ -1238,6 +1307,11 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.deletePromptUrl(bucket, prompt_path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['deletePrompt']>>,
+    deletePublicAlias: (bucket: string, path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deletePublicAliasUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deletePublicAlias']>>,
     deletePublication: (init?: any) =>
       client.POST(apiPaths.deletePublicationUrl, init) as Promise<
         SDKOperationResponse<operations['deletePublication']>
@@ -1500,6 +1574,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.getExternalServiceUrl(appid, id) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['getExternalService']>>,
+    getFileConfigAlias: (name: string, init?: any) =>
+      client.GET(apiPaths.getFileConfigAliasUrl(name) as any, init) as Promise<
+        SDKOperationResponse<operations['getFileConfigAlias']>
+      >,
     getFileConfigApplication: (name: string, init?: any) =>
       client.GET(
         apiPaths.getFileConfigApplicationUrl(name) as any,
@@ -1536,6 +1614,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     getFileConfigRoute: (name: string, init?: any) =>
       client.GET(apiPaths.getFileConfigRouteUrl(name) as any, init) as Promise<
         SDKOperationResponse<operations['getFileConfigRoute']>
+      >,
+    getFileConfigRouter: (name: string, init?: any) =>
+      client.GET(apiPaths.getFileConfigRouterUrl(name) as any, init) as Promise<
+        SDKOperationResponse<operations['getFileConfigRouter']>
       >,
     getFileConfigSchema: (name: string, init?: any) =>
       client.GET(apiPaths.getFileConfigSchemaUrl(name) as any, init) as Promise<
@@ -1660,6 +1742,11 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       ) as Promise<
         SDKOperationResponse<operations['getPlatformApplicationMetadata']>
       >,
+    getPlatformRouter: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getPlatformRouterUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getPlatformRouter']>>,
     getPlatformToolSet: (path: string, init?: any) =>
       client.GET(apiPaths.getPlatformToolSetUrl(path) as any, init) as Promise<
         SDKOperationResponse<operations['getPlatformToolSet']>
@@ -1702,6 +1789,16 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.getPromptMetadataUrl(bucket, path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['getPromptMetadata']>>,
+    getPublicAlias: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getPublicAliasUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getPublicAlias']>>,
+    getPublicAliasMetadata: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getPublicAliasMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getPublicAliasMetadata']>>,
     getPublication: (init?: any) =>
       client.POST(apiPaths.getPublicationUrl, init) as Promise<
         SDKOperationResponse<operations['getPublication']>
@@ -1737,6 +1834,19 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.getRouteMetadataUrl(bucket, path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['getRouteMetadata']>>,
+    getRouter: (router_name: string, init?: any) =>
+      client.GET(apiPaths.getRouterUrl(router_name) as any, init) as Promise<
+        SDKOperationResponse<operations['getRouter']>
+      >,
+    getRouterMetadata: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getRouterMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getRouterMetadata']>>,
+    getRouters: (init?: any) =>
+      client.GET(apiPaths.getRoutersUrl, init) as Promise<
+        SDKOperationResponse<operations['getRouters']>
+      >,
     getSchema: (bucket: string, path: string, init?: any) =>
       client.GET(apiPaths.getSchemaUrl(bucket, path) as any, init) as Promise<
         SDKOperationResponse<operations['getSchema']>
@@ -1848,6 +1958,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.listExternalServicesUrl(appid) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['listExternalServices']>>,
+    listFileConfigAliases: (init?: any) =>
+      client.GET(apiPaths.listFileConfigAliasesUrl, init) as Promise<
+        SDKOperationResponse<operations['listFileConfigAliases']>
+      >,
     listFileConfigApplications: (init?: any) =>
       client.GET(apiPaths.listFileConfigApplicationsUrl, init) as Promise<
         SDKOperationResponse<operations['listFileConfigApplications']>
@@ -1871,6 +1985,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     listFileConfigRoles: (init?: any) =>
       client.GET(apiPaths.listFileConfigRolesUrl, init) as Promise<
         SDKOperationResponse<operations['listFileConfigRoles']>
+      >,
+    listFileConfigRouters: (init?: any) =>
+      client.GET(apiPaths.listFileConfigRoutersUrl, init) as Promise<
+        SDKOperationResponse<operations['listFileConfigRouters']>
       >,
     listFileConfigRoutes: (init?: any) =>
       client.GET(apiPaths.listFileConfigRoutesUrl, init) as Promise<
@@ -2066,6 +2184,11 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.savePlatformApplicationUrl(path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['savePlatformApplication']>>,
+    savePlatformRouter: (bucket: string, path: string, init?: any) =>
+      client.PUT(
+        apiPaths.savePlatformRouterUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['savePlatformRouter']>>,
     savePlatformToolSet: (path: string, init?: any) =>
       client.PUT(apiPaths.savePlatformToolSetUrl(path) as any, init) as Promise<
         SDKOperationResponse<operations['savePlatformToolSet']>
@@ -2084,6 +2207,11 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.savePromptUrl(bucket, prompt_path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['savePrompt']>>,
+    savePublicAlias: (bucket: string, path: string, init?: any) =>
+      client.PUT(
+        apiPaths.savePublicAliasUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['savePublicAlias']>>,
     saveRole: (bucket: string, path: string, init?: any) =>
       client.PUT(apiPaths.saveRoleUrl(bucket, path) as any, init) as Promise<
         SDKOperationResponse<operations['saveRole']>
@@ -2128,6 +2256,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     systemExport: (init?: any) =>
       client.POST(apiPaths.systemExportUrl, init) as Promise<
         SDKOperationResponse<operations['systemExport']>
+      >,
+    systemImport: (init?: any) =>
+      client.POST(apiPaths.systemImportUrl, init) as Promise<
+        SDKOperationResponse<operations['systemImport']>
       >,
     tokenize: (deployment_name: string, init?: any) =>
       client.POST(

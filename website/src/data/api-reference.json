@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "license": "Apache-2.0",
   "runtimeDependencyCount": 1,
-  "methodCount": 239,
+  "methodCount": 254,
   "categories": [
     "Admin",
+    "Aliases",
     "Anthropic",
     "Applications",
     "Catalog",
@@ -34,6 +35,7 @@
     "Publications",
     "Responses API",
     "Roles",
+    "Routers",
     "Routes",
     "Schemas",
     "Sharing",
@@ -1423,7 +1425,7 @@
             },
             {
               "name": "anthropic-ratelimit-unified-status",
-              "description": "DIAL spend cap status before this request: `allowed`, or `allowed_warning` past 75%. Sent only when the caller has a day/week/month cost limit; the upstream's own `anthropic-ratelimit-*` headers are removed",
+              "description": "DIAL spend cap status before this request: `allowed`, or `allowed_warning` past 75%. Sent only when the caller has a day/week/month cost limit, or with enforced budgets exactly one budget in their cost object; the upstream's own `anthropic-ratelimit-*` headers are removed",
               "schema": {
                 "type": "string"
               }
@@ -2689,7 +2691,7 @@
           "headers": [
             {
               "name": "x-codex-primary-used-percent",
-              "description": "Spent share of the caller's reported DIAL day/week/month spend cap before this request, a whole percent rounded down. Sent only when the caller has such a cost limit; the upstream's own `x-codex-*` headers are removed",
+              "description": "Spent share of the caller's reported DIAL day/week/month spend cap before this request, a whole percent rounded down. Sent only when the caller has such a cost limit, or with enforced budgets exactly one budget in their cost object; the upstream's own `x-codex-*` headers are removed",
               "schema": {
                 "type": "string"
               }
@@ -2921,7 +2923,7 @@
           "headers": [
             {
               "name": "x-codex-primary-used-percent",
-              "description": "Spent share of the caller's reported DIAL day/week/month spend cap before this request, a whole percent rounded down. Sent only when the caller has such a cost limit; the upstream's own `x-codex-*` headers are removed",
+              "description": "Spent share of the caller's reported DIAL day/week/month spend cap before this request, a whole percent rounded down. Sent only when the caller has such a cost limit, or with enforced budgets exactly one budget in their cost object; the upstream's own `x-codex-*` headers are removed",
               "schema": {
                 "type": "string"
               }
@@ -5088,6 +5090,146 @@
       ]
     },
     {
+      "name": "deletePlatformRouter",
+      "arguments": [
+        {
+          "name": "bucket",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "init",
+          "required": false,
+          "type": "SDKOperationInit<operations['deletePlatformRouter']>"
+        }
+      ],
+      "signature": "sdk.deletePlatformRouter(bucket: string, path: string, init?: SDKOperationInit<operations['deletePlatformRouter']>)",
+      "returnType": "Promise<SDKOperationResponse<operations['deletePlatformRouter']>>",
+      "sourceLine": 156,
+      "title": "Delete Platform Router",
+      "summary": "Delete Platform Router.",
+      "description": "",
+      "category": "Routers",
+      "tags": [
+        "Routers"
+      ],
+      "endpoint": "/v1/routers/{bucket}/{path}",
+      "httpMethod": "DELETE",
+      "deprecated": false,
+      "parameters": [
+        {
+          "name": "bucket",
+          "location": "path",
+          "required": true,
+          "description": "The target bucket.",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "path",
+          "location": "path",
+          "required": true,
+          "description": "Router name",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "If-Match",
+          "location": "header",
+          "required": false,
+          "description": "ETag precondition.",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": [
+        {
+          "status": "204",
+          "description": "Success",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "400",
+          "description": "Bad request",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "403",
+          "description": "Forbidden",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "404",
+          "description": "Not found",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "405",
+          "description": "Method Not Allowed",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "412",
+          "description": "Precondition Failed - ETag mismatch",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "500",
+          "description": "The server had an error while processing your request.",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        }
+      ],
+      "security": [
+        {
+          "ApiKeyAuth": []
+        }
+      ]
+    },
+    {
       "name": "deletePlatformToolSet",
       "arguments": [
         {
@@ -5103,7 +5245,7 @@
       ],
       "signature": "sdk.deletePlatformToolSet(path: string, init?: SDKOperationInit<operations['deletePlatformToolSet']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deletePlatformToolSet']>>",
-      "sourceLine": 156,
+      "sourceLine": 161,
       "title": "Delete Platform Tool Set",
       "summary": "Delete Platform Tool Set.",
       "description": "",
@@ -5234,7 +5376,7 @@
       ],
       "signature": "sdk.deletePolicy(bucket: string, path: string, init?: SDKOperationInit<operations['deletePolicy']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deletePolicy']>>",
-      "sourceLine": 160,
+      "sourceLine": 165,
       "title": "Delete Policy",
       "summary": "Delete Policy.",
       "description": "",
@@ -5374,7 +5516,7 @@
       ],
       "signature": "sdk.deletePolicyAssignment(bucket: string, path: string, init?: SDKOperationInit<operations['deletePolicyAssignment']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deletePolicyAssignment']>>",
-      "sourceLine": 165,
+      "sourceLine": 170,
       "title": "Delete Policy Assignment",
       "summary": "Delete Policy Assignment.",
       "description": "",
@@ -5513,7 +5655,7 @@
       ],
       "signature": "sdk.deleteProjectFile(bucket: string, path: string, filepath: string, init?: SDKOperationInit<operations['deleteProjectFile']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deleteProjectFile']>>",
-      "sourceLine": 170,
+      "sourceLine": 175,
       "title": "Delete Project File",
       "summary": "Delete Project File.",
       "description": "",
@@ -5657,7 +5799,7 @@
       ],
       "signature": "sdk.deleteProjectFolder(bucket: string, path: string, init?: SDKOperationInit<operations['deleteProjectFolder']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deleteProjectFolder']>>",
-      "sourceLine": 176,
+      "sourceLine": 181,
       "title": "Delete Project Folder",
       "summary": "Delete Project Folder.",
       "description": "",
@@ -5784,7 +5926,7 @@
       ],
       "signature": "sdk.deleteProjectGroupingFolder(bucket: string, path: string, init?: SDKOperationInit<operations['deleteProjectGroupingFolder']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deleteProjectGroupingFolder']>>",
-      "sourceLine": 181,
+      "sourceLine": 186,
       "title": "Delete Project Grouping Folder",
       "summary": "Delete Project Grouping Folder.",
       "description": "",
@@ -5917,7 +6059,7 @@
       ],
       "signature": "sdk.deletePrompt(bucket: string, prompt_path: string, init?: SDKOperationInit<operations['deletePrompt']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deletePrompt']>>",
-      "sourceLine": 186,
+      "sourceLine": 191,
       "title": "Delete Prompt",
       "summary": "Delete Prompt.",
       "description": "Call this endpoint to delete the prompt.",
@@ -6044,6 +6186,140 @@
       ]
     },
     {
+      "name": "deletePublicAlias",
+      "arguments": [
+        {
+          "name": "bucket",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "init",
+          "required": false,
+          "type": "SDKOperationInit<operations['deletePublicAlias']>"
+        }
+      ],
+      "signature": "sdk.deletePublicAlias(bucket: string, path: string, init?: SDKOperationInit<operations['deletePublicAlias']>)",
+      "returnType": "Promise<SDKOperationResponse<operations['deletePublicAlias']>>",
+      "sourceLine": 196,
+      "title": "Delete Public Alias",
+      "summary": "Delete Public Alias.",
+      "description": "",
+      "category": "Aliases",
+      "tags": [
+        "Aliases"
+      ],
+      "endpoint": "/v1/aliases/{bucket}/{path}",
+      "httpMethod": "DELETE",
+      "deprecated": false,
+      "parameters": [
+        {
+          "name": "bucket",
+          "location": "path",
+          "required": true,
+          "description": "Must be public",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "path",
+          "location": "path",
+          "required": true,
+          "description": "Alias name",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "If-Match",
+          "location": "header",
+          "required": false,
+          "description": "ETag precondition.",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": [
+        {
+          "status": "204",
+          "description": "Success",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "400",
+          "description": "Bad request",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "403",
+          "description": "Forbidden",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "404",
+          "description": "Not found",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "412",
+          "description": "Precondition Failed - ETag mismatch",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "500",
+          "description": "The server had an error while processing your request.",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        }
+      ],
+      "security": [
+        {
+          "ApiKeyAuth": []
+        }
+      ]
+    },
+    {
       "name": "deletePublication",
       "arguments": [
         {
@@ -6054,7 +6330,7 @@
       ],
       "signature": "sdk.deletePublication(init: SDKOperationInit<operations['deletePublication']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deletePublication']>>",
-      "sourceLine": 191,
+      "sourceLine": 201,
       "title": "Delete Publication",
       "summary": "Delete Publication.",
       "description": "",
@@ -6173,7 +6449,7 @@
       ],
       "signature": "sdk.deleteResponseItem(response_id: string, init?: SDKOperationInit<operations['deleteResponseItem']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deleteResponseItem']>>",
-      "sourceLine": 194,
+      "sourceLine": 204,
       "title": "Delete Response Item",
       "summary": "Delete Response Item.",
       "description": "",
@@ -6290,7 +6566,7 @@
       ],
       "signature": "sdk.deleteRole(bucket: string, path: string, init?: SDKOperationInit<operations['deleteRole']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deleteRole']>>",
-      "sourceLine": 198,
+      "sourceLine": 208,
       "title": "Delete Role",
       "summary": "Delete Role.",
       "description": "",
@@ -6462,7 +6738,7 @@
       ],
       "signature": "sdk.deleteRoute(bucket: string, path: string, init?: SDKOperationInit<operations['deleteRoute']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deleteRoute']>>",
-      "sourceLine": 203,
+      "sourceLine": 213,
       "title": "Delete Route",
       "summary": "Delete Route.",
       "description": "",
@@ -6634,7 +6910,7 @@
       ],
       "signature": "sdk.deleteSchema(bucket: string, path: string, init?: SDKOperationInit<operations['deleteSchema']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deleteSchema']>>",
-      "sourceLine": 208,
+      "sourceLine": 218,
       "title": "Delete Schema",
       "summary": "Delete Schema.",
       "description": "",
@@ -6811,7 +7087,7 @@
       ],
       "signature": "sdk.deleteSkillFile(bucket: string, path: string, filepath: string, init?: SDKOperationInit<operations['deleteSkillFile']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deleteSkillFile']>>",
-      "sourceLine": 213,
+      "sourceLine": 223,
       "title": "Delete Skill File",
       "summary": "Delete Skill File.",
       "description": "",
@@ -6968,7 +7244,7 @@
       ],
       "signature": "sdk.deleteSkillFolder(bucket: string, path: string, init?: SDKOperationInit<operations['deleteSkillFolder']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deleteSkillFolder']>>",
-      "sourceLine": 219,
+      "sourceLine": 229,
       "title": "Delete Skill Folder",
       "summary": "Delete Skill Folder.",
       "description": "",
@@ -7108,7 +7384,7 @@
       ],
       "signature": "sdk.deleteSkillGroupingFolder(bucket: string, path: string, init?: SDKOperationInit<operations['deleteSkillGroupingFolder']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deleteSkillGroupingFolder']>>",
-      "sourceLine": 224,
+      "sourceLine": 234,
       "title": "Delete Skill Grouping Folder",
       "summary": "Delete Skill Grouping Folder.",
       "description": "",
@@ -7241,7 +7517,7 @@
       ],
       "signature": "sdk.deleteToolSet(bucket: string, toolset_path: string, init?: SDKOperationInit<operations['deleteToolSet']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deleteToolSet']>>",
-      "sourceLine": 229,
+      "sourceLine": 239,
       "title": "Delete Tool Set",
       "summary": "Delete Tool Set.",
       "description": "Call this endpoint to delete a toolset from the specified path.",
@@ -7383,7 +7659,7 @@
       ],
       "signature": "sdk.deleteToolSetMcp(toolset_name: string, init?: SDKOperationInit<operations['deleteToolSetMcp']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deleteToolSetMcp']>>",
-      "sourceLine": 234,
+      "sourceLine": 244,
       "title": "Delete Tool Set Mcp",
       "summary": "Delete Tool Set Mcp.",
       "description": "",
@@ -7455,7 +7731,7 @@
       ],
       "signature": "sdk.deleteTranslator(bucket: string, path: string, init?: SDKOperationInit<operations['deleteTranslator']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deleteTranslator']>>",
-      "sourceLine": 238,
+      "sourceLine": 248,
       "title": "Delete Translator",
       "summary": "Delete Translator.",
       "description": "",
@@ -7585,7 +7861,7 @@
       ],
       "signature": "sdk.deployApplication(init: SDKOperationInit<operations['deployApplication']>)",
       "returnType": "Promise<SDKOperationResponse<operations['deployApplication']>>",
-      "sourceLine": 243,
+      "sourceLine": 253,
       "title": "Deploy Application",
       "summary": "Deploy Application.",
       "description": "Call this endpoint to deploy an application.",
@@ -7706,7 +7982,7 @@
       ],
       "signature": "sdk.discardSharedResources(init: SDKOperationInit<operations['discardSharedResources']>)",
       "returnType": "Promise<SDKOperationResponse<operations['discardSharedResources']>>",
-      "sourceLine": 246,
+      "sourceLine": 256,
       "title": "Discard Shared Resources",
       "summary": "Discard Shared Resources.",
       "description": "Call this endpoint to discard the resource shared with you.",
@@ -7830,7 +8106,7 @@
       ],
       "signature": "sdk.downloadFile(bucket: string, file_path: string, init?: SDKOperationInit<operations['downloadFile']>)",
       "returnType": "Promise<SDKOperationResponse<operations['downloadFile']>>",
-      "sourceLine": 249,
+      "sourceLine": 259,
       "title": "Download File",
       "summary": "Download file contents from a bucket.",
       "description": "Call this endpoint to get a file content.",
@@ -7901,7 +8177,7 @@
       ],
       "signature": "sdk.downloadFileFromCodeInterpreter(init: SDKOperationInit<operations['downloadFileFromCodeInterpreter']>)",
       "returnType": "Promise< SDKOperationResponse<operations['downloadFileFromCodeInterpreter']> >",
-      "sourceLine": 254,
+      "sourceLine": 264,
       "title": "Download File From Code Interpreter",
       "summary": "Download File From Code Interpreter.",
       "description": "Call this endpoint to download file from code interpreter container",
@@ -8038,7 +8314,7 @@
       ],
       "signature": "sdk.downloadProjectFile(bucket: string, path: string, filepath: string, init?: SDKOperationInit<operations['downloadProjectFile']>)",
       "returnType": "Promise<SDKOperationResponse<operations['downloadProjectFile']>>",
-      "sourceLine": 259,
+      "sourceLine": 269,
       "title": "Download Project File",
       "summary": "Download Project File.",
       "description": "",
@@ -8177,7 +8453,7 @@
       ],
       "signature": "sdk.downloadProjectFolder(bucket: string, path: string, init?: SDKOperationInit<operations['downloadProjectFolder']>)",
       "returnType": "Promise<SDKOperationResponse<operations['downloadProjectFolder']>>",
-      "sourceLine": 265,
+      "sourceLine": 275,
       "title": "Download Project Folder",
       "summary": "Download Project Folder.",
       "description": "",
@@ -8313,7 +8589,7 @@
       ],
       "signature": "sdk.downloadProjectGroupingFolder(bucket: string, path: string, init?: SDKOperationInit<operations['downloadProjectGroupingFolder']>)",
       "returnType": "Promise< SDKOperationResponse<operations['downloadProjectGroupingFolder']> >",
-      "sourceLine": 270,
+      "sourceLine": 280,
       "title": "Download Project Grouping Folder",
       "summary": "Download Project Grouping Folder.",
       "description": "",
@@ -8411,7 +8687,7 @@
       ],
       "signature": "sdk.downloadSkillFile(bucket: string, path: string, filepath: string, init?: SDKOperationInit<operations['downloadSkillFile']>)",
       "returnType": "Promise<SDKOperationResponse<operations['downloadSkillFile']>>",
-      "sourceLine": 277,
+      "sourceLine": 287,
       "title": "Download Skill File",
       "summary": "Download Skill File.",
       "description": "",
@@ -8563,7 +8839,7 @@
       ],
       "signature": "sdk.downloadSkillFolder(bucket: string, path: string, init?: SDKOperationInit<operations['downloadSkillFolder']>)",
       "returnType": "Promise<SDKOperationResponse<operations['downloadSkillFolder']>>",
-      "sourceLine": 283,
+      "sourceLine": 293,
       "title": "Download Skill Folder",
       "summary": "Download Skill Folder.",
       "description": "",
@@ -8743,7 +9019,7 @@
       ],
       "signature": "sdk.downloadSkillGroupingFolder(bucket: string, path: string, init?: SDKOperationInit<operations['downloadSkillGroupingFolder']>)",
       "returnType": "Promise<SDKOperationResponse<operations['downloadSkillGroupingFolder']>>",
-      "sourceLine": 288,
+      "sourceLine": 298,
       "title": "Download Skill Grouping Folder",
       "summary": "Download Skill Grouping Folder.",
       "description": "",
@@ -8826,7 +9102,7 @@
       ],
       "signature": "sdk.executeCode(init: SDKOperationInit<operations['executeCode']>)",
       "returnType": "Promise<SDKOperationResponse<operations['executeCode']>>",
-      "sourceLine": 293,
+      "sourceLine": 303,
       "title": "Execute Code",
       "summary": "Execute Code.",
       "description": "Call this endpoint to execute code by code interpreter application",
@@ -8947,7 +9223,7 @@
       ],
       "signature": "sdk.externalServiceGetCredentials(init: SDKOperationInit<operations['externalServiceGetCredentials']>)",
       "returnType": "Promise< SDKOperationResponse<operations['externalServiceGetCredentials']> >",
-      "sourceLine": 296,
+      "sourceLine": 306,
       "title": "External Service Get Credentials",
       "summary": "External Service Get Credentials.",
       "description": "",
@@ -9068,7 +9344,7 @@
       ],
       "signature": "sdk.externalServiceGetOboCredentials(init: SDKOperationInit<operations['externalServiceGetOboCredentials']>)",
       "returnType": "Promise< SDKOperationResponse<operations['externalServiceGetOboCredentials']> >",
-      "sourceLine": 301,
+      "sourceLine": 311,
       "title": "External Service Get Obo Credentials",
       "summary": "External Service Get Obo Credentials.",
       "description": "",
@@ -9189,7 +9465,7 @@
       ],
       "signature": "sdk.externalServiceSignIn(init: SDKOperationInit<operations['externalServiceSignIn']>)",
       "returnType": "Promise<SDKOperationResponse<operations['externalServiceSignIn']>>",
-      "sourceLine": 306,
+      "sourceLine": 316,
       "title": "External Service Sign In",
       "summary": "External Service Sign In.",
       "description": "",
@@ -9310,7 +9586,7 @@
       ],
       "signature": "sdk.externalServiceSignOut(init: SDKOperationInit<operations['externalServiceSignOut']>)",
       "returnType": "Promise<SDKOperationResponse<operations['externalServiceSignOut']>>",
-      "sourceLine": 309,
+      "sourceLine": 319,
       "title": "External Service Sign Out",
       "summary": "External Service Sign Out.",
       "description": "",
@@ -9436,7 +9712,7 @@
       ],
       "signature": "sdk.getAnthropicModel(model_name: string, init?: SDKOperationInit<operations['getAnthropicModel']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getAnthropicModel']>>",
-      "sourceLine": 312,
+      "sourceLine": 322,
       "title": "Get Anthropic Model",
       "summary": "Get Anthropic Model.",
       "description": "",
@@ -9526,7 +9802,7 @@
       ],
       "signature": "sdk.getAnthropicModels(init?: SDKOperationInit<operations['getAnthropicModels']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getAnthropicModels']>>",
-      "sourceLine": 316,
+      "sourceLine": 326,
       "title": "Get Anthropic Models",
       "summary": "Get Anthropic Models.",
       "description": "",
@@ -9621,7 +9897,7 @@
       ],
       "signature": "sdk.getAnthropicUsage(init?: SDKOperationInit<operations['getAnthropicUsage']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getAnthropicUsage']>>",
-      "sourceLine": 319,
+      "sourceLine": 329,
       "title": "Get Anthropic Usage",
       "summary": "Get Anthropic Usage.",
       "description": "",
@@ -9697,7 +9973,7 @@
       ],
       "signature": "sdk.getApplication(application_name: string, init?: SDKOperationInit<operations['getApplication']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getApplication']>>",
-      "sourceLine": 322,
+      "sourceLine": 332,
       "title": "Get Application",
       "summary": "Get Application.",
       "description": "Call this endpoint to get extended information about an Application by its name.",
@@ -9817,7 +10093,7 @@
       ],
       "signature": "sdk.getApplicationLogs(init: SDKOperationInit<operations['getApplicationLogs']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getApplicationLogs']>>",
-      "sourceLine": 326,
+      "sourceLine": 336,
       "title": "Get Application Logs",
       "summary": "Get Application Logs.",
       "description": "",
@@ -9943,7 +10219,7 @@
       ],
       "signature": "sdk.getApplicationMcpResources(deployment_name: string, init: SDKOperationInit<operations['getApplicationMcpResources']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getApplicationMcpResources']>>",
-      "sourceLine": 329,
+      "sourceLine": 339,
       "title": "Get Application Mcp Resources",
       "summary": "Get Application Mcp Resources.",
       "description": "",
@@ -10076,7 +10352,7 @@
       ],
       "signature": "sdk.getApplicationMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getApplicationMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getApplicationMetadata']>>",
-      "sourceLine": 333,
+      "sourceLine": 343,
       "title": "Get Application Metadata",
       "summary": "Get Application Metadata.",
       "description": "Call this endpoint to get metadata for a folder or an item.\nIf the path is a folder, it must end with a \"/\".\nIf it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.",
@@ -10241,7 +10517,7 @@
       ],
       "signature": "sdk.getApplications(init?: SDKOperationInit<operations['getApplications']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getApplications']>>",
-      "sourceLine": 338,
+      "sourceLine": 348,
       "title": "Get Applications",
       "summary": "Get Applications.",
       "description": "Call this endpoint to get extended details about the available Applications.",
@@ -10351,7 +10627,7 @@
       ],
       "signature": "sdk.getCatalogSchema(init: SDKOperationInit<operations['getCatalogSchema']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getCatalogSchema']>>",
-      "sourceLine": 341,
+      "sourceLine": 351,
       "title": "Get Catalog Schema",
       "summary": "Get Catalog Schema.",
       "description": "",
@@ -10474,7 +10750,7 @@
       ],
       "signature": "sdk.getCatalogSchemaMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getCatalogSchemaMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getCatalogSchemaMetadata']>>",
-      "sourceLine": 344,
+      "sourceLine": 354,
       "title": "Get Catalog Schema Metadata",
       "summary": "Get Catalog Schema Metadata.",
       "description": "",
@@ -10627,7 +10903,7 @@
       ],
       "signature": "sdk.getCatalogSchemaResource(bucket: string, path: string, init?: SDKOperationInit<operations['getCatalogSchemaResource']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getCatalogSchemaResource']>>",
-      "sourceLine": 349,
+      "sourceLine": 359,
       "title": "Get Catalog Schema Resource",
       "summary": "Get Catalog Schema Resource.",
       "description": "",
@@ -10785,7 +11061,7 @@
       ],
       "signature": "sdk.getConfigHealth(init?: SDKOperationInit<operations['getConfigHealth']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getConfigHealth']>>",
-      "sourceLine": 354,
+      "sourceLine": 364,
       "title": "Get Config Health",
       "summary": "Get Config Health.",
       "description": "",
@@ -10885,7 +11161,7 @@
       ],
       "signature": "sdk.getConversation(bucket: string, conversation_path: string, init?: SDKRequestInit)",
       "returnType": "Promise<SDKResponse<Conversation>>",
-      "sourceLine": 357,
+      "sourceLine": 367,
       "title": "Get Conversation",
       "summary": "Read a stored conversation from a bucket.",
       "description": "Call this endpoint to get the conversation.",
@@ -11058,7 +11334,7 @@
       ],
       "signature": "sdk.getConversationMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getConversationMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getConversationMetadata']>>",
-      "sourceLine": 362,
+      "sourceLine": 372,
       "title": "Get Conversation Metadata",
       "summary": "Get Conversation Metadata.",
       "description": "Call this endpoint to get metadata for a folder or an item.\nIf the path is a folder, it must end with a \"/\".\nIf it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.",
@@ -11233,7 +11509,7 @@
       ],
       "signature": "sdk.getCustomApplication(bucket: string, application_path: string, init?: SDKOperationInit<operations['getCustomApplication']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getCustomApplication']>>",
-      "sourceLine": 367,
+      "sourceLine": 377,
       "title": "Get Custom Application",
       "summary": "Get Custom Application.",
       "description": "",
@@ -11396,7 +11672,7 @@
       ],
       "signature": "sdk.getCustomApplicationSchema(init: SDKOperationInit<operations['getCustomApplicationSchema']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getCustomApplicationSchema']>>",
-      "sourceLine": 372,
+      "sourceLine": 382,
       "title": "Get Custom Application Schema",
       "summary": "Get Custom Application Schema.",
       "description": "Call this endpoint to get the application type schema by its id",
@@ -11527,7 +11803,7 @@
       ],
       "signature": "sdk.getCustomToolSet(bucket: string, toolset_path: string, init?: SDKOperationInit<operations['getCustomToolSet']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getCustomToolSet']>>",
-      "sourceLine": 375,
+      "sourceLine": 385,
       "title": "Get Custom Tool Set",
       "summary": "Get Custom Tool Set.",
       "description": "Call this endpoint to retrieve a specific toolset.",
@@ -11695,7 +11971,7 @@
       ],
       "signature": "sdk.getDeployment(deployment_name: string, init?: SDKOperationInit<operations['getDeployment']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getDeployment']>>",
-      "sourceLine": 380,
+      "sourceLine": 390,
       "title": "Get Deployment",
       "summary": "Get Deployment.",
       "description": "Call this endpoint to get information about a model by its deployment name.",
@@ -11820,7 +12096,7 @@
       ],
       "signature": "sdk.getDeploymentInfo(deployment_name: string, init?: SDKOperationInit<operations['getDeploymentInfo']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getDeploymentInfo']>>",
-      "sourceLine": 384,
+      "sourceLine": 394,
       "title": "Get Deployment Info",
       "summary": "Get Deployment Info.",
       "description": "",
@@ -11932,7 +12208,7 @@
       ],
       "signature": "sdk.getDeploymentLimits(deployment_name: string, init?: SDKOperationInit<operations['getDeploymentLimits']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getDeploymentLimits']>>",
-      "sourceLine": 388,
+      "sourceLine": 398,
       "title": "Get Deployment Limits",
       "summary": "Get Deployment Limits.",
       "description": "Call this endpoint to get information about spent limits for a given deployment.\n\nOnly `*TokenStats` and `*RequestStats` are scoped to this deployment. `*CostStats` here is the\ncaller's *account-wide* cost budget and spend - the same figures on every deployment this caller\nqueries - not this deployment's own cost. For this deployment's own attributed spend, call\n`GET /v1/deployments/{deployment_name}/usage` instead.",
@@ -12039,7 +12315,7 @@
       ],
       "signature": "sdk.getDeployments(init?: SDKOperationInit<operations['getDeployments']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getDeployments']>>",
-      "sourceLine": 396,
+      "sourceLine": 406,
       "title": "Get Deployments",
       "summary": "List the deployments available to the caller.",
       "description": "Call this endpoint to get basic details about the available deployments.\nThe response contains model objects (same as `/openai/models`).",
@@ -12141,7 +12417,7 @@
       ],
       "signature": "sdk.getDeploymentUsage(deployment_name: string, init?: SDKOperationInit<operations['getDeploymentUsage']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getDeploymentUsage']>>",
-      "sourceLine": 392,
+      "sourceLine": 402,
       "title": "Get Deployment Usage",
       "summary": "Get Deployment Usage.",
       "description": "Returns limits and current usage for exactly one deployment, attributing cost correctly where\n`/v1/deployments/{deployment_name}/limits` cannot: token and request stats are capped by this\ndeployment's own limit, and `*CostStats` here is this deployment's own attributed spend (direct\nplus any aggregated cost rolled up from a chain it drove), not the caller's account-wide budget.\nSince no per-deployment cost cap exists, cost `total` is always the unlimited sentinel\n`9223372036854775807` (`Long.MAX_VALUE`).\n\nThis is the single-deployment equivalent of a `deployments[deployment_name]` entry in\n`GET /v1/user/usage` - same figures, same caveats about trailing vs calendar-aligned windows and\n`resetsAt` - without downloading the whole account's usage report to find one entry. A deployment\nthat was never used still returns 200 with `used: 0` against its real limits, not 404; a\ndeployment name the caller cannot access, or that does not exist, returns 404.",
@@ -12245,7 +12521,7 @@
       ],
       "signature": "sdk.getExternalService(appid: string, id: string, init?: SDKOperationInit<operations['getExternalService']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getExternalService']>>",
-      "sourceLine": 399,
+      "sourceLine": 409,
       "title": "Get External Service",
       "summary": "Get External Service.",
       "description": "",
@@ -12364,6 +12640,118 @@
       ]
     },
     {
+      "name": "getFileConfigAlias",
+      "arguments": [
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "init",
+          "required": false,
+          "type": "SDKOperationInit<operations['getFileConfigAlias']>"
+        }
+      ],
+      "signature": "sdk.getFileConfigAlias(name: string, init?: SDKOperationInit<operations['getFileConfigAlias']>)",
+      "returnType": "Promise<SDKOperationResponse<operations['getFileConfigAlias']>>",
+      "sourceLine": 414,
+      "title": "Get File Config Alias",
+      "summary": "Get File Config Alias.",
+      "description": "",
+      "category": "Admin",
+      "tags": [
+        "Admin"
+      ],
+      "endpoint": "/v1/admin/config/file/aliases/{name}",
+      "httpMethod": "GET",
+      "deprecated": false,
+      "parameters": [
+        {
+          "name": "name",
+          "location": "path",
+          "required": true,
+          "description": "Alias name",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": [
+        {
+          "status": "200",
+          "description": "Success",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Alias"
+                  },
+                  {
+                    "$ref": "#/components/schemas/EntityMetadata"
+                  }
+                ]
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "403",
+          "description": "Forbidden",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "404",
+          "description": "Not found",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "405",
+          "description": "Method Not Allowed",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "500",
+          "description": "The server had an error while processing your request.",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        }
+      ],
+      "security": [
+        {
+          "ApiKeyAuth": []
+        }
+      ]
+    },
+    {
       "name": "getFileConfigApplication",
       "arguments": [
         {
@@ -12379,7 +12767,7 @@
       ],
       "signature": "sdk.getFileConfigApplication(name: string, init?: SDKOperationInit<operations['getFileConfigApplication']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getFileConfigApplication']>>",
-      "sourceLine": 404,
+      "sourceLine": 418,
       "title": "Get File Config Application",
       "summary": "Get File Config Application.",
       "description": "",
@@ -12491,7 +12879,7 @@
       ],
       "signature": "sdk.getFileConfigCatalogSchema(name: string, init?: SDKOperationInit<operations['getFileConfigCatalogSchema']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getFileConfigCatalogSchema']>>",
-      "sourceLine": 408,
+      "sourceLine": 422,
       "title": "Get File Config Catalog Schema",
       "summary": "Get File Config Catalog Schema.",
       "description": "",
@@ -12603,7 +12991,7 @@
       ],
       "signature": "sdk.getFileConfigInterceptor(name: string, init?: SDKOperationInit<operations['getFileConfigInterceptor']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getFileConfigInterceptor']>>",
-      "sourceLine": 412,
+      "sourceLine": 426,
       "title": "Get File Config Interceptor",
       "summary": "Get File Config Interceptor.",
       "description": "",
@@ -12715,7 +13103,7 @@
       ],
       "signature": "sdk.getFileConfigKey(name: string, init?: SDKOperationInit<operations['getFileConfigKey']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getFileConfigKey']>>",
-      "sourceLine": 416,
+      "sourceLine": 430,
       "title": "Get File Config Key",
       "summary": "Get File Config Key.",
       "description": "",
@@ -12827,7 +13215,7 @@
       ],
       "signature": "sdk.getFileConfigModel(name: string, init?: SDKOperationInit<operations['getFileConfigModel']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getFileConfigModel']>>",
-      "sourceLine": 420,
+      "sourceLine": 434,
       "title": "Get File Config Model",
       "summary": "Get File Config Model.",
       "description": "",
@@ -12939,7 +13327,7 @@
       ],
       "signature": "sdk.getFileConfigRole(name: string, init?: SDKOperationInit<operations['getFileConfigRole']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getFileConfigRole']>>",
-      "sourceLine": 424,
+      "sourceLine": 438,
       "title": "Get File Config Role",
       "summary": "Get File Config Role.",
       "description": "",
@@ -13051,7 +13439,7 @@
       ],
       "signature": "sdk.getFileConfigRoute(name: string, init?: SDKOperationInit<operations['getFileConfigRoute']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getFileConfigRoute']>>",
-      "sourceLine": 428,
+      "sourceLine": 442,
       "title": "Get File Config Route",
       "summary": "Get File Config Route.",
       "description": "",
@@ -13148,6 +13536,118 @@
       ]
     },
     {
+      "name": "getFileConfigRouter",
+      "arguments": [
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "init",
+          "required": false,
+          "type": "SDKOperationInit<operations['getFileConfigRouter']>"
+        }
+      ],
+      "signature": "sdk.getFileConfigRouter(name: string, init?: SDKOperationInit<operations['getFileConfigRouter']>)",
+      "returnType": "Promise<SDKOperationResponse<operations['getFileConfigRouter']>>",
+      "sourceLine": 446,
+      "title": "Get File Config Router",
+      "summary": "Get File Config Router.",
+      "description": "",
+      "category": "Admin",
+      "tags": [
+        "Admin"
+      ],
+      "endpoint": "/v1/admin/config/file/routers/{name}",
+      "httpMethod": "GET",
+      "deprecated": false,
+      "parameters": [
+        {
+          "name": "name",
+          "location": "path",
+          "required": true,
+          "description": "Router name",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": [
+        {
+          "status": "200",
+          "description": "Success",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Router"
+                  },
+                  {
+                    "$ref": "#/components/schemas/EntityMetadata"
+                  }
+                ]
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "403",
+          "description": "Forbidden",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "404",
+          "description": "Not found",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "405",
+          "description": "Method Not Allowed",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "500",
+          "description": "The server had an error while processing your request.",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        }
+      ],
+      "security": [
+        {
+          "ApiKeyAuth": []
+        }
+      ]
+    },
+    {
       "name": "getFileConfigSchema",
       "arguments": [
         {
@@ -13163,7 +13663,7 @@
       ],
       "signature": "sdk.getFileConfigSchema(name: string, init?: SDKOperationInit<operations['getFileConfigSchema']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getFileConfigSchema']>>",
-      "sourceLine": 432,
+      "sourceLine": 450,
       "title": "Get File Config Schema",
       "summary": "Get File Config Schema.",
       "description": "",
@@ -13275,7 +13775,7 @@
       ],
       "signature": "sdk.getFileConfigSettings(name: string, init?: SDKOperationInit<operations['getFileConfigSettings']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getFileConfigSettings']>>",
-      "sourceLine": 436,
+      "sourceLine": 454,
       "title": "Get File Config Settings",
       "summary": "Get File Config Settings.",
       "description": "",
@@ -13387,7 +13887,7 @@
       ],
       "signature": "sdk.getFileConfigToolset(name: string, init?: SDKOperationInit<operations['getFileConfigToolset']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getFileConfigToolset']>>",
-      "sourceLine": 440,
+      "sourceLine": 458,
       "title": "Get File Config Toolset",
       "summary": "Get File Config Toolset.",
       "description": "",
@@ -13499,7 +13999,7 @@
       ],
       "signature": "sdk.getFileConfigTranslator(name: string, init?: SDKOperationInit<operations['getFileConfigTranslator']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getFileConfigTranslator']>>",
-      "sourceLine": 444,
+      "sourceLine": 462,
       "title": "Get File Config Translator",
       "summary": "Get File Config Translator.",
       "description": "",
@@ -13616,7 +14116,7 @@
       ],
       "signature": "sdk.getFileMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getFileMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getFileMetadata']>>",
-      "sourceLine": 448,
+      "sourceLine": 466,
       "title": "Get File Metadata",
       "summary": "Get File Metadata.",
       "description": "Call this endpoint to retrieve metadata for a file or folder at the specified path.\nIf the path is a folder, it must end with a \"/\".\nIf it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.",
@@ -13791,7 +14291,7 @@
       ],
       "signature": "sdk.getGlobalSettings(bucket: string, path: string, init?: SDKOperationInit<operations['getGlobalSettings']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getGlobalSettings']>>",
-      "sourceLine": 453,
+      "sourceLine": 471,
       "title": "Get Global Settings",
       "summary": "Get Global Settings.",
       "description": "",
@@ -13977,7 +14477,7 @@
       ],
       "signature": "sdk.getGlobalSettingsMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getGlobalSettingsMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getGlobalSettingsMetadata']>>",
-      "sourceLine": 458,
+      "sourceLine": 476,
       "title": "Get Global Settings Metadata",
       "summary": "Get Global Settings Metadata.",
       "description": "",
@@ -14144,7 +14644,7 @@
       ],
       "signature": "sdk.getInterceptor(bucket: string, path: string, init?: SDKOperationInit<operations['getInterceptor']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getInterceptor']>>",
-      "sourceLine": 463,
+      "sourceLine": 481,
       "title": "Get Interceptor",
       "summary": "Get Interceptor.",
       "description": "",
@@ -14338,7 +14838,7 @@
       ],
       "signature": "sdk.getInterceptorMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getInterceptorMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getInterceptorMetadata']>>",
-      "sourceLine": 468,
+      "sourceLine": 486,
       "title": "Get Interceptor Metadata",
       "summary": "Get Interceptor Metadata.",
       "description": "",
@@ -14499,7 +14999,7 @@
       ],
       "signature": "sdk.getInvitation(invitation_id: string, init?: SDKOperationInit<operations['getInvitation']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getInvitation']>>",
-      "sourceLine": 473,
+      "sourceLine": 491,
       "title": "Get Invitation",
       "summary": "Get Invitation.",
       "description": "Call this endpoint to get the invitation details or accept the invitation.",
@@ -14628,7 +15128,7 @@
       ],
       "signature": "sdk.getInvitations(init?: SDKOperationInit<operations['getInvitations']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getInvitations']>>",
-      "sourceLine": 477,
+      "sourceLine": 495,
       "title": "Get Invitations",
       "summary": "Get Invitations.",
       "description": "Call this endpoint to get the list of your active invitations.",
@@ -14735,7 +15235,7 @@
       ],
       "signature": "sdk.getKey(bucket: string, path: string, init?: SDKOperationInit<operations['getKey']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getKey']>>",
-      "sourceLine": 480,
+      "sourceLine": 498,
       "title": "Get Key",
       "summary": "Get Key.",
       "description": "",
@@ -14929,7 +15429,7 @@
       ],
       "signature": "sdk.getKeyMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getKeyMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getKeyMetadata']>>",
-      "sourceLine": 485,
+      "sourceLine": 503,
       "title": "Get Key Metadata",
       "summary": "Get Key Metadata.",
       "description": "",
@@ -15085,7 +15585,7 @@
       ],
       "signature": "sdk.getMetaSchemaOfCatalogSchema(init?: SDKOperationInit<operations['getMetaSchemaOfCatalogSchema']>)",
       "returnType": "Promise< SDKOperationResponse<operations['getMetaSchemaOfCatalogSchema']> >",
-      "sourceLine": 490,
+      "sourceLine": 508,
       "title": "Get Meta Schema Of Catalog Schema",
       "summary": "Get Meta Schema Of Catalog Schema.",
       "description": "",
@@ -15188,7 +15688,7 @@
       ],
       "signature": "sdk.getMetaSchemaOfCustomApplicationSchema(init?: SDKOperationInit< operations['getMetaSchemaOfCustomApplicationSchema'] >)",
       "returnType": "Promise< SDKOperationResponse<operations['getMetaSchemaOfCustomApplicationSchema']> >",
-      "sourceLine": 495,
+      "sourceLine": 513,
       "title": "Get Meta Schema Of Custom Application Schema",
       "summary": "Get Meta Schema Of Custom Application Schema.",
       "description": "Call this endpoint to get metaschema of custom application schema.",
@@ -15304,7 +15804,7 @@
       ],
       "signature": "sdk.getModel(model_name: string, init?: SDKOperationInit<operations['getModel']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getModel']>>",
-      "sourceLine": 502,
+      "sourceLine": 520,
       "title": "Get Model",
       "summary": "Get Model.",
       "description": "Call this endpoint to get an extended information about a model by its name.",
@@ -15434,7 +15934,7 @@
       ],
       "signature": "sdk.getModelByPath(bucket: string, path: string, init?: SDKOperationInit<operations['getModelByPath']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getModelByPath']>>",
-      "sourceLine": 506,
+      "sourceLine": 524,
       "title": "Get Model By Path",
       "summary": "Get Model By Path.",
       "description": "",
@@ -15628,7 +16128,7 @@
       ],
       "signature": "sdk.getModelMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getModelMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getModelMetadata']>>",
-      "sourceLine": 511,
+      "sourceLine": 529,
       "title": "Get Model Metadata",
       "summary": "Get Model Metadata.",
       "description": "",
@@ -15784,7 +16284,7 @@
       ],
       "signature": "sdk.getModels(init?: SDKOperationInit<operations['getModels']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getModels']>>",
-      "sourceLine": 516,
+      "sourceLine": 534,
       "title": "Get Models",
       "summary": "Get Models.",
       "description": "Call this endpoint to get extended details about the available models.",
@@ -15881,7 +16381,7 @@
       ],
       "signature": "sdk.getNotifications(init?: SDKOperationInit<operations['getNotifications']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getNotifications']>>",
-      "sourceLine": 519,
+      "sourceLine": 537,
       "title": "Get Notifications",
       "summary": "Get Notifications.",
       "description": "Call this endpoint to get a list of notifications. Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/notifications#notification-api) for more details on how to work with notifications.",
@@ -15991,7 +16491,7 @@
       ],
       "signature": "sdk.getOfflineCredentials(init?: SDKOperationInit<operations['getOfflineCredentials']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getOfflineCredentials']>>",
-      "sourceLine": 522,
+      "sourceLine": 540,
       "title": "Get Offline Credentials",
       "summary": "Get Offline Credentials.",
       "description": "",
@@ -16080,7 +16580,7 @@
       ],
       "signature": "sdk.getOrgUnit(path: string, init?: SDKOperationInit<operations['getOrgUnit']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getOrgUnit']>>",
-      "sourceLine": 525,
+      "sourceLine": 543,
       "title": "Get Org Unit",
       "summary": "Get Org Unit.",
       "description": "",
@@ -16183,7 +16683,7 @@
       ],
       "signature": "sdk.getPerRequestPermissions(init: SDKOperationInit<operations['getPerRequestPermissions']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getPerRequestPermissions']>>",
-      "sourceLine": 529,
+      "sourceLine": 547,
       "title": "Get Per Request Permissions",
       "summary": "Get Per Request Permissions.",
       "description": "Call this endpoint to get a list of shared resources by or with a specific deployment (toolset and application). \n\n**Important**: This request can be authorized only with a [per-request API](https://docs.dialx.ai/platform/core/per-request-keys) key issued by DIAL Core for the deployment sending the request.\n\nRefer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/sharing) for more details on how to share resources between deployments.",
@@ -16316,7 +16816,7 @@
       ],
       "signature": "sdk.getPlatformApplication(path: string, init?: SDKOperationInit<operations['getPlatformApplication']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getPlatformApplication']>>",
-      "sourceLine": 532,
+      "sourceLine": 550,
       "title": "Get Platform Application",
       "summary": "Get Platform Application.",
       "description": "",
@@ -16470,7 +16970,7 @@
       ],
       "signature": "sdk.getPlatformApplicationMetadata(path: string, init?: SDKOperationInit<operations['getPlatformApplicationMetadata']>)",
       "returnType": "Promise< SDKOperationResponse<operations['getPlatformApplicationMetadata']> >",
-      "sourceLine": 536,
+      "sourceLine": 554,
       "title": "Get Platform Application Metadata",
       "summary": "Get Platform Application Metadata.",
       "description": "Call this endpoint to get metadata for a folder or an item.\nIf the path is a folder, it must end with a \"/\".\nIf it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.",
@@ -16594,6 +17094,174 @@
       ]
     },
     {
+      "name": "getPlatformRouter",
+      "arguments": [
+        {
+          "name": "bucket",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "init",
+          "required": false,
+          "type": "SDKOperationInit<operations['getPlatformRouter']>"
+        }
+      ],
+      "signature": "sdk.getPlatformRouter(bucket: string, path: string, init?: SDKOperationInit<operations['getPlatformRouter']>)",
+      "returnType": "Promise<SDKOperationResponse<operations['getPlatformRouter']>>",
+      "sourceLine": 560,
+      "title": "Get Platform Router",
+      "summary": "Get Platform Router.",
+      "description": "",
+      "category": "Routers",
+      "tags": [
+        "Routers"
+      ],
+      "endpoint": "/v1/routers/{bucket}/{path}",
+      "httpMethod": "GET",
+      "deprecated": false,
+      "parameters": [
+        {
+          "name": "bucket",
+          "location": "path",
+          "required": true,
+          "description": "The target bucket.",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "path",
+          "location": "path",
+          "required": true,
+          "description": "Router name",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "If-None-Match",
+          "location": "header",
+          "required": false,
+          "description": "ETag precondition.",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": [
+        {
+          "status": "200",
+          "description": "Success",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Router"
+                  },
+                  {
+                    "$ref": "#/components/schemas/EntityMetadata"
+                  }
+                ]
+              }
+            }
+          ],
+          "headers": [
+            {
+              "name": "ETag",
+              "description": "Entity tag for the router",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        {
+          "status": "304",
+          "description": "Not Modified",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "400",
+          "description": "Bad request",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "403",
+          "description": "Forbidden",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "404",
+          "description": "Not found",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "405",
+          "description": "Method Not Allowed",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "412",
+          "description": "Precondition Failed - ETag mismatch",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "500",
+          "description": "The server had an error while processing your request.",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        }
+      ],
+      "security": [
+        {
+          "ApiKeyAuth": []
+        }
+      ]
+    },
+    {
       "name": "getPlatformToolSet",
       "arguments": [
         {
@@ -16609,7 +17277,7 @@
       ],
       "signature": "sdk.getPlatformToolSet(path: string, init?: SDKOperationInit<operations['getPlatformToolSet']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getPlatformToolSet']>>",
-      "sourceLine": 542,
+      "sourceLine": 565,
       "title": "Get Platform Tool Set",
       "summary": "Get Platform Tool Set.",
       "description": "",
@@ -16763,7 +17431,7 @@
       ],
       "signature": "sdk.getPlatformToolSetMetadata(path: string, init?: SDKOperationInit<operations['getPlatformToolSetMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getPlatformToolSetMetadata']>>",
-      "sourceLine": 546,
+      "sourceLine": 569,
       "title": "Get Platform Tool Set Metadata",
       "summary": "Get Platform Tool Set Metadata.",
       "description": "",
@@ -16907,7 +17575,7 @@
       ],
       "signature": "sdk.getPolicy(bucket: string, path: string, init?: SDKOperationInit<operations['getPolicy']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getPolicy']>>",
-      "sourceLine": 550,
+      "sourceLine": 573,
       "title": "Get Policy",
       "summary": "Get Policy.",
       "description": "",
@@ -17062,7 +17730,7 @@
       ],
       "signature": "sdk.getPolicyAssignment(bucket: string, path: string, init?: SDKOperationInit<operations['getPolicyAssignment']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getPolicyAssignment']>>",
-      "sourceLine": 555,
+      "sourceLine": 578,
       "title": "Get Policy Assignment",
       "summary": "Get Policy Assignment.",
       "description": "",
@@ -17217,7 +17885,7 @@
       ],
       "signature": "sdk.getPolicyAssignmentMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getPolicyAssignmentMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getPolicyAssignmentMetadata']>>",
-      "sourceLine": 560,
+      "sourceLine": 583,
       "title": "Get Policy Assignment Metadata",
       "summary": "Get Policy Assignment Metadata.",
       "description": "",
@@ -17370,7 +18038,7 @@
       ],
       "signature": "sdk.getPolicyMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getPolicyMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getPolicyMetadata']>>",
-      "sourceLine": 565,
+      "sourceLine": 588,
       "title": "Get Policy Metadata",
       "summary": "Get Policy Metadata.",
       "description": "",
@@ -17523,7 +18191,7 @@
       ],
       "signature": "sdk.getPrompt(bucket: string, prompt_path: string, init?: SDKOperationInit<operations['getPrompt']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getPrompt']>>",
-      "sourceLine": 570,
+      "sourceLine": 593,
       "title": "Get Prompt",
       "summary": "Read a stored prompt from a bucket.",
       "description": "Call this endpoint to get the prompt.",
@@ -17696,7 +18364,7 @@
       ],
       "signature": "sdk.getPromptMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getPromptMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getPromptMetadata']>>",
-      "sourceLine": 575,
+      "sourceLine": 598,
       "title": "Get Prompt Metadata",
       "summary": "Get Prompt Metadata.",
       "description": "Call this endpoint to get metadata for a folder or an item.\nIf the path is a folder, it must end with a \"/\".\nIf it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.",
@@ -17851,6 +18519,302 @@
       ]
     },
     {
+      "name": "getPublicAlias",
+      "arguments": [
+        {
+          "name": "bucket",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "init",
+          "required": false,
+          "type": "SDKOperationInit<operations['getPublicAlias']>"
+        }
+      ],
+      "signature": "sdk.getPublicAlias(bucket: string, path: string, init?: SDKOperationInit<operations['getPublicAlias']>)",
+      "returnType": "Promise<SDKOperationResponse<operations['getPublicAlias']>>",
+      "sourceLine": 603,
+      "title": "Get Public Alias",
+      "summary": "Get Public Alias.",
+      "description": "",
+      "category": "Aliases",
+      "tags": [
+        "Aliases"
+      ],
+      "endpoint": "/v1/aliases/{bucket}/{path}",
+      "httpMethod": "GET",
+      "deprecated": false,
+      "parameters": [
+        {
+          "name": "bucket",
+          "location": "path",
+          "required": true,
+          "description": "Must be public",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "path",
+          "location": "path",
+          "required": true,
+          "description": "Alias name, which is also its invocation name",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "If-None-Match",
+          "location": "header",
+          "required": false,
+          "description": "ETag precondition.",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": [
+        {
+          "status": "200",
+          "description": "Success: presentAs, target, userRoles and the display fields, with status valid, or the stored body with status invalid and validationWarnings when calls ignore it",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Alias"
+                  },
+                  {
+                    "$ref": "#/components/schemas/EntityMetadata"
+                  }
+                ]
+              }
+            }
+          ],
+          "headers": [
+            {
+              "name": "ETag",
+              "description": "Entity tag for the alias",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        {
+          "status": "304",
+          "description": "Not Modified",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "403",
+          "description": "Forbidden",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "404",
+          "description": "Not found",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "500",
+          "description": "The server had an error while processing your request.",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        }
+      ],
+      "security": [
+        {
+          "ApiKeyAuth": []
+        }
+      ]
+    },
+    {
+      "name": "getPublicAliasMetadata",
+      "arguments": [
+        {
+          "name": "bucket",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "init",
+          "required": false,
+          "type": "SDKOperationInit<operations['getPublicAliasMetadata']>"
+        }
+      ],
+      "signature": "sdk.getPublicAliasMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getPublicAliasMetadata']>)",
+      "returnType": "Promise<SDKOperationResponse<operations['getPublicAliasMetadata']>>",
+      "sourceLine": 608,
+      "title": "Get Public Alias Metadata",
+      "summary": "Get Public Alias Metadata.",
+      "description": "",
+      "category": "Aliases",
+      "tags": [
+        "Aliases"
+      ],
+      "endpoint": "/v1/metadata/aliases/{bucket}/{path}",
+      "httpMethod": "GET",
+      "deprecated": false,
+      "parameters": [
+        {
+          "name": "bucket",
+          "location": "path",
+          "required": true,
+          "description": "Must be public",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "path",
+          "location": "path",
+          "required": true,
+          "description": "Empty to list the aliases, or an alias name",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "token",
+          "location": "query",
+          "required": false,
+          "description": "The token from the previous request to request next items.",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "limit",
+          "location": "query",
+          "required": false,
+          "description": "Limit on the number of items in the response.",
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "recursive",
+          "location": "query",
+          "required": false,
+          "description": "If true, returns items recursively without nested folder metadata.",
+          "schema": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": [
+        {
+          "status": "200",
+          "description": "Success",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/MetadataBase"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "400",
+          "description": "Bad request",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "403",
+          "description": "Forbidden",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "404",
+          "description": "Not found",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "500",
+          "description": "The server had an error while processing your request.",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        }
+      ],
+      "security": [
+        {
+          "ApiKeyAuth": []
+        }
+      ]
+    },
+    {
       "name": "getPublication",
       "arguments": [
         {
@@ -17861,7 +18825,7 @@
       ],
       "signature": "sdk.getPublication(init: SDKOperationInit<operations['getPublication']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getPublication']>>",
-      "sourceLine": 580,
+      "sourceLine": 613,
       "title": "Get Publication",
       "summary": "Get Publication.",
       "description": "Call this endpoint to get a specific publication request.",
@@ -17982,7 +18946,7 @@
       ],
       "signature": "sdk.getPublicationRules(init: SDKOperationInit<operations['getPublicationRules']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getPublicationRules']>>",
-      "sourceLine": 583,
+      "sourceLine": 616,
       "title": "Get Publication Rules",
       "summary": "Get Publication Rules.",
       "description": "Call this endpoint to get a list of rules for publications.",
@@ -18103,7 +19067,7 @@
       ],
       "signature": "sdk.getPublications(init: SDKOperationInit<operations['getPublications']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getPublications']>>",
-      "sourceLine": 586,
+      "sourceLine": 619,
       "title": "Get Publications",
       "summary": "Get Publications.",
       "description": "",
@@ -18229,7 +19193,7 @@
       ],
       "signature": "sdk.getResponseItem(response_id: string, init?: SDKOperationInit<operations['getResponseItem']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getResponseItem']>>",
-      "sourceLine": 589,
+      "sourceLine": 622,
       "title": "Get Response Item",
       "summary": "Get Response Item.",
       "description": "",
@@ -18355,7 +19319,7 @@
       ],
       "signature": "sdk.getRole(bucket: string, path: string, init?: SDKOperationInit<operations['getRole']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getRole']>>",
-      "sourceLine": 593,
+      "sourceLine": 626,
       "title": "Get Role",
       "summary": "Get Role.",
       "description": "",
@@ -18549,7 +19513,7 @@
       ],
       "signature": "sdk.getRoleMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getRoleMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getRoleMetadata']>>",
-      "sourceLine": 598,
+      "sourceLine": 631,
       "title": "Get Role Metadata",
       "summary": "Get Role Metadata.",
       "description": "",
@@ -18715,7 +19679,7 @@
       ],
       "signature": "sdk.getRoute(bucket: string, path: string, init?: SDKOperationInit<operations['getRoute']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getRoute']>>",
-      "sourceLine": 603,
+      "sourceLine": 636,
       "title": "Get Route",
       "summary": "Get Route.",
       "description": "",
@@ -18909,7 +19873,7 @@
       ],
       "signature": "sdk.getRouteMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getRouteMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getRouteMetadata']>>",
-      "sourceLine": 608,
+      "sourceLine": 641,
       "title": "Get Route Metadata",
       "summary": "Get Route Metadata.",
       "description": "",
@@ -19055,6 +20019,290 @@
       ]
     },
     {
+      "name": "getRouter",
+      "arguments": [
+        {
+          "name": "router_name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "init",
+          "required": false,
+          "type": "SDKOperationInit<operations['getRouter']>"
+        }
+      ],
+      "signature": "sdk.getRouter(router_name: string, init?: SDKOperationInit<operations['getRouter']>)",
+      "returnType": "Promise<SDKOperationResponse<operations['getRouter']>>",
+      "sourceLine": 646,
+      "title": "Get Router",
+      "summary": "Get Router.",
+      "description": "",
+      "category": "Deployment listing",
+      "tags": [
+        "Deployment listing"
+      ],
+      "endpoint": "/v1/routers/{router_name}",
+      "httpMethod": "GET",
+      "deprecated": false,
+      "parameters": [
+        {
+          "name": "router_name",
+          "location": "path",
+          "required": true,
+          "description": "Router name",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": [
+        {
+          "status": "200",
+          "description": "Success",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/RouterData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "403",
+          "description": "Forbidden",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "404",
+          "description": "Not found",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        }
+      ],
+      "security": [
+        {
+          "ApiKeyAuth": []
+        }
+      ]
+    },
+    {
+      "name": "getRouterMetadata",
+      "arguments": [
+        {
+          "name": "bucket",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "init",
+          "required": false,
+          "type": "SDKOperationInit<operations['getRouterMetadata']>"
+        }
+      ],
+      "signature": "sdk.getRouterMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getRouterMetadata']>)",
+      "returnType": "Promise<SDKOperationResponse<operations['getRouterMetadata']>>",
+      "sourceLine": 650,
+      "title": "Get Router Metadata",
+      "summary": "Get Router Metadata.",
+      "description": "",
+      "category": "Routers",
+      "tags": [
+        "Routers"
+      ],
+      "endpoint": "/v1/metadata/routers/{bucket}/{path}",
+      "httpMethod": "GET",
+      "deprecated": false,
+      "parameters": [
+        {
+          "name": "bucket",
+          "location": "path",
+          "required": true,
+          "description": "The target bucket.",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "path",
+          "location": "path",
+          "required": true,
+          "description": "The parameter specifies path to the requested directory or application, for example: `folder1/folder2/` or `folder1/application_name/`. Note, it could be empty if you want to list the root folder.",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "token",
+          "location": "query",
+          "required": false,
+          "description": "The token from the previous request to request next items.",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "limit",
+          "location": "query",
+          "required": false,
+          "description": "Limit on the number of items in the response.",
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "recursive",
+          "location": "query",
+          "required": false,
+          "description": "If true, returns items recursively without nested folder metadata.",
+          "schema": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": [
+        {
+          "status": "200",
+          "description": "Success",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/MetadataBase"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "400",
+          "description": "Bad request",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "403",
+          "description": "Forbidden",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "404",
+          "description": "Not found",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "500",
+          "description": "The server had an error while processing your request.",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        }
+      ],
+      "security": [
+        {
+          "ApiKeyAuth": []
+        }
+      ]
+    },
+    {
+      "name": "getRouters",
+      "arguments": [
+        {
+          "name": "init",
+          "required": false,
+          "type": "SDKOperationInit<operations['getRouters']>"
+        }
+      ],
+      "signature": "sdk.getRouters(init?: SDKOperationInit<operations['getRouters']>)",
+      "returnType": "Promise<SDKOperationResponse<operations['getRouters']>>",
+      "sourceLine": 655,
+      "title": "Get Routers",
+      "summary": "Get Routers.",
+      "description": "",
+      "category": "Deployment listing",
+      "tags": [
+        "Deployment listing"
+      ],
+      "endpoint": "/v1/routers",
+      "httpMethod": "GET",
+      "deprecated": false,
+      "parameters": [],
+      "requestBody": null,
+      "responses": [
+        {
+          "status": "200",
+          "description": "Success",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ListDataRouterData"
+              }
+            }
+          ],
+          "headers": []
+        }
+      ],
+      "security": [
+        {
+          "ApiKeyAuth": []
+        }
+      ]
+    },
+    {
       "name": "getSchema",
       "arguments": [
         {
@@ -19075,7 +20323,7 @@
       ],
       "signature": "sdk.getSchema(bucket: string, path: string, init?: SDKOperationInit<operations['getSchema']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getSchema']>>",
-      "sourceLine": 613,
+      "sourceLine": 658,
       "title": "Get Schema",
       "summary": "Get Schema.",
       "description": "",
@@ -19269,7 +20517,7 @@
       ],
       "signature": "sdk.getSchemaMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getSchemaMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getSchemaMetadata']>>",
-      "sourceLine": 618,
+      "sourceLine": 663,
       "title": "Get Schema Metadata",
       "summary": "Get Schema Metadata.",
       "description": "",
@@ -19425,7 +20673,7 @@
       ],
       "signature": "sdk.getSession(init: SDKOperationInit<operations['getSession']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getSession']>>",
-      "sourceLine": 623,
+      "sourceLine": 668,
       "title": "Get Session",
       "summary": "Get Session.",
       "description": "Call this endpoint to get a session description. Note, this API does not reset TTL for a session.",
@@ -19546,7 +20794,7 @@
       ],
       "signature": "sdk.getSharedResources(init: SDKOperationInit<operations['getSharedResources']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getSharedResources']>>",
-      "sourceLine": 626,
+      "sourceLine": 671,
       "title": "Get Shared Resources",
       "summary": "Get Shared Resources.",
       "description": "Call this endpoint to get the list of shared resources. Returns only resources that were accepted.",
@@ -19672,7 +20920,7 @@
       ],
       "signature": "sdk.getToolset(toolset_name: string, init?: SDKOperationInit<operations['getToolset']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getToolset']>>",
-      "sourceLine": 649,
+      "sourceLine": 694,
       "title": "Get Toolset",
       "summary": "Get Toolset.",
       "description": "Call this endpoint to get an extended information about a specific toolset by name",
@@ -19797,7 +21045,7 @@
       ],
       "signature": "sdk.getToolSetAllowedTools(toolset_name: string, init?: SDKOperationInit<operations['getToolSetAllowedTools']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getToolSetAllowedTools']>>",
-      "sourceLine": 629,
+      "sourceLine": 674,
       "title": "Get Tool Set Allowed Tools",
       "summary": "Get Tool Set Allowed Tools.",
       "description": "Call this endpoint to retrieve a filtered list of all allowed tools for a specific MCP server.",
@@ -19935,7 +21183,7 @@
       ],
       "signature": "sdk.getToolSetMcp(toolset_name: string, init?: SDKOperationInit<operations['getToolSetMcp']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getToolSetMcp']>>",
-      "sourceLine": 633,
+      "sourceLine": 678,
       "title": "Get Tool Set Mcp",
       "summary": "Get Tool Set Mcp.",
       "description": "",
@@ -20015,7 +21263,7 @@
       ],
       "signature": "sdk.getToolSetMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getToolSetMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getToolSetMetadata']>>",
-      "sourceLine": 637,
+      "sourceLine": 682,
       "title": "Get Tool Set Metadata",
       "summary": "Get Tool Set Metadata.",
       "description": "Call this endpoint to get metadata for a toolset folder or item.<br />\nIf the path is a folder, it must end with a \"/\".\nIf it is called for a folder, there can be optional `nextToken` field in the response to be used to request next items if present.",
@@ -20180,7 +21428,7 @@
       ],
       "signature": "sdk.getToolSets(init?: SDKOperationInit<operations['getToolSets']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getToolSets']>>",
-      "sourceLine": 646,
+      "sourceLine": 691,
       "title": "Get Tool Sets",
       "summary": "Get Tool Sets.",
       "description": "Call this endpoint to get extended details about the available toolsets.",
@@ -20295,7 +21543,7 @@
       ],
       "signature": "sdk.getToolSetTools(toolset_name: string, init?: SDKOperationInit<operations['getToolSetTools']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getToolSetTools']>>",
-      "sourceLine": 642,
+      "sourceLine": 687,
       "title": "Get Tool Set Tools",
       "summary": "Get Tool Set Tools.",
       "description": "",
@@ -20438,7 +21686,7 @@
       ],
       "signature": "sdk.getTranslator(bucket: string, path: string, init?: SDKOperationInit<operations['getTranslator']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getTranslator']>>",
-      "sourceLine": 653,
+      "sourceLine": 698,
       "title": "Get Translator",
       "summary": "Get Translator.",
       "description": "",
@@ -20606,7 +21854,7 @@
       ],
       "signature": "sdk.getTranslatorMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['getTranslatorMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getTranslatorMetadata']>>",
-      "sourceLine": 658,
+      "sourceLine": 703,
       "title": "Get Translator Metadata",
       "summary": "Get Translator Metadata.",
       "description": "",
@@ -20749,7 +21997,7 @@
       ],
       "signature": "sdk.getUserBucket(init?: SDKOperationInit<operations['getUserBucket']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getUserBucket']>>",
-      "sourceLine": 663,
+      "sourceLine": 708,
       "title": "Get User Bucket",
       "summary": "Get the caller’s DIAL storage bucket and application-data location.",
       "description": "Call this endpoint to get a bucket.",
@@ -20850,7 +22098,7 @@
       ],
       "signature": "sdk.getUserInfo(init?: SDKOperationInit<operations['getUserInfo']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getUserInfo']>>",
-      "sourceLine": 666,
+      "sourceLine": 711,
       "title": "Get User Info",
       "summary": "Get User Info.",
       "description": "Call this endpoint to retrieve information about a user. To access the endpoint, a user must be authenticated with API key or access token.",
@@ -20905,7 +22153,7 @@
       ],
       "signature": "sdk.getUserLimits(init?: SDKOperationInit<operations['getUserLimits']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getUserLimits']>>",
-      "sourceLine": 669,
+      "sourceLine": 714,
       "title": "Get User Limits",
       "summary": "Get User Limits.",
       "description": "Returns limits and current usage for every deployment available to the authenticated caller -\na JWT user or an API-key project. It replaces calling `/v1/deployments/{deployment_name}/limits` once\nper deployment, and one response labels an entire model picker, so switching model needs no refetch.\n\nA deployment the caller has never used is reported, not omitted: its real limits arrive against zeros.\nUse `/v1/user/usage` for the short list of deployments actually used.\n\nFive things to know before rendering this response:\n\n1. **Models only.** Applications, toolsets and routes are not listed. DIAL never writes rate-limit\n   counters for them, so an entry would report zeros against a limit that cannot fire. Tokens and\n   spend an application drives are reported against the model that incurred them.\n2. **The cost budget is global; attributed spend is per deployment.** The top-level `*CostStats` are\n   the caller's money budget and the spend against it, because a budget cannot be scoped to a\n   deployment. The `*CostStats` inside a deployment entry are that deployment's own attributed spend,\n   with `total` at the unlimited sentinel since no per-deployment cap exists.\n3. **`*CostStats` means something different on the legacy endpoint.**\n   `/v1/deployments/{deployment_name}/limits` returns the caller's *global* cost figures inside its\n   per-deployment response. The shape is identical, so re-read the scope, not just the parser.\n4. **A limit is optional.** When no role configures one, `total` is `9223372036854775807`\n   (`Long.MAX_VALUE`), meaning unlimited. That value exceeds JavaScript's `Number.MAX_SAFE_INTEGER`\n   (`9007199254740991`), so treat any `total` at or above 2^53 as unlimited rather than rendering it\n   as a `used / total` ratio.\n5. **`minute` and `hour` windows are trailing; `day`, `week` and `month` are calendar-aligned.**\n   `minuteTokenStats`/`minuteCostStats` and `hourRequestStats` are a trailing window - the last 60\n   seconds or 60 minutes - so their `used` decreases on its own as older activity ages out, with no\n   periodic reset. `day`/`week`/`month` windows instead reset all at once at a deterministic\n   boundary (e.g. \"since midnight\" or \"since the 1st\") anchored to the deployment-wide\n   `rateLimitSchedule` config setting (default: UTC, Monday, 00:00) - `used` only ever grows within a\n   period, then drops to zero at the next boundary.\n6. **`resetsAt` names that boundary, only for calendar-aligned windows.** `dayTokenStats`,\n   `weekTokenStats`, `monthTokenStats`, `dayRequestStats`, `dayCostStats`, `weekCostStats` and\n   `monthCostStats` carry a `resetsAt` field - an absolute ISO-8601 instant (e.g.\n   `\"2026-10-01T00:00:00+02:00\"`), not a countdown - for when that window's usage resets next.\n   `minuteTokenStats`, `minuteCostStats` and `hourRequestStats` omit the field entirely rather than\n   serializing it as `null`: a trailing window has no single reset instant to report, so clients\n   should treat a missing `resetsAt` as a permanent, expected omission rather than poll for it.\n\nPer-deployment spend does not reconcile to the global figure. Attribution starts at rollout and does\nnot back-fill, and a model without `pricing` never contributes while still consuming tokens, so the\nbreakdown must not be presented as a decomposition of the global figure and \"other\" must not be\ncomputed as the remainder.\n\nNot to be confused with `limits` in the deployment listing, which is `TokenLimitsData`\n(`maxTotalTokens`, `maxPromptTokens`, `maxCompletionTokens`) - context-window sizes, unrelated to\nrate limits.",
@@ -20993,7 +22241,7 @@
       ],
       "signature": "sdk.getUserRoleAssignments(init?: SDKOperationInit<operations['getUserRoleAssignments']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getUserRoleAssignments']>>",
-      "sourceLine": 672,
+      "sourceLine": 717,
       "title": "Get User Role Assignments",
       "summary": "Get User Role Assignments.",
       "description": "",
@@ -21070,7 +22318,7 @@
       ],
       "signature": "sdk.getUserUsage(init?: SDKOperationInit<operations['getUserUsage']>)",
       "returnType": "Promise<SDKOperationResponse<operations['getUserUsage']>>",
-      "sourceLine": 675,
+      "sourceLine": 720,
       "title": "Get User Usage",
       "summary": "Get User Usage.",
       "description": "The `/v1/user/limits` response with the all-zero entries dropped, leaving the deployments the caller\nused within the trailing 30 days and can currently access. Same field names, same figures, same\ntop-level cost pairs - a client moving between the two endpoints changes nothing but the set it\niterates. Every caveat documented on `/v1/user/limits` applies here unchanged.\n\nThe 30 days is not a parameter: it is the widest window DIAL keeps, so a deployment absent from this\nresponse has nothing to report in any window. Absence therefore means zero, not \"unknown\" - a client\nthat wants the whole accessible set should call `/v1/user/limits` rather than reconstruct it. A\ndeployment the caller used and then lost access to, or that was removed from config, is absent from\nboth, even though its spend still counted toward the global cost figures.\n\nIntended for a client that renders only what was used - a \"where is my budget going\" panel, a report,\na mobile view. In an installation with many models the difference in payload size is large.",
@@ -21168,7 +22416,7 @@
       ],
       "signature": "sdk.grantExternalServiceConsent(appid: string, id: string, init?: SDKOperationInit<operations['grantExternalServiceConsent']>)",
       "returnType": "Promise<SDKOperationResponse<operations['grantExternalServiceConsent']>>",
-      "sourceLine": 678,
+      "sourceLine": 723,
       "title": "Grant External Service Consent",
       "summary": "Grant External Service Consent.",
       "description": "",
@@ -21284,7 +22532,7 @@
       ],
       "signature": "sdk.grantPerRequestPermissions(init: SDKOperationInit<operations['grantPerRequestPermissions']>)",
       "returnType": "Promise<SDKOperationResponse<operations['grantPerRequestPermissions']>>",
-      "sourceLine": 683,
+      "sourceLine": 728,
       "title": "Grant Per Request Permissions",
       "summary": "Grant Per Request Permissions.",
       "description": "Call this endpoint to share resources between deployments (toolsets and applications). \n\n**Important**: This request can be authorized only with a [per-request API](https://docs.dialx.ai/platform/core/per-request-keys) key issued by DIAL Core for the deployment sending the request.\n\nRefer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/sharing) for more details on how to share resources between deployments.",
@@ -21398,7 +22646,7 @@
       ],
       "signature": "sdk.interactClientChannel(init: SDKOperationInit<operations['interactClientChannel']>)",
       "returnType": "Promise<SDKOperationResponse<operations['interactClientChannel']>>",
-      "sourceLine": 686,
+      "sourceLine": 731,
       "title": "Interact Client Channel",
       "summary": "Interact Client Channel.",
       "description": "**Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to send RPC request to client channel and wait for RPC response.",
@@ -21579,7 +22827,7 @@
       ],
       "signature": "sdk.listCatalogSchemas(init?: SDKOperationInit<operations['listCatalogSchemas']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listCatalogSchemas']>>",
-      "sourceLine": 689,
+      "sourceLine": 734,
       "title": "List Catalog Schemas",
       "summary": "List Catalog Schemas.",
       "description": "",
@@ -21682,7 +22930,7 @@
       ],
       "signature": "sdk.listCustomApplicationSchemas(init?: SDKOperationInit<operations['listCustomApplicationSchemas']>)",
       "returnType": "Promise< SDKOperationResponse<operations['listCustomApplicationSchemas']> >",
-      "sourceLine": 692,
+      "sourceLine": 737,
       "title": "List Custom Application Schemas",
       "summary": "List Custom Application Schemas.",
       "description": "Call this endpoint to get a list of available application types schemas. Refer to [/v1/application_type_schemas/schema](/dial_api#tag/Applications/operation/getCustomApplicationSchema) to see a real example of Quick app schema.",
@@ -21826,7 +23074,7 @@
       ],
       "signature": "sdk.listDeploymentNames(init?: SDKOperationInit<operations['listDeploymentNames']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listDeploymentNames']>>",
-      "sourceLine": 697,
+      "sourceLine": 742,
       "title": "List Deployment Names",
       "summary": "List Deployment Names.",
       "description": "",
@@ -21842,7 +23090,7 @@
           "name": "type",
           "location": "query",
           "required": false,
-          "description": "Filter deployment names by kind (model, application, toolset). Defaults to all kinds.",
+          "description": "Filter deployment names by kind (model, application, toolset, router). Defaults to all kinds.",
           "schema": {
             "type": "array",
             "items": {
@@ -21850,7 +23098,8 @@
               "enum": [
                 "model",
                 "application",
-                "toolset"
+                "toolset",
+                "router"
               ]
             }
           }
@@ -21915,7 +23164,7 @@
       ],
       "signature": "sdk.listDeployments(init?: SDKOperationInit<operations['listDeployments']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listDeployments']>>",
-      "sourceLine": 700,
+      "sourceLine": 745,
       "title": "List Deployments",
       "summary": "List Deployments.",
       "description": "",
@@ -22037,7 +23286,7 @@
       ],
       "signature": "sdk.listExternalServices(appid: string, init?: SDKOperationInit<operations['listExternalServices']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listExternalServices']>>",
-      "sourceLine": 703,
+      "sourceLine": 748,
       "title": "List External Services",
       "summary": "List External Services.",
       "description": "",
@@ -22147,6 +23396,96 @@
       ]
     },
     {
+      "name": "listFileConfigAliases",
+      "arguments": [
+        {
+          "name": "init",
+          "required": false,
+          "type": "SDKOperationInit<operations['listFileConfigAliases']>"
+        }
+      ],
+      "signature": "sdk.listFileConfigAliases(init?: SDKOperationInit<operations['listFileConfigAliases']>)",
+      "returnType": "Promise<SDKOperationResponse<operations['listFileConfigAliases']>>",
+      "sourceLine": 752,
+      "title": "List File Config Aliases",
+      "summary": "List File Config Aliases.",
+      "description": "",
+      "category": "Admin",
+      "tags": [
+        "Admin"
+      ],
+      "endpoint": "/v1/admin/config/file/aliases",
+      "httpMethod": "GET",
+      "deprecated": false,
+      "parameters": [],
+      "requestBody": null,
+      "responses": [
+        {
+          "status": "200",
+          "description": "List of file-sourced aliases",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/FileConfigControllerItemsResponseFileConfigControllerNamedEntity"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "403",
+          "description": "Forbidden",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "404",
+          "description": "Not found",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "405",
+          "description": "Method Not Allowed",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "500",
+          "description": "The server had an error while processing your request.",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        }
+      ],
+      "security": [
+        {
+          "ApiKeyAuth": []
+        }
+      ]
+    },
+    {
       "name": "listFileConfigApplications",
       "arguments": [
         {
@@ -22157,7 +23496,7 @@
       ],
       "signature": "sdk.listFileConfigApplications(init?: SDKOperationInit<operations['listFileConfigApplications']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listFileConfigApplications']>>",
-      "sourceLine": 707,
+      "sourceLine": 755,
       "title": "List File Config Applications",
       "summary": "List File Config Applications.",
       "description": "",
@@ -22247,7 +23586,7 @@
       ],
       "signature": "sdk.listFileConfigCatalogSchemas(init?: SDKOperationInit<operations['listFileConfigCatalogSchemas']>)",
       "returnType": "Promise< SDKOperationResponse<operations['listFileConfigCatalogSchemas']> >",
-      "sourceLine": 710,
+      "sourceLine": 758,
       "title": "List File Config Catalog Schemas",
       "summary": "List File Config Catalog Schemas.",
       "description": "",
@@ -22337,7 +23676,7 @@
       ],
       "signature": "sdk.listFileConfigInterceptors(init?: SDKOperationInit<operations['listFileConfigInterceptors']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listFileConfigInterceptors']>>",
-      "sourceLine": 715,
+      "sourceLine": 763,
       "title": "List File Config Interceptors",
       "summary": "List File Config Interceptors.",
       "description": "",
@@ -22427,7 +23766,7 @@
       ],
       "signature": "sdk.listFileConfigKeys(init?: SDKOperationInit<operations['listFileConfigKeys']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listFileConfigKeys']>>",
-      "sourceLine": 718,
+      "sourceLine": 766,
       "title": "List File Config Keys",
       "summary": "List File Config Keys.",
       "description": "",
@@ -22517,7 +23856,7 @@
       ],
       "signature": "sdk.listFileConfigModels(init?: SDKOperationInit<operations['listFileConfigModels']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listFileConfigModels']>>",
-      "sourceLine": 721,
+      "sourceLine": 769,
       "title": "List File Config Models",
       "summary": "List File Config Models.",
       "description": "",
@@ -22607,7 +23946,7 @@
       ],
       "signature": "sdk.listFileConfigRoles(init?: SDKOperationInit<operations['listFileConfigRoles']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listFileConfigRoles']>>",
-      "sourceLine": 724,
+      "sourceLine": 772,
       "title": "List File Config Roles",
       "summary": "List File Config Roles.",
       "description": "",
@@ -22687,6 +24026,96 @@
       ]
     },
     {
+      "name": "listFileConfigRouters",
+      "arguments": [
+        {
+          "name": "init",
+          "required": false,
+          "type": "SDKOperationInit<operations['listFileConfigRouters']>"
+        }
+      ],
+      "signature": "sdk.listFileConfigRouters(init?: SDKOperationInit<operations['listFileConfigRouters']>)",
+      "returnType": "Promise<SDKOperationResponse<operations['listFileConfigRouters']>>",
+      "sourceLine": 775,
+      "title": "List File Config Routers",
+      "summary": "List File Config Routers.",
+      "description": "",
+      "category": "Admin",
+      "tags": [
+        "Admin"
+      ],
+      "endpoint": "/v1/admin/config/file/routers",
+      "httpMethod": "GET",
+      "deprecated": false,
+      "parameters": [],
+      "requestBody": null,
+      "responses": [
+        {
+          "status": "200",
+          "description": "List of file-sourced routers",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/FileConfigControllerItemsResponseFileConfigControllerNamedEntity"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "403",
+          "description": "Forbidden",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "404",
+          "description": "Not found",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "405",
+          "description": "Method Not Allowed",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "500",
+          "description": "The server had an error while processing your request.",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        }
+      ],
+      "security": [
+        {
+          "ApiKeyAuth": []
+        }
+      ]
+    },
+    {
       "name": "listFileConfigRoutes",
       "arguments": [
         {
@@ -22697,7 +24126,7 @@
       ],
       "signature": "sdk.listFileConfigRoutes(init?: SDKOperationInit<operations['listFileConfigRoutes']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listFileConfigRoutes']>>",
-      "sourceLine": 727,
+      "sourceLine": 778,
       "title": "List File Config Routes",
       "summary": "List File Config Routes.",
       "description": "",
@@ -22787,7 +24216,7 @@
       ],
       "signature": "sdk.listFileConfigSchemas(init?: SDKOperationInit<operations['listFileConfigSchemas']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listFileConfigSchemas']>>",
-      "sourceLine": 730,
+      "sourceLine": 781,
       "title": "List File Config Schemas",
       "summary": "List File Config Schemas.",
       "description": "",
@@ -22877,7 +24306,7 @@
       ],
       "signature": "sdk.listFileConfigSettings(init?: SDKOperationInit<operations['listFileConfigSettings']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listFileConfigSettings']>>",
-      "sourceLine": 733,
+      "sourceLine": 784,
       "title": "List File Config Settings",
       "summary": "List File Config Settings.",
       "description": "",
@@ -22967,7 +24396,7 @@
       ],
       "signature": "sdk.listFileConfigToolsets(init?: SDKOperationInit<operations['listFileConfigToolsets']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listFileConfigToolsets']>>",
-      "sourceLine": 736,
+      "sourceLine": 787,
       "title": "List File Config Toolsets",
       "summary": "List File Config Toolsets.",
       "description": "",
@@ -23057,7 +24486,7 @@
       ],
       "signature": "sdk.listFileConfigTranslators(init?: SDKOperationInit<operations['listFileConfigTranslators']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listFileConfigTranslators']>>",
-      "sourceLine": 739,
+      "sourceLine": 790,
       "title": "List File Config Translators",
       "summary": "List File Config Translators.",
       "description": "",
@@ -23147,7 +24576,7 @@
       ],
       "signature": "sdk.listFilesFromCodeInterpreter(init: SDKOperationInit<operations['listFilesFromCodeInterpreter']>)",
       "returnType": "Promise< SDKOperationResponse<operations['listFilesFromCodeInterpreter']> >",
-      "sourceLine": 742,
+      "sourceLine": 793,
       "title": "List Files From Code Interpreter",
       "summary": "List Files From Code Interpreter.",
       "description": "Call this endpoint to list files from code interpreter container",
@@ -23273,7 +24702,7 @@
       ],
       "signature": "sdk.listOrgUnitRoleAssignments(path: string, init?: SDKOperationInit<operations['listOrgUnitRoleAssignments']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listOrgUnitRoleAssignments']>>",
-      "sourceLine": 747,
+      "sourceLine": 798,
       "title": "List Org Unit Role Assignments",
       "summary": "List Org Unit Role Assignments.",
       "description": "",
@@ -23385,7 +24814,7 @@
       ],
       "signature": "sdk.listOrgUnitRoles(path: string, init?: SDKOperationInit<operations['listOrgUnitRoles']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listOrgUnitRoles']>>",
-      "sourceLine": 751,
+      "sourceLine": 802,
       "title": "List Org Unit Roles",
       "summary": "List Org Unit Roles.",
       "description": "",
@@ -23507,7 +24936,7 @@
       ],
       "signature": "sdk.listProjectFileMetadata(bucket: string, path: string, filepath: string, init?: SDKOperationInit<operations['listProjectFileMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listProjectFileMetadata']>>",
-      "sourceLine": 755,
+      "sourceLine": 806,
       "title": "List Project File Metadata",
       "summary": "List Project File Metadata.",
       "description": "",
@@ -23655,7 +25084,7 @@
       ],
       "signature": "sdk.listProjectMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['listProjectMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listProjectMetadata']>>",
-      "sourceLine": 761,
+      "sourceLine": 812,
       "title": "List Project Metadata",
       "summary": "List Project Metadata.",
       "description": "",
@@ -23791,7 +25220,7 @@
       ],
       "signature": "sdk.listPublishedResources(init: SDKOperationInit<operations['listPublishedResources']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listPublishedResources']>>",
-      "sourceLine": 766,
+      "sourceLine": 817,
       "title": "List Published Resources",
       "summary": "List Published Resources.",
       "description": "",
@@ -23937,7 +25366,7 @@
       ],
       "signature": "sdk.listSkillFileMetadata(bucket: string, path: string, filepath: string, init?: SDKOperationInit<operations['listSkillFileMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listSkillFileMetadata']>>",
-      "sourceLine": 769,
+      "sourceLine": 820,
       "title": "List Skill File Metadata",
       "summary": "List Skill File Metadata.",
       "description": "",
@@ -24085,7 +25514,7 @@
       ],
       "signature": "sdk.listSkillMetadata(bucket: string, path: string, init?: SDKOperationInit<operations['listSkillMetadata']>)",
       "returnType": "Promise<SDKOperationResponse<operations['listSkillMetadata']>>",
-      "sourceLine": 775,
+      "sourceLine": 826,
       "title": "List Skill Metadata",
       "summary": "List Skill Metadata.",
       "description": "",
@@ -24221,7 +25650,7 @@
       ],
       "signature": "sdk.migrateFileConfig(init: SDKOperationInit<operations['migrateFileConfig']>)",
       "returnType": "Promise<SDKOperationResponse<operations['migrateFileConfig']>>",
-      "sourceLine": 780,
+      "sourceLine": 831,
       "title": "Migrate File Config",
       "summary": "Migrate File Config.",
       "description": "",
@@ -24316,7 +25745,7 @@
       ],
       "signature": "sdk.moveResource(init: SDKOperationInit<operations['moveResource']>)",
       "returnType": "Promise<SDKOperationResponse<operations['moveResource']>>",
-      "sourceLine": 783,
+      "sourceLine": 834,
       "title": "Move Resource",
       "summary": "Move Resource.",
       "description": "",
@@ -24440,7 +25869,7 @@
       ],
       "signature": "sdk.offlineCredentialsSignIn(init: SDKOperationInit<operations['offlineCredentialsSignIn']>)",
       "returnType": "Promise<SDKOperationResponse<operations['offlineCredentialsSignIn']>>",
-      "sourceLine": 786,
+      "sourceLine": 837,
       "title": "Offline Credentials Sign In",
       "summary": "Offline Credentials Sign In.",
       "description": "",
@@ -24535,7 +25964,7 @@
       ],
       "signature": "sdk.offlineCredentialsSignOut(init?: SDKOperationInit<operations['offlineCredentialsSignOut']>)",
       "returnType": "Promise<SDKOperationResponse<operations['offlineCredentialsSignOut']>>",
-      "sourceLine": 789,
+      "sourceLine": 840,
       "title": "Offline Credentials Sign Out",
       "summary": "Offline Credentials Sign Out.",
       "description": "",
@@ -24619,7 +26048,7 @@
       ],
       "signature": "sdk.openSession(init: SDKOperationInit<operations['openSession']>)",
       "returnType": "Promise<SDKOperationResponse<operations['openSession']>>",
-      "sourceLine": 792,
+      "sourceLine": 843,
       "title": "Open Session",
       "summary": "Open Session.",
       "description": "Call this endpoint to open session for code interpreter application",
@@ -24745,7 +26174,7 @@
       ],
       "signature": "sdk.postApplicationMcp(deployment_name: string, init: SDKOperationInit<operations['postApplicationMcp']>)",
       "returnType": "Promise<SDKOperationResponse<operations['postApplicationMcp']>>",
-      "sourceLine": 795,
+      "sourceLine": 846,
       "title": "Post Application Mcp",
       "summary": "Post Application Mcp.",
       "description": "This endpoint implements MCP-based communication with application deployment using [HTTP transport](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#streamable-http).",
@@ -24921,7 +26350,7 @@
       ],
       "signature": "sdk.postToolSetMcp(toolset_name: string, init: SDKOperationInit<operations['postToolSetMcp']>)",
       "returnType": "Promise<SDKOperationResponse<operations['postToolSetMcp']>>",
-      "sourceLine": 799,
+      "sourceLine": 850,
       "title": "Post Tool Set Mcp",
       "summary": "Post Tool Set Mcp.",
       "description": "",
@@ -25102,7 +26531,7 @@
       ],
       "signature": "sdk.putExternalService(appid: string, id: string, init: SDKOperationInit<operations['putExternalService']>)",
       "returnType": "Promise<SDKOperationResponse<operations['putExternalService']>>",
-      "sourceLine": 803,
+      "sourceLine": 854,
       "title": "Put External Service",
       "summary": "Put External Service.",
       "description": "",
@@ -25247,7 +26676,7 @@
       ],
       "signature": "sdk.rateDeployment(deployment_name: string, init: SDKOperationInit<operations['rateDeployment']>)",
       "returnType": "Promise<SDKOperationResponse<operations['rateDeployment']>>",
-      "sourceLine": 808,
+      "sourceLine": 859,
       "title": "Rate Deployment",
       "summary": "Rate Deployment.",
       "description": "Call this endpoint to rate the response received from the chat completions endpoint.",
@@ -25395,7 +26824,7 @@
       ],
       "signature": "sdk.redeployApplication(init: SDKOperationInit<operations['redeployApplication']>)",
       "returnType": "Promise<SDKOperationResponse<operations['redeployApplication']>>",
-      "sourceLine": 812,
+      "sourceLine": 863,
       "title": "Redeploy Application",
       "summary": "Redeploy Application.",
       "description": "",
@@ -25516,7 +26945,7 @@
       ],
       "signature": "sdk.rejectPublication(init: SDKOperationInit<operations['rejectPublication']>)",
       "returnType": "Promise<SDKOperationResponse<operations['rejectPublication']>>",
-      "sourceLine": 815,
+      "sourceLine": 866,
       "title": "Reject Publication",
       "summary": "Reject Publication.",
       "description": "Admins only, or with org units on, a holder of read and write publications/** in every unit the request touches (see docs/org-units.md). <br> Call this endpoint to reject the publication request.",
@@ -25637,7 +27066,7 @@
       ],
       "signature": "sdk.reloadConfig(init?: SDKOperationInit<operations['reloadConfig']>)",
       "returnType": "Promise<SDKOperationResponse<operations['reloadConfig']>>",
-      "sourceLine": 818,
+      "sourceLine": 869,
       "title": "Reload Config",
       "summary": "Reload Config.",
       "description": "Call this endpoint to reload [DIAL Core configuration](https://github.com/epam/ai-dial-core).\n\n<b>Allowed for admin users only</b>!",
@@ -25757,7 +27186,7 @@
       ],
       "signature": "sdk.removeOrgUnitRoleAssignment(path: string, id: string, init?: SDKOperationInit<operations['removeOrgUnitRoleAssignment']>)",
       "returnType": "Promise<SDKOperationResponse<operations['removeOrgUnitRoleAssignment']>>",
-      "sourceLine": 821,
+      "sourceLine": 872,
       "title": "Remove Org Unit Role Assignment",
       "summary": "Remove Org Unit Role Assignment.",
       "description": "",
@@ -25883,7 +27312,7 @@
       ],
       "signature": "sdk.repairToolSet(bucket: string, path: string, init?: SDKOperationInit<operations['repairToolSet']>)",
       "returnType": "Promise<SDKOperationResponse<operations['repairToolSet']>>",
-      "sourceLine": 826,
+      "sourceLine": 877,
       "title": "Repair Tool Set",
       "summary": "Repair Tool Set.",
       "description": "",
@@ -26012,7 +27441,7 @@
       ],
       "signature": "sdk.reportClientChannel(init: SDKOperationInit<operations['reportClientChannel']>)",
       "returnType": "Promise<SDKOperationResponse<operations['reportClientChannel']>>",
-      "sourceLine": 831,
+      "sourceLine": 882,
       "title": "Report Client Channel",
       "summary": "Report Client Channel.",
       "description": "**Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to report RPC response to client channel.",
@@ -26180,7 +27609,7 @@
       ],
       "signature": "sdk.requestUserConsent(deployment_id: string, init?: SDKOperationInit<operations['requestUserConsent']>)",
       "returnType": "Promise<SDKOperationResponse<operations['requestUserConsent']>>",
-      "sourceLine": 834,
+      "sourceLine": 885,
       "title": "Request User Consent",
       "summary": "Request User Consent.",
       "description": "Call this endpoint to get a user's consent for the deployment id. Refer to [DIAL documentation](https://docs.dialx.ai/tutorials/developers/apps-development/auth-matrix#dial-api) to learn more about consent forms and Auth Matrix.",
@@ -26300,7 +27729,7 @@
       ],
       "signature": "sdk.revokePerRequestPermissions(init: SDKOperationInit<operations['revokePerRequestPermissions']>)",
       "returnType": "Promise<SDKOperationResponse<operations['revokePerRequestPermissions']>>",
-      "sourceLine": 838,
+      "sourceLine": 889,
       "title": "Revoke Per Request Permissions",
       "summary": "Revoke Per Request Permissions.",
       "description": "Call this endpoint to revoke access to a shared resources between deployments (toolsets and applications). \n\n**Important**: This request can be authorized only with a [per-request API](https://docs.dialx.ai/platform/core/per-request-keys) key issued by DIAL Core for the deployment sending the request.\n\nRefer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/sharing) for more details on how to share resources between deployments.",
@@ -26414,7 +27843,7 @@
       ],
       "signature": "sdk.revokeSharedResources(init: SDKOperationInit<operations['revokeSharedResources']>)",
       "returnType": "Promise<SDKOperationResponse<operations['revokeSharedResources']>>",
-      "sourceLine": 841,
+      "sourceLine": 892,
       "title": "Revoke Shared Resources",
       "summary": "Revoke Shared Resources.",
       "description": "Call this endpoint to revoke shared access from all users.",
@@ -26538,7 +27967,7 @@
       ],
       "signature": "sdk.saveCatalogSchemaResource(bucket: string, path: string, init: SDKOperationInit<operations['saveCatalogSchemaResource']>)",
       "returnType": "Promise<SDKOperationResponse<operations['saveCatalogSchemaResource']>>",
-      "sourceLine": 844,
+      "sourceLine": 895,
       "title": "Save Catalog Schema Resource",
       "summary": "Save Catalog Schema Resource.",
       "description": "",
@@ -26726,7 +28155,7 @@
       ],
       "signature": "sdk.saveConversation(bucket: string, conversation_path: string, init: SDKRequestInit<Conversation> & { body: Conversation })",
       "returnType": "Promise<SDKResponse<ConversationResource>>",
-      "sourceLine": 849,
+      "sourceLine": 900,
       "title": "Save Conversation",
       "summary": "Save or update a conversation at the specified bucket and path.",
       "description": "Call this endpoint to add a conversation to the specified bucket and path.",
@@ -26908,7 +28337,7 @@
       ],
       "signature": "sdk.saveCustomApplication(bucket: string, application_path: string, init: SDKOperationInit<operations['saveCustomApplication']>)",
       "returnType": "Promise<SDKOperationResponse<operations['saveCustomApplication']>>",
-      "sourceLine": 854,
+      "sourceLine": 905,
       "title": "Save Custom Application",
       "summary": "Save Custom Application.",
       "description": "",
@@ -27129,7 +28558,7 @@
       ],
       "signature": "sdk.saveGlobalSettings(bucket: string, path: string, init: SDKOperationInit<operations['saveGlobalSettings']>)",
       "returnType": "Promise<SDKOperationResponse<operations['saveGlobalSettings']>>",
-      "sourceLine": 859,
+      "sourceLine": 910,
       "title": "Save Global Settings",
       "summary": "Save Global Settings.",
       "description": "",
@@ -27336,7 +28765,7 @@
       ],
       "signature": "sdk.saveInterceptor(bucket: string, path: string, init: SDKOperationInit<operations['saveInterceptor']>)",
       "returnType": "Promise<SDKOperationResponse<operations['saveInterceptor']>>",
-      "sourceLine": 864,
+      "sourceLine": 915,
       "title": "Save Interceptor",
       "summary": "Save Interceptor.",
       "description": "",
@@ -27543,7 +28972,7 @@
       ],
       "signature": "sdk.saveKey(bucket: string, path: string, init: SDKOperationInit<operations['saveKey']>)",
       "returnType": "Promise<SDKOperationResponse<operations['saveKey']>>",
-      "sourceLine": 869,
+      "sourceLine": 920,
       "title": "Save Key",
       "summary": "Save Key.",
       "description": "",
@@ -27750,7 +29179,7 @@
       ],
       "signature": "sdk.saveModel(bucket: string, path: string, init: SDKOperationInit<operations['saveModel']>)",
       "returnType": "Promise<SDKOperationResponse<operations['saveModel']>>",
-      "sourceLine": 874,
+      "sourceLine": 925,
       "title": "Save Model",
       "summary": "Save Model.",
       "description": "",
@@ -27952,7 +29381,7 @@
       ],
       "signature": "sdk.savePlatformApplication(path: string, init: SDKOperationInit<operations['savePlatformApplication']>)",
       "returnType": "Promise<SDKOperationResponse<operations['savePlatformApplication']>>",
-      "sourceLine": 879,
+      "sourceLine": 930,
       "title": "Save Platform Application",
       "summary": "Save Platform Application.",
       "description": "",
@@ -28111,6 +29540,194 @@
       ]
     },
     {
+      "name": "savePlatformRouter",
+      "arguments": [
+        {
+          "name": "bucket",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "init",
+          "required": true,
+          "type": "SDKOperationInit<operations['savePlatformRouter']>"
+        }
+      ],
+      "signature": "sdk.savePlatformRouter(bucket: string, path: string, init: SDKOperationInit<operations['savePlatformRouter']>)",
+      "returnType": "Promise<SDKOperationResponse<operations['savePlatformRouter']>>",
+      "sourceLine": 934,
+      "title": "Save Platform Router",
+      "summary": "Save Platform Router.",
+      "description": "",
+      "category": "Routers",
+      "tags": [
+        "Routers"
+      ],
+      "endpoint": "/v1/routers/{bucket}/{path}",
+      "httpMethod": "PUT",
+      "deprecated": false,
+      "parameters": [
+        {
+          "name": "bucket",
+          "location": "path",
+          "required": true,
+          "description": "The target bucket.",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "path",
+          "location": "path",
+          "required": true,
+          "description": "Router name",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "If-Match",
+          "location": "header",
+          "required": false,
+          "description": "ETag precondition.",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "If-None-Match",
+          "location": "header",
+          "required": false,
+          "description": "Conditional creation precondition.",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "description": "",
+        "content": [
+          {
+            "mediaType": "application/json",
+            "schema": {
+              "$ref": "#/components/schemas/Router"
+            }
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": "200",
+          "description": "Success",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ConfigResourceControllerConfigWriteResponse"
+              }
+            }
+          ],
+          "headers": [
+            {
+              "name": "ETag",
+              "description": "Entity tag for the saved router",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        {
+          "status": "400",
+          "description": "Bad request",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "403",
+          "description": "Forbidden",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "404",
+          "description": "Not found",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "405",
+          "description": "Method Not Allowed",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "412",
+          "description": "Precondition Failed - ETag mismatch",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "422",
+          "description": "Unprocessable Entity",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "500",
+          "description": "The server had an error while processing your request.",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        }
+      ],
+      "security": [
+        {
+          "ApiKeyAuth": []
+        }
+      ]
+    },
+    {
       "name": "savePlatformToolSet",
       "arguments": [
         {
@@ -28126,7 +29743,7 @@
       ],
       "signature": "sdk.savePlatformToolSet(path: string, init: SDKOperationInit<operations['savePlatformToolSet']>)",
       "returnType": "Promise<SDKOperationResponse<operations['savePlatformToolSet']>>",
-      "sourceLine": 883,
+      "sourceLine": 939,
       "title": "Save Platform Tool Set",
       "summary": "Save Platform Tool Set.",
       "description": "",
@@ -28305,7 +29922,7 @@
       ],
       "signature": "sdk.savePolicy(bucket: string, path: string, init: SDKOperationInit<operations['savePolicy']>)",
       "returnType": "Promise<SDKOperationResponse<operations['savePolicy']>>",
-      "sourceLine": 887,
+      "sourceLine": 943,
       "title": "Save Policy",
       "summary": "Save Policy.",
       "description": "",
@@ -28473,7 +30090,7 @@
       ],
       "signature": "sdk.savePolicyAssignment(bucket: string, path: string, init: SDKOperationInit<operations['savePolicyAssignment']>)",
       "returnType": "Promise<SDKOperationResponse<operations['savePolicyAssignment']>>",
-      "sourceLine": 892,
+      "sourceLine": 948,
       "title": "Save Policy Assignment",
       "summary": "Save Policy Assignment.",
       "description": "",
@@ -28641,7 +30258,7 @@
       ],
       "signature": "sdk.savePrompt(bucket: string, prompt_path: string, init: SDKOperationInit<operations['savePrompt']>)",
       "returnType": "Promise<SDKOperationResponse<operations['savePrompt']>>",
-      "sourceLine": 897,
+      "sourceLine": 953,
       "title": "Save Prompt",
       "summary": "Save a reusable prompt at the specified bucket and path.",
       "description": "Call this endpoint to add a prompt to the specified bucket and path.",
@@ -28803,6 +30420,168 @@
       ]
     },
     {
+      "name": "savePublicAlias",
+      "arguments": [
+        {
+          "name": "bucket",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "init",
+          "required": true,
+          "type": "SDKOperationInit<operations['savePublicAlias']>"
+        }
+      ],
+      "signature": "sdk.savePublicAlias(bucket: string, path: string, init: SDKOperationInit<operations['savePublicAlias']>)",
+      "returnType": "Promise<SDKOperationResponse<operations['savePublicAlias']>>",
+      "sourceLine": 958,
+      "title": "Save Public Alias",
+      "summary": "Save Public Alias.",
+      "description": "",
+      "category": "Aliases",
+      "tags": [
+        "Aliases"
+      ],
+      "endpoint": "/v1/aliases/{bucket}/{path}",
+      "httpMethod": "PUT",
+      "deprecated": false,
+      "parameters": [
+        {
+          "name": "bucket",
+          "location": "path",
+          "required": true,
+          "description": "Must be public",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "path",
+          "location": "path",
+          "required": true,
+          "description": "Alias name, which is also its invocation name",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "If-Match",
+          "location": "header",
+          "required": false,
+          "description": "ETag precondition.",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "If-None-Match",
+          "location": "header",
+          "required": false,
+          "description": "Conditional creation precondition.",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "description": "",
+        "content": [
+          {
+            "mediaType": "application/json",
+            "schema": {
+              "$ref": "#/components/schemas/Alias"
+            }
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": "200",
+          "description": "Success",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ConfigResourceControllerConfigWriteResponse"
+              }
+            }
+          ],
+          "headers": [
+            {
+              "name": "ETag",
+              "description": "Entity tag for the saved alias",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        {
+          "status": "400",
+          "description": "Invalid body, a field other than presentAs, target, userRoles and the display fields, a body name other than the path name, an invalid name or one the url encoding changes, or a target that does not fit presentAs",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "403",
+          "description": "Forbidden",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "404",
+          "description": "Not found",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "412",
+          "description": "Precondition Failed - ETag mismatch",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "500",
+          "description": "The server had an error while processing your request.",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        }
+      ],
+      "security": [
+        {
+          "ApiKeyAuth": []
+        }
+      ]
+    },
+    {
       "name": "saveRole",
       "arguments": [
         {
@@ -28823,7 +30602,7 @@
       ],
       "signature": "sdk.saveRole(bucket: string, path: string, init: SDKOperationInit<operations['saveRole']>)",
       "returnType": "Promise<SDKOperationResponse<operations['saveRole']>>",
-      "sourceLine": 902,
+      "sourceLine": 963,
       "title": "Save Role",
       "summary": "Save Role.",
       "description": "",
@@ -29030,7 +30809,7 @@
       ],
       "signature": "sdk.saveRoute(bucket: string, path: string, init: SDKOperationInit<operations['saveRoute']>)",
       "returnType": "Promise<SDKOperationResponse<operations['saveRoute']>>",
-      "sourceLine": 907,
+      "sourceLine": 968,
       "title": "Save Route",
       "summary": "Save Route.",
       "description": "",
@@ -29237,7 +31016,7 @@
       ],
       "signature": "sdk.saveSchema(bucket: string, path: string, init: SDKOperationInit<operations['saveSchema']>)",
       "returnType": "Promise<SDKOperationResponse<operations['saveSchema']>>",
-      "sourceLine": 912,
+      "sourceLine": 973,
       "title": "Save Schema",
       "summary": "Save Schema.",
       "description": "",
@@ -29444,7 +31223,7 @@
       ],
       "signature": "sdk.saveToolSet(bucket: string, toolset_path: string, init: SDKOperationInit<operations['saveToolSet']>)",
       "returnType": "Promise<SDKOperationResponse<operations['saveToolSet']>>",
-      "sourceLine": 917,
+      "sourceLine": 978,
       "title": "Save Tool Set",
       "summary": "Save Tool Set.",
       "description": "Call this endpoint to add a toolset to the specified bucket and path or update the existing toolset.",
@@ -29626,7 +31405,7 @@
       ],
       "signature": "sdk.saveTranslator(bucket: string, path: string, init: SDKOperationInit<operations['saveTranslator']>)",
       "returnType": "Promise<SDKOperationResponse<operations['saveTranslator']>>",
-      "sourceLine": 922,
+      "sourceLine": 983,
       "title": "Save Translator",
       "summary": "Save Translator.",
       "description": "",
@@ -29809,7 +31588,7 @@
       ],
       "signature": "sdk.sendChatCompletionRequest(deployment_name: string, init: SDKOperationInit<operations['sendChatCompletionRequest']>)",
       "returnType": "Promise<SDKOperationResponse<operations['sendChatCompletionRequest']>>",
-      "sourceLine": 927,
+      "sourceLine": 988,
       "title": "Send Chat Completion Request",
       "summary": "Generate a chat completion with a configured DIAL deployment.",
       "description": "",
@@ -30043,7 +31822,7 @@
       ],
       "signature": "sdk.shareResource(init: SDKOperationInit<operations['shareResource']>)",
       "returnType": "Promise<SDKOperationResponse<operations['shareResource']>>",
-      "sourceLine": 931,
+      "sourceLine": 992,
       "title": "Share Resource",
       "summary": "Share Resource.",
       "description": "",
@@ -30164,7 +31943,7 @@
       ],
       "signature": "sdk.subscribeClientChannel(init?: SDKOperationInit<operations['subscribeClientChannel']>)",
       "returnType": "Promise<SDKOperationResponse<operations['subscribeClientChannel']>>",
-      "sourceLine": 934,
+      "sourceLine": 995,
       "title": "Subscribe Client Channel",
       "summary": "Subscribe Client Channel.",
       "description": "",
@@ -30332,7 +32111,7 @@
       ],
       "signature": "sdk.subscribeToResources(init: SDKOperationInit<operations['subscribeToResources']>)",
       "returnType": "Promise<SDKOperationResponse<operations['subscribeToResources']>>",
-      "sourceLine": 937,
+      "sourceLine": 998,
       "title": "Subscribe To Resources",
       "summary": "Subscribe To Resources.",
       "description": "Use this endpoint to subscribe to resource updates. Refer to [Documentation](https://docs.dialx.ai/tutorials/developers/work-with-resources/notifications#subscribe-api) for more details on how to work with subscriptions.     \n\n Files, conversations, prompts, applications, toolsets, skills and projects can be subscribed to. For a skill or project the stream also carries the events of the files inside it (`{resource url}/files/{path}`).",
@@ -30409,7 +32188,7 @@
       ],
       "signature": "sdk.systemExport(init?: SDKOperationInit<operations['systemExport']>)",
       "returnType": "Promise<SDKOperationResponse<operations['systemExport']>>",
-      "sourceLine": 940,
+      "sourceLine": 1001,
       "title": "System Export",
       "summary": "System Export.",
       "description": "",
@@ -30493,6 +32272,118 @@
       ]
     },
     {
+      "name": "systemImport",
+      "arguments": [
+        {
+          "name": "init",
+          "required": true,
+          "type": "SDKOperationInit<operations['systemImport']>"
+        }
+      ],
+      "signature": "sdk.systemImport(init: SDKOperationInit<operations['systemImport']>)",
+      "returnType": "Promise<SDKOperationResponse<operations['systemImport']>>",
+      "sourceLine": 1004,
+      "title": "System Import",
+      "summary": "System Import.",
+      "description": "",
+      "category": "Admin",
+      "tags": [
+        "Admin"
+      ],
+      "endpoint": "/v1/admin/system-import",
+      "httpMethod": "POST",
+      "deprecated": false,
+      "parameters": [
+        {
+          "name": "mode",
+          "location": "query",
+          "required": false,
+          "description": "merge (the default) writes the archive's blobs over the buckets and deletes nothing; replace first deletes the blobs of each bucket that the archive has blobs for. Case-insensitive.",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "description": "",
+        "content": [
+          {
+            "mediaType": "application/zip",
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": "200",
+          "description": "Newline-delimited JSON: progress lines while the replace runs, then a final status line",
+          "content": [
+            {
+              "mediaType": "application/x-ndjson",
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "400",
+          "description": "The archive is missing, malformed or not accepted by this version",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "403",
+          "description": "Forbidden",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        },
+        {
+          "status": "408",
+          "description": "No bytes were received from the client for adminSystemImport.stallTimeout",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "409",
+          "description": "Another system import already holds the guard, retry later",
+          "content": [],
+          "headers": []
+        },
+        {
+          "status": "500",
+          "description": "The server had an error while processing your request.",
+          "content": [
+            {
+              "mediaType": "application/json",
+              "schema": {
+                "$ref": "#/components/schemas/ErrorData"
+              }
+            }
+          ],
+          "headers": []
+        }
+      ],
+      "security": [
+        {
+          "ApiKeyAuth": []
+        }
+      ]
+    },
+    {
       "name": "tokenize",
       "arguments": [
         {
@@ -30508,7 +32399,7 @@
       ],
       "signature": "sdk.tokenize(deployment_name: string, init: SDKOperationInit<operations['tokenize']>)",
       "returnType": "Promise<SDKOperationResponse<operations['tokenize']>>",
-      "sourceLine": 943,
+      "sourceLine": 1007,
       "title": "Tokenize",
       "summary": "Tokenize.",
       "description": "",
@@ -30665,7 +32556,7 @@
       ],
       "signature": "sdk.toolsetSignin(init: SDKOperationInit<operations['toolsetSignin']>)",
       "returnType": "Promise<SDKOperationResponse<operations['toolsetSignin']>>",
-      "sourceLine": 950,
+      "sourceLine": 1014,
       "title": "Toolset Signin",
       "summary": "Toolset Signin.",
       "description": "",
@@ -30786,7 +32677,7 @@
       ],
       "signature": "sdk.toolSetSignout(init: SDKOperationInit<operations['toolSetSignout']>)",
       "returnType": "Promise<SDKOperationResponse<operations['toolSetSignout']>>",
-      "sourceLine": 947,
+      "sourceLine": 1011,
       "title": "Tool Set Signout",
       "summary": "Tool Set Signout.",
       "description": "",
@@ -30907,7 +32798,7 @@
       ],
       "signature": "sdk.transferInputFile(init: SDKOperationInit<operations['transferInputFile']>)",
       "returnType": "Promise<SDKOperationResponse<operations['transferInputFile']>>",
-      "sourceLine": 953,
+      "sourceLine": 1017,
       "title": "Transfer Input File",
       "summary": "Transfer Input File.",
       "description": "Call this endpoint to transfer file from Core storage to code interpreter container",
@@ -31028,7 +32919,7 @@
       ],
       "signature": "sdk.transferOutputFile(init: SDKOperationInit<operations['transferOutputFile']>)",
       "returnType": "Promise<SDKOperationResponse<operations['transferOutputFile']>>",
-      "sourceLine": 956,
+      "sourceLine": 1020,
       "title": "Transfer Output File",
       "summary": "Transfer Output File.",
       "description": "Call this endpoint to transfer file from code interpreter container to Core storage",
@@ -31154,7 +33045,7 @@
       ],
       "signature": "sdk.truncatePrompt(deployment_name: string, init: SDKOperationInit<operations['truncatePrompt']>)",
       "returnType": "Promise<SDKOperationResponse<operations['truncatePrompt']>>",
-      "sourceLine": 959,
+      "sourceLine": 1023,
       "title": "Truncate Prompt",
       "summary": "Truncate Prompt.",
       "description": "",
@@ -31311,7 +33202,7 @@
       ],
       "signature": "sdk.undeployApplication(init: SDKOperationInit<operations['undeployApplication']>)",
       "returnType": "Promise<SDKOperationResponse<operations['undeployApplication']>>",
-      "sourceLine": 963,
+      "sourceLine": 1027,
       "title": "Undeploy Application",
       "summary": "Undeploy Application.",
       "description": "Call this endpoint to undeploy an application. After undeploying, the application will no longer be accessible until it is [deployed](#tag/Applications/operation/deployApplication) again. Use [redeploy](#tag/Applications/operation/redeployApplication) to apply changes without downtime.",
@@ -31432,7 +33323,7 @@
       ],
       "signature": "sdk.unsubscribeClientChannel(init: SDKOperationInit<operations['unsubscribeClientChannel']>)",
       "returnType": "Promise<SDKOperationResponse<operations['unsubscribeClientChannel']>>",
-      "sourceLine": 966,
+      "sourceLine": 1030,
       "title": "Unsubscribe Client Channel",
       "summary": "Unsubscribe Client Channel.",
       "description": "**Note**: This endpoint is in PREVIEW - it can be removed or modified in nearest future. Call this endpoint to remove subscription on events from client channel.",
@@ -31550,7 +33441,7 @@
       ],
       "signature": "sdk.updateOrgUnit(path: string, init: SDKOperationInit<operations['updateOrgUnit']>)",
       "returnType": "Promise<SDKOperationResponse<operations['updateOrgUnit']>>",
-      "sourceLine": 969,
+      "sourceLine": 1033,
       "title": "Update Org Unit",
       "summary": "Update Org Unit.",
       "description": "",
@@ -31668,7 +33559,7 @@
       ],
       "signature": "sdk.updatePublication(init: SDKOperationInit<operations['updatePublication']>)",
       "returnType": "Promise<SDKOperationResponse<operations['updatePublication']>>",
-      "sourceLine": 973,
+      "sourceLine": 1037,
       "title": "Update Publication",
       "summary": "Update Publication.",
       "description": "Call this endpoint to update a publish request. Available for admins.",
@@ -31799,7 +33690,7 @@
       ],
       "signature": "sdk.uploadFile(bucket: string, file_path: string, init: SDKOperationInit<operations['uploadFile']>)",
       "returnType": "Promise<SDKOperationResponse<operations['uploadFile']>>",
-      "sourceLine": 976,
+      "sourceLine": 1040,
       "title": "Upload File",
       "summary": "Upload a file to a bucket using a multipart request body.",
       "description": "",
@@ -31986,7 +33877,7 @@
       ],
       "signature": "sdk.uploadFileToCodeInterpreter(init: SDKOperationInit<operations['uploadFileToCodeInterpreter']>)",
       "returnType": "Promise<SDKOperationResponse<operations['uploadFileToCodeInterpreter']>>",
-      "sourceLine": 981,
+      "sourceLine": 1045,
       "title": "Upload File To Code Interpreter",
       "summary": "Upload File To Code Interpreter.",
       "description": "Call this endpoint to upload file to code interpreter container",
@@ -32141,7 +34032,7 @@
       ],
       "signature": "sdk.uploadProjectFile(bucket: string, path: string, filepath: string, init: SDKOperationInit<operations['uploadProjectFile']>)",
       "returnType": "Promise<SDKOperationResponse<operations['uploadProjectFile']>>",
-      "sourceLine": 984,
+      "sourceLine": 1048,
       "title": "Upload Project File",
       "summary": "Upload Project File.",
       "description": "",
@@ -32305,7 +34196,7 @@
       ],
       "signature": "sdk.uploadProjectFolder(bucket: string, path: string, init: SDKOperationInit<operations['uploadProjectFolder']>)",
       "returnType": "Promise<SDKOperationResponse<operations['uploadProjectFolder']>>",
-      "sourceLine": 990,
+      "sourceLine": 1054,
       "title": "Upload Project Folder",
       "summary": "Upload Project Folder.",
       "description": "",
@@ -32471,7 +34362,7 @@
       ],
       "signature": "sdk.uploadSkillFile(bucket: string, path: string, filepath: string, init: SDKOperationInit<operations['uploadSkillFile']>)",
       "returnType": "Promise<SDKOperationResponse<operations['uploadSkillFile']>>",
-      "sourceLine": 995,
+      "sourceLine": 1059,
       "title": "Upload Skill File",
       "summary": "Upload Skill File.",
       "description": "",
@@ -32648,7 +34539,7 @@
       ],
       "signature": "sdk.uploadSkillFolder(bucket: string, path: string, init: SDKOperationInit<operations['uploadSkillFolder']>)",
       "returnType": "Promise<SDKOperationResponse<operations['uploadSkillFolder']>>",
-      "sourceLine": 1001,
+      "sourceLine": 1065,
       "title": "Upload Skill Folder",
       "summary": "Upload Skill Folder.",
       "description": "",
@@ -32837,7 +34728,7 @@
       ],
       "signature": "sdk.validateConfigManifests(init: SDKOperationInit<operations['validateConfigManifests']>)",
       "returnType": "Promise<SDKOperationResponse<operations['validateConfigManifests']>>",
-      "sourceLine": 1006,
+      "sourceLine": 1070,
       "title": "Validate Config Manifests",
       "summary": "Validate Config Manifests.",
       "description": "",
@@ -32968,7 +34859,7 @@
       ],
       "signature": "sdk.withdrawExternalServiceConsent(appid: string, id: string, init?: SDKOperationInit<operations['withdrawExternalServiceConsent']>)",
       "returnType": "Promise< SDKOperationResponse<operations['withdrawExternalServiceConsent']> >",
-      "sourceLine": 1009,
+      "sourceLine": 1073,
       "title": "Withdraw External Service Consent",
       "summary": "Withdraw External Service Consent.",
       "description": "",
@@ -33228,7 +35119,8 @@
           "ToolSet": "#/components/schemas/AdminToolSetManifest",
           "Application": "#/components/schemas/AdminApplicationManifest",
           "Policy": "#/components/schemas/AdminPolicyManifest",
-          "PolicyAssignment": "#/components/schemas/AdminPolicyAssignmentManifest"
+          "PolicyAssignment": "#/components/schemas/AdminPolicyAssignmentManifest",
+          "Router": "#/components/schemas/AdminRouterManifest"
         }
       },
       "oneOf": [
@@ -33243,6 +35135,9 @@
         },
         {
           "$ref": "#/components/schemas/AdminInterceptorManifest"
+        },
+        {
+          "$ref": "#/components/schemas/AdminRouterManifest"
         },
         {
           "$ref": "#/components/schemas/AdminTranslatorManifest"
@@ -33358,6 +35253,23 @@
         "kind"
       ]
     },
+    "AdminRouterManifest": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "spec": {
+          "$ref": "#/components/schemas/Router"
+        }
+      },
+      "x-typescript-required": [
+        "kind"
+      ]
+    },
     "AdminSchemaManifest": {
       "type": "object",
       "properties": {
@@ -33441,6 +35353,140 @@
         "valid": {
           "type": "integer"
         }
+      },
+      "x-typescript-required": []
+    },
+    "Alias": {
+      "type": "object",
+      "properties": {
+        "author": {
+          "type": "string"
+        },
+        "baseUrl": {
+          "type": "string"
+        },
+        "catalogProperties": {
+          "$ref": "#/components/schemas/MapStringObject"
+        },
+        "catalogSchemaId": {
+          "type": "string",
+          "format": "uri"
+        },
+        "createdAt": {
+          "type": "integer"
+        },
+        "defaultHeaders": {
+          "$ref": "#/components/schemas/MapStringString"
+        },
+        "defaults": {
+          "$ref": "#/components/schemas/MapStringObject"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "$ref": "#/components/schemas/LocalizedValue"
+        },
+        "descriptionKeywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "displayName": {
+          "$ref": "#/components/schemas/LocalizedValue"
+        },
+        "displayVersion": {
+          "type": "string"
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "features": {
+          "$ref": "#/components/schemas/Features"
+        },
+        "forwardAuthToken": {
+          "type": "boolean"
+        },
+        "iconUrl": {
+          "type": "string"
+        },
+        "inputAttachmentTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "interceptors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "interfaces": {
+          "$ref": "#/components/schemas/MapStringDeploymentInterface"
+        },
+        "intro": {
+          "$ref": "#/components/schemas/LocalizedValue"
+        },
+        "maxInputAttachments": {
+          "type": "integer"
+        },
+        "maxRetryAttempts": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "overrideName": {
+          "type": "string"
+        },
+        "presentAs": {
+          "$ref": "#/components/schemas/AliasPresentation"
+        },
+        "reference": {
+          "type": "string"
+        },
+        "responsesDefaults": {
+          "$ref": "#/components/schemas/MapStringObject"
+        },
+        "responsesEndpoint": {
+          "type": "string"
+        },
+        "target": {
+          "$ref": "#/components/schemas/AliasTarget"
+        },
+        "updatedAt": {
+          "type": "integer"
+        },
+        "userRoles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "x-typescript-required": []
+    },
+    "AliasPresentation": {
+      "type": "string",
+      "enum": [
+        "model",
+        "application",
+        "toolset"
+      ]
+    },
+    "AliasTarget": {
+      "type": "object",
+      "properties": {
+        "id": {},
+        "path": {
+          "type": "string"
+        },
+        "version": {}
       },
       "x-typescript-required": []
     },
@@ -35544,6 +37590,12 @@
         },
         "spendingLimits": {
           "$ref": "#/components/schemas/SpendingLimits"
+        },
+        "aliases": {
+          "$ref": "#/components/schemas/MapStringAlias"
+        },
+        "routers": {
+          "$ref": "#/components/schemas/MapStringRouter"
         }
       },
       "x-typescript-required": []
@@ -36027,7 +38079,8 @@
         "mapping": {
           "model": "#/components/schemas/ModelData",
           "application": "#/components/schemas/ApplicationData",
-          "toolset": "#/components/schemas/ToolSetData"
+          "toolset": "#/components/schemas/ToolSetData",
+          "router": "#/components/schemas/RouterData"
         }
       },
       "oneOf": [
@@ -36039,6 +38092,9 @@
         },
         {
           "$ref": "#/components/schemas/ToolSetData"
+        },
+        {
+          "$ref": "#/components/schemas/RouterData"
         }
       ]
     },
@@ -37132,6 +39188,21 @@
       },
       "x-typescript-required": []
     },
+    "ListDataRouterData": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/RouterData"
+          }
+        },
+        "object": {
+          "type": "string"
+        }
+      },
+      "x-typescript-required": []
+    },
     "ListDataToolSetData": {
       "type": "object",
       "properties": {
@@ -37239,6 +39310,13 @@
         }
       ]
     },
+    "MapStringAlias": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/Alias"
+      },
+      "x-typescript-required": []
+    },
     "MapStringApplication": {
       "type": "object",
       "additionalProperties": {
@@ -37342,6 +39420,13 @@
       "type": "object",
       "additionalProperties": {
         "$ref": "#/components/schemas/Route"
+      },
+      "x-typescript-required": []
+    },
+    "MapStringRouter": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/Router"
       },
       "x-typescript-required": []
     },
@@ -38833,6 +40918,7 @@
         "APP_TYPE_SCHEMA",
         "CATALOG_SCHEMA",
         "INTERCEPTOR",
+        "ROUTER",
         "TRANSLATOR",
         "ROLE",
         "PROJECT_KEY",
@@ -38843,7 +40929,8 @@
         "RESPONSE_MAPPING",
         "SKILL",
         "BACKGROUND_JOB",
-        "PROJECT"
+        "PROJECT",
+        "ALIAS"
       ]
     },
     "ResponseFormatJsonObject": {
@@ -39087,6 +41174,249 @@
         }
       },
       "x-typescript-required": []
+    },
+    "Router": {
+      "type": "object",
+      "properties": {
+        "author": {
+          "type": "string"
+        },
+        "baseUrl": {
+          "type": "string"
+        },
+        "catalogProperties": {
+          "$ref": "#/components/schemas/MapStringObject"
+        },
+        "catalogSchemaId": {
+          "type": "string",
+          "format": "uri"
+        },
+        "createdAt": {
+          "type": "integer"
+        },
+        "defaultHeaders": {
+          "$ref": "#/components/schemas/MapStringString"
+        },
+        "defaults": {
+          "$ref": "#/components/schemas/MapStringObject"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "$ref": "#/components/schemas/LocalizedValue"
+        },
+        "descriptionKeywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "displayName": {
+          "$ref": "#/components/schemas/LocalizedValue"
+        },
+        "displayVersion": {
+          "type": "string"
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "features": {
+          "$ref": "#/components/schemas/Features"
+        },
+        "forwardAuthToken": {
+          "type": "boolean"
+        },
+        "iconUrl": {
+          "type": "string"
+        },
+        "inputAttachmentTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "interceptors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "interfaces": {
+          "$ref": "#/components/schemas/MapStringDeploymentInterface"
+        },
+        "intro": {
+          "$ref": "#/components/schemas/LocalizedValue"
+        },
+        "maxInputAttachments": {
+          "type": "integer"
+        },
+        "maxRetryAttempts": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "overrideName": {
+          "type": "string"
+        },
+        "reference": {
+          "type": "string"
+        },
+        "responsesDefaults": {
+          "$ref": "#/components/schemas/MapStringObject"
+        },
+        "responsesEndpoint": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "integer"
+        },
+        "userRoles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "applicationProperties": {
+          "$ref": "#/components/schemas/MapStringObject"
+        },
+        "applicationTypeSchemaId": {
+          "type": "string",
+          "format": "uri"
+        },
+        "decision": {
+          "$ref": "#/components/schemas/RouterDecision"
+        },
+        "mode": {
+          "$ref": "#/components/schemas/RouterMode"
+        }
+      },
+      "x-typescript-required": []
+    },
+    "RouterData": {
+      "type": "object",
+      "properties": {
+        "application": {
+          "type": "string"
+        },
+        "catalog_properties": {
+          "$ref": "#/components/schemas/MapStringObject"
+        },
+        "catalog_schema_id": {
+          "type": "string",
+          "format": "uri"
+        },
+        "created_at": {
+          "type": "integer"
+        },
+        "defaults": {
+          "$ref": "#/components/schemas/MapStringObject"
+        },
+        "description": {
+          "$ref": "#/components/schemas/LocalizedValue"
+        },
+        "description_keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "display_name": {
+          "$ref": "#/components/schemas/LocalizedValue"
+        },
+        "display_version": {
+          "type": "string"
+        },
+        "features": {
+          "$ref": "#/components/schemas/FeaturesData"
+        },
+        "icon_url": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "input_attachment_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "interface_configs": {
+          "$ref": "#/components/schemas/MapStringInterfaceConfigData"
+        },
+        "interfaces": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "intro": {
+          "$ref": "#/components/schemas/LocalizedValue"
+        },
+        "max_input_attachments": {
+          "type": "integer"
+        },
+        "max_retry_attempts": {
+          "type": "integer"
+        },
+        "model": {
+          "type": "string"
+        },
+        "object": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "reference": {
+          "type": "string"
+        },
+        "responses_defaults": {
+          "$ref": "#/components/schemas/MapStringObject"
+        },
+        "scale_settings": {
+          "$ref": "#/components/schemas/ScaleSettingsData"
+        },
+        "status": {
+          "type": "string"
+        },
+        "toolset": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "integer"
+        }
+      },
+      "x-typescript-required": [
+        "object"
+      ]
+    },
+    "RouterDecision": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "boolean"
+        },
+        "maxDecisions": {
+          "type": "integer"
+        },
+        "timeoutMs": {
+          "type": "integer"
+        }
+      },
+      "x-typescript-required": []
+    },
+    "RouterMode": {
+      "type": "string",
+      "enum": [
+        "proxy",
+        "decision"
+      ]
     },
     "RpcRequest": {
       "type": "object",
@@ -40235,5 +42565,5 @@
     "ModelListData": "export interface ModelListData {\n  /** An array of models. */\n  data?: ModelData[];\n  [key: string]: unknown;\n}"
   },
   "sdkOptions": "export interface SDKOptions {\n  baseUrl: string;\n  apiKey?: string;\n  token?: string;\n  headers?: Record<string, string>;\n  fetch?: typeof fetch;\n}",
-  "sourceHash": "948f571043891813213b5315e231d3765e2eb779ddd6dc30240de88a75422147"
+  "sourceHash": "16eae8d8c92bc440265fd5c5dd85d3ccc390fa2cd8af0a844a8a374a94618444"
 }
