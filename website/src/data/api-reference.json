@@ -36404,6 +36404,9 @@
         },
         "priority": {
           "type": "integer"
+        },
+        "displayName": {
+          "type": "string"
         }
       },
       "x-typescript-required": []
@@ -40551,6 +40554,9 @@
           "items": {
             "$ref": "#/components/schemas/PolicySubjectRule"
           }
+        },
+        "displayName": {
+          "type": "string"
         }
       },
       "x-typescript-required": []
@@ -43017,5 +43023,5 @@
     "ModelListData": "export interface ModelListData {\n  /** An array of models. */\n  data?: ModelData[];\n  [key: string]: unknown;\n}"
   },
   "sdkOptions": "export interface SDKOptions {\n  baseUrl: string;\n  apiKey?: string;\n  token?: string;\n  headers?: Record<string, string>;\n  fetch?: typeof fetch;\n}",
-  "sourceHash": "204b859765230cf647f61cbf26503e181a16105b0f4633ccf305f1816e2b9d7e"
+  "sourceHash": "bc13a26d2be927cdc154162ce920eb4709e42dd164e69b805cf7ea58f792a09f"
 }
