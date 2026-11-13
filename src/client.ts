@@ -333,6 +333,12 @@ export interface DIAL_SDK {
     application_name: string,
     init?: SDKOperationInit<operations['getApplication']>,
   ) => Promise<SDKOperationResponse<operations['getApplication']>>;
+  getApplicationAdminConsentStatus: (
+    deployment_id: string,
+    init?: SDKOperationInit<operations['getApplicationAdminConsentStatus']>,
+  ) => Promise<
+    SDKOperationResponse<operations['getApplicationAdminConsentStatus']>
+  >;
   getApplicationLogs: (
     init: SDKOperationInit<operations['getApplicationLogs']>,
   ) => Promise<SDKOperationResponse<operations['getApplicationLogs']>>;
@@ -720,6 +726,12 @@ export interface DIAL_SDK {
   getUserUsage: (
     init?: SDKOperationInit<operations['getUserUsage']>,
   ) => Promise<SDKOperationResponse<operations['getUserUsage']>>;
+  grantApplicationAdminConsent: (
+    deployment_id: string,
+    init: SDKOperationInit<operations['grantApplicationAdminConsent']>,
+  ) => Promise<
+    SDKOperationResponse<operations['grantApplicationAdminConsent']>
+  >;
   grantExternalServiceConsent: (
     appid: string,
     id: string,
@@ -1070,6 +1082,12 @@ export interface DIAL_SDK {
   validateConfigManifests: (
     init: SDKOperationInit<operations['validateConfigManifests']>,
   ) => Promise<SDKOperationResponse<operations['validateConfigManifests']>>;
+  withdrawApplicationAdminConsent: (
+    deployment_id: string,
+    init?: SDKOperationInit<operations['withdrawApplicationAdminConsent']>,
+  ) => Promise<
+    SDKOperationResponse<operations['withdrawApplicationAdminConsent']>
+  >;
   withdrawExternalServiceConsent: (
     appid: string,
     id: string,
@@ -1475,6 +1493,13 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.getApplicationUrl(application_name) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['getApplication']>>,
+    getApplicationAdminConsentStatus: (deployment_id: string, init?: any) =>
+      client.GET(
+        apiPaths.getApplicationAdminConsentStatusUrl(deployment_id) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['getApplicationAdminConsentStatus']>
+      >,
     getApplicationLogs: (init?: any) =>
       client.POST(apiPaths.getApplicationLogsUrl, init) as Promise<
         SDKOperationResponse<operations['getApplicationLogs']>
@@ -1922,6 +1947,13 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.GET(apiPaths.getUserUsageUrl, init) as Promise<
         SDKOperationResponse<operations['getUserUsage']>
       >,
+    grantApplicationAdminConsent: (deployment_id: string, init?: any) =>
+      client.POST(
+        apiPaths.grantApplicationAdminConsentUrl(deployment_id) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['grantApplicationAdminConsent']>
+      >,
     grantExternalServiceConsent: (appid: string, id: string, init?: any) =>
       client.POST(
         apiPaths.grantExternalServiceConsentUrl(appid, id) as any,
@@ -2345,6 +2377,13 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     validateConfigManifests: (init?: any) =>
       client.POST(apiPaths.validateConfigManifestsUrl, init) as Promise<
         SDKOperationResponse<operations['validateConfigManifests']>
+      >,
+    withdrawApplicationAdminConsent: (deployment_id: string, init?: any) =>
+      client.DELETE(
+        apiPaths.withdrawApplicationAdminConsentUrl(deployment_id) as any,
+        init,
+      ) as Promise<
+        SDKOperationResponse<operations['withdrawApplicationAdminConsent']>
       >,
     withdrawExternalServiceConsent: (appid: string, id: string, init?: any) =>
       client.DELETE(

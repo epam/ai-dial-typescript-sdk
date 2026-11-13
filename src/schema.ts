@@ -387,6 +387,34 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/admin-consent/{deployment_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * /v1/admin-consent/{deployment_id}
+     * @description Returns the admin consent status of an application's declared resource dependencies. `consented` is true only while a stored approval exists and matches the current declaration — exactly what request-time resolution enforces. `stale` marks an approval the declaration has since changed away from; the last approval stays visible for re-approval. Explicit administrators only.
+     */
+    get: operations['getApplicationAdminConsentStatus'];
+    put?: never;
+    /**
+     * /v1/admin-consent/{deployment_id}
+     * @description Approves the reviewed resource dependencies for every user; each user still gets only what they can reach themselves. The body lists the resources the administrator reviewed; if the declaration changed since, the call fails with 409 and nothing is stored. A later change of an entry's url or access, or an added, removed or reordered entry, invalidates the approval. Explicit administrators only; 400 when the body is missing or malformed or the application declares no dependencies.
+     */
+    post: operations['grantApplicationAdminConsent'];
+    /**
+     * /v1/admin-consent/{deployment_id}
+     * @description Withdraws the admin consent. Calls started after the withdrawal no longer receive the dependencies; a per-request key already issued keeps its grants until it expires. Explicit administrators only.
+     */
+    delete: operations['withdrawApplicationAdminConsent'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/admin/apply': {
     parameters: {
       query?: never;
@@ -3673,6 +3701,18 @@ export interface components {
       name?: string;
       spec?: components['schemas']['CatalogSchema'];
     };
+    AdminConsentStatus: {
+      /** @description The approval is live: a record exists and matches the current declaration. */
+      consented?: boolean;
+      /** @description When it was approved, epoch milliseconds. */
+      grantedAt?: number;
+      /** @description Who approved: the administrator's user id, or the API key's project. */
+      grantedBy?: string;
+      /** @description The approved resources, as declared at approval time. */
+      grantedResources?: components['schemas']['ConsentResourceEntry'][];
+      /** @description A record exists but no longer matches the current declaration; absent when there is no record. */
+      stale?: boolean;
+    };
     AdminInterceptorManifest: {
       /**
        * @description discriminator enum property added by openapi-typescript
@@ -3929,6 +3969,8 @@ export interface components {
       overrideName?: string;
       defaultHeaders?: components['schemas']['MapStringString'];
       baseUrl?: string;
+      /** @description Declared resource dependencies for this application. Present only when the application declares dependencies; omitted otherwise. */
+      resource_dependencies?: components['schemas']['ResourceDependency'][];
     };
     ApplicationData: {
       application?: string;
@@ -4731,9 +4773,17 @@ export interface components {
     };
     Consent: {
       deployments?: components['schemas']['MapStringConsentDeployment'];
+      /** @description One entry per resource dependency the application declares; absent for an application that declares none. */
+      resources?: components['schemas']['ConsentResourceEntry'][];
     };
     ConsentDeployment: {
       consentRequired?: boolean;
+    };
+    ConsentResourceEntry: {
+      /** @description The approved access rights. */
+      access?: components['schemas']['ResourceAccessType'][];
+      /** @description The target as declared; placeholders such as `{current-user}` are not resolved. */
+      url?: string;
     };
     Conversation: {
       customViewState?: components['schemas']['MapStringObject'];
@@ -5129,6 +5179,10 @@ export interface components {
       rateLimitSchedule?: components['schemas']['RateLimitSchedule'];
       spendingLimits?: components['schemas']['SpendingLimits'];
     };
+    GrantAdminConsentRequest: {
+      /** @description The resources the administrator reviewed, as declared (the entries the application's `resource_dependencies` yield). Must equal the current declaration. */
+      resources?: components['schemas']['ConsentResourceEntry'][];
+    };
     HealthResponse: {
       skipped?: components['schemas']['SkippedEntity'][];
       status?: string;
@@ -5378,11 +5432,13 @@ export interface components {
       createdAt?: number;
       defaults?: components['schemas']['MapStringObject'];
       dependencies?: string[];
+      deprecationDate?: string;
       description?: string;
       descriptionKeywords?: string[];
       displayName?: components['schemas']['LocalizedValue'];
       displayVersion?: string;
       embeddingDimensions?: number;
+      endOfService?: string;
       endpoint?: string;
       features?: components['schemas']['Features'];
       fieldsHashingOrder?: string[];
@@ -5396,6 +5452,7 @@ export interface components {
       name?: string;
       overrideName?: string;
       pricing?: components['schemas']['Pricing'];
+      provider?: string;
       reference?: string;
       responsesDefaults?: components['schemas']['MapStringObject'];
       responsesEndpoint?: string;
@@ -5417,11 +5474,13 @@ export interface components {
       capabilities?: components['schemas']['CapabilitiesData'];
       created_at?: number;
       defaults?: components['schemas']['MapStringObject'];
+      deprecation_date?: string;
       description?: string;
       description_keywords?: string[];
       display_name?: components['schemas']['LocalizedValue'];
       display_version?: string;
       embedding_dimensions?: number;
+      end_of_service?: string;
       features?: components['schemas']['FeaturesData'];
       icon_url?: string;
       id?: string;
@@ -5439,6 +5498,7 @@ export interface components {
       object: 'model';
       owner?: string;
       pricing?: components['schemas']['PricingData'];
+      provider?: string;
       reference?: string;
       responses_defaults?: components['schemas']['MapStringObject'];
       scale_settings?: components['schemas']['ScaleSettingsData'];
@@ -5722,6 +5782,22 @@ export interface components {
     };
     /** @enum {string} */
     ResourceAuthStatus: 'SIGNED_IN' | 'SIGNED_OUT' | 'FAILED';
+    /** @description A declared resource dependency — a request, not a grant. The record carries no access of its own; at request start Core verifies the initiator's reach and the required admin consent, and only then bakes the grant into the per-request key the app holds. */
+    ResourceDependency: {
+      /** @description The access types this dependency requests: READ and/or WRITE. */
+      access?: components['schemas']['ResourceAccessType'][];
+      /** @description Descriptor kind; must be "dial.resourceLink". */
+      kind?: string;
+      /** @description Unique identity of this record within the application's declaration. */
+      link_id?: string;
+      /** @description When true, an unresolvable or unconsented dependency fails the call with 403. When false (default), the dependency degrades silently. */
+      required?: boolean;
+      target?: components['schemas']['ResourceDependencyTarget'];
+    };
+    ResourceDependencyTarget: {
+      /** @description A DIAL resource URL in one of two forms: `<type>/<bucket>/<path>`, a concrete bucket (e.g. "files/public/policies/"), or `<type>/{current-user}/<path>`, the calling user's own bucket (e.g. "skills/{current-user}/"). Checked when the application is written through the API; an application from a config file is not checked on load, and an entry that does not follow the grammar never resolves. */
+      url?: string;
+    };
     ResourceEvent: {
       action?: components['schemas']['ResourceEventAction'];
       etag?: string;
@@ -5841,6 +5917,7 @@ export interface components {
       | 'APPLICATION'
       | 'CODE_INTERPRETER_SESSION'
       | 'USER_CONSENT'
+      | 'ADMIN_CONSENT'
       | 'TOOL_SET'
       | 'CREDENTIALS'
       | 'EXTERNAL_SERVICE'
@@ -8131,6 +8208,174 @@ export interface operations {
       };
       /** @description The engine is currently overloaded, please try again later. */
       503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getApplicationAdminConsentStatus: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The application's deployment id, as in `/v1/consent/{deployment_id}`: a config application name or `applications/{bucket}/{path}`. Admin consent applies to applications only; any other deployment is 404. */
+        deployment_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AdminConsentStatus'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  grantApplicationAdminConsent: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The application's deployment id, as in `/v1/consent/{deployment_id}`: a config application name or `applications/{bucket}/{path}`. Admin consent applies to applications only; any other deployment is 404. */
+        deployment_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['GrantAdminConsentRequest'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  withdrawApplicationAdminConsent: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The application's deployment id, as in `/v1/consent/{deployment_id}`: a config application name or `applications/{bucket}/{path}`. Admin consent applies to applications only; any other deployment is 404. */
+        deployment_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
         headers: {
           [name: string]: unknown;
         };
