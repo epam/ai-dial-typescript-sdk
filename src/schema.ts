@@ -4062,6 +4062,7 @@ export interface components {
       month?: components['schemas']['CostItemLimitStats'];
       policy?: string;
       priority?: number;
+      displayName?: string;
     };
     /** @description A manual cache breakpoint. The part of the chat completion request up to this breakpoint will be cached by the deployment. Follow-up requests sharing the same prefix have a chance of hitting the cache and reusing the input tokens associated with this prefix. The field only makes sense for the deployments that support [prompt caching](https://docs.dialx.ai/tutorials/developers/prompt-caching). */
     CacheBreakpoint: {
@@ -5617,6 +5618,7 @@ export interface components {
       priority?: number;
       quantity?: components['schemas']['PolicyQuantity'];
       subject?: components['schemas']['PolicySubjectRule'][];
+      displayName?: string;
     };
     PolicyAmounts: {
       day?: number;
