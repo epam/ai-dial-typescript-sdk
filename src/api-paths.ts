@@ -266,6 +266,10 @@ export const getApplicationUrl = (application_name: string) => {
   return `/openai/applications/${application_name}`;
 };
 
+export const getApplicationAdminConsentStatusUrl = (deployment_id: string) => {
+  return `/v1/admin-consent/${deployment_id}`;
+};
+
 export const getApplicationLogsUrl = '/v1/ops/application/logs';
 export const getApplicationMcpResourcesUrl = (deployment_name: string) => {
   return `/v1/deployments/${deployment_name}/mcp/resources`;
@@ -572,6 +576,10 @@ export const getUserInfoUrl = '/v1/user/info';
 export const getUserLimitsUrl = '/v1/user/limits';
 export const getUserRoleAssignmentsUrl = '/v1/user/role-assignments';
 export const getUserUsageUrl = '/v1/user/usage';
+export const grantApplicationAdminConsentUrl = (deployment_id: string) => {
+  return `/v1/admin-consent/${deployment_id}`;
+};
+
 export const grantExternalServiceConsentUrl = (appid: string, id: string) => {
   return `/v1/applications/${appid}/external-services/${id}/consent`;
 };
@@ -824,6 +832,10 @@ export const uploadSkillFolderUrl = (bucket: string, path: string) => {
 };
 
 export const validateConfigManifestsUrl = '/v1/admin/validate';
+export const withdrawApplicationAdminConsentUrl = (deployment_id: string) => {
+  return `/v1/admin-consent/${deployment_id}`;
+};
+
 export const withdrawExternalServiceConsentUrl = (
   appid: string,
   id: string,
