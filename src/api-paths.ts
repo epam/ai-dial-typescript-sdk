@@ -123,6 +123,10 @@ export const deletePlatformToolSetUrl = (path: string) => {
   return `/v1/toolsets/platform/${path}`;
 };
 
+export const deletePluginUrl = (bucket: string, path: string) => {
+  return `/v1/plugins/${bucket}/${path}`;
+};
+
 export const deletePolicyUrl = (bucket: string, path: string) => {
   return `/v1/policies/${bucket}/${path}`;
 };
@@ -359,6 +363,10 @@ export const getFileConfigModelUrl = (name: string) => {
   return `/v1/admin/config/file/models/${name}`;
 };
 
+export const getFileConfigPluginUrl = (name: string) => {
+  return `/v1/admin/config/file/plugins/${name}`;
+};
+
 export const getFileConfigRoleUrl = (name: string) => {
   return `/v1/admin/config/file/roles/${name}`;
 };
@@ -463,6 +471,14 @@ export const getPlatformToolSetUrl = (path: string) => {
 
 export const getPlatformToolSetMetadataUrl = (path: string) => {
   return `/v1/metadata/toolsets/platform/${path}`;
+};
+
+export const getPluginUrl = (bucket: string, path: string) => {
+  return `/v1/plugins/${bucket}/${path}`;
+};
+
+export const getPluginMetadataUrl = (bucket: string, path: string) => {
+  return `/v1/metadata/plugins/${bucket}/${path}`;
 };
 
 export const getPolicyUrl = (bucket: string, path: string) => {
@@ -605,6 +621,7 @@ export const listFileConfigInterceptorsUrl =
   '/v1/admin/config/file/interceptors';
 export const listFileConfigKeysUrl = '/v1/admin/config/file/keys';
 export const listFileConfigModelsUrl = '/v1/admin/config/file/models';
+export const listFileConfigPluginsUrl = '/v1/admin/config/file/plugins';
 export const listFileConfigRolesUrl = '/v1/admin/config/file/roles';
 export const listFileConfigRoutersUrl = '/v1/admin/config/file/routers';
 export const listFileConfigRoutesUrl = '/v1/admin/config/file/routes';
@@ -733,6 +750,10 @@ export const savePlatformRouterUrl = (bucket: string, path: string) => {
 
 export const savePlatformToolSetUrl = (path: string) => {
   return `/v1/toolsets/platform/${path}`;
+};
+
+export const savePluginUrl = (bucket: string, path: string) => {
+  return `/v1/plugins/${bucket}/${path}`;
 };
 
 export const savePolicyUrl = (bucket: string, path: string) => {

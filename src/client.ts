@@ -162,6 +162,11 @@ export interface DIAL_SDK {
     path: string,
     init?: SDKOperationInit<operations['deletePlatformToolSet']>,
   ) => Promise<SDKOperationResponse<operations['deletePlatformToolSet']>>;
+  deletePlugin: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['deletePlugin']>,
+  ) => Promise<SDKOperationResponse<operations['deletePlugin']>>;
   deletePolicy: (
     bucket: string,
     path: string,
@@ -441,6 +446,10 @@ export interface DIAL_SDK {
     name: string,
     init?: SDKOperationInit<operations['getFileConfigModel']>,
   ) => Promise<SDKOperationResponse<operations['getFileConfigModel']>>;
+  getFileConfigPlugin: (
+    name: string,
+    init?: SDKOperationInit<operations['getFileConfigPlugin']>,
+  ) => Promise<SDKOperationResponse<operations['getFileConfigPlugin']>>;
   getFileConfigRole: (
     name: string,
     init?: SDKOperationInit<operations['getFileConfigRole']>,
@@ -576,6 +585,16 @@ export interface DIAL_SDK {
     path: string,
     init?: SDKOperationInit<operations['getPlatformToolSetMetadata']>,
   ) => Promise<SDKOperationResponse<operations['getPlatformToolSetMetadata']>>;
+  getPlugin: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getPlugin']>,
+  ) => Promise<SDKOperationResponse<operations['getPlugin']>>;
+  getPluginMetadata: (
+    bucket: string,
+    path: string,
+    init?: SDKOperationInit<operations['getPluginMetadata']>,
+  ) => Promise<SDKOperationResponse<operations['getPluginMetadata']>>;
   getPolicy: (
     bucket: string,
     path: string,
@@ -781,6 +800,9 @@ export interface DIAL_SDK {
   listFileConfigModels: (
     init?: SDKOperationInit<operations['listFileConfigModels']>,
   ) => Promise<SDKOperationResponse<operations['listFileConfigModels']>>;
+  listFileConfigPlugins: (
+    init?: SDKOperationInit<operations['listFileConfigPlugins']>,
+  ) => Promise<SDKOperationResponse<operations['listFileConfigPlugins']>>;
   listFileConfigRoles: (
     init?: SDKOperationInit<operations['listFileConfigRoles']>,
   ) => Promise<SDKOperationResponse<operations['listFileConfigRoles']>>;
@@ -952,6 +974,11 @@ export interface DIAL_SDK {
     path: string,
     init: SDKOperationInit<operations['savePlatformToolSet']>,
   ) => Promise<SDKOperationResponse<operations['savePlatformToolSet']>>;
+  savePlugin: (
+    bucket: string,
+    path: string,
+    init: SDKOperationInit<operations['savePlugin']>,
+  ) => Promise<SDKOperationResponse<operations['savePlugin']>>;
   savePolicy: (
     bucket: string,
     path: string,
@@ -1288,6 +1315,11 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.deletePlatformToolSetUrl(path) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['deletePlatformToolSet']>>,
+    deletePlugin: (bucket: string, path: string, init?: any) =>
+      client.DELETE(
+        apiPaths.deletePluginUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['deletePlugin']>>,
     deletePolicy: (bucket: string, path: string, init?: any) =>
       client.DELETE(
         apiPaths.deletePolicyUrl(bucket, path) as any,
@@ -1632,6 +1664,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.GET(apiPaths.getFileConfigModelUrl(name) as any, init) as Promise<
         SDKOperationResponse<operations['getFileConfigModel']>
       >,
+    getFileConfigPlugin: (name: string, init?: any) =>
+      client.GET(apiPaths.getFileConfigPluginUrl(name) as any, init) as Promise<
+        SDKOperationResponse<operations['getFileConfigPlugin']>
+      >,
     getFileConfigRole: (name: string, init?: any) =>
       client.GET(apiPaths.getFileConfigRoleUrl(name) as any, init) as Promise<
         SDKOperationResponse<operations['getFileConfigRole']>
@@ -1783,6 +1819,15 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       ) as Promise<
         SDKOperationResponse<operations['getPlatformToolSetMetadata']>
       >,
+    getPlugin: (bucket: string, path: string, init?: any) =>
+      client.GET(apiPaths.getPluginUrl(bucket, path) as any, init) as Promise<
+        SDKOperationResponse<operations['getPlugin']>
+      >,
+    getPluginMetadata: (bucket: string, path: string, init?: any) =>
+      client.GET(
+        apiPaths.getPluginMetadataUrl(bucket, path) as any,
+        init,
+      ) as Promise<SDKOperationResponse<operations['getPluginMetadata']>>,
     getPolicy: (bucket: string, path: string, init?: any) =>
       client.GET(apiPaths.getPolicyUrl(bucket, path) as any, init) as Promise<
         SDKOperationResponse<operations['getPolicy']>
@@ -2014,6 +2059,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.GET(apiPaths.listFileConfigModelsUrl, init) as Promise<
         SDKOperationResponse<operations['listFileConfigModels']>
       >,
+    listFileConfigPlugins: (init?: any) =>
+      client.GET(apiPaths.listFileConfigPluginsUrl, init) as Promise<
+        SDKOperationResponse<operations['listFileConfigPlugins']>
+      >,
     listFileConfigRoles: (init?: any) =>
       client.GET(apiPaths.listFileConfigRolesUrl, init) as Promise<
         SDKOperationResponse<operations['listFileConfigRoles']>
@@ -2224,6 +2273,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
     savePlatformToolSet: (path: string, init?: any) =>
       client.PUT(apiPaths.savePlatformToolSetUrl(path) as any, init) as Promise<
         SDKOperationResponse<operations['savePlatformToolSet']>
+      >,
+    savePlugin: (bucket: string, path: string, init?: any) =>
+      client.PUT(apiPaths.savePluginUrl(bucket, path) as any, init) as Promise<
+        SDKOperationResponse<operations['savePlugin']>
       >,
     savePolicy: (bucket: string, path: string, init?: any) =>
       client.PUT(apiPaths.savePolicyUrl(bucket, path) as any, init) as Promise<
