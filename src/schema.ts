@@ -653,6 +653,40 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/admin/config/file/plugins': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/admin/config/file/plugins */
+    get: operations['listFileConfigPlugins'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/config/file/plugins/{name}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/admin/config/file/plugins/{name} */
+    get: operations['getFileConfigPlugin'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/admin/config/file/roles': {
     parameters: {
       query?: never;
@@ -1749,6 +1783,23 @@ export interface paths {
     };
     /** /v1/metadata/models/{bucket}/{path} */
     get: operations['getModelMetadata'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/metadata/plugins/{bucket}/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/metadata/plugins/{bucket}/{path} */
+    get: operations['getPluginMetadata'];
     put?: never;
     post?: never;
     delete?: never;
@@ -2956,6 +3007,25 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/plugins/{bucket}/{path}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/plugins/{bucket}/{path} */
+    get: operations['getPlugin'];
+    /** /v1/plugins/{bucket}/{path} */
+    put: operations['savePlugin'];
+    post?: never;
+    /** /v1/plugins/{bucket}/{path} */
+    delete: operations['deletePlugin'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/policies/{bucket}/{path}': {
     parameters: {
       query?: never;
@@ -3738,6 +3808,7 @@ export interface components {
       | components['schemas']['AdminInterceptorManifest']
       | components['schemas']['AdminRouterManifest']
       | components['schemas']['AdminTranslatorManifest']
+      | components['schemas']['AdminPluginManifest']
       | components['schemas']['AdminRoleManifest']
       | components['schemas']['AdminKeyManifest']
       | components['schemas']['AdminRouteManifest']
@@ -3754,6 +3825,15 @@ export interface components {
       kind: 'Model';
       name?: string;
       spec?: components['schemas']['Model'];
+    };
+    AdminPluginManifest: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind: 'Plugin';
+      name?: string;
+      spec?: components['schemas']['Plugin'];
     };
     AdminPolicyAssignmentManifest: {
       /**
@@ -3876,7 +3956,7 @@ export interface components {
       userRoles?: string[];
     };
     /** @enum {string} */
-    AliasPresentation: 'model' | 'application' | 'toolset';
+    AliasPresentation: 'model' | 'application' | 'toolset' | 'router';
     AliasTarget: {
       id?: unknown;
       path?: string;
@@ -4063,6 +4143,7 @@ export interface components {
       policy?: string;
       priority?: number;
       displayName?: string;
+      object?: components['schemas']['PolicyObjectSet'];
     };
     /** @description A manual cache breakpoint. The part of the chat completion request up to this breakpoint will be cached by the deployment. Follow-up requests sharing the same prefix have a chance of hitting the cache and reusing the input tokens associated with this prefix. The field only makes sense for the deployments that support [prompt caching](https://docs.dialx.ai/tutorials/developers/prompt-caching). */
     CacheBreakpoint: {
@@ -4741,6 +4822,7 @@ export interface components {
       rateLimitSchedule?: components['schemas']['RateLimitSchedule'];
       orgUnitRoles?: components['schemas']['MapStringOrgUnitRole'];
       spendingLimits?: components['schemas']['SpendingLimits'];
+      plugins?: components['schemas']['MapStringPlugin'];
       aliases?: components['schemas']['MapStringAlias'];
       routers?: components['schemas']['MapStringRouter'];
     };
@@ -5378,6 +5460,9 @@ export interface components {
     MapStringOrgUnitRole: {
       [key: string]: components['schemas']['OrgUnitRole'];
     };
+    MapStringPlugin: {
+      [key: string]: components['schemas']['Plugin'];
+    };
     MapStringRole: {
       [key: string]: components['schemas']['Role'];
     };
@@ -5534,6 +5619,7 @@ export interface components {
     Notifications: {
       notifications?: components['schemas']['Notification'][];
     };
+    ObjectNode: Record<string, never>;
     OboCredentialsRequest: {
       ownerUserId?: string;
       url?: string;
@@ -5604,6 +5690,10 @@ export interface components {
     PerRequestReceiverList: {
       receivers?: components['schemas']['PerRequestReceiver'][];
     };
+    Plugin: {
+      settings?: components['schemas']['ObjectNode'];
+      type?: string;
+    };
     Policy: {
       attachedTo?: components['schemas']['JsonNode'];
       broker?: components['schemas']['JsonNode'];
@@ -5636,7 +5726,7 @@ export interface components {
     };
     /** @enum {string} */
     PolicyKind: 'budget';
-    PolicyObjectSet: Record<string, never>;
+    PolicyObjectSet: string | string[];
     /** @enum {string} */
     PolicyQuantity: 'cost' | 'tokens' | 'requests';
     PolicySubjectRule: {
@@ -5931,6 +6021,7 @@ export interface components {
       | 'INTERCEPTOR'
       | 'ROUTER'
       | 'TRANSLATOR'
+      | 'PLUGIN'
       | 'ROLE'
       | 'PROJECT_KEY'
       | 'POLICY'
@@ -6055,6 +6146,7 @@ export interface components {
       applicationTypeSchemaId?: string;
       decision?: components['schemas']['RouterDecision'];
       mode?: components['schemas']['RouterMode'];
+      editorUrl?: string;
     };
     RouterData: {
       application?: string;
@@ -6425,6 +6517,8 @@ export interface components {
       monthCostStats?: components['schemas']['CostItemLimitStats'];
       weekCostStats?: components['schemas']['CostItemLimitStats'];
       budgets?: components['schemas']['BudgetStats'][];
+      /** @description The cost object whose budgets the caller's model calls are charged to: only the `budgets` entries with this `costObject` can be charged. Absent when spending limits are off or the caller is an API key. */
+      costObject?: string;
     };
     UserOrgUnits: {
       adminAccess?: components['schemas']['UserOrgUnitsAdminAccess'];
@@ -9140,6 +9234,118 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['Model'] &
+            components['schemas']['EntityMetadata'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  listFileConfigPlugins: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description List of file-sourced plugins */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['FileConfigControllerItemsResponseFileConfigControllerNamedEntity'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getFileConfigPlugin: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Plugin name */
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Plugin'] &
             components['schemas']['EntityMetadata'];
         };
       };
@@ -14906,6 +15112,74 @@ export interface operations {
       };
     };
   };
+  getPluginMetadata: {
+    parameters: {
+      query?: {
+        /** @description The token from the previous request to request next items. */
+        token?: string;
+        /** @description Limit on the number of items in the response. */
+        limit?: number;
+        /** @description If true, returns items recursively without nested folder metadata. */
+        recursive?: boolean;
+      };
+      header?: never;
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description The parameter specifies path to the requested directory or application, for example: `folder1/folder2/` or `folder1/application_name/`. Note, it could be empty if you want to list the root folder. */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MetadataBase'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
   getPolicyMetadata: {
     parameters: {
       query?: {
@@ -19830,6 +20104,265 @@ export interface operations {
         content: {
           'application/json': components['schemas']['ErrorData'];
         };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getPlugin: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description Plugin name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Entity tag for the plugin */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Plugin'] &
+            components['schemas']['EntityMetadata'];
+        };
+      };
+      /** @description Not Modified */
+      304: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  savePlugin: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+        /** @description Conditional creation precondition. */
+        'If-None-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description Plugin name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['Plugin'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          /** @description Entity tag for the saved plugin */
+          ETag: string;
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ConfigResourceControllerConfigWriteResponse'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  deletePlugin: {
+    parameters: {
+      query?: never;
+      header?: {
+        /** @description ETag precondition. */
+        'If-Match'?: string;
+      };
+      path: {
+        /** @description The target bucket. */
+        bucket: string;
+        /** @description Plugin name */
+        path: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Precondition Failed - ETag mismatch */
+      412: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description The server had an error while processing your request. */
       500: {
