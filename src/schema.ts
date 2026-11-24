@@ -1117,7 +1117,10 @@ export interface paths {
     };
     /** /v1/applications/{appId}/external-services/{id} */
     get: operations['getExternalService'];
-    /** /v1/applications/{appId}/external-services/{id} */
+    /**
+     * /v1/applications/{appId}/external-services/{id}
+     * @description Creates or replaces an external service. An OAUTH service created (or switched to OAUTH) with auth_settings.discovery_url and without client_id and client_secret gets a client registered by DIAL Core (dynamic client registration) with redirect URIs from toolsets.security.allowedRedirectUris only; otherwise it needs client_id, client_secret, authorization_endpoint and token_endpoint. An update that stays OAUTH keeps the stored OAuth fields it omits. Reads never return client_secret or code_verifier.
+     */
     put: operations['putExternalService'];
     post?: never;
     /** /v1/applications/{appId}/external-services/{id} */
@@ -5414,10 +5417,7 @@ export interface components {
       resourceTypes?: components['schemas']['ResourceTypes'][];
       with?: string;
     };
-    LocalizedValue: {
-      localeMap?: components['schemas']['MapStringString'];
-      plainValue?: string;
-    } & (string | components['schemas']['MapStringString']);
+    LocalizedValue: string | components['schemas']['MapStringString'];
     MapStringAlias: {
       [key: string]: components['schemas']['Alias'];
     };
@@ -5682,7 +5682,8 @@ export interface components {
      * @default true
      */
     ParallelToolCalls: boolean;
-    Pattern: Record<string, never>;
+    /** Format: regex */
+    Pattern: string;
     PerRequestReceiver: {
       receiver?: string;
       resourcePermissions?: components['schemas']['ResourcePermission'][];
@@ -5737,18 +5738,18 @@ export interface components {
     /** @enum {string} */
     PolicySubjectRuleFunction: 'TRUE' | 'FALSE' | 'EQUAL' | 'CONTAIN' | 'REGEX';
     Pricing: {
-      completion?: components['schemas']['PricingRate'];
-      prompt?: components['schemas']['PricingRate'];
+      completion?: string | components['schemas']['PricingRate'];
+      prompt?: string | components['schemas']['PricingRate'];
       unit?: string;
-      cacheRead?: components['schemas']['PricingRate'];
-      cacheWrite?: components['schemas']['PricingRate'];
+      cacheRead?: string | components['schemas']['PricingRate'];
+      cacheWrite?: string | components['schemas']['PricingRate'];
     };
     PricingData: {
-      completion?: components['schemas']['PricingRate'];
-      prompt?: components['schemas']['PricingRate'];
+      completion?: string | components['schemas']['PricingRate'];
+      prompt?: string | components['schemas']['PricingRate'];
       unit?: string;
-      cache_read?: components['schemas']['PricingRate'];
-      cache_write?: components['schemas']['PricingRate'];
+      cache_read?: string | components['schemas']['PricingRate'];
+      cache_write?: string | components['schemas']['PricingRate'];
     };
     PricingRate: {
       ifFalse?: components['schemas']['PricingRate'];
@@ -5856,6 +5857,8 @@ export interface components {
       dynamically_registered?: boolean;
       readonly client_secret_hint?: string;
       resource?: string;
+      /** @description External services only (OAUTH): where DIAL Core reads OAuth metadata from to set up the client - an MCP server's URL, an API's URL that publishes protected resource metadata, or the authorization server's issuer URL. Never a traffic target. Absolute http or https URL; required to register a client automatically. */
+      discovery_url?: string;
     };
     ResourceAuthSettingsData: {
       api_key_header?: string;
@@ -10783,7 +10786,11 @@ export interface operations {
             'dial:applicationTypeEditorUrl'?: string;
             'dial:applicationTypeIconUrl'?: string;
             'dial:applicationTypePlaybackSupport'?: boolean;
-            'dial:applicationTypeBucketCopy'?: boolean;
+            /**
+             * @default DISABLED
+             * @enum {string}
+             */
+            'dial:applicationTypeBucketCopy': 'ENABLED' | 'DISABLED';
             /** @description URL to retrieve JSON schema of the application. */
             'dial:applicationTypeSchemaEndpoint'?: string;
           }[];
@@ -12746,6 +12753,11 @@ export interface operations {
       query?: {
         /** @description Filter deployments by the interface types they support. Can accept multiple values as comma-separated list or array. <br> `chat` - Deployments that expose chat-based interfaces. This includes the OpenAI-compatible chat completion interface and Responses API. Matches models with `chat` type and applications with `dial:applicationTypeCompletionEndpoint`. Never includes toolsets. <br> `embedding` - Deployments that expose embedding endpoints. Matches only models with `embedding` type. Never includes applications and toolsets. <br> `mcp` - Deployments that expose MCP (Model Context Protocol) interface (toolsets and applications with `dial:applicationTypeMcp`). Never includes models. <br> `custom_ui` - Deployments that expose custom UI interfaces (applications with `dial:applicationTypeViewerUrl`). Never includes models and toolsets. <br> `all` - Include all deployments regardless of interface type (default behavior if parameter is omitted). */
         interface_type?: ('chat' | 'embedding' | 'mcp' | 'custom_ui' | 'all')[];
+        /**
+         * @description Return only the listed fields of each deployment, as comma-separated names of the response. Top-level names are snake_case; names inside a nested object are the ones that object has, such as `rewritePath` inside each entry of `routes`. Parentheses select inside a field: `features(rate,tokenize)`. `*` stands for every member at its level: `routes(*(rewritePath))` keeps `rewritePath` of every route, and `*(en)` narrows every object member to `en`. A selection narrows objects, also inside arrays; any other value stays as it is, and an object left with no members is `{}`. `id` and `object` are always returned. A name that no field has is ignored. At most 1024 bytes and 5 levels. Without it, all fields are returned.
+         * @example display_name,features(rate,tokenize)
+         */
+        fields?: string;
       };
       header?: never;
       path?: never;

@@ -3938,7 +3938,11 @@ paths:
                     dial:applicationTypePlaybackSupport:
                       type: boolean
                     dial:applicationTypeBucketCopy:
-                      type: boolean
+                      type: string
+                      enum:
+                        - ENABLED
+                        - DISABLED
+                      default: DISABLED
                     dial:applicationTypeSchemaEndpoint:
                       type: string
                       description: URL to retrieve JSON schema of the application.
@@ -4288,6 +4292,7 @@ paths:
       tags:
         - External Services
       summary: /v1/applications/{appId}/external-services/{id}
+      description: Creates or replaces an external service. An OAUTH service created (or switched to OAUTH) with auth_settings.discovery_url and without client_id and client_secret gets a client registered by DIAL Core (dynamic client registration) with redirect URIs from toolsets.security.allowedRedirectUris only; otherwise it needs client_id, client_secret, authorization_endpoint and token_endpoint. An update that stays OAUTH keeps the stored OAuth fields it omits. Reads never return client_secret or code_verifier.
       operationId: putExternalService
       parameters:
         - name: appId
@@ -5630,6 +5635,13 @@ paths:
                 - mcp
                 - custom_ui
                 - all
+        - name: fields
+          in: query
+          required: false
+          schema:
+            type: string
+          example: display_name,features(rate,tokenize)
+          description: 'Return only the listed fields of each deployment, as comma-separated names of the response. Top-level names are snake_case; names inside a nested object are the ones that object has, such as `rewritePath` inside each entry of `routes`. Parentheses select inside a field: `features(rate,tokenize)`. `*` stands for every member at its level: `routes(*(rewritePath))` keeps `rewritePath` of every route, and `*(en)` narrows every object member to `en`. A selection narrows objects, also inside arrays; any other value stays as it is, and an object left with no members is `{}`. `id` and `object` are always returned. A name that no field has is ignored. At most 1024 bytes and 5 levels. Without it, all fields are returned.'
       responses:
         '200':
           description: Success
@@ -20374,12 +20386,6 @@ components:
         with:
           type: string
     LocalizedValue:
-      type: object
-      properties:
-        localeMap:
-          $ref: '#/components/schemas/MapStringString'
-        plainValue:
-          type: string
       oneOf:
         - type: string
         - $ref: '#/components/schemas/MapStringString'
@@ -20872,7 +20878,8 @@ components:
       description: Whether to enable parallel `function` calling during the `tool` use.
       default: true
     Pattern:
-      type: object
+      type: string
+      format: regex
     PerRequestReceiver:
       type: object
       properties:
@@ -20999,28 +21006,44 @@ components:
       type: object
       properties:
         completion:
-          $ref: '#/components/schemas/PricingRate'
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/PricingRate'
         prompt:
-          $ref: '#/components/schemas/PricingRate'
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/PricingRate'
         unit:
           type: string
         cacheRead:
-          $ref: '#/components/schemas/PricingRate'
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/PricingRate'
         cacheWrite:
-          $ref: '#/components/schemas/PricingRate'
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/PricingRate'
     PricingData:
       type: object
       properties:
         completion:
-          $ref: '#/components/schemas/PricingRate'
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/PricingRate'
         prompt:
-          $ref: '#/components/schemas/PricingRate'
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/PricingRate'
         unit:
           type: string
         cache_read:
-          $ref: '#/components/schemas/PricingRate'
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/PricingRate'
         cache_write:
-          $ref: '#/components/schemas/PricingRate'
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/PricingRate'
     PricingRate:
       type: object
       properties:
@@ -21216,6 +21239,9 @@ components:
           readOnly: true
         resource:
           type: string
+        discovery_url:
+          type: string
+          description: 'External services only (OAUTH): where DIAL Core reads OAuth metadata from to set up the client - an MCP server''s URL, an API''s URL that publishes protected resource metadata, or the authorization server''s issuer URL. Never a traffic target. Absolute http or https URL; required to register a client automatically.'
     ResourceAuthSettingsData:
       type: object
       properties:
