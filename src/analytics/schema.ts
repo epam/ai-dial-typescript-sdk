@@ -561,6 +561,26 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/pipelines/{name}/trial-input': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Read the input of the Enrichment Runner's dry run of an llm pipeline
+     * @description Runs every check and the sample `POST /v1/pipelines/{name}/preview` runs for the same body, under the caller's identity — the runner forwards the credential of the person who asked for the dry run — and returns that `preview`, the compiled `pipeline` it sampled through (for a disabled pipeline, as the gate derived it) and the `input_rows` the runner would receive with no value cap: the newest `limit` sampled rows of a row-grain pipeline, or the whole group of a `group` one as `/group-rows` assembles it, with `truncated`, read after the preview's member sample and so able to hold members ingested since. Writes nothing, advances no cursor, and is served for a disabled pipeline.
+     */
+    post: operations['fetchPipelineTrialInput'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/queries/entities': {
     parameters: {
       query?: never;
@@ -4134,6 +4154,43 @@ export interface components {
        */
       type?: string;
     };
+    TrialInputRequest: {
+      /**
+       * Format: date-time
+       * @description Exclusive lower bound on the input's version column (row-grain pipelines only)
+       * @example 2026-07-01T00:00:00Z
+       */
+      from?: string;
+      /**
+       * @description The group to try, for a `group`-triggered pipeline; without it the newest group is chosen, as the preview chooses it
+       * @example chat-42
+       */
+      group_key?: string;
+      /**
+       * Format: int32
+       * @description How many of the newest sampled rows to return, 1 to 5; 1 when omitted. Refused on a `group` pipeline, whose trial input is the whole group
+       * @example 1
+       */
+      limit?: number;
+      /**
+       * Format: date-time
+       * @description Inclusive upper bound on the input's version column (row-grain pipelines only)
+       * @example 2026-08-01T00:00:00Z
+       */
+      to?: string;
+    };
+    TrialInputResponse: {
+      /** @description The rows the runner would receive, with no value cap: the newest `limit` sampled rows keyed as a scan row, or the whole group as `/group-rows` returns it */
+      input_rows?: {
+        [key: string]: unknown;
+      }[];
+      /** @description The compiled projection of the declaration the sample was read through; for a disabled pipeline, as the gate derived it rather than as stored */
+      pipeline?: components['schemas']['PipelineDto'];
+      /** @description The response `POST /v1/pipelines/{name}/preview` gives for the same body, values capped */
+      preview?: components['schemas']['PreviewDto'];
+      /** @description Whether the group fetch's row or byte cap cut the group (`group` pipelines only) */
+      truncated?: boolean;
+    };
     TriggerRequest: {
       /**
        * @description Spring cron expression (6 fields, UTC); only valid with `schedule`. Required for an `aggregate` pipeline; an `enrich` pipeline that omits it runs every minute at a second derived from its name, and the resolved cron is stored and echoed
@@ -7109,7 +7166,7 @@ export interface operations {
       header: {
         /**
          * @description The ADAS <-> Enrichment Runner contract version the caller was built against, compared for equality. Absent -> 409 `runner_contract_required`; different -> 409 `runner_contract_mismatch`. Every `/v1/pipelines` response echoes the version this build serves in the same header, so a caller that sees no echo is talking to an ADAS older than the contract and must not act on what it read.
-         * @example 6
+         * @example 7
          */
         'Adas-Contract-Version': string;
       };
@@ -7214,7 +7271,7 @@ export interface operations {
       header: {
         /**
          * @description The ADAS <-> Enrichment Runner contract version the caller was built against, compared for equality. Absent -> 409 `runner_contract_required`; different -> 409 `runner_contract_mismatch`. Every `/v1/pipelines` response echoes the version this build serves in the same header, so a caller that sees no echo is talking to an ADAS older than the contract and must not act on what it read.
-         * @example 6
+         * @example 7
          */
         'Adas-Contract-Version': string;
       };
@@ -7610,7 +7667,7 @@ export interface operations {
       header: {
         /**
          * @description The ADAS <-> Enrichment Runner contract version the caller was built against, compared for equality. Absent -> 409 `runner_contract_required`; different -> 409 `runner_contract_mismatch`. Every `/v1/pipelines` response echoes the version this build serves in the same header, so a caller that sees no echo is talking to an ADAS older than the contract and must not act on what it read.
-         * @example 6
+         * @example 7
          */
         'Adas-Contract-Version': string;
       };
@@ -7715,7 +7772,7 @@ export interface operations {
       header: {
         /**
          * @description The ADAS <-> Enrichment Runner contract version the caller was built against, compared for equality. Absent -> 409 `runner_contract_required`; different -> 409 `runner_contract_mismatch`. Every `/v1/pipelines` response echoes the version this build serves in the same header, so a caller that sees no echo is talking to an ADAS older than the contract and must not act on what it read.
-         * @example 6
+         * @example 7
          */
         'Adas-Contract-Version': string;
       };
@@ -7786,6 +7843,111 @@ export interface operations {
         };
       };
       /** @description Unprocessable Content */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ErrorView'];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ErrorView'];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ErrorView'];
+        };
+      };
+    };
+  };
+  fetchPipelineTrialInput: {
+    parameters: {
+      query?: never;
+      header: {
+        /**
+         * @description The ADAS <-> Enrichment Runner contract version the caller was built against, compared for equality. Absent -> 409 `runner_contract_required`; different -> 409 `runner_contract_mismatch`. Every `/v1/pipelines` response echoes the version this build serves in the same header, so a caller that sees no echo is talking to an ADAS older than the contract and must not act on what it read.
+         * @example 7
+         */
+        'Adas-Contract-Version': string;
+      };
+      path: {
+        /** @description Pipeline name */
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        'application/json': components['schemas']['TrialInputRequest'];
+      };
+    };
+    responses: {
+      /** @description The preview, the declaration it sampled through, and the rows the runner would receive, uncapped */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['TrialInputResponse'];
+        };
+      };
+      /** @description A malformed body, or one carrying an unknown member (`bad_request`) */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ErrorView'];
+        };
+      };
+      /** @description As the preview: a column the caller may not read (`column_not_entitled`, `sensitive_column_not_entitled`), a row-confined caller (`row_policy_confined`), no `read` on the source or `write` on the target (`pipeline_access_denied`), or no `REGISTRY_ADMIN` (`forbidden`) */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ErrorView'];
+        };
+      };
+      /** @description No such pipeline (`unknown_pipeline`) */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ErrorView'];
+        };
+      };
+      /** @description Contract version missing (`runner_contract_required`) or not the one this build serves (`runner_contract_mismatch`); nothing was read, computed or written; or a conflict arming would also report (`pipeline_conflict`, `table_is_system`) */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ErrorView'];
+        };
+      };
+      /** @description Content Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ErrorView'];
+        };
+      };
+      /** @description The declaration would not arm; the pipeline calls no model (`aggregate`, or a `sql` transform); the body does not fit the pipeline (`limit` outside 1-5 or on a `group` pipeline, and the preview's own refusals) (`pipeline_validation_failed`); or a read exceeded the preview's budget (`pipeline_preview_budget_exceeded`) */
       422: {
         headers: {
           [name: string]: unknown;
