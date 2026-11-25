@@ -55,7 +55,7 @@ export interface paths {
     put?: never;
     /**
      * Export a catalog bundle (writes nothing)
-     * @description Returns a bundle file of the listed tables and pipelines with their dependency closure, computed in both directions; an empty or absent list exports every exportable object. System tables travel by name, as required system tables; OTLP landing tables and PENDING/FAILED tables are left out. Each table needs TABLE_GET, and one with sensitive columns the caller may not see is refused (403 `sensitive_column_not_entitled`), and one with a column a column policy hides from the caller is refused 403 `column_not_entitled`, checked across every bundle table first. Access (privileges, row policies and column policies) travels only with `include_access: true`, which requires TABLE_GRANT and covers system tables too: only what a PUT would accept now is carried, and an enrichment a column policy names joins the export.
+     * @description Returns a bundle file of the listed tables and pipelines with their dependency closure, computed in both directions; an empty or absent list exports every exportable object. System tables travel by name, as required system tables; OTLP landing tables and PENDING/FAILED tables are left out. Each selected table, and each table a selection's closure reaches, needs TABLE_GET (a pipeline exported with `dependencies: false` checks none of its tables), and a table the bundle carries with sensitive columns the caller may not see is refused (403 `sensitive_column_not_entitled`), and one with a column a column policy hides from the caller is refused 403 `column_not_entitled`, checked across every bundle table first. Access (privileges, row policies and column policies) travels only with `include_access: true`, which requires TABLE_GRANT and covers system tables too: only what a PUT would accept now is carried, and an enrichment a column policy names joins the export. Selectors narrow a component: `dependencies: false` exports a pipeline alone; `access_only: true` carries only a table's access, with no definition and nothing connected; `roles` carries only the listed roles' entries. A component another selected component's closure reaches travels as that closure decides.
      */
     post: operations['exportCatalog'];
     delete?: never;
@@ -1485,7 +1485,7 @@ export interface components {
       when?: components['schemas']['CaseBranch'][];
     });
     CatalogBundle: {
-      /** @description Present only when exported with include_access: table -> role -> entry, for every covered table, system tables included. Imported only with include_access=true */
+      /** @description Present only when exported with include_access: table -> role -> entry, for every covered table, system tables included. A key may name a table the bundle does not carry, which import then requires on the target. Imported only with include_access=true */
       access?: {
         [key: string]: {
           [key: string]: components['schemas']['BundleAccessEntry'];
@@ -1510,7 +1510,7 @@ export interface components {
       /** @description Pipelines */
       pipelines?: components['schemas']['BundlePipeline'][];
       /**
-       * @description System tables the bundle's objects depend on or whose access it carries, by name: import requires each to exist on the target and never creates one or changes its definition
+       * @description System tables, by name, that the carried closure reaches, that the selection names, or whose access the bundle carries; a pipeline exported with dependencies false brings none in. Import requires each to exist on the target and never creates one or changes its definition
        * @example [
        *       "dial_usage_log"
        *     ]
@@ -2101,11 +2101,17 @@ export interface components {
       status?: number;
     };
     ExportComponent: {
+      /** @description Table only, with include_access. True carries only the table's access entries: no definition, and nothing it depends on or that depends on it, unless another selected component's closure reaches it. Default false */
+      access_only?: boolean;
+      /** @description Pipeline only. False exports the pipeline alone, without its inputs, target or the enrichments it reads, unless another selected component's closure reaches it; import then needs each on the target. Default true */
+      dependencies?: boolean;
       /**
        * @description Table or pipeline name
        * @example usage_sentiment
        */
       name: string;
+      /** @description Table only, with include_access. Carries only these roles' entries of the table; absent carries every role's */
+      roles?: string[];
       /**
        * @description Object kind
        * @example table
@@ -2138,13 +2144,13 @@ export interface components {
       access?: components['schemas']['AccessItem'][];
       /** @description Tables and pipelines the bundle would carry, in dependency order */
       objects?: components['schemas']['ExportEntry'][];
-      /** @description System tables the bundle would require on the target by name, never carrying their definitions: those its objects depend on and, with include_access, those whose access it carries */
+      /** @description System tables the bundle would require on the target by name, never carrying their definitions: those the carried closure reaches or the selection names and, with include_access, those whose access it carries */
       required_system_tables?: components['schemas']['ExportEntry'][];
       /** @description Objects an export-everything leaves out */
       skipped?: components['schemas']['SkippedObject'][];
     };
     ExportRequest: {
-      /** @description Objects to export; empty or absent exports everything exportable. With include_access, a system table may be named to export its access */
+      /** @description Objects to export; empty or absent exports everything exportable. Each brings its dependency closure unless a selector narrows it: dependencies false on a pipeline, access_only or roles on a table. With include_access, a system table may be named to export its access */
       components?: components['schemas']['ExportComponent'][];
       /** @description Also carry every covered table's access entries (privileges, row and column policies), system tables included; requires TABLE_GRANT. Default false */
       include_access?: boolean;
