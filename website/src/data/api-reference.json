@@ -43997,7 +43997,9 @@
     "SDKRequestInit": "export interface SDKRequestInit<TBody = unknown> {\n  body?: TBody;\n  headers?: SDKHeaders;\n  params?: {\n    query?: Record<string, unknown>;\n    header?: Record<string, unknown>;\n    path?: Record<string, unknown>;\n    cookie?: Record<string, unknown>;\n  };\n  parseAs?: 'json' | 'text' | 'blob' | 'arrayBuffer' | 'stream';\n  [key: string]: unknown;\n}",
     "SDKOperationInit": "export type SDKOperationInit<TOperation> = Omit<\n  SDKRequestInit,\n  'body' | 'params'\n> &\n  SDKOperationParams<TOperation> &\n  SDKOperationBody<TOperation>;",
     "SDKOperationResponse": "export type SDKOperationResponse<TOperation> = SDKResponse<\n  OperationSuccessData<TOperation>,\n  OperationErrorData<TOperation>\n>;",
+    "SDKOperationTextResponse": "export type SDKOperationTextResponse<TOperation> = SDKResponse<\n  string,\n  OperationErrorData<TOperation>\n>;",
     "SDKOperationId": "export type SDKOperationId = keyof operations;",
+    "AnalyticsOperationId": "export type AnalyticsOperationId = keyof AnalyticsOperations;",
     "ConversationModelId": "export interface ConversationModelId {\n  /** Application/model unique identifier. */\n  id: string;\n  [key: string]: unknown;\n}",
     "ConversationMessageSettings": "export interface ConversationMessageSettings {\n  prompt: string;\n  temperature: number;\n  [key: string]: unknown;\n}",
     "ConversationMessage": "export interface ConversationMessage {\n  role: string;\n  content: string;\n  model?: ConversationModelId;\n  settings?: ConversationMessageSettings;\n  [key: string]: unknown;\n}",
@@ -44011,5 +44013,5 @@
     "ModelListData": "export interface ModelListData {\n  /** An array of models. */\n  data?: ModelData[];\n  [key: string]: unknown;\n}"
   },
   "sdkOptions": "export interface SDKOptions {\n  baseUrl: string;\n  apiKey?: string;\n  token?: string;\n  headers?: Record<string, string>;\n  fetch?: typeof fetch;\n}",
-  "sourceHash": "e30873195be31ba5c6b3a38551a5f636957076925acf0aa788b56dd4dcb548ee"
+  "sourceHash": "7cc83f5385bbc93f13be0de8d5a86ab3e604d39237549f9f01c4755453183f0f"
 }

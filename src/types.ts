@@ -1,13 +1,17 @@
+import type { operations as AnalyticsOperations } from './analytics/schema';
 import type { components, operations } from './schema';
 
 type SuccessStatus = 200 | 201 | 202 | 204;
 
 type UnknownIfNever<T> = [T] extends [never] ? unknown : T;
 
+// JSON body of a response. Falls back to `*/*`, springdoc's default media type for JSON bodies.
 type JsonContent<T> = T extends { content: infer TContent }
   ? TContent extends { 'application/json': infer TJson }
     ? TJson
-    : unknown
+    : TContent extends { '*/*': infer TAny }
+      ? TAny
+      : unknown
   : undefined;
 
 type OperationResponses<TOperation> = TOperation extends {
@@ -117,7 +121,15 @@ export type SDKOperationResponse<TOperation> = SDKResponse<
   OperationErrorData<TOperation>
 >;
 
+/** Response of an operation whose success body is plain text (e.g. CSV), read with `parseAs: 'text'`. */
+export type SDKOperationTextResponse<TOperation> = SDKResponse<
+  string,
+  OperationErrorData<TOperation>
+>;
+
 export type SDKOperationId = keyof operations;
+
+export type AnalyticsOperationId = keyof AnalyticsOperations;
 
 export interface ConversationModelId {
   /** Application/model unique identifier. */
