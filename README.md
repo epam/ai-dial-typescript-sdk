@@ -157,19 +157,19 @@ const analytics = createAnalyticsSDK({
   token: process.env.DIAL_TOKEN!,
 });
 
-const { data, error, response } = await analytics.executeSql({
+const usage = await analytics.executeSql({
   body: {
     sql: 'SELECT deployment, count(*) AS n FROM dial_usage_log GROUP BY deployment',
   },
 });
 
-if (!response.ok) {
-  throw new Error(`Analytics request failed: ${response.status}`, {
-    cause: error,
+if (!usage.response.ok) {
+  throw new Error(`Analytics request failed: ${usage.response.status}`, {
+    cause: usage.error,
   });
 }
 
-console.info(data?.rows);
+console.info(usage.data?.rows);
 ```
 
 `executeSqlCsv` and `executeQueryCsv` return the CSV as a string. The
