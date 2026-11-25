@@ -6502,7 +6502,7 @@ export interface components {
     UserInfoResponse: {
       /** @description List of user or API key authorization roles */
       roles?: string[];
-      /** @description Present only if authenticated via an API Key. Represents the target project scope. */
+      /** @description The caller's project. For API key authentication it is the key's project. For user-based session authentication it is present only when the identity provider's configured projectPath resolves a string claim. */
       project?: string;
       /** @description The user id as DIAL resolves it from the identity provider configuration (not necessarily the token's sub claim). Present only for user-based session authentication. Use this value as owner_user_id when retrieving credentials on behalf of the user. */
       userId?: string;
