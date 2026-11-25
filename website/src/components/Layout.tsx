@@ -6,6 +6,9 @@ import summary from '../data/sdk-summary.json';
 
 export const REPOSITORY = 'https://github.com/epam/ai-dial-typescript-sdk';
 
+const isReferencePath = (pathname: string) =>
+  /^\/(analytics\/)?api(\/|$)/.test(pathname);
+
 export function Brand() {
   return (
     <Link to="/" className="brand" aria-label="DIAL SDK home">
@@ -38,7 +41,8 @@ export function Layout() {
       pathname.replace(/\/+$/, '') === '/getting-started'
         ? 'Get started'
         : 'Your AI stack. Typed.';
-    if (!pathname.startsWith('/api')) document.title = `${title} — DIAL SDK`;
+    // Reference pages set their own title.
+    if (!isReferencePath(pathname)) document.title = `${title} — DIAL SDK`;
     return () => cancelAnimationFrame(frame);
   }, [pathname, hash]);
   return (
@@ -50,7 +54,12 @@ export function Layout() {
         <div className="container header-inner">
           <Brand />
           <nav className="desktop-nav" aria-label="Main navigation">
-            <NavLink to="/api">API reference</NavLink>
+            <NavLink
+              to="/api"
+              className={() => (isReferencePath(pathname) ? 'active' : '')}
+            >
+              API reference
+            </NavLink>
             <a
               href={REPOSITORY}
               className="icon-link"
@@ -95,6 +104,7 @@ export function Layout() {
             <Link to="/">Overview</Link>
             <Link to="/getting-started">Get started</Link>
             <Link to="/api">API reference</Link>
+            <Link to="/analytics/api">Analytics API reference</Link>
             <a href={REPOSITORY}>
               GitHub <ArrowUpRight size={16} />
             </a>

@@ -13,7 +13,13 @@ import { Link } from 'react-router-dom';
 
 import { CodeBlock, CopyButton } from '../components/CodeBlock';
 import { REPOSITORY } from '../components/Layout';
-import { customFetch, setup, snippets } from '../data/examples';
+import {
+  analyticsSetup,
+  analyticsSnippets,
+  customFetch,
+  setup,
+  snippets,
+} from '../data/examples';
 import summary from '../data/sdk-summary.json';
 
 const tabs = ['Chat', 'Embeddings', 'Resources'] as const;
@@ -159,7 +165,7 @@ export default function Home() {
       </section>
       <section className="facts container" aria-label="SDK facts">
         <div>
-          <strong>{summary.methodCount}</strong>
+          <strong>{summary.methodCount + summary.analytics.methodCount}</strong>
           <span>SDK methods</span>
         </div>
         <div>
@@ -263,7 +269,31 @@ export default function Home() {
             ))}
           </div>
           <Link to="/api" className="text-link section-link">
-            Browse all {summary.methodCount} methods <ArrowRight size={16} />
+            Browse all {summary.methodCount} DIAL Core methods{' '}
+            <ArrowRight size={16} />
+          </Link>
+        </div>
+      </section>
+      <section className="container story-section">
+        <CodeBlock
+          code={analyticsSnippets.Query}
+          label="DIAL Analytics · SQL over usage"
+          copyText={`${analyticsSetup}\n\n${analyticsSnippets.Query}`}
+        />
+        <div className="story-copy">
+          <h2>
+            Your usage data.
+            <br />
+            Typed too.
+          </h2>
+          <p>
+            <code>createAnalyticsSDK</code> connects to DIAL Analytics:
+            dashboards, saved queries, tables, pipelines and SQL over your DIAL
+            usage. Same options, same result shape.
+          </p>
+          <Link to="/analytics/api" className="text-link">
+            Browse all {summary.analytics.methodCount} DIAL Analytics methods{' '}
+            <ArrowRight size={16} />
           </Link>
         </div>
       </section>
@@ -300,8 +330,9 @@ export default function Home() {
           <details>
             <summary>Is this a client or a model runtime?</summary>
             <p>
-              A client for DIAL Core. You connect it to an existing DIAL
-              instance and use deployments available in that environment.
+              A client for DIAL Core, plus a second client for DIAL Analytics.
+              You connect them to an existing DIAL instance and use deployments
+              available in that environment.
             </p>
           </details>
           <details>

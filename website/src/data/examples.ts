@@ -68,6 +68,36 @@ if (!response.ok) {
   console.info(data);
 }`;
 
+export const analyticsSetup = `import { createAnalyticsSDK } from '@epam/ai-dial-typescript-sdk';
+
+const analytics = createAnalyticsSDK({
+  baseUrl: process.env.DIAL_ANALYTICS_URL!,
+  token: process.env.DIAL_TOKEN!,
+});`;
+
+export const analyticsSnippets = {
+  Query: `const result = await analytics.executeSql({
+  body: {
+    sql:
+      'SELECT deployment, count(*) AS n ' +
+      'FROM dial_usage_log GROUP BY deployment',
+  },
+});
+
+if (result.error !== undefined || !result.data) {
+  throw new Error(\`HTTP \${result.response.status}\`);
+}
+console.info(result.data.rows);`,
+  Csv: `const csv = await analytics.executeSqlCsv({
+  body: { sql: 'SELECT deployment FROM dial_usage_log LIMIT 10' },
+});
+
+if (!csv.response.ok) {
+  throw new Error(\`HTTP \${csv.response.status}\`);
+}
+console.info(csv.data); // the CSV text`,
+};
+
 export const customFetch = `const sdk = createSDK({
   baseUrl: 'https://dial.example.test',
   fetch: async () => new Response(

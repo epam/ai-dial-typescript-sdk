@@ -59,13 +59,27 @@ test('the exact website code examples compile against the SDK public exports', a
       module: ts.ModuleKind.ES2022,
     },
   }).outputText;
-  const { snippets, setup, customFetch, discover } = await import(
+  const {
+    snippets,
+    setup,
+    customFetch,
+    discover,
+    analyticsSetup,
+    analyticsSnippets,
+  } = await import(
     'data:text/javascript;base64,' + Buffer.from(compiled).toString('base64')
   );
   assertExamplesCompile(
     setup +
+      '\n' +
+      analyticsSetup +
       '\nconst apiVersion = "example-version";\n' +
-      Object.values({ ...snippets, discover, customFetch })
+      Object.values({
+        ...snippets,
+        discover,
+        customFetch,
+        ...analyticsSnippets,
+      })
         .map((code, index) => `async function example${index}() {\n${code}\n}`)
         .join('\n'),
   );

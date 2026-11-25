@@ -752,6 +752,29 @@ svg {
 .reference-top > span {
   font: var(--text-xs) var(--font-mono);
 }
+.reference-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-xl);
+}
+.client-switch {
+  display: flex;
+  gap: var(--space-lg);
+}
+.client-switch > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  border-bottom: 2px solid var(--color-transparent);
+  white-space: nowrap;
+}
+.client-switch > a[aria-current='page'] {
+  color: var(--color-ink);
+  border-bottom-color: var(--color-accent);
+}
 .reference-layout {
   display: grid;
   gap: var(--space-xl);
@@ -1098,6 +1121,7 @@ svg {
 .required,
 .optional,
 .deprecated,
+.preview,
 .location-label {
   font: 0.65rem var(--font-mono);
   color: var(--color-neutral);
@@ -1108,6 +1132,9 @@ svg {
 }
 .deprecated {
   color: var(--color-error);
+}
+.preview {
+  color: var(--color-accent);
 }
 .type-expression {
   font-size: 0.78rem;

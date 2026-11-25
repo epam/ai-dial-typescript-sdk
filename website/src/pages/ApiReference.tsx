@@ -12,12 +12,15 @@ import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { CodeBlock } from '../components/CodeBlock';
 import { REPOSITORY } from '../components/Layout';
 import { Markdown, schemaName, SchemaView } from '../components/SchemaView';
-import rawReference from '../data/api-reference.json';
-import type { ApiMethod, ApiReferenceData } from '../data/reference-types';
+import { clients } from '../data/clients';
+import type {
+  ApiMethod,
+  ApiReferenceData,
+  Schema,
+  SdkClient,
+} from '../data/reference-types';
 
-const reference = rawReference as unknown as ApiReferenceData;
 const PAGE_SIZE = 20;
-const verbs = [...new Set(reference.methods.map((m) => m.httpMethod))].sort();
 
 function HttpBadge({ verb }: { verb: string }) {
   return (
@@ -25,7 +28,34 @@ function HttpBadge({ verb }: { verb: string }) {
   );
 }
 
-function MethodDetail({ method }: { method: ApiMethod }) {
+function PreviewBadge() {
+  return <span className="preview">Preview</span>;
+}
+
+function ClientSwitch({ active }: { active: SdkClient }) {
+  return (
+    <nav className="client-switch" aria-label="SDK clients">
+      {(Object.keys(clients) as SdkClient[]).map((key) => (
+        <Link
+          key={key}
+          to={clients[key].basePath}
+          aria-current={key === active ? 'page' : undefined}
+        >
+          {clients[key].label}
+        </Link>
+      ))}
+    </nav>
+  );
+}
+
+function MethodDetail({
+  method,
+  reference,
+}: {
+  method: ApiMethod;
+  reference: ApiReferenceData;
+}) {
+  const { basePath, label } = clients[reference.client];
   const specialTypes =
     method.name === 'saveConversation'
       ? [
@@ -41,7 +71,7 @@ function MethodDetail({ method }: { method: ApiMethod }) {
     <article className="method-detail">
       <Link
         className="back-link"
-        to={`/api?category=${encodeURIComponent(method.category)}`}
+        to={`${basePath}?category=${encodeURIComponent(method.category)}`}
       >
         <ArrowLeft size={16} />
         {method.category}
@@ -49,8 +79,15 @@ function MethodDetail({ method }: { method: ApiMethod }) {
       <div className="method-title">
         <h1>{method.name}</h1>
         {method.deprecated && <span className="deprecated">Deprecated</span>}
+        {method.preview && <PreviewBadge />}
       </div>
       <p className="method-summary">{method.summary}</p>
+      {method.preview && (
+        <p className="annotation">
+          Preview: this endpoint is still under development in {label} and may
+          change.
+        </p>
+      )}
       <div className="endpoint">
         <HttpBadge verb={method.httpMethod} />
         <code>{method.endpoint}</code>
@@ -58,7 +95,9 @@ function MethodDetail({ method }: { method: ApiMethod }) {
       {method.description && <Markdown>{method.description}</Markdown>}
       <div className="method-source">
         <span>{method.category}</span>
-        <a href={`${REPOSITORY}/blob/HEAD/src/client.ts#L${method.sourceLine}`}>
+        <a
+          href={`${REPOSITORY}/blob/HEAD/${reference.sourceFile}#L${method.sourceLine}`}
+        >
           View SDK source <ArrowUpRight size={14} />
         </a>
       </div>
@@ -223,41 +262,47 @@ function MethodDetail({ method }: { method: ApiMethod }) {
         <CodeBlock
           label="JSON · reference definitions"
           code={JSON.stringify(
-            { method, schemas: collectSchemas(method) },
+            { method, schemas: collectSchemas(method, reference.schemas) },
             null,
             2,
           )}
         />
       </details>
       <aside className="docs-note">
-        Descriptions and schemas come from the repository’s OpenAPI contract.
-        Exact signatures come from <code>DIAL_SDK</code>. Availability depends
-        on your DIAL instance and permissions.
+        Descriptions and schemas come from the repository’s {label} OpenAPI
+        contract. Exact signatures come from{' '}
+        <code>{reference.interfaceName}</code>. Availability depends on your
+        DIAL instance and permissions.
       </aside>
     </article>
   );
 }
 
-function collectSchemas(method: ApiMethod) {
+function collectSchemas(method: ApiMethod, schemas: Record<string, Schema>) {
   const names = new Set<string>();
   function visit(value: unknown) {
     if (!value || typeof value !== 'object') return;
     if ('$ref' in value && typeof value.$ref === 'string') {
       const name = value.$ref.split('/').at(-1)!;
-      if (!names.has(name) && reference.schemas[name]) {
+      if (!names.has(name) && schemas[name]) {
         names.add(name);
-        visit(reference.schemas[name]);
+        visit(schemas[name]);
       }
     }
     Object.values(value).forEach(visit);
   }
   visit(method);
   return Object.fromEntries(
-    [...names].sort().map((name) => [name, reference.schemas[name]]),
+    [...names].sort().map((name) => [name, schemas[name]]),
   );
 }
 
-export default function ApiReference() {
+export default function ApiReference({
+  reference,
+}: {
+  reference: ApiReferenceData;
+}) {
+  const { basePath, label } = clients[reference.client];
   const { methodName } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('q') ?? '';
@@ -267,6 +312,10 @@ export default function ApiReference() {
   const resultsHeading = useRef<HTMLDivElement>(null);
   const [categoriesOpen, setCategoriesOpen] = useState(
     () => window.matchMedia('(min-width: 60rem)').matches,
+  );
+  const verbs = useMemo(
+    () => [...new Set(reference.methods.map((m) => m.httpMethod))].sort(),
+    [reference],
   );
   const filtered = useMemo(
     () =>
@@ -278,7 +327,7 @@ export default function ApiReference() {
             .toLowerCase()
             .includes(query.toLowerCase().trim()),
       ),
-    [query, category, verb],
+    [reference, query, category, verb],
   );
   const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const pageNumber = Math.min(
@@ -294,7 +343,7 @@ export default function ApiReference() {
           reference.methods.filter((m) => m.category === name).length,
         ]),
       ),
-    [],
+    [reference],
   );
   useEffect(() => {
     const desktop = window.matchMedia('(min-width: 60rem)');
@@ -313,8 +362,10 @@ export default function ApiReference() {
     return () => document.removeEventListener('keydown', onKey);
   }, []);
   useEffect(() => {
-    document.title = `${method ? `${method.name} — ` : ''}API reference — DIAL SDK`;
-  }, [method]);
+    const page =
+      reference.client === 'core' ? 'API reference' : `${label} API reference`;
+    document.title = `${method ? `${method.name} — ` : ''}${page} — DIAL SDK`;
+  }, [method, reference, label]);
   function update(key: string, value: string) {
     setSearchParams(
       (current) => {
@@ -341,9 +392,12 @@ export default function ApiReference() {
   return (
     <div className="container reference-page">
       <div className="reference-top">
-        <Link to="/api" className="reference-wordmark">
-          API reference
-        </Link>
+        <div className="reference-heading">
+          <Link to={basePath} className="reference-wordmark">
+            API reference
+          </Link>
+          <ClientSwitch active={reference.client} />
+        </div>
         <span>
           v{reference.version}{' '}
           <span className="subtle">/ {reference.methodCount} methods</span>
@@ -367,7 +421,7 @@ export default function ApiReference() {
                     ? 'category-link active'
                     : 'category-link'
                 }
-                to="/api"
+                to={basePath}
               >
                 <span>All methods</span>
                 <span>{reference.methodCount}</span>
@@ -379,7 +433,7 @@ export default function ApiReference() {
                       ? 'category-link active'
                       : 'category-link'
                   }
-                  to={`/api?category=${encodeURIComponent(name)}`}
+                  to={`${basePath}?category=${encodeURIComponent(name)}`}
                   key={name}
                 >
                   <span>{name}</span>
@@ -392,15 +446,20 @@ export default function ApiReference() {
         <div className="reference-main">
           {methodName ? (
             method ? (
-              <MethodDetail key={methodName} method={method} />
+              <MethodDetail
+                key={methodName}
+                method={method}
+                reference={reference}
+              />
             ) : (
               <div className="empty-state">
                 <Search size={32} />
                 <h1>Method not found.</h1>
                 <p>
-                  <code>{methodName}</code> is not in the current SDK interface.
+                  <code>{methodName}</code> is not in the current{' '}
+                  <code>{reference.interfaceName}</code> interface.
                 </p>
-                <Link to="/api" className="button">
+                <Link to={basePath} className="button">
                   Browse all methods
                 </Link>
               </div>
@@ -410,8 +469,8 @@ export default function ApiReference() {
               <div className="reference-intro">
                 <h1>Find your next call.</h1>
                 <p>
-                  Every SDK method. The parameters, payloads and responses
-                  behind it.
+                  Every {label} method in the SDK. The parameters, payloads and
+                  responses behind it.
                 </p>
               </div>
               <div className="reference-tools">
@@ -482,7 +541,7 @@ export default function ApiReference() {
                       )
                       .map((item) => (
                         <Link
-                          to={`/api/${item.name}`}
+                          to={`${basePath}/${item.name}`}
                           key={item.name}
                           className="method-row"
                         >
@@ -493,6 +552,7 @@ export default function ApiReference() {
                               {item.deprecated && (
                                 <span className="deprecated">Deprecated</span>
                               )}
+                              {item.preview && <PreviewBadge />}
                             </div>
                             <p>{item.summary}</p>
                             <span className="method-category">
@@ -540,16 +600,24 @@ export default function ApiReference() {
                 </div>
               )}
               <details className="sdk-options">
-                <summary>Client configuration · createSDK</summary>
+                <summary>Client configuration · {reference.factory}</summary>
                 <p>
                   Shared connection and transport settings for every method.
                 </p>
                 <CodeBlock code={reference.sdkOptions} label="SDKOptions" />
-                <Link to="/getting-started">Read the setup guide →</Link>
+                <Link
+                  to={
+                    reference.client === 'core'
+                      ? '/getting-started'
+                      : `/getting-started#${reference.client}`
+                  }
+                >
+                  Read the setup guide →
+                </Link>
               </details>
               <p className="reference-provenance">
-                Generated from the SDK interface and DIAL OpenAPI.{' '}
-                <a href={`${REPOSITORY}/blob/HEAD/open_api_core.yaml`}>
+                Generated from the SDK interface and {label} OpenAPI.{' '}
+                <a href={`${REPOSITORY}/blob/HEAD/${reference.contractFile}`}>
                   View the contract <ArrowUpRight size={13} />
                 </a>
               </p>

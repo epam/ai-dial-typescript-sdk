@@ -18,8 +18,11 @@ Open the local URL printed by Vite. Routes:
 
 - `/` — marketing landing page with copyable SDK examples.
 - `/getting-started` — installation, configuration and first requests.
-- `/api` — all SDK methods, with search, category and HTTP filters.
+- `/api` — all DIAL Core methods (`createSDK`), with search, category and HTTP filters.
 - `/api/:methodName` — signatures, parameters, request/response schemas and source links.
+- `/analytics/api` and `/analytics/api/:methodName` — the same for DIAL Analytics
+  (`createAnalyticsSDK`). Methods marked `x-preview` in either contract show a
+  Preview badge.
 
 Examples are illustrative. They require your DIAL instance, credentials,
 deployment names and a supported API version. The site never sends API calls
@@ -34,7 +37,7 @@ npm run docs:check
 npm run docs:test
 ```
 
-`scripts/generate-api-docs.mjs` reads:
+`scripts/generate-api-docs.mjs` builds one reference per client. For DIAL Core it reads:
 
 - `src/client.ts`: every public `DIAL_SDK` method, exact arguments and return type.
 - `open_api_core.yaml`: endpoints, categories, descriptions, parameters and schemas.
@@ -42,7 +45,13 @@ npm run docs:test
 - `src/types.ts`: public helper types, including conversation overrides.
 - `package.json`: the SDK name, version and license.
 
-It writes deterministic JSON in `website/src/data/`. No timestamps or model calls
+For DIAL Analytics it reads `src/analytics/client.ts` (`DIAL_ANALYTICS_SDK`),
+`open_api_analytics.json` and `src/analytics/schema.ts` instead, plus `SDKOptions`
+from `src/client.ts`.
+
+It writes deterministic JSON in `website/src/data/`: `api-reference.json` (Core),
+`analytics-reference.json` (Analytics) and `sdk-summary.json`. Each client keeps
+its own schemas, and the site loads each reference as a separate chunk. No timestamps or model calls
 are used. Descriptions come from OpenAPI; missing summaries use a readable
 method name, with curated summaries for common operations. The script fails
 when a public method lacks a matching OpenAPI operation. `--check` exits nonzero

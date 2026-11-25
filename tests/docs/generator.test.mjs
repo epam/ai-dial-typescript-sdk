@@ -78,9 +78,36 @@ export interface DIAL_SDK {
   types: 'export interface Item { name: string; }',
   packageJson: { name: 'sdk', version: '1', license: 'Apache-2.0' },
 };
+// A second client whose module imports `SDKOptions` instead of declaring it.
+const analyticsFixture = {
+  client: `import type { SDKOptions } from '../client';
+export interface DIAL_ANALYTICS_SDK {
+  runQuery: (init: SDKOperationInit<operations['runQuery']>) => Promise<SDKOperationTextResponse<operations['runQuery']>>;
+}`,
+  openapi: {
+    paths: {
+      '/v1/queries/run': {
+        post: {
+          operationId: 'runQuery',
+          tags: ['Queries'],
+          summary: 'Run a query',
+          'x-preview': true,
+          responses: {
+            200: {
+              description: 'CSV',
+              content: { 'text/csv': { schema: { type: 'string' } } },
+            },
+          },
+        },
+      },
+    },
+    components: { schemas: {} },
+  },
+  schema: 'export interface components { schemas: {} }',
+};
 
 test('real repository: every SDK method has exactly one documented operation', () => {
-  const data = generateReference(root, true);
+  const { core: data, analytics } = generateReference(root, true);
   const names = parseMethods(
     readFileSync(path.join(root, 'src/client.ts'), 'utf8'),
   ).map((m) => m.name);
@@ -88,6 +115,33 @@ test('real repository: every SDK method has exactly one documented operation', (
     data.methods.map((m) => m.name),
     names,
   );
+  const analyticsNames = parseMethods(
+    readFileSync(path.join(root, 'src/analytics/client.ts'), 'utf8'),
+    'DIAL_ANALYTICS_SDK',
+  ).map((m) => m.name);
+  assert.deepEqual(
+    analytics.methods.map((m) => m.name),
+    analyticsNames,
+  );
+  assert.ok(analytics.methodCount > 50);
+  assert.equal(analytics.factory, 'createAnalyticsSDK');
+  assert.equal(analytics.sourceFile, 'src/analytics/client.ts');
+  assert.equal(analytics.sdkOptions, data.sdkOptions);
+  const csv = analytics.methods.find((m) => m.name === 'executeSqlCsv');
+  assert.match(csv.signature, /^analytics\.executeSqlCsv\(/);
+  assert.match(csv.returnType, /SDKOperationTextResponse/);
+  assert.equal(csv.preview, true);
+  assert.ok(
+    analytics.methods
+      .filter((m) => m.endpoint.startsWith('/v1/queries/'))
+      .every((m) => m.preview),
+  );
+  assert.equal(
+    analytics.methods.find((m) => m.name === 'listDashboards').preview,
+    false,
+  );
+  // Each client keeps its own schemas, so same-named schemas do not collide.
+  assert.ok(analytics.schemas.JsonNode && data.schemas.JsonNode);
   assert.ok(data.methodCount > 100);
   assert.ok(
     data.methods.every(
@@ -118,6 +172,30 @@ test('merges path parameters, honors operation overrides and resolves response r
   assert.equal(data.methods[0].responses[0].description, 'Found');
   assert.deepEqual(data.schemas.Item['x-typescript-required'], ['name']);
   assert.match(data.methods[0].signature, /init\?: SDKRequestInit/);
+});
+
+test('a second client uses its own interface and variable, options from Core, and x-preview', () => {
+  const data = buildReference({
+    ...analyticsFixture,
+    types: fixture.types,
+    packageJson: fixture.packageJson,
+    interfaceName: 'DIAL_ANALYTICS_SDK',
+    variable: 'analytics',
+    optionsClient: fixture.client,
+  });
+  assert.equal(data.methodCount, 1);
+  assert.match(data.methods[0].signature, /^analytics\.runQuery\(init: /);
+  assert.equal(data.methods[0].preview, true);
+  assert.equal(data.methods[0].category, 'Queries');
+  assert.equal(
+    data.sdkOptions,
+    'export interface SDKOptions { baseUrl: string; }',
+  );
+  assert.equal(buildReference(fixture).methods[0].preview, false);
+  assert.throws(
+    () => buildReference({ ...fixture, ...analyticsFixture }),
+    /DIAL_SDK interface was not found/,
+  );
 });
 
 test('method drift and duplicate operation IDs fail instead of silently dropping docs', () => {
@@ -163,6 +241,19 @@ test('generation is deterministic and --check detects stale descriptions', () =>
       path.join(dir, 'open_api_core.yaml'),
       YAML.stringify(fixture.openapi),
     );
+    mkdirSync(path.join(dir, 'src/analytics'));
+    writeFileSync(
+      path.join(dir, 'src/analytics/client.ts'),
+      analyticsFixture.client,
+    );
+    writeFileSync(
+      path.join(dir, 'src/analytics/schema.ts'),
+      analyticsFixture.schema,
+    );
+    writeFileSync(
+      path.join(dir, 'open_api_analytics.json'),
+      JSON.stringify(analyticsFixture.openapi),
+    );
     generateReference(dir);
     const first = readFileSync(
       path.join(dir, 'website/src/data/api-reference.json'),
@@ -191,6 +282,34 @@ test('generation is deterministic and --check detects stale descriptions', () =>
         'utf8',
       ),
       /A new description/,
+    );
+    const analyticsChanged = structuredClone(analyticsFixture.openapi);
+    analyticsChanged.paths['/v1/queries/run'].post.description =
+      'A new analytics description';
+    writeFileSync(
+      path.join(dir, 'open_api_analytics.json'),
+      JSON.stringify(analyticsChanged),
+    );
+    assert.throws(
+      () => generateReference(dir, true),
+      /analytics-reference\.json is stale/,
+    );
+    generateReference(dir);
+    assert.match(
+      readFileSync(
+        path.join(dir, 'website/src/data/analytics-reference.json'),
+        'utf8',
+      ),
+      /A new analytics description/,
+    );
+    assert.equal(
+      JSON.parse(
+        readFileSync(
+          path.join(dir, 'website/src/data/sdk-summary.json'),
+          'utf8',
+        ),
+      ).analytics.methodCount,
+      1,
     );
   } finally {
     rmSync(dir, { recursive: true, force: true });

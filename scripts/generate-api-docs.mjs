@@ -18,13 +18,45 @@ const HTTP = new Set([
   'options',
   'trace',
 ]);
-const INPUTS = [
-  'open_api_core.yaml',
-  'src/client.ts',
-  'src/schema.ts',
-  'src/types.ts',
-  'package.json',
-];
+/**
+ * One reference per SDK client. `inputs` lists the files hashed into `sourceHash`, in order.
+ * `SDKOptions` is always read from the Core client module; it is not hashed for Analytics, so a
+ * Core-only change does not touch the Analytics reference (`--check` still compares the content).
+ */
+export const CLIENTS = {
+  core: {
+    output: 'api-reference.json',
+    interfaceName: 'DIAL_SDK',
+    factory: 'createSDK',
+    variable: 'sdk',
+    sourceFile: 'src/client.ts',
+    contractFile: 'open_api_core.yaml',
+    schemaFile: 'src/schema.ts',
+    inputs: [
+      'open_api_core.yaml',
+      'src/client.ts',
+      'src/schema.ts',
+      'src/types.ts',
+      'package.json',
+    ],
+  },
+  analytics: {
+    output: 'analytics-reference.json',
+    interfaceName: 'DIAL_ANALYTICS_SDK',
+    factory: 'createAnalyticsSDK',
+    variable: 'analytics',
+    sourceFile: 'src/analytics/client.ts',
+    contractFile: 'open_api_analytics.json',
+    schemaFile: 'src/analytics/schema.ts',
+    inputs: [
+      'open_api_analytics.json',
+      'src/analytics/client.ts',
+      'src/analytics/schema.ts',
+      'src/types.ts',
+      'package.json',
+    ],
+  },
+};
 const clean = (text = '') => text.replace(/\r\n/g, '\n').trim();
 const titleCase = (name) =>
   name
@@ -64,13 +96,18 @@ function parseSource(text, name) {
   );
 }
 
-export function parseMethods(text) {
+export function parseMethods(
+  text,
+  interfaceName = 'DIAL_SDK',
+  variable = 'sdk',
+) {
   const source = parseSource(text, 'client.ts');
   const declaration = source.statements.find(
-    (node) => ts.isInterfaceDeclaration(node) && node.name.text === 'DIAL_SDK',
+    (node) =>
+      ts.isInterfaceDeclaration(node) && node.name.text === interfaceName,
   );
   if (!declaration)
-    throw new Error('DIAL_SDK interface was not found in src/client.ts');
+    throw new Error(`${interfaceName} interface was not found in the client`);
   const methods = declaration.members.map((member) => {
     if (
       !ts.isPropertySignature(member) ||
@@ -88,7 +125,7 @@ export function parseMethods(text) {
     return {
       name,
       arguments: args,
-      signature: `sdk.${name}(${args.map((arg) => `${arg.name}${arg.required ? '' : '?'}: ${arg.type}`).join(', ')})`,
+      signature: `${variable}.${name}(${args.map((arg) => `${arg.name}${arg.required ? '' : '?'}: ${arg.type}`).join(', ')})`,
       returnType: member.type.type.getText(source).replace(/\s+/g, ' '),
       sourceLine:
         source.getLineAndCharacterOfPosition(member.getStart(source)).line + 1,
@@ -157,8 +194,11 @@ export function buildReference({
   schema,
   types,
   packageJson,
+  interfaceName = 'DIAL_SDK',
+  variable = 'sdk',
+  optionsClient = client,
 }) {
-  const methods = parseMethods(client);
+  const methods = parseMethods(client, interfaceName, variable);
   const operations = new Map();
   for (const [endpoint, rawItem] of Object.entries(openapi.paths ?? {})) {
     const item = resolveRef(openapi, rawItem);
@@ -219,6 +259,7 @@ export function buildReference({
       endpoint,
       httpMethod: verb,
       deprecated: operation.deprecated === true,
+      preview: operation['x-preview'] === true,
       parameters: [...parameters.values()],
       requestBody: request
         ? {
@@ -260,7 +301,7 @@ export function buildReference({
       },
     ]),
   );
-  const optionSource = parseSource(client, 'client.ts');
+  const optionSource = parseSource(optionsClient, 'client.ts');
   const options = optionSource.statements.find(
     (n) => ts.isInterfaceDeclaration(n) && n.name.text === 'SDKOptions',
   );
@@ -278,33 +319,65 @@ export function buildReference({
   };
 }
 
-export function generateReference(root = REPO, check = false) {
+function referenceFor(root, key) {
+  const config = CLIENTS[key];
   const inputs = Object.fromEntries(
-    INPUTS.map((file) => [
+    config.inputs.map((file) => [
       file,
       fs.readFileSync(path.join(root, file), 'utf8'),
     ]),
   );
+  const contract = inputs[config.contractFile];
   const reference = buildReference({
-    client: inputs['src/client.ts'],
-    openapi: YAML.parse(inputs['open_api_core.yaml']),
-    schema: inputs['src/schema.ts'],
+    client: inputs[config.sourceFile],
+    openapi: config.contractFile.endsWith('.json')
+      ? JSON.parse(contract)
+      : YAML.parse(contract),
+    schema: inputs[config.schemaFile],
     types: inputs['src/types.ts'],
     packageJson: JSON.parse(inputs['package.json']),
+    interfaceName: config.interfaceName,
+    variable: config.variable,
+    optionsClient: fs.readFileSync(
+      path.join(root, CLIENTS.core.sourceFile),
+      'utf8',
+    ),
   });
   const sourceHash = createHash('sha256')
-    .update(INPUTS.map((f) => f + '\n' + inputs[f]).join('\n'))
+    .update(config.inputs.map((f) => f + '\n' + inputs[f]).join('\n'))
     .digest('hex');
-  const data = { ...reference, sourceHash };
-  const summary = {
-    packageName: data.packageName,
-    version: data.version,
-    license: data.license,
-    runtimeDependencyCount: data.runtimeDependencyCount,
-    methodCount: data.methodCount,
-    categories: data.categories,
+  return {
+    client: key,
+    interfaceName: config.interfaceName,
+    factory: config.factory,
+    sourceFile: config.sourceFile,
+    contractFile: config.contractFile,
+    ...reference,
+    sourceHash,
   };
-  const outputs = { 'api-reference.json': data, 'sdk-summary.json': summary };
+}
+
+/** Writes (or with `check`, verifies) the Core and Analytics references and the site summary. */
+export function generateReference(root = REPO, check = false) {
+  const core = referenceFor(root, 'core');
+  const analytics = referenceFor(root, 'analytics');
+  const summary = {
+    packageName: core.packageName,
+    version: core.version,
+    license: core.license,
+    runtimeDependencyCount: core.runtimeDependencyCount,
+    methodCount: core.methodCount,
+    categories: core.categories,
+    analytics: {
+      methodCount: analytics.methodCount,
+      categories: analytics.categories,
+    },
+  };
+  const outputs = {
+    [CLIENTS.core.output]: core,
+    [CLIENTS.analytics.output]: analytics,
+    'sdk-summary.json': summary,
+  };
   for (const [name, value] of Object.entries(outputs)) {
     const target = path.join(root, 'website/src/data', name);
     const serialized = JSON.stringify(value, null, 2) + '\n';
@@ -325,7 +398,7 @@ export function generateReference(root = REPO, check = false) {
       fs.writeFileSync(target, serialized);
     }
   }
-  return data;
+  return { core, analytics };
 }
 
 if (
@@ -333,9 +406,12 @@ if (
   path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 ) {
   try {
-    const data = generateReference(REPO, process.argv.includes('--check'));
+    const { core, analytics } = generateReference(
+      REPO,
+      process.argv.includes('--check'),
+    );
     console.info(
-      `${process.argv.includes('--check') ? 'Verified' : 'Generated'} API reference: ${data.methodCount} methods, ${data.categories.length} categories.`,
+      `${process.argv.includes('--check') ? 'Verified' : 'Generated'} API reference: ${core.methodCount} Core methods in ${core.categories.length} categories, ${analytics.methodCount} Analytics methods in ${analytics.categories.length} categories.`,
     );
   } catch (error) {
     console.error(error.message);

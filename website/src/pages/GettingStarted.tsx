@@ -2,7 +2,14 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { CodeBlock } from '../components/CodeBlock';
-import { customFetch, discover, setup, snippets } from '../data/examples';
+import {
+  analyticsSetup,
+  analyticsSnippets,
+  customFetch,
+  discover,
+  setup,
+  snippets,
+} from '../data/examples';
 
 export default function GettingStarted() {
   return (
@@ -23,6 +30,7 @@ export default function GettingStarted() {
           <a href="#request">Send a request</a>
           <a href="#errors">Handle errors</a>
           <a href="#custom-fetch">Custom fetch</a>
+          <a href="#analytics">DIAL Analytics</a>
         </aside>
         <div className="guide-content">
           <section id="install">
@@ -100,6 +108,27 @@ export default function GettingStarted() {
               application-specific policies.
             </p>
             <CodeBlock code={customFetch} />
+          </section>
+          <section id="analytics">
+            <h2>Query DIAL Analytics</h2>
+            <p>
+              <code>createAnalyticsSDK</code> is a second client, for DIAL
+              Analytics: dashboards, saved queries, tables, pipelines and SQL
+              over your DIAL usage. It takes the same options as{' '}
+              <code>createSDK</code>. Set <code>DIAL_ANALYTICS_URL</code> to
+              your DIAL Analytics address.
+            </p>
+            <CodeBlock code={analyticsSetup} />
+            <CodeBlock code={analyticsSnippets.Query} />
+            <p>
+              The CSV variants return the body as a string, so there is no{' '}
+              <code>parseAs</code> to set. The SQL and query methods are a
+              preview in DIAL Analytics and may change.
+            </p>
+            <CodeBlock code={analyticsSnippets.Csv} />
+            <Link to="/analytics/api" className="text-link">
+              DIAL Analytics reference <ArrowRight size={16} />
+            </Link>
           </section>
           <div className="guide-next">
             <h2>Find your next method.</h2>
