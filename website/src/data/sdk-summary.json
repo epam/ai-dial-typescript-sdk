@@ -45,5 +45,22 @@
     "Toolsets",
     "Translators",
     "User Consent"
-  ]
+  ],
+  "analytics": {
+    "methodCount": 61,
+    "categories": [
+      "Audit trail",
+      "Catalog transfer",
+      "Dashboards",
+      "Data-sync backfill",
+      "Data-sync failures",
+      "OTLP sinks",
+      "Pipelines",
+      "Queries",
+      "Saved queries",
+      "Settings",
+      "Table access",
+      "Tables"
+    ]
+  }
 }

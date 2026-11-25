@@ -81,7 +81,9 @@ git status --porcelain
 ```
 
 Expect changes limited to: `open_api_core.yaml`, `openapi.bundle.yaml`, `src/schema.ts`,
-`src/api-paths.ts`, `src/client.ts` (and possibly `package-lock.json`/`dist/*` only if something
+`src/api-paths.ts`, `src/client.ts`, and the website's Core reference that `npm run gen`
+refreshes: `website/src/data/api-reference.json`, plus `website/src/data/sdk-summary.json` if the
+method count or categories changed (and possibly `package-lock.json`/`dist/*` only if something
 else in the working tree was already dirty — if unrelated files show up, flag it rather than
 silently shipping them).
 
@@ -93,7 +95,7 @@ directly in this run** — do not try to invoke it via the Skill tool or a slash
 
 - Base branch: `development` (per git-ship's default).
 - Stage only the files identified in Step 5 (`git add open_api_core.yaml openapi.bundle.yaml
-src/schema.ts src/api-paths.ts src/client.ts`), not `git add .`.
+src/schema.ts src/api-paths.ts src/client.ts website/src/data/api-reference.json`), not `git add .`.
 - Let git-ship's own diff analysis pick the commit type — a pure spec sync with no new
   endpoints/fields is typically `chore: sync open_api_core.yaml from ai-dial-core`; if the diff
   shows new endpoints/operations/schema fields, `feat: …` is more accurate. Don't hardcode it here.

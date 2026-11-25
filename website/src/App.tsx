@@ -4,7 +4,9 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import Home from './pages/Home';
 
-const ApiReference = lazy(() => import('./pages/ApiReference'));
+// Each client's reference data loads as its own chunk.
+const CoreReference = lazy(() => import('./pages/CoreReference'));
+const AnalyticsReference = lazy(() => import('./pages/AnalyticsReference'));
 const GettingStarted = lazy(() => import('./pages/GettingStarted'));
 
 export default function App() {
@@ -21,8 +23,13 @@ export default function App() {
           <Route element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="getting-started" element={<GettingStarted />} />
-            <Route path="api" element={<ApiReference />} />
-            <Route path="api/:methodName" element={<ApiReference />} />
+            <Route path="api" element={<CoreReference />} />
+            <Route path="api/:methodName" element={<CoreReference />} />
+            <Route path="analytics/api" element={<AnalyticsReference />} />
+            <Route
+              path="analytics/api/:methodName"
+              element={<AnalyticsReference />}
+            />
             <Route
               path="*"
               element={

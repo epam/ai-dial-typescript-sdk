@@ -31,6 +31,8 @@ export interface ApiMethod {
   endpoint: string;
   httpMethod: string;
   deprecated: boolean;
+  /** `x-preview: true` in the contract: the endpoint is still under development. */
+  preview: boolean;
   sourceLine: number;
   signature: string;
   returnType: string;
@@ -55,7 +57,13 @@ export interface ApiMethod {
     headers: { name: string; description: string; schema: Schema }[];
   }[];
 }
+export type SdkClient = 'core' | 'analytics';
 export interface ApiReferenceData {
+  client: SdkClient;
+  interfaceName: string;
+  factory: string;
+  sourceFile: string;
+  contractFile: string;
   packageName: string;
   version: string;
   license: string;

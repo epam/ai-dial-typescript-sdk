@@ -121,11 +121,12 @@ Expect changes limited to:
 
 - `open_api_analytics.json`
 - `src/analytics/schema.ts`, `src/analytics/api-paths.ts`, `src/analytics/client.ts`
-- `website/src/data/api-reference.json` and `website/src/data/sdk-summary.json`, but only once the
-  website documents the Analytics client (epam/ai-dial-typescript-sdk#75)
+- `website/src/data/analytics-reference.json`, the website's Analytics reference
+- `website/src/data/sdk-summary.json`, only if the Analytics method count or categories changed
 
 If a Core file changed (`open_api_core.yaml`, `openapi.bundle.yaml`, `src/schema.ts`,
-`src/api-paths.ts`, `src/client.ts`) or anything else shows up, **stop and report it**. It means the
+`src/api-paths.ts`, `src/client.ts`, `website/src/data/api-reference.json`) or anything else shows
+up, **stop and report it**. It means the
 generator or the Core contract drifted from what is committed, and that does not belong in an
 Analytics sync PR.
 
@@ -150,7 +151,7 @@ directly in this run**. Do not try to invoke it through the Skill tool or a slas
 
 - Base branch: `development` (git-ship's default).
 - Stage only the files confirmed in Step 6 (for example,
-  `git add open_api_analytics.json src/analytics/schema.ts src/analytics/api-paths.ts src/analytics/client.ts`),
+  `git add open_api_analytics.json src/analytics/schema.ts src/analytics/api-paths.ts src/analytics/client.ts website/src/data/analytics-reference.json`),
   never `git add .`.
 - Commit and PR title, following the Core sync convention:
   - `feat: sync open_api_analytics.json from ai-dial-analytics with <summary>` when the summary

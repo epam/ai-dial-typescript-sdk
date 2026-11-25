@@ -9,8 +9,14 @@ const WEBSITE = path.resolve(
 
 // GitHub Pages serves directories, but does not support an SPA rewrite rule.
 // Each known route gets the built entry document; React renders its content.
-export function writeRouteEntries(outDir, methodNames) {
-  for (const name of methodNames) {
+// Core methods live under `api/`, Analytics methods under `analytics/api/`
+// (the same prefixes as src/data/clients.ts).
+export function writeRouteEntries(
+  outDir,
+  methodNames,
+  analyticsMethodNames = [],
+) {
+  for (const name of [...methodNames, ...analyticsMethodNames]) {
     if (!/^[A-Za-z_$][\w$]*$/.test(name)) {
       throw new Error(`Invalid SDK method name for a Pages route: ${name}`);
     }
@@ -20,6 +26,8 @@ export function writeRouteEntries(outDir, methodNames) {
     'getting-started',
     'api',
     ...methodNames.map((name) => `api/${name}`),
+    'analytics/api',
+    ...analyticsMethodNames.map((name) => `analytics/api/${name}`),
   ];
   for (const route of routes) {
     const directory = path.join(outDir, route);
@@ -35,12 +43,14 @@ if (
   process.argv[1] &&
   path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 ) {
-  const reference = JSON.parse(
-    readFileSync(path.join(WEBSITE, 'src/data/api-reference.json'), 'utf8'),
-  );
+  const methodNames = (file) =>
+    JSON.parse(
+      readFileSync(path.join(WEBSITE, 'src/data', file), 'utf8'),
+    ).methods.map((method) => method.name);
   const routes = writeRouteEntries(
     path.join(WEBSITE, 'dist'),
-    reference.methods.map((method) => method.name),
+    methodNames('api-reference.json'),
+    methodNames('analytics-reference.json'),
   );
   console.info(
     `Prepared ${routes.length} static route entries and 404.html for GitHub Pages.`,

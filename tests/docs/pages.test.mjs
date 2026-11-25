@@ -13,12 +13,15 @@ import { test } from 'node:test';
 import { writeRouteEntries } from '../../website/scripts/prepare-pages.mjs';
 
 test('every documented method has a static entry with the project asset prefix preserved', () => {
-  const reference = JSON.parse(
-    readFileSync(
-      new URL('../../website/src/data/api-reference.json', import.meta.url),
-      'utf8',
-    ),
-  );
+  const read = (file) =>
+    JSON.parse(
+      readFileSync(
+        new URL(`../../website/src/data/${file}`, import.meta.url),
+        'utf8',
+      ),
+    );
+  const reference = read('api-reference.json');
+  const analytics = read('analytics-reference.json');
   const outDir = mkdtempSync(path.join(tmpdir(), 'dial-pages-'));
   const html =
     '<!doctype html><link rel="icon" href="/ai-dial-typescript-sdk/favicon.png"><div id="root"></div><script type="module" src="/ai-dial-typescript-sdk/assets/app.js"></script>';
@@ -27,11 +30,14 @@ test('every documented method has a static entry with the project asset prefix p
     writeRouteEntries(
       outDir,
       reference.methods.map((method) => method.name),
+      analytics.methods.map((method) => method.name),
     );
     for (const route of [
       'getting-started',
       'api',
       ...reference.methods.map((m) => `api/${m.name}`),
+      'analytics/api',
+      ...analytics.methods.map((m) => `analytics/api/${m.name}`),
     ]) {
       assert.equal(
         readFileSync(path.join(outDir, route, 'index.html'), 'utf8'),
@@ -52,6 +58,10 @@ test('invalid route names fail before writing any pages', () => {
     writeFileSync(path.join(outDir, 'index.html'), '<!doctype html>');
     assert.throws(
       () => writeRouteEntries(outDir, ['getPrompt', '../../outside']),
+      /Invalid SDK method name/,
+    );
+    assert.throws(
+      () => writeRouteEntries(outDir, ['getPrompt'], ['../outside']),
       /Invalid SDK method name/,
     );
     assert.equal(existsSync(path.join(outDir, 'api')), false);
