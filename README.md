@@ -142,24 +142,61 @@ Use an API key or bearer token according to your DIAL setup. HTTP results contai
 throw. Path values are positional arguments, query/header values belong in
 `init.params`, and request payloads belong in `init.body`.
 
+## Query DIAL Analytics
+
+`createAnalyticsSDK(options)` returns a typed client for
+[DIAL Analytics](https://github.com/epam/ai-dial-analytics): dashboards, saved
+queries, tables, pipelines and SQL queries. It takes the same options as
+`createSDK`, with your DIAL Analytics address as `baseUrl`.
+
+```typescript
+import { createAnalyticsSDK } from '@epam/ai-dial-typescript-sdk';
+
+const analytics = createAnalyticsSDK({
+  baseUrl: process.env.DIAL_ANALYTICS_URL!,
+  token: process.env.DIAL_TOKEN!,
+});
+
+const usage = await analytics.executeSql({
+  body: {
+    sql: 'SELECT deployment, count(*) AS n FROM dial_usage_log GROUP BY deployment',
+  },
+});
+
+if (!usage.response.ok) {
+  throw new Error(`Analytics request failed: ${usage.response.status}`, {
+    cause: usage.error,
+  });
+}
+
+console.info(usage.data?.rows);
+```
+
+`executeSqlCsv` and `executeQueryCsv` return the CSV as a string. The
+`/v1/queries` operations are a preview in DIAL Analytics and may change.
+Machine-to-machine endpoints, such as the OTLP receivers, are not included. The
+website reference covers DIAL Core methods only.
+
 ## Develop and contribute
 
 Use Node.js 24, as in CI, and install dependencies with `npm ci`.
 
-| Command                 | Purpose                                                     |
-| ----------------------- | ----------------------------------------------------------- |
-| `npm run build`         | Build the SDK's ESM, CJS and TypeScript declarations.       |
-| `npm run dev`           | Rebuild the SDK as sources change.                          |
-| `npm run gen`           | Regenerate the SDK and reference from `open_api_core.yaml`. |
-| `npm run docs:generate` | Refresh the website's API reference.                        |
-| `npm run docs:check`    | Detect stale generated documentation.                       |
-| `npm run docs:test`     | Check documentation generation, examples and static routes. |
-| `npm run lint`          | Run ESLint.                                                 |
-| `npm run format`        | Format the repository with Prettier.                        |
+| Command                 | Purpose                                                      |
+| ----------------------- | ------------------------------------------------------------ |
+| `npm run build`         | Build the SDK's ESM, CJS and TypeScript declarations.        |
+| `npm run dev`           | Rebuild the SDK as sources change.                           |
+| `npm run gen`           | Regenerate the SDK and reference from the OpenAPI contracts. |
+| `npm run docs:generate` | Refresh the website's API reference.                         |
+| `npm run docs:check`    | Detect stale generated documentation.                        |
+| `npm run docs:test`     | Check documentation generation, examples and static routes.  |
+| `npm run lint`          | Run ESLint.                                                  |
+| `npm run format`        | Format the repository with Prettier.                         |
 
-After editing `open_api_core.yaml`, run `npm run gen`. It bundles the contract,
-regenerates `src/schema.ts`, `src/client.ts` and `src/api-paths.ts`, then updates
-the website reference. Prefer editing the contract and generator over generated files.
+After editing `open_api_core.yaml` (DIAL Core) or `open_api_analytics.json`
+(DIAL Analytics), run `npm run gen`. It bundles the Core contract, regenerates
+`src/schema.ts`, `src/client.ts` and `src/api-paths.ts`, and the same files under
+`src/analytics/`, then updates the website reference. Prefer editing the contract
+and generator over generated files.
 
 ### Run the website
 

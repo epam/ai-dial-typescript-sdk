@@ -1,5 +1,5 @@
 /**
- * Path templates (from `openapi.yaml`, one `export const` per `operationId`).
+ * Path templates (from `open_api_core.yaml`, one `export const` per `operationId`).
  * Static paths are `as const` strings. Paths with `{param}` are functions: one `string` arg per
  * segment (e.g. `(toolset_name: string) => ...`) or a single object when there are several `{...}` parts.
  *
