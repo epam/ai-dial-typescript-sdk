@@ -23,6 +23,7 @@ export default [
       'scripts/generate-api-docs.mjs',
       'website/scripts/**/*.mjs',
       'tests/docs/**/*.mjs',
+      '.claude/skills/**/*.mjs',
     ],
     languageOptions: { globals: globals.node },
   },
