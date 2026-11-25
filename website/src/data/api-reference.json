@@ -43845,7 +43845,7 @@
         },
         "project": {
           "type": "string",
-          "description": "Present only if authenticated via an API Key. Represents the target project scope."
+          "description": "The caller's project. For API key authentication it is the key's project. For user-based session authentication it is present only when the identity provider's configured projectPath resolves a string claim."
         },
         "userId": {
           "type": "string",
@@ -44013,5 +44013,5 @@
     "ModelListData": "export interface ModelListData {\n  /** An array of models. */\n  data?: ModelData[];\n  [key: string]: unknown;\n}"
   },
   "sdkOptions": "export interface SDKOptions {\n  baseUrl: string;\n  apiKey?: string;\n  token?: string;\n  headers?: Record<string, string>;\n  fetch?: typeof fetch;\n}",
-  "sourceHash": "7cc83f5385bbc93f13be0de8d5a86ab3e604d39237549f9f01c4755453183f0f"
+  "sourceHash": "17141370ac3bad69a82cf66674e25744f651d48660f5837121ec360fd091cf69"
 }
