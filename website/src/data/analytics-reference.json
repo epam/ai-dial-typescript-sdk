@@ -2686,7 +2686,7 @@
       "sourceLine": 70,
       "title": "Export Catalog",
       "summary": "Export a catalog bundle (writes nothing)",
-      "description": "Returns a bundle file of the listed tables and pipelines with their dependency closure, computed in both directions; an empty or absent list exports every exportable object. System tables travel by name, as required system tables; OTLP landing tables and PENDING/FAILED tables are left out. Each table needs TABLE_GET, and one with sensitive columns the caller may not see is refused (403 `sensitive_column_not_entitled`), and one with a column a column policy hides from the caller is refused 403 `column_not_entitled`, checked across every bundle table first. Access (privileges, row policies and column policies) travels only with `include_access: true`, which requires TABLE_GRANT and covers system tables too: only what a PUT would accept now is carried, and an enrichment a column policy names joins the export.",
+      "description": "Returns a bundle file of the listed tables and pipelines with their dependency closure, computed in both directions; an empty or absent list exports every exportable object. System tables travel by name, as required system tables; OTLP landing tables and PENDING/FAILED tables are left out. Each selected table, and each table a selection's closure reaches, needs TABLE_GET (a pipeline exported with `dependencies: false` checks none of its tables), and a table the bundle carries with sensitive columns the caller may not see is refused (403 `sensitive_column_not_entitled`), and one with a column a column policy hides from the caller is refused 403 `column_not_entitled`, checked across every bundle table first. Access (privileges, row policies and column policies) travels only with `include_access: true`, which requires TABLE_GRANT and covers system tables too: only what a PUT would accept now is carried, and an enrichment a column policy names joins the export. Selectors narrow a component: `dependencies: false` exports a pipeline alone; `access_only: true` carries only a table's access, with no definition and nothing connected; `roles` carries only the listed roles' entries. A component another selected component's closure reaches travels as that closure decides.",
       "category": "Catalog transfer",
       "tags": [
         "Catalog transfer"
@@ -11189,7 +11189,7 @@
             },
             "type": "object"
           },
-          "description": "Present only when exported with include_access: table -> role -> entry, for every covered table, system tables included. Imported only with include_access=true",
+          "description": "Present only when exported with include_access: table -> role -> entry, for every covered table, system tables included. A key may name a table the bundle does not carry, which import then requires on the target. Imported only with include_access=true",
           "type": "object"
         },
         "exported_at": {
@@ -11217,7 +11217,7 @@
           "type": "array"
         },
         "required_system_tables": {
-          "description": "System tables the bundle's objects depend on or whose access it carries, by name: import requires each to exist on the target and never creates one or changes its definition",
+          "description": "System tables, by name, that the carried closure reaches, that the selection names, or whose access the bundle carries; a pipeline exported with dependencies false brings none in. Import requires each to exist on the target and never creates one or changes its definition",
           "example": [
             "dial_usage_log"
           ],
@@ -12335,11 +12335,27 @@
     },
     "ExportComponent": {
       "properties": {
+        "access_only": {
+          "description": "Table only, with include_access. True carries only the table's access entries: no definition, and nothing it depends on or that depends on it, unless another selected component's closure reaches it. Default false",
+          "type": "boolean"
+        },
+        "dependencies": {
+          "description": "Pipeline only. False exports the pipeline alone, without its inputs, target or the enrichments it reads, unless another selected component's closure reaches it; import then needs each on the target. Default true",
+          "type": "boolean"
+        },
         "name": {
           "description": "Table or pipeline name",
           "example": "usage_sentiment",
           "minLength": 1,
           "type": "string"
+        },
+        "roles": {
+          "description": "Table only, with include_access. Carries only these roles' entries of the table; absent carries every role's",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
         },
         "type": {
           "description": "Object kind",
@@ -12407,7 +12423,7 @@
           "type": "array"
         },
         "required_system_tables": {
-          "description": "System tables the bundle would require on the target by name, never carrying their definitions: those its objects depend on and, with include_access, those whose access it carries",
+          "description": "System tables the bundle would require on the target by name, never carrying their definitions: those the carried closure reaches or the selection names and, with include_access, those whose access it carries",
           "items": {
             "$ref": "#/components/schemas/ExportEntry"
           },
@@ -12427,7 +12443,7 @@
     "ExportRequest": {
       "properties": {
         "components": {
-          "description": "Objects to export; empty or absent exports everything exportable. With include_access, a system table may be named to export its access",
+          "description": "Objects to export; empty or absent exports everything exportable. Each brings its dependency closure unless a selector narrows it: dependencies false on a pipeline, access_only or roles on a table. With include_access, a system table may be named to export its access",
           "items": {
             "$ref": "#/components/schemas/ExportComponent"
           },
@@ -16583,5 +16599,5 @@
     "ModelListData": "export interface ModelListData {\n  /** An array of models. */\n  data?: ModelData[];\n  [key: string]: unknown;\n}"
   },
   "sdkOptions": "export interface SDKOptions {\n  baseUrl: string;\n  apiKey?: string;\n  token?: string;\n  headers?: Record<string, string>;\n  fetch?: typeof fetch;\n}",
-  "sourceHash": "f439fa9535d6840ba336c94ef5f86bb7521e1ec2737b0b53f1ef5c33a2061dcd"
+  "sourceHash": "d1938a4726e3df0c55e7f10a85fb948ac23a7d26340927762c5d44eb034a538b"
 }
