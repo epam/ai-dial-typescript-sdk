@@ -6512,6 +6512,13 @@ export interface components {
       };
       /** @description Human-readable caller name. For user-based session authentication it is resolved from the identity provider's configured userDisplayName claim path; for API key authentication it is the key's project name. Absent when not configured. */
       userDisplayName?: string;
+      /** @description The cost object the caller's calls are charged to. */
+      costObject?: string;
+      /**
+       * @description Where costObject came from - claim is the token's claim at the identity provider's costObjectPath, key is the API key's project, default is spendingLimits.defaultCostObject.
+       * @enum {string}
+       */
+      costObjectSource?: 'claim' | 'key' | 'default';
     };
     UserLimitStats: {
       dayCostStats?: components['schemas']['CostItemLimitStats'];
@@ -6654,6 +6661,15 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description With enforced budgets, no budget for the model, to the client's own request, directly or through an alias: `billing_error` with a message naming the model and the cost object, `x-should-retry: false` and no `retry-after` */
+      402: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AnthropicErrorData'];
         };
       };
       /** @description Forbidden */
@@ -7698,13 +7714,16 @@ export interface operations {
         };
         content?: never;
       };
-      /** @description Bad request */
+      /** @description Bad request. With enforced budgets, no budget for the model gives the client's own request, directly or through an alias (not a background one), a `text/plain` message naming the model and the cost object, with `x-should-retry: false` and no `retry-after`; with an interceptor in front of the model, global interceptors included, the client gets what the interceptor answers */
       400: {
         headers: {
+          /** @description `false` on the no-budget refusal */
+          'x-should-retry'?: string;
           [name: string]: unknown;
         };
         content: {
           'application/json': components['schemas']['ErrorData'];
+          'text/plain': string;
         };
       };
       /** @description Forbidden */
@@ -7734,7 +7753,7 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
-      /** @description Rate limit exceeded */
+      /** @description DIAL limit reached. A reached day/week/month spend cap, or with enforced budgets used-up budgets for the model, gives an error of type `usage_limit_reached` with `resets_at` (Unix seconds) and `limit_window_minutes`, `retry-after` and the `x-codex-primary-*` headers at 100; an unreadable spend counter of a caller with a cost limit gives an error without `retry-after`; a token, request or per-minute cost limit gives an error with `retry-after`; with enforced budgets, no budget for the model gives a call made with a per-request key an error naming the model and the cost object, with `x-should-retry: false` and no `retry-after` */
       429: {
         headers: {
           [name: string]: unknown;
@@ -8049,13 +8068,16 @@ export interface operations {
           'text/event-stream': components['schemas']['CreateChatCompletionStreamResponse'][];
         };
       };
-      /** @description Bad request */
+      /** @description Bad request. With enforced budgets, no budget for the model gives the client's own request, directly or through an alias (not a background one), a `text/plain` message naming the model and the cost object, with `x-should-retry: false` and no `retry-after`; with an interceptor in front of the model, global interceptors included, the client gets what the interceptor answers */
       400: {
         headers: {
+          /** @description `false` on the no-budget refusal */
+          'x-should-retry'?: string;
           [name: string]: unknown;
         };
         content: {
           'application/json': components['schemas']['ErrorData'];
+          'text/plain': string;
         };
       };
       /** @description Invalid Authentication */
@@ -8100,7 +8122,7 @@ export interface operations {
           'application/json': components['schemas']['ErrorData'];
         };
       };
-      /** @description Rate limit reached. */
+      /** @description DIAL limit reached. A reached day/week/month spend cap, or with enforced budgets used-up budgets for the model, gives an error of type `usage_limit_reached` with `resets_at` (Unix seconds) and `limit_window_minutes`, `retry-after` and the `x-codex-primary-*` headers at 100; an unreadable spend counter of a caller with a cost limit gives an error without `retry-after`; a token, request or per-minute cost limit gives an error with `retry-after`; with enforced budgets, no budget for the model gives a call made with a per-request key an error naming the model and the cost object, with `x-should-retry: false` and no `retry-after` */
       429: {
         headers: {
           [name: string]: unknown;
