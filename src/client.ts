@@ -733,6 +733,9 @@ export interface DIAL_SDK {
   getUserBucket: (
     init?: SDKOperationInit<operations['getUserBucket']>,
   ) => Promise<SDKOperationResponse<operations['getUserBucket']>>;
+  getUserDefaultBudget: (
+    init?: SDKOperationInit<operations['getUserDefaultBudget']>,
+  ) => Promise<SDKOperationResponse<operations['getUserDefaultBudget']>>;
   getUserInfo: (
     init?: SDKOperationInit<operations['getUserInfo']>,
   ) => Promise<SDKOperationResponse<operations['getUserInfo']>>;
@@ -890,6 +893,9 @@ export interface DIAL_SDK {
     id: string,
     init: SDKOperationInit<operations['putExternalService']>,
   ) => Promise<SDKOperationResponse<operations['putExternalService']>>;
+  putUserDefaultBudget: (
+    init: SDKOperationInit<operations['putUserDefaultBudget']>,
+  ) => Promise<SDKOperationResponse<operations['putUserDefaultBudget']>>;
   rateDeployment: (
     deployment_name: string,
     init: SDKOperationInit<operations['rateDeployment']>,
@@ -1976,6 +1982,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
       client.GET(apiPaths.getUserBucketUrl, init) as Promise<
         SDKOperationResponse<operations['getUserBucket']>
       >,
+    getUserDefaultBudget: (init?: any) =>
+      client.GET(apiPaths.getUserDefaultBudgetUrl, init) as Promise<
+        SDKOperationResponse<operations['getUserDefaultBudget']>
+      >,
     getUserInfo: (init?: any) =>
       client.GET(apiPaths.getUserInfoUrl, init) as Promise<
         SDKOperationResponse<operations['getUserInfo']>
@@ -2175,6 +2185,10 @@ export function createSDK(opts: SDKOptions): DIAL_SDK {
         apiPaths.putExternalServiceUrl(appid, id) as any,
         init,
       ) as Promise<SDKOperationResponse<operations['putExternalService']>>,
+    putUserDefaultBudget: (init?: any) =>
+      client.PUT(apiPaths.putUserDefaultBudgetUrl, init) as Promise<
+        SDKOperationResponse<operations['putUserDefaultBudget']>
+      >,
     rateDeployment: (deployment_name: string, init?: any) =>
       client.POST(
         apiPaths.rateDeploymentUrl(deployment_name) as any,
