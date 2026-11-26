@@ -3346,6 +3346,24 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/user/budgets/default': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** /v1/user/budgets/default */
+    get: operations['getUserDefaultBudget'];
+    /** /v1/user/budgets/default */
+    put: operations['putUserDefaultBudget'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/user/info': {
     parameters: {
       query?: never;
@@ -5012,6 +5030,9 @@ export interface components {
     };
     /** @enum {string} */
     CredentialsLevel: 'GLOBAL' | 'APPLICATION' | 'USER';
+    DefaultBudget: {
+      budget?: string;
+    };
     DeleteNotificationRequest: {
       ids?: string[];
     };
@@ -6013,6 +6034,7 @@ export interface components {
       | 'CODE_INTERPRETER_SESSION'
       | 'USER_CONSENT'
       | 'ADMIN_CONSENT'
+      | 'USER_BUDGET_DEFAULT'
       | 'TOOL_SET'
       | 'CREDENTIALS'
       | 'EXTERNAL_SERVICE'
@@ -23799,6 +23821,113 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  getUserDefaultBudget: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['DefaultBudget'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description The server had an error while processing your request. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+    };
+  };
+  putUserDefaultBudget: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['DefaultBudget'];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['DefaultBudget'];
+        };
+      };
+      /** @description Bad request */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Invalid Authentication */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorData'];
+        };
       };
       /** @description The server had an error while processing your request. */
       500: {

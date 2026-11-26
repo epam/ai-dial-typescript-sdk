@@ -588,6 +588,7 @@ export const getTranslatorMetadataUrl = (bucket: string, path: string) => {
 };
 
 export const getUserBucketUrl = '/v1/bucket';
+export const getUserDefaultBudgetUrl = '/v1/user/budgets/default';
 export const getUserInfoUrl = '/v1/user/info';
 export const getUserLimitsUrl = '/v1/user/limits';
 export const getUserRoleAssignmentsUrl = '/v1/user/role-assignments';
@@ -683,6 +684,7 @@ export const putExternalServiceUrl = (appid: string, id: string) => {
   return `/v1/applications/${appid}/external-services/${id}`;
 };
 
+export const putUserDefaultBudgetUrl = '/v1/user/budgets/default';
 export const rateDeploymentUrl = (deployment_name: string) => {
   return `/v1/${deployment_name}/rate`;
 };
